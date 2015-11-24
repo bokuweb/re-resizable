@@ -55,6 +55,8 @@
     "transform": [
       "babelify"
     ]
+  },
+  "dependencies": {
+    "lodash.assign": "^3.2.0"
   }
 }
-
