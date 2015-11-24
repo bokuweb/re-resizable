@@ -5,8 +5,8 @@ export default class Risizer extends React.Component{
     super(props);
   }
 
-  onMouseDown(event) {
-    this.props.onMouseDown(event);
+  onTouchStart(event) {
+    this.props.onResizeStart(event.touches[0]);
   }
 
   render() {
@@ -39,6 +39,10 @@ export default class Risizer extends React.Component{
         cursor: 'nw-resize'
       }
     }
-    return (<div style={style} onMouseDown={this.onMouseDown.bind(this)} />);
+    return (
+      <div style={style}
+           onMouseDown={this.props.onResizeStart}
+           onTouchStart={this.onTouchStart.bind(this)} />
+    );
   }
 }
