@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import assign from 'lodash.assign';
 import Resizer from './resizer';
 
 function clamp(n, min, max) {
@@ -77,7 +78,7 @@ export default class Risizable extends Component{
             : this.props.isResizable;
     return (
       <div ref='resizable'
-           style={Object.assign({position:"relative"}, this.props.customStyle, style)}
+           style={assign({position:"relative"}, this.props.customStyle, style)}
            className={this.props.customClass}
            onClick={this.props.onClick}
            onDoubleClick={this.props.onDoubleClick}
