@@ -5,11 +5,22 @@ import TestUtils from 'react-addons-test-utils';
 import Resizer from '../src/resizer';
 
 describe('Resizer Component test', () => {
-  it ('Should display close icon, when menu open', (done) => {
-    //const header = TestUtils.renderIntoDocument(<Header isMenuOpen={true} />);
-    //const icons = TestUtils.scryRenderedDOMComponentsWithTag(header, 'i');
-    assert.equal(1, 1);
-    done();
+  it ('Should call onResizeStart, when click', (done) => {
+    const onResizeStart = e => {
+      assert.equal(e.clientX, 100);
+      done();
+    }
+    const resizer = TestUtils.renderIntoDocument(<Resizer onResizeStart={onResizeStart} />);
+    TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(resizer), { clientX: 100 });
+  });
+
+  it ('Should call onResizeStart, when touch start', (done) => {
+    const onResizeStart = e => {
+      assert.equal(e.clientX, 200);
+      done();
+    }
+    const resizer = TestUtils.renderIntoDocument(<Resizer onResizeStart={onResizeStart} />);
+    TestUtils.Simulate.touchStart(ReactDOM.findDOMNode(resizer), { touches : [{ clientX: 200 }]});
   });
 
   afterEach( done => {
@@ -17,5 +28,4 @@ describe('Resizer Component test', () => {
     document.body.innerHTML = "";
     setTimeout(done);
   });
-
 });
