@@ -1,0 +1,42 @@
+{
+  "name": "react-resizable-box",
+  "version": "0.1.0",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "watch": "watchify --extension=js -o lib/index.js src/index.js",
+    "build": "browserify --extension=js -o lib/index.js src/index.js",
+    "build:example": "browserify --extension=js -o example/dist/bundle.js example/src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bokuweb/react-resizable-box.git"
+  },
+  "keywords": [
+    "react",
+    "resize",
+    "resizable",
+    "component"
+  ],
+  "author": "bokuweb",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bokuweb/react-resizable-box/issues"
+  },
+  "homepage": "https://github.com/bokuweb/react-resizable-box",
+  "peerDependencies": {
+    "react": ">=0.14.2",
+    "react-dom": ">=0.14.2"
+  },
+  "devDependencies": {
+    "babelify": "6.4.0",
+    "watchify": "3.5.0"
+  },
+  "browserify": {
+    "transform": [
+      "babelify"
+    ]
+  }
+}
+
