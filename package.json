@@ -1,6 +1,6 @@
 {
   "name": "react-resizable-box",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -35,6 +35,7 @@
   "devDependencies": {
     "babel-plugin-espower": "1.0.0",
     "babelify": "6.4.0",
+    "browserify": "12.0.1",
     "espower-babel": "3.3.0",
     "espower-loader": "1.0.0",
     "espowerify": "1.0.0",
