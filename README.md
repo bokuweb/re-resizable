@@ -91,6 +91,10 @@ If you want to permit only x direction resizing, set `{x:true, y:false, xy:false
 
 Callback called on resizable box clicked.
 
+#### onTouchStart {func}
+
+Callback called on resizable box touched.
+
 #### onDoubleClick {func}
 
 Callback called on resizable box double clicked.
@@ -105,7 +109,7 @@ Receives the resize direction as argument.
 Callback called on resizing.   
 Receives the box size `{width, height}` as argument.
 
-#### onResize {func}
+#### onResizeStop {func}
 
 Callback called on resize stop.
 
