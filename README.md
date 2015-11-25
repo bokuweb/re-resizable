@@ -50,12 +50,10 @@ npm i react-resizable-box
 #### width {number}
 
 The default width of the resizable box.   
-If omitted, 'auto' is set.
 
 #### height {number}
 
 The default height of the resizable box.   
-If omitted, 'auto' is set.
 
 #### minWidth {number}
 

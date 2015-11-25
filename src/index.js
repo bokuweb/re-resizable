@@ -74,8 +74,8 @@ export default class Risizable extends Component{
 
   render() {
     const style = {
-      width: (this.state.width) ? `${this.state.width}px` : 'auto',
-      height: (this.state.height) ? `${this.state.height}px` : 'auto'
+      width: (this.state.width) ? `${this.state.width}px` : '',
+      height: (this.state.height) ? `${this.state.height}px` : ''
     }
     const isResizable = (this.props.isResizable === undefined)
             ? {x: true, y: true, xy: true }
