@@ -5,14 +5,6 @@ import TestUtils from 'react-addons-test-utils';
 import Resizable from '../src';
 
 describe('Resizable Component test', () => {
-  it ('Should box width and height equal auto when not specify width and height', (done) => {
-    const resizable = TestUtils.renderIntoDocument(<Resizable />);
-    const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
-    assert.equal(divs[0].style.width, 'auto');
-    assert.equal(divs[0].style.height, 'auto');
-    assert.equal(divs[0].style.position, 'relative');
-    done();
-  });
 
   it ('Should box width and height equal 100px', (done) => {
     const resizable = TestUtils.renderIntoDocument(<Resizable width={100} height={100} />);
