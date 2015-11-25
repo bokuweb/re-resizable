@@ -45,7 +45,7 @@ export default class Example extends Component{
                    onResize={size => console.log(`box4 width=${size.width}, height=${size.height}`)}
                    onResizeStop={() => console.log("resize stop!!!")}>
           <p>Start 320px x 200px.</p>
-          <pOnly >y-directions is resizable</p>
+          <p>Only y-directions is resizable</p>
         </Resizable>
         <Resizable customClass="item"
                    width={320}
