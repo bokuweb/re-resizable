@@ -21,8 +21,8 @@ export default class Risizable extends Component{
     window.addEventListener('touchend', this.onMouseUp.bind(this));
   }
 
-  onResizeStart(axis, {clientX, clientY}) {
-    if (this.props.onResizeStart) this.props.onResizeStart(axis);
+  onResizeStart(direction, {clientX, clientY}) {
+    if (this.props.onResizeStart) this.props.onResizeStart(direction);
     if (window.getComputedStyle === undefined) {
       console.warn("This browser not support window.getComputedStyle, react-resizable-box need it");
       return;
@@ -38,7 +38,7 @@ export default class Risizable extends Component{
         height
       },
       isActive : true,
-      resizeAxis : axis
+      direction
     });
   }
 
@@ -47,16 +47,16 @@ export default class Risizable extends Component{
   }
 
   onMouseMove({clientX, clientY}) {
-    const {resizeAxis, original, isActive} = this.state;
+    const {direction, original, isActive} = this.state;
     const {minWidth, maxWidth, minHeight, maxHeight} = this.props;
     if (!isActive) return;
-    if (resizeAxis.indexOf('x') !== -1) {
+    if (direction.indexOf('x') !== -1) {
       const newWidth = original.width + clientX - original.x;
       const min = (minWidth < 0 || minWidth === undefined) ? 0 : minWidth;
       const max = (maxWidth < 0 || maxWidth === undefined) ? newWidth : maxWidth;
       this.setState({width : clamp(newWidth, min, max)});
     }
-    if (resizeAxis.indexOf('y') !== -1) {
+    if (direction.indexOf('y') !== -1) {
       const newHeight = original.height + clientY - original.y;
       const min = (minHeight < 0 || minHeight === undefined)? 0 : minHeight;
       const max = (maxHeight < 0 || maxHeight === undefined)? newHeight : maxHeight;
@@ -103,7 +103,9 @@ Risizable.propTypes = {
   onResizeStart: PropTypes.func,
   onTouchStart: PropTypes.func,
   onResize: PropTypes.func,
+  customStyle: PropTypes.object,
   isResizable: PropTypes.object,
+  customClass: PropTypes.string,
   width: PropTypes.number,
   height: PropTypes.number,
   minWidth: PropTypes.number,
