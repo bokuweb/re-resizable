@@ -115,7 +115,7 @@ var Example = (function (_Component) {
           _react2['default'].createElement(
             'p',
             null,
-            'x-directions is only resizable'
+            'Only x-direction is resizable'
           )
         ),
         _react2['default'].createElement(
@@ -141,7 +141,7 @@ var Example = (function (_Component) {
           _react2['default'].createElement(
             'p',
             null,
-            'y-directions is only resizable'
+            'Only y-direction is resizable'
           )
         ),
         _react2['default'].createElement(
@@ -167,7 +167,7 @@ var Example = (function (_Component) {
           _react2['default'].createElement(
             'p',
             null,
-            'xy-directions is only resizable'
+            'Only xy-direction is resizable'
           )
         )
       );
