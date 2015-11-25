@@ -23,6 +23,10 @@ export default class Risizable extends Component{
 
   onResizeStart(axis, {clientX, clientY}) {
     if (this.props.onResizeStart) this.props.onResizeStart(axis);
+    if (window.getComputedStyle === undefined) {
+      console.warn("This browser not support window.getComputedStyle, react-resizable-box need it");
+      return;
+    }
     const style = window.getComputedStyle(this.refs.resizable, null);
     const width = ~~style.getPropertyValue("width").replace('px', '');
     const height = ~~style.getPropertyValue("height").replace('px', '');
@@ -58,11 +62,11 @@ export default class Risizable extends Component{
       const max = (maxHeight < 0 || maxHeight === undefined)? newHeight : maxHeight;
       this.setState({height : clamp(newHeight, min, max)});
     }
-    if (this.props.onChange)
-      this.props.onChange({width: this.state.width, height: this.state.height});
+    if (this.props.onResize)
+      this.props.onResize({width: this.state.width, height: this.state.height});
   }
 
-    onMouseUp() {
+  onMouseUp() {
     if (!this.state.isActive) return;
     if (this.props.onResizeStop) this.props.onResizeStop();
     this.setState({isActive:false});
@@ -98,7 +102,7 @@ Risizable.propTypes = {
   onResizeStop: PropTypes.func,
   onResizeStart: PropTypes.func,
   onTouchStart: PropTypes.func,
-  onChange: PropTypes.func,
+  onResize: PropTypes.func,
   isResizable: PropTypes.object,
   width: PropTypes.number,
   height: PropTypes.number,
