@@ -8,7 +8,7 @@ Resizable component for React.
 
 ## Demo
 
-See demo: [https://](https://)
+See demo: [http://bokuweb.github.io/react-resizable-box/example/](http://bokuweb.github.io/react-resizable-box/example/)
 
 ## Important Note
 
@@ -49,12 +49,12 @@ npm i react-resizable-box
 
 #### width {number}
 
-The default width of the resizable box.
+The default width of the resizable box.   
 If omitted, 'auto' is set.
 
 #### height {number}
 
-The default height of the resizable box.
+The default height of the resizable box.   
 If omitted, 'auto' is set.
 
 #### minWidth {number}
@@ -83,8 +83,8 @@ The css style set on the resizable box node.
 
 #### isResizable {object}
 
-The permission of x, y, xy direction resizing
-If omitted, x, y, xy direction resizing is enabled.
+The permission of x, y, xy direction resizing.   
+If omitted, x, y, xy direction resizing is enabled.    
 If you want to permit only x direction resizing, set `{x:true, y:false, xy:false}`. 
 
 #### onClick {func}
@@ -97,12 +97,12 @@ Callback called on resizable box double clicked.
 
 #### onResizeStart {func}
 
-Callback called on resize start.
+Callback called on resize start.   
 Receives the resize direction as argument.
 
 #### onResize {func}
 
-Callback called on resizing.
+Callback called on resizing.   
 Receives the box size `{width, height}` as argument.
 
 #### onResize {func}
