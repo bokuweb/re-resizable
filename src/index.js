@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import assign from 'lodash.assign';
+import assign from 'react/lib/Object.assign';
 import Resizer from './resizer';
 
 function clamp(n, min, max) {
