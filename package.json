@@ -1,11 +1,11 @@
 {
   "name": "react-resizable-box",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
     "watch:example": "watchify --extension=js -o example/dist/bundle.js example/src/index.js",
-    "compile": "babel --presets react -d lib/ src/",
+    "compile": "babel -d lib/ src/",
     "build:example": "browserify --extension=js -o example/dist/bundle.js example/src/index.js",
     "test": "karma start",
     "prepublish": "npm run compile"
@@ -34,6 +34,7 @@
     "babel": "^6.1.18",
     "babel-cli": "^6.2.0",
     "babel-plugin-espower": "1.0.0",
+    "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.1.18",
     "babelify": "6.4.0",
     "browserify": "12.0.1",
