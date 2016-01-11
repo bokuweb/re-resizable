@@ -14,11 +14,53 @@ export default class Risizable extends Component{
       isActive: false,
       width,
       height
-    }
-    window.addEventListener('mouseup', this.onMouseUp.bind(this));
-    window.addEventListener('mousemove', this.onMouseMove.bind(this));
-    window.addEventListener('touchmove', this.onTouchMove.bind(this));
-    window.addEventListener('touchend', this.onMouseUp.bind(this));
+    };
+
+    const onTouchMove = (event) => this.onMouseMove(event.touches[0]);
+
+    const onMouseMove = ({clientX, clientY}) => {
+      const {direction, original, isActive} = this.state;
+      const {minWidth, maxWidth, minHeight, maxHeight} = this.props;
+      if (!isActive) return;
+      if (direction.indexOf('x') !== -1) {
+        const newWidth = original.width + clientX - original.x;
+        const min = (minWidth < 0 || minWidth === undefined) ? 0 : minWidth;
+        const max = (maxWidth < 0 || maxWidth === undefined) ? newWidth : maxWidth;
+        this.setState({width : clamp(newWidth, min, max)});
+      }
+      if (direction.indexOf('y') !== -1) {
+        const newHeight = original.height + clientY - original.y;
+        const min = (minHeight < 0 || minHeight === undefined)? 0 : minHeight;
+        const max = (maxHeight < 0 || maxHeight === undefined)? newHeight : maxHeight;
+        this.setState({height : clamp(newHeight, min, max)});
+      }
+      if (this.props.onResize)
+        this.props.onResize({width: this.state.width, height: this.state.height});
+    };
+
+    const onMouseUp = () => {
+      if (!this.state.isActive) return;
+      if (this.props.onResizeStop) {
+        this.props.onResizeStop({width: this.state.width, height: this.state.height});
+      }
+      this.setState({isActive:false});
+    };
+
+    this.onTouchMove = onTouchMove.bind(this);
+    this.onMouseMove = onMouseMove.bind(this);
+    this.onMouseUp = onMouseUp.bind(this);
+
+    window.addEventListener('mouseup', this.onMouseUp);
+    window.addEventListener('mousemove', this.onMouseMove);
+    window.addEventListener('touchmove', this.onTouchMove);
+    window.addEventListener('touchend', this.onMouseUp);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('mouseup', this.onMouseUp);
+    window.removeEventListener('mousemove', this.onMouseMove);
+    window.removeEventListener('touchmove', this.onTouchMove);
+    window.removeEventListener('touchend', this.onMouseUp);
   }
 
   onResizeStart(direction, {clientX, clientY}) {
@@ -42,41 +84,11 @@ export default class Risizable extends Component{
     });
   }
 
-  onTouchMove(event) {
-    this.onMouseMove(event.touches[0]);
-  }
-
-  onMouseMove({clientX, clientY}) {
-    const {direction, original, isActive} = this.state;
-    const {minWidth, maxWidth, minHeight, maxHeight} = this.props;
-    if (!isActive) return;
-    if (direction.indexOf('x') !== -1) {
-      const newWidth = original.width + clientX - original.x;
-      const min = (minWidth < 0 || minWidth === undefined) ? 0 : minWidth;
-      const max = (maxWidth < 0 || maxWidth === undefined) ? newWidth : maxWidth;
-      this.setState({width : clamp(newWidth, min, max)});
-    }
-    if (direction.indexOf('y') !== -1) {
-      const newHeight = original.height + clientY - original.y;
-      const min = (minHeight < 0 || minHeight === undefined)? 0 : minHeight;
-      const max = (maxHeight < 0 || maxHeight === undefined)? newHeight : maxHeight;
-      this.setState({height : clamp(newHeight, min, max)});
-    }
-    if (this.props.onResize)
-      this.props.onResize({width: this.state.width, height: this.state.height});
-  }
-
-  onMouseUp() {
-    if (!this.state.isActive) return;
-    if (this.props.onResizeStop) this.props.onResizeStop();
-    this.setState({isActive:false});
-  }
-
   render() {
     const style = {
       width: (this.state.width) ? `${this.state.width}px` : '',
       height: (this.state.height) ? `${this.state.height}px` : ''
-    }
+    };
     const isResizable = (this.props.isResizable === undefined)
             ? {x: true, y: true, xy: true }
             : this.props.isResizable;

@@ -106,11 +106,12 @@ Receives the resize direction as argument.
 #### onResize {func}
 
 Callback called on resizing.   
-Receives the box size `{width, height}` as argument.
+Receives the box size `{width: number, height: number}` as argument.
 
 #### onResizeStop {func}
 
 Callback called on resize stop.
+Receives the box size `{width: number, height: number}` as argument.
 
 ## Test
 
