@@ -97,6 +97,7 @@ export default class Risizable extends Component{
            style={assign({position:"relative"}, this.props.customStyle, style)}
            className={this.props.customClass}
            onClick={this.props.onClick}
+           onMouseDown={this.props.onMouseDown}
            onDoubleClick={this.props.onDoubleClick}
            onTouchStart={this.props.onTouchStart} >
         {this.props.children}
@@ -111,6 +112,7 @@ export default class Risizable extends Component{
 Risizable.propTypes = {
   onClick: PropTypes.func,
   onDoubleClick: PropTypes.func,
+  onMouseDown: PropTypes.func,
   onResizeStop: PropTypes.func,
   onResizeStart: PropTypes.func,
   onTouchStart: PropTypes.func,

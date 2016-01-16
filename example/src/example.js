@@ -8,6 +8,7 @@ export default class Example extends Component{
         <Resizable customClass="item"
                    width={320}
                    height={200}
+                   onMouseDown={() => console.log("mouse down!!!")}
                    onResizeStart={() => console.log("resize start!!!")}
                    onResize={size => console.log(`box1 width=${size.width}, height=${size.height}`)}
                    onResizeStop={size => console.log(`resize stop box1 width=${size.width}, height=${size.height}`)}>
