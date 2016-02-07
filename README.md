@@ -101,7 +101,7 @@ Callback called on resizable box double clicked.
 #### onResizeStart {func}
 
 Callback called on resize start.   
-Receives the resize direction as argument.
+Receives the resize direction `direction:string` and `event` as argument.
 
 #### onResize {func}
 
