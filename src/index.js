@@ -63,8 +63,8 @@ export default class Risizable extends Component{
     window.removeEventListener('touchend', this.onMouseUp);
   }
 
-  onResizeStart(direction, {clientX, clientY}) {
-    if (this.props.onResizeStart) this.props.onResizeStart(direction);
+  onResizeStart(direction, e) {
+    if (this.props.onResizeStart) this.props.onResizeStart(direction, e);
     if (window.getComputedStyle === undefined) {
       console.warn("This browser not support window.getComputedStyle, react-resizable-box need it");
       return;
@@ -74,8 +74,8 @@ export default class Risizable extends Component{
     const height = ~~style.getPropertyValue("height").replace('px', '');
     this.setState({
       original : {
-        x : clientX,
-        y : clientY,
+        x : e.clientX,
+        y : e.clientY,
         width,
         height
       },
