@@ -1,0 +1,10 @@
+languages:
+  Ruby: true
+  JavaScript: true
+  PHP: true
+  Python: true
+exclude_paths:
+- example/*
+- example/**/*
+- karma.conf.js
+- test/*
