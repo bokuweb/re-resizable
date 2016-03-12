@@ -1,4 +1,4 @@
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -10,8 +10,8 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      './node_modules/phantomjs-polyfill/bind-polyfill.js',
-      'test/*.js'
+      './node_modules/babel-polyfill/dist/polyfill.js',
+      'test/*.js',
     ],
 
     // list of files to exclude
@@ -23,14 +23,14 @@ module.exports = function(config) {
       extensions: ['.js'],
       transform: [
         require('babelify').configure({
-          plugins: ['babel-plugin-espower']
-        })
-      ]
+          plugins: ['babel-plugin-espower'],
+        }),
+      ],
     },
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'test/*.js': ['browserify']
+      'test/*.js': ['browserify'],
     },
 
 
@@ -64,6 +64,6 @@ module.exports = function(config) {
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: true
+    singleRun: true,
   })
 }
