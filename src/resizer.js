@@ -1,8 +1,36 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 
-export default class Risizer extends React.Component{
-  constructor(props) {
-    super(props);
+const styles = {
+  base: {
+    position: 'absolute',
+  },
+  x: {
+    width: '10px',
+    height: '100%',
+    top: '0',
+    right: '-5px',
+    cursor: 'col-resize',
+  },
+  y: {
+    width: '100%',
+    height: '10px',
+    bottom: '-5px',
+    cursor: 'row-resize',
+  },
+  xy: {
+    width: '10px',
+    height: '10px',
+    position: 'absolute',
+    right: '-5px',
+    bottom: '-5px',
+    cursor: 'nw-resize',
+  },
+};
+
+export default class Risizer extends Component {
+  static propTypes = {
+    onResizeStart: PropTypes.func,
+    type: PropTypes.oneOf(['x', 'y', 'xy']).isRequired,
   }
 
   onTouchStart(event) {
@@ -10,39 +38,13 @@ export default class Risizer extends React.Component{
   }
 
   render() {
-    let style;
-    if (this.props.type === 'x') {
-      style = {
-        width: '10px',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        right: '-5px',
-        cursor: 'col-resize'
-      };
-    }
-    else if (this.props.type === 'y') {
-      style = {
-        width: '100%',
-        height: '10px',
-        position: 'absolute',
-        bottom : '-5px',
-        cursor: 'row-resize'
-      };
-    } else {
-      style = {
-        width: '10px',
-        height: '10px',
-        position: 'absolute',
-        right : '-5px',
-        bottom: '-5px',
-        cursor: 'nw-resize'
-      }
-    }
+    const onTouchStart = this.onTouchStart.bind(this);
     return (
-      <div style={style}
-           onMouseDown={this.props.onResizeStart}
-           onTouchStart={this.onTouchStart.bind(this)} />
+      <div
+        style={{ ...styles.base, ...styles[this.props.type] }}
+        onMouseDown={this.props.onResizeStart}
+        onTouchStart={onTouchStart}
+      />
     );
   }
 }
