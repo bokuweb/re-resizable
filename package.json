@@ -51,15 +51,17 @@
     "intelli-espower-loader": "^1.0.0",
     "karma": "^0.13.19",
     "karma-browserify": "^4.4.0",
+    "karma-chrome-launcher": "^0.2.2",
     "karma-cli": "^0.1.1",
     "karma-mocha": "^0.2.0",
     "karma-phantomjs-launcher": "^0.2.1",
+    "karma-phantomjs-shim": "^1.2.0",
     "mocha": "^2.3.3",
     "phantomjs": "^1.9.18",
     "phantomjs-polyfill": "^0.0.1",
     "power-assert": "^1.1.0",
     "react-addons-test-utils": "^0.14.3",
-    "sinon": "^1.17.2",
+    "sinon": "^1.17.3",
     "watchify": "^3.5.0"
   },
   "browserify": {

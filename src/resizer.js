@@ -27,7 +27,7 @@ const styles = {
   },
 };
 
-export default class Risizer extends Component {
+export default class Resizer extends Component {
   static propTypes = {
     onResizeStart: PropTypes.func,
     type: PropTypes.oneOf(['x', 'y', 'xy']).isRequired,
