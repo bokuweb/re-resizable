@@ -53,6 +53,8 @@
     "karma-browserify": "^4.4.0",
     "karma-chrome-launcher": "^0.2.2",
     "karma-cli": "^0.1.1",
+    "karma-fixture": "^0.2.6",
+    "karma-html2js-preprocessor": "^0.1.0",
     "karma-mocha": "^0.2.0",
     "karma-phantomjs-launcher": "^0.2.1",
     "karma-phantomjs-shim": "^1.2.0",

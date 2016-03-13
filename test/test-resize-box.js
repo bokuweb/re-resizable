@@ -23,6 +23,11 @@ const mouseUp = (x, y) => {
 
 describe('Resizable Component test', () => {
 
+  beforeEach(() => {
+    document.body.innerHTML = window.__html__['test/fixtures.html'];
+  });
+
+
   it ('Should box width and height equal 100px', (done) => {
     const resizable = TestUtils.renderIntoDocument(<Resizable width={100} height={100} />);
     const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
@@ -49,7 +54,31 @@ describe('Resizable Component test', () => {
     done();
   });
 
-  it ('Should only x-direction is resizabl and call onResizeStart when mousedown', () => {
+  it ('Should not render resizer when isResizable props all false', () => {
+    const resizable = TestUtils.renderIntoDocument(<Resizable isResizable={{x: false, y: false, xy: false }} />);
+    const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
+    assert.equal(divs.length, 1);
+  });
+
+  it ('Should render one resizer when one isResizable props set true', () => {
+    const resizable = TestUtils.renderIntoDocument(<Resizable isResizable={{x: true, y: false, xy: false }} />);
+    const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
+    assert.equal(divs.length, 2);
+  });
+
+  it ('Should render two resizer when one isResizable props set true', () => {
+    const resizable = TestUtils.renderIntoDocument(<Resizable isResizable={{x: true, y: true, xy: false }} />);
+    const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
+    assert.equal(divs.length, 3);
+  });
+
+  it ('Should render three resizer when one isResizable props set true', () => {
+    const resizable = TestUtils.renderIntoDocument(<Resizable isResizable={{x: true, y: true, xy: true }} />);
+    const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
+    assert.equal(divs.length, 4);
+  });
+
+  it ('Should only x-direction is resizable and call onResizeStart when mousedown', () => {
     const onResizeStart = sinon.spy();
     const resizable = TestUtils.renderIntoDocument(<Resizable isResizable={{x: true, y: false, xy: false }} onResizeStart={onResizeStart}/>);
     const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
@@ -82,13 +111,15 @@ describe('Resizable Component test', () => {
   it('should call onResize with expected args when resize direction x', () => {
     const onResize = sinon.spy();
     const onResizeStart = sinon.spy();
-    const resizable = TestUtils.renderIntoDocument(
+    const resizable = ReactDOM.render(
       <Resizable
         width={100} height={100}
-        isResizable={{x: true, y: true, xy: true }}
+        isResizable={{ x: true, y: true, xy: true }}
         onResize={onResize}
         onResizeStart={onResizeStart}
-      />
+        customStyle={{ padding: '40px'}}
+      >test</Resizable>,
+      document.getElementById('content')
     );
     const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
     const node = ReactDOM.findDOMNode(divs[1]);
@@ -97,19 +128,23 @@ describe('Resizable Component test', () => {
     mouseMove(200, 220);
     TestUtils.Simulate.mouseUp(node);
     assert.equal(onResize.callCount, 1);
-    assert.deepEqual(onResize.getCall(0).args[0], { width: 200, height: 100 });
+    assert.equal(onResize.getCall(0).args[0], 'x');
+    assert.deepEqual(onResize.getCall(0).args[1], { width: 300, height: 100 });
+    assert.deepEqual(onResize.getCall(0).args[2], { width: 380, height: 180 });
   });
 
   it('should call onResize with expected args when resize direction y', () => {
     const onResize = sinon.spy();
     const onResizeStart = sinon.spy();
-    const resizable = TestUtils.renderIntoDocument(
+    const resizable = ReactDOM.render(
       <Resizable
         width={100} height={100}
         isResizable={{ x: false, y: true, xy: false }}
         onResize={onResize}
         onResizeStart={onResizeStart}
-      />
+        customStyle={{ padding: '40px'}}
+      />,
+      document.getElementById('content')
     );
     const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
     const node = ReactDOM.findDOMNode(divs[1]);
@@ -117,19 +152,23 @@ describe('Resizable Component test', () => {
     mouseMove(200, 220);
     TestUtils.Simulate.mouseUp(node);
     assert.equal(onResize.callCount, 1);
-    assert.deepEqual(onResize.getCall(0).args[0], { width: 100, height: 220 });
+    assert.equal(onResize.getCall(0).args[0], 'y');
+    assert.deepEqual(onResize.getCall(0).args[1], { width: 100, height: 320 });
+    assert.deepEqual(onResize.getCall(0).args[2], { width: 180, height: 400 });
   });
 
   it('should call onResize with expected args when resize direction xy', () => {
     const onResize = sinon.spy();
     const onResizeStart = sinon.spy();
-    const resizable = TestUtils.renderIntoDocument(
+    const resizable = ReactDOM.render(
       <Resizable
         width={100} height={100}
         isResizable={{ x: false, y: false, xy: true }}
         onResize={onResize}
         onResizeStart={onResizeStart}
-      />
+        customStyle={{ padding: '40px' }}
+      />,
+      document.getElementById('content')
     );
     const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
     const node = ReactDOM.findDOMNode(divs[1]);
@@ -137,21 +176,25 @@ describe('Resizable Component test', () => {
     mouseMove(200, 220);
     TestUtils.Simulate.mouseUp(node);
     assert.equal(onResize.callCount, 1);
-    assert.deepEqual(onResize.getCall(0).args[0], { width: 200, height: 220 });
+    assert.equal(onResize.getCall(0).args[0], 'xy');
+    assert.deepEqual(onResize.getCall(0).args[1], { width: 300, height: 320 });
+    assert.deepEqual(onResize.getCall(0).args[2], { width: 380, height: 400 });
   });
 
-  it('should call onResizeStop when resize stop', () => {
+  it('should call onResizeStop when resize stop direction x', () => {
     const onResize = sinon.spy();
     const onResizeStart = sinon.spy();
     const onResizeStop = sinon.spy();
-    const resizable = TestUtils.renderIntoDocument(
+    const resizable = ReactDOM.render(
       <Resizable
         width={100} height={100}
-        isResizable={{x: true, y: false, xy: false }}
+        isResizable={{ x: true, y: false, xy: false }}
         onResize={onResize}
         onResizeStart={onResizeStart}
         onResizeStop={onResizeStop}
-      />
+        customStyle={{ padding: '40px' }}
+      />,
+      document.getElementById('content')
     );
     const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
     const node = ReactDOM.findDOMNode(divs[1]);
@@ -159,7 +202,61 @@ describe('Resizable Component test', () => {
     mouseMove(200, 220);
     mouseUp(200, 220);
     assert.equal(onResizeStop.callCount, 1);
-    assert.deepEqual(onResize.getCall(0).args[0], { width: 200, height: 100 });
+    assert.deepEqual(onResizeStop.getCall(0).args[0], 'x');
+    assert.deepEqual(onResizeStop.getCall(0).args[1], { width: 300, height: 100 });
+    assert.deepEqual(onResizeStop.getCall(0).args[2], { width: 380, height: 180 });
+  });
+
+  it('should call onResizeStop when resize stop direction y', () => {
+    const onResize = sinon.spy();
+    const onResizeStart = sinon.spy();
+    const onResizeStop = sinon.spy();
+    const resizable = ReactDOM.render(
+      <Resizable
+        width={100} height={100}
+        isResizable={{ x: false, y: true, xy: false }}
+        onResize={onResize}
+        onResizeStart={onResizeStart}
+        onResizeStop={onResizeStop}
+        customStyle={{ padding: '40px' }}
+      />,
+      document.getElementById('content')
+    );
+    const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
+    const node = ReactDOM.findDOMNode(divs[1]);
+    TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
+    mouseMove(200, 220);
+    mouseUp(200, 220);
+    assert.equal(onResizeStop.callCount, 1);
+    assert.deepEqual(onResizeStop.getCall(0).args[0], 'y');
+    assert.deepEqual(onResizeStop.getCall(0).args[1], { width: 100, height: 320 });
+    assert.deepEqual(onResizeStop.getCall(0).args[2], { width: 180, height: 400 });
+  });
+
+  it('should call onResizeStop when resize stop direction xy', () => {
+    const onResize = sinon.spy();
+    const onResizeStart = sinon.spy();
+    const onResizeStop = sinon.spy();
+    const resizable = ReactDOM.render(
+      <Resizable
+        width={100} height={100}
+        isResizable={{ x: false, y: false, xy: true }}
+        onResize={onResize}
+        onResizeStart={onResizeStart}
+        onResizeStop={onResizeStop}
+        customStyle={{ padding: '40px' }}
+      />,
+      document.getElementById('content')
+    );
+    const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
+    const node = ReactDOM.findDOMNode(divs[1]);
+    TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
+    mouseMove(200, 220);
+    mouseUp(200, 220);
+    assert.equal(onResizeStop.callCount, 1);
+    assert.deepEqual(onResizeStop.getCall(0).args[0], 'xy');
+    assert.deepEqual(onResizeStop.getCall(0).args[1], { width: 300, height: 320 });
+    assert.deepEqual(onResizeStop.getCall(0).args[2], { width: 380, height: 400 });
   });
 
   afterEach( done => {
