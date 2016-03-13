@@ -18,16 +18,16 @@ const styles = {
     cursor: 'row-resize',
   },
   xy: {
-    width: '10px',
-    height: '10px',
+    width: '20px',
+    height: '20px',
     position: 'absolute',
-    right: '-5px',
-    bottom: '-5px',
+    right: '-10px',
+    bottom: '-10px',
     cursor: 'nw-resize',
   },
 };
 
-export default class Risizer extends Component {
+export default class Resizer extends Component {
   static propTypes = {
     onResizeStart: PropTypes.func,
     type: PropTypes.oneOf(['x', 'y', 'xy']).isRequired,

@@ -11,9 +11,6 @@ Resizable component for React.
 ![screenshot](https://github.com/bokuweb/react-resizable-box/blob/master/docs/screenshot.gif?raw=true)
 See demo: [http://bokuweb.github.io/react-resizable-box/example/](http://bokuweb.github.io/react-resizable-box/example/)
 
-## Important Note
-
-This is an alpha release. Use with caution and hope.
 
 ## Installation
 
@@ -26,92 +23,135 @@ npm i react-resizable-box
 ### Basic
 
 ``` javascript
-<Resizable customClass="item"
-           width={320}
-           height={200}>
+<Resizable
+  customClass="item"
+  width={320}
+  height={200}
+>
   Basic Sample
 </Resizable>
 ```
 
-### With min/max width/height
+### With min/max width and height
 
 ``` javascript
-<Resizable customClass="item"
-           width={320}
-           height={200}
-           minWidth={160}
-           minHeight={160}
-           maxWidth={480}
-           maxHeight={480} >
+<Resizable
+  customClass="item"
+  width={320}
+  height={200}
+  minWidth={160}
+  minHeight={160}
+  maxWidth={480}
+  maxHeight={480}
+>
   min size is 160x160, max size is 480px x 480px.
 </Resizable>
 ```
-## Properties
 
-#### width {number}
+## Props
 
-The default width of the resizable box.   
+### `width`: PropTypes.number
 
-#### height {number}
+The `width` property is used to set the width of a resizable component.
 
-The default height of the resizable box.   
 
-#### minWidth {number}
+onClick: PropTypes.func,
+    onDoubleClick: PropTypes.func,
+    onMouseDown: PropTypes.func,
+    onResizeStop: PropTypes.func,
+    onResizeStart: PropTypes.func,
+    onTouchStart: PropTypes.func,
+    onResize: PropTypes.func,
+    customStyle: PropTypes.object,
+    isResizable: PropTypes.shape({
+      x: PropTypes.bool,
+      y: PropTypes.bool,
+      xy: PropTypes.bool,
+    }),
+    customClass: PropTypes.string,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    minWidth: PropTypes.number,
+    minHeight: PropTypes.number,
+    maxWidth: PropTypes.number,
+    maxHeight: PropTypes.number,
+    
+### `height`: PropTypes.number
 
-The minimum width of the resizable box.
+The `height` property is used to set the width of a resizable component.
 
-#### minHeight {number}
+### `minWidth`: PropTypes.number
 
-The minimum height of the resizable box.
+The `minWidth` property is used to set the minimum width of a resizable component.
 
-#### maxWidth {number}
+### `minHeight`: PropTypes.number
 
-The maximum width of the resizable box.
+The `minHeight` property is used to set the minimum height of a resizable component.
 
-#### maxHeight {number}
+### `maxWidth`: PropTypes.number
 
-The maximum height of the resizable box.
+The `maxWidth` property is used to set the maximum width of a resizable component.
 
-#### customClass {string}
+### `maxHeight`: PropTypes.number
 
-The css class set on the resizable box node.
+The `maxheight` property is used to set the maximum height of a resizable component.
 
-#### customStyle {object}
+### `customClass`: PropTypes.string
 
-The css style set on the resizable box node.
+The `customClass` property is used to set the custom `className` of a resizable component.
 
-#### isResizable {object}
+### customStyle: Proptypes.object
 
-The permission of x, y, xy direction resizing.   
-If omitted, x, y, xy direction resizing is enabled.    
-If you want to permit only x direction resizing, set `{x:true, y:false, xy:false}`. 
+The `customStyle` property is used to set the custom `classStyle` of a resizable component.
 
-#### onClick {func}
+### `isResizable`: Proptypes.shape({ x: PropTypes.bool, y: PropTypes.bool, xy: PropTypes.bool })
 
-Callback called on resizable box clicked.
+The `isResizable` property is used to set the resizable permission of a resizable component.
 
-#### onTouchStart {func}
+The permission of `x`, `y`, `xy` direction resizing.
+If omitted, `x`, `y`, `xy` direction resizing is enabled.
+If you want to permit only x direction resizing, set `{ x:true, y:false, xy:false }`. 
 
-Callback called on resizable box touched.
+### `onClick`: PropTypes.func
 
-#### onDoubleClick {func}
+Calls when resizable component clicked.
 
-Callback called on resizable box double clicked.
+### `onTouchStart`: PropTypes.func
 
-#### onResizeStart {func}
+Calls when resizable component touched.
 
-Callback called on resize start.   
-Receives the resize direction `direction:string` and `event` as argument.
+### `onDoubleClick`: PropTypes.func
 
-#### onResize {func}
+Calls when resizable component double clicked.
 
-Callback called on resizing.   
-Receives the box size `{width: number, height: number}` as argument.
+### `onResizeStart`: PropTypes.func
 
-#### onResizeStop {func}
+Calls when resizable component resize starts.
+Calls back with (`direction: string`)
 
-Callback called on resize stop.
-Receives the box size `{width: number, height: number}` as argument.
+- direction: `x` or `y` or `xy`
+
+Calls back with (`direction: string`, `styleSize: object`, `boundingClientRect: object`)
+
+- direction: `x` or `y` or `xy`
+- styleSize: `{ width, height }`
+  - this argument is {style.width, style.height} resizable component(`div` element).
+- boundingClientRect: `{ width`, height }`
+  - this argument is `width` and `height` of `resizable.getBoundingClientRect()`.
+  
+For example, when `<Resizable width={100} height={200} style={{ padding: '20px'}} onResize={...} />` mounted and resize 'x', this callback is called with `('x', { width: 100, height: 200 }, { width: 140, height: 240 })`
+
+### `onResizeStop`: PropTypes.func
+
+Calls back with (`direction: string`, `styleSize: object`, `boundingClientRect: object`)
+
+- direction: `x` or `y` or `xy`
+- styleSize: `{ width, height }`
+  - this argument is {style.width, style.height} resizable component(`div` element).
+- boundingClientRect: `{ width`, height }`
+  - this argument is `width` and `height` of `resizable.getBoundingClientRect()`.
+  
+For example, when `<Resizable width={100} height={200} style={{ padding: '20px'}} onResize={...} />` mounted and resize 'x', this callback is called with `('x', { width: 100, height: 200 }, { width: 140, height: 240 })`
 
 ## Test
 
@@ -123,7 +163,7 @@ npm test
 
 The MIT License (MIT)
 
-Copyright (c) 2015 @Bokuweb
+Copyright (c) 2016 @Bokuweb
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

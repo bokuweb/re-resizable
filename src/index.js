@@ -14,7 +14,11 @@ export default class Risizable extends Component {
     onTouchStart: PropTypes.func,
     onResize: PropTypes.func,
     customStyle: PropTypes.object,
-    isResizable: PropTypes.object,
+    isResizable: PropTypes.shape({
+      x: PropTypes.bool,
+      y: PropTypes.bool,
+      xy: PropTypes.bool,
+    }),
     customClass: PropTypes.string,
     width: PropTypes.number,
     height: PropTypes.number,
@@ -23,6 +27,14 @@ export default class Risizable extends Component {
     maxWidth: PropTypes.number,
     maxHeight: PropTypes.number,
   };
+
+  static defaultProps = {
+    onResizeStart: () => null,
+    onResize: () => null,
+    onResizeStop: () => null,
+    isResizable: { x: true, y: true, xy: true },
+    customStyle: {},
+  }
 
   constructor(props) {
     super(props);
@@ -43,6 +55,11 @@ export default class Risizable extends Component {
     window.addEventListener('touchend', this.onMouseUp);
   }
 
+  componentDidMount() {
+    const size = this.getBoxSize();
+    this.setSize(size);
+  }
+
   componentWillUnmount() {
     window.removeEventListener('mouseup', this.onMouseUp);
     window.removeEventListener('mousemove', this.onMouseMove);
@@ -57,86 +74,112 @@ export default class Risizable extends Component {
   onMouseMove({ clientX, clientY }) {
     const { direction, original, isActive } = this.state;
     const { minWidth, maxWidth, minHeight, maxHeight } = this.props;
+    let newWidth;
+    let newHeight;
     if (!isActive) return;
     if (direction.indexOf('x') !== -1) {
-      const newWidth = original.width + clientX - original.x;
-      const min = (minWidth < 0 || minWidth === undefined) ? 0 : minWidth;
-      const max = (maxWidth < 0 || maxWidth === undefined) ? newWidth : maxWidth;
-      this.setState({ width: clamp(newWidth, min, max) });
+      newWidth = original.width + clientX - original.x;
+      const min = (minWidth < 0 || typeof minWidth === 'undefined') ? 0 : minWidth;
+      const max = (maxWidth < 0 || typeof maxWidth === 'undefined') ? newWidth : maxWidth;
+      newWidth = clamp(newWidth, min, max);
+      this.setState({ width: newWidth });
     }
     if (direction.indexOf('y') !== -1) {
-      const newHeight = original.height + clientY - original.y;
-      const min = (minHeight < 0 || minHeight === undefined) ? 0 : minHeight;
-      const max = (maxHeight < 0 || maxHeight === undefined) ? newHeight : maxHeight;
-      this.setState({ height: clamp(newHeight, min, max) });
+      newHeight = original.height + clientY - original.y;
+      const min = (minHeight < 0 || typeof minHeight === 'undefined') ? 0 : minHeight;
+      const max = (maxHeight < 0 || typeof maxHeight === 'undefined') ? newHeight : maxHeight;
+      newHeight = clamp(newHeight, min, max);
+      this.setState({ height: newHeight });
     }
-    if (this.props.onResize) {
-      this.props.onResize({ width: this.state.width, height: this.state.height });
-    }
+    const rect = this.refs.resizable.getBoundingClientRect();
+    this.props.onResize(direction, {
+      width: newWidth || this.state.width,
+      height: newHeight || this.state.height,
+    }, {
+      width: rect.width,
+      height: rect.height,
+    });
   }
 
   onMouseUp() {
-    const { width, height } = this.state;
-    if (!this.state.isActive) return;
-    if (this.props.onResizeStop) {
-      this.props.onResizeStop({ width, height });
-    }
+    const { width, height, isActive, direction } = this.state;
+    if (!isActive) return;
+    const rect = this.refs.resizable.getBoundingClientRect();
+    this.props.onResizeStop(direction, {
+      width,
+      height,
+    }, {
+      width: rect.width,
+      height: rect.height,
+    });
     this.setState({ isActive: false });
   }
 
   onResizeStart(direction, e) {
-    if (this.props.onResizeStart) this.props.onResizeStart(direction, e);
-    if (typeof window.getComputedStyle === 'undefined') {
-      throw new Error('This browser not support window.getComputedStyle');
-    }
-    const style = window.getComputedStyle(this.refs.resizable, null);
-    const width = ~~style.getPropertyValue('width').replace('px', '');
-    const height = ~~style.getPropertyValue('height').replace('px', '');
+    this.props.onResizeStart(direction);
+    const size = this.getBoxSize();
     this.setState({
       original: {
         x: e.clientX,
         y: e.clientY,
-        width,
-        height,
+        width: size.width,
+        height: size.height,
       },
       isActive: true,
       direction,
     });
   }
 
+  getBoxSize() {
+    if (typeof window.getComputedStyle === 'undefined') {
+      throw new Error('This browser not support window.getComputedStyle');
+    }
+    const style = window.getComputedStyle(this.refs.resizable, null);
+    const width = ~~style.getPropertyValue('width').replace('px', '');
+    const height = ~~style.getPropertyValue('height').replace('px', '');
+    return { width, height };
+  }
+
+  setSize(size) {
+    this.setState({
+      width: this.state.width || size.width,
+      height: this.state.height || size.height,
+    });
+  }
+
   render() {
     const style = {
-      width: (this.state.width) ? `${this.state.width}px` : '',
-      height: (this.state.height) ? `${this.state.height}px` : '',
+      width: this.state.width ? `${this.state.width}px` : '',
+      height: this.state.height ? `${this.state.height}px` : '',
     };
-    const isResizable = (this.props.isResizable === undefined)
-            ? { x: true, y: true, xy: true }
-          : this.props.isResizable;
+    const { isResizable, onClick, customStyle, customClass,
+            onMouseDown, onDoubleClick, onTouchStart } = this.props;
     const onResizeStartX = this.onResizeStart.bind(this, 'x');
     const onResizeStartY = this.onResizeStart.bind(this, 'y');
     const onResizeStartXY = this.onResizeStart.bind(this, 'xy');
     return (
-      <div ref="resizable"
-        style={Object.assign({ position: 'relative' }, this.props.customStyle, style)}
-        className={this.props.customClass}
-        onClick={this.props.onClick}
-        onMouseDown={this.props.onMouseDown}
-        onDoubleClick={this.props.onDoubleClick}
-        onTouchStart={this.props.onTouchStart}
+      <div
+        ref="resizable"
+        style={Object.assign({ position: 'relative' }, customStyle, style)}
+        className={customClass}
+        onClick={onClick}
+        onMouseDown={onMouseDown}
+        onDoubleClick={onDoubleClick}
+        onTouchStart={onTouchStart}
       >
         {this.props.children}
         {
-          (isResizable.x !== false)
+          isResizable.x !== false
             ? <Resizer type={'x'} onResizeStart={onResizeStartX} />
             : null
         }
         {
-          (isResizable.y !== false)
+          isResizable.y !== false
             ? <Resizer type={'y'} onResizeStart={onResizeStartY} />
             : null
         }
         {
-          (isResizable.xy !== false)
+          isResizable.xy !== false
             ? <Resizer type={'xy'} onResizeStart={onResizeStartXY} />
             : null
         }
