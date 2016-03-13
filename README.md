@@ -44,7 +44,7 @@ npm i react-resizable-box
   maxWidth={480}
   maxHeight={480}
 >
-  min size is 160x160, max size is 480px x 480px.
+  min size is 160px x 160px, max size is 480px x 480px.
 </Resizable>
 ```
 
@@ -54,28 +54,6 @@ npm i react-resizable-box
 
 The `width` property is used to set the width of a resizable component.
 
-
-onClick: PropTypes.func,
-    onDoubleClick: PropTypes.func,
-    onMouseDown: PropTypes.func,
-    onResizeStop: PropTypes.func,
-    onResizeStart: PropTypes.func,
-    onTouchStart: PropTypes.func,
-    onResize: PropTypes.func,
-    customStyle: PropTypes.object,
-    isResizable: PropTypes.shape({
-      x: PropTypes.bool,
-      y: PropTypes.bool,
-      xy: PropTypes.bool,
-    }),
-    customClass: PropTypes.string,
-    width: PropTypes.number,
-    height: PropTypes.number,
-    minWidth: PropTypes.number,
-    minHeight: PropTypes.number,
-    maxWidth: PropTypes.number,
-    maxHeight: PropTypes.number,
-    
 ### `height`: PropTypes.number
 
 The `height` property is used to set the width of a resizable component.
