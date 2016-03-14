@@ -50,10 +50,6 @@ npm i react-resizable-box
 
 ## Props
 
-#### `direction`: PropTypes.oneOf(['horizontal', 'vertical']),
-
-The `direction` property is used to set the width of a resizable component.
-
 #### `width`: PropTypes.number
 
 The `width` property is used to set the width of a resizable component.
