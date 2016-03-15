@@ -31,17 +31,25 @@ export default class Resizer extends Component {
   static propTypes = {
     onResizeStart: PropTypes.func,
     type: PropTypes.oneOf(['x', 'y', 'xy']).isRequired,
+    replaceStyles: PropTypes.object,
   }
 
   onTouchStart(event) {
     this.props.onResizeStart(event.touches[0]);
   }
 
+  getStyle() {
+    if (this.props.replaceStyles) {
+      return this.props.replaceStyles;
+    }
+    return { ...styles.base, ...styles[this.props.type] };
+  }
+
   render() {
     const onTouchStart = this.onTouchStart.bind(this);
     return (
       <div
-        style={{ ...styles.base, ...styles[this.props.type] }}
+        style={this.getStyle()}
         onMouseDown={this.props.onResizeStart}
         onTouchStart={onTouchStart}
       />

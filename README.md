@@ -82,6 +82,13 @@ The `customClass` property is used to set the custom `className` of a resizable 
 
 The `customStyle` property is used to set the custom `classStyle` of a resizable component.
 
+#### handleStyle: PropTypes.shape({ x: PropTypes.object, y: PropTypes.object, xy: PropTypes.object })
+
+The `handleStyle` property is used to override the style of one or more resize handles.
+Only the axis you specify will have its handle style replaced.
+If you specify a value for `x` it will completely replace the styles for the X resize handle,
+but the `y` and `xy` handle will still use the default styles.
+
 #### `isResizable`: Proptypes.shape({ x: PropTypes.bool, y: PropTypes.bool, xy: PropTypes.bool })
 
 The `isResizable` property is used to set the resizable permission of a resizable component.
