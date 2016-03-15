@@ -14,6 +14,11 @@ export default class Risizable extends Component {
     onTouchStart: PropTypes.func,
     onResize: PropTypes.func,
     customStyle: PropTypes.object,
+    handleStyle: PropTypes.shape({
+      x: PropTypes.object,
+      y: PropTypes.object,
+      xy: PropTypes.object,
+    }),
     isResizable: PropTypes.shape({
       x: PropTypes.bool,
       y: PropTypes.bool,
@@ -34,6 +39,7 @@ export default class Risizable extends Component {
     onResizeStop: () => null,
     isResizable: { x: true, y: true, xy: true },
     customStyle: {},
+    handleStyle: {},
   }
 
   constructor(props) {
@@ -152,7 +158,7 @@ export default class Risizable extends Component {
       width: this.state.width ? `${this.state.width}px` : '',
       height: this.state.height ? `${this.state.height}px` : '',
     };
-    const { isResizable, onClick, customStyle, customClass,
+    const { isResizable, onClick, customStyle, handleStyle, customClass,
             onMouseDown, onDoubleClick, onTouchStart } = this.props;
     const onResizeStartX = this.onResizeStart.bind(this, 'x');
     const onResizeStartY = this.onResizeStart.bind(this, 'y');
@@ -170,21 +176,20 @@ export default class Risizable extends Component {
         {this.props.children}
         {
           isResizable.x !== false
-            ? <Resizer type={'x'} onResizeStart={onResizeStartX} />
+            ? <Resizer type={'x'} onResizeStart={onResizeStartX} replaceStyles={handleStyle.x} />
             : null
         }
         {
           isResizable.y !== false
-            ? <Resizer type={'y'} onResizeStart={onResizeStartY} />
+            ? <Resizer type={'y'} onResizeStart={onResizeStartY} replaceStyles={handleStyle.y} />
             : null
         }
         {
           isResizable.xy !== false
-            ? <Resizer type={'xy'} onResizeStart={onResizeStartXY} />
+            ? <Resizer type={'xy'} onResizeStart={onResizeStartXY} replaceStyles={handleStyle.xy} />
             : null
         }
       </div>
     );
   }
 }
-
