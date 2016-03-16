@@ -31,6 +31,9 @@ export default class Risizable extends Component {
     minHeight: PropTypes.number,
     maxWidth: PropTypes.number,
     maxHeight: PropTypes.number,
+    fullWidth: PropTypes.bool,
+    fullHeight: PropTypes.bool,
+    //TODO: autoSize: PropTypes.bool
   };
 
   static defaultProps = {
@@ -44,6 +47,7 @@ export default class Risizable extends Component {
 
   constructor(props) {
     super(props);
+    // alert('hi from rrb')
     const { width, height } = props;
     this.state = {
       isActive: false,
