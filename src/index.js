@@ -31,6 +31,9 @@ export default class Risizable extends Component {
     minHeight: PropTypes.number,
     maxWidth: PropTypes.number,
     maxHeight: PropTypes.number,
+    fullWidth: PropTypes.bool,
+    fullHeight: PropTypes.bool,
+    //TODO: autoSize: PropTypes.bool
   };
 
   static defaultProps = {
@@ -44,6 +47,7 @@ export default class Risizable extends Component {
 
   constructor(props) {
     super(props);
+    // alert('hi from rrb')
     const { width, height } = props;
     this.state = {
       isActive: false,
@@ -155,8 +159,8 @@ export default class Risizable extends Component {
 
   render() {
     const style = {
-      width: this.state.width ? `${this.state.width}px` : '',
-      height: this.state.height ? `${this.state.height}px` : '',
+      width: this.state.width ? `${this.state.width}px` : '100%',
+      height: this.state.height ? `${this.state.height}px` : '100%',
     };
     const { isResizable, onClick, customStyle, handleStyle, customClass,
             onMouseDown, onDoubleClick, onTouchStart } = this.props;
