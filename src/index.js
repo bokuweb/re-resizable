@@ -159,8 +159,8 @@ export default class Risizable extends Component {
 
   render() {
     const style = {
-      width: this.state.width ? `${this.state.width}px` : '',
-      height: this.state.height ? `${this.state.height}px` : '',
+      width: this.state.width ? `${this.state.width}px` : '100%',
+      height: this.state.height ? `${this.state.height}px` : '100%',
     };
     const { isResizable, onClick, customStyle, handleStyle, customClass,
             onMouseDown, onDoubleClick, onTouchStart } = this.props;
