@@ -122,8 +122,8 @@ Calls when resizable component resize.
 Calls back with (`direction: string`, `styleSize: object`, `clientSize: object`)
 
 - direction: `x` or `y` or `xy`
-- styleSize: `{ width, height }`
-  - this argument is {style.width, style.height} resizable component(`div` element).
+- getComputedStyleSize: `{ width, height }`
+  - this argument is {width, height} of getComputedStyle.
 - clientSize: `{ width`, height }`
   - this argument is `clientWidth` and `clientHeight`.
   
@@ -134,8 +134,8 @@ For example, when `<Resizable width={100} height={200} style={{ padding: '20px'}
 Calls back with (`direction: string`, `styleSize: object`, `clientSize: object`)
 
 - direction: `x` or `y` or `xy`
-- styleSize: `{ width, height }`
-  - this argument is {style.width, style.height} resizable component(`div` element).
+- getComputedStyleSize: `{ width, height }`
+  - this argument is {width, height} of getComputedStyle.
 - clientSize: `{ width`, height }`
   - this argument is `clientWidth` and `clientHeight`.
   
