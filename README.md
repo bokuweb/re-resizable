@@ -119,25 +119,25 @@ Calls back with (`direction: string`)
 #### `onResize`: PropTypes.func
 
 Calls when resizable component resize.
-Calls back with (`direction: string`, `styleSize: object`, `boundingClientRect: object`)
+Calls back with (`direction: string`, `styleSize: object`, `clientSize: object`)
 
 - direction: `x` or `y` or `xy`
 - styleSize: `{ width, height }`
   - this argument is {style.width, style.height} resizable component(`div` element).
-- boundingClientRect: `{ width`, height }`
-  - this argument is `width` and `height` of `resizable.getBoundingClientRect()`.
+- clientSize: `{ width`, height }`
+  - this argument is `clientWidth` and `clientHeight`.
   
 For example, when `<Resizable width={100} height={200} style={{ padding: '20px'}} onResize={...} />` mounted and resize 'x', this callback is called with `('x', { width: 100, height: 200 }, { width: 140, height: 240 })`
 
 #### `onResizeStop`: PropTypes.func
 
-Calls back with (`direction: string`, `styleSize: object`, `boundingClientRect: object`)
+Calls back with (`direction: string`, `styleSize: object`, `clientSize: object`)
 
 - direction: `x` or `y` or `xy`
 - styleSize: `{ width, height }`
   - this argument is {style.width, style.height} resizable component(`div` element).
-- boundingClientRect: `{ width`, height }`
-  - this argument is `width` and `height` of `resizable.getBoundingClientRect()`.
+- clientSize: `{ width`, height }`
+  - this argument is `clientWidth` and `clientHeight`.
   
 For example, when `<Resizable width={100} height={200} style={{ padding: '20px'}} onResize={...} />` mounted and resize 'x', this callback is called with `('x', { width: 100, height: 200 }, { width: 140, height: 240 })`
 

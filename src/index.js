@@ -31,9 +31,6 @@ export default class Risizable extends Component {
     minHeight: PropTypes.number,
     maxWidth: PropTypes.number,
     maxHeight: PropTypes.number,
-    fullWidth: PropTypes.bool,
-    fullHeight: PropTypes.bool,
-    //TODO: autoSize: PropTypes.bool
   };
 
   static defaultProps = {
@@ -47,7 +44,6 @@ export default class Risizable extends Component {
 
   constructor(props) {
     super(props);
-    // alert('hi from rrb')
     const { width, height } = props;
     this.state = {
       isActive: false,
@@ -101,26 +97,26 @@ export default class Risizable extends Component {
       newHeight = clamp(newHeight, min, max);
       this.setState({ height: newHeight });
     }
-    const rect = this.refs.resizable.getBoundingClientRect();
+    const resizable = this.refs.resizable;
     this.props.onResize(direction, {
       width: newWidth || this.state.width,
       height: newHeight || this.state.height,
     }, {
-      width: rect.width,
-      height: rect.height,
+      width: resizable.clientWidth,
+      height: resizable.clientHeight,
     });
   }
 
   onMouseUp() {
     const { width, height, isActive, direction } = this.state;
     if (!isActive) return;
-    const rect = this.refs.resizable.getBoundingClientRect();
+    const resizable = this.refs.resizable;
     this.props.onResizeStop(direction, {
       width,
       height,
     }, {
-      width: rect.width,
-      height: rect.height,
+      width: resizable.clientWidth,
+      height: resizable.clientHeight,
     });
     this.setState({ isActive: false });
   }
