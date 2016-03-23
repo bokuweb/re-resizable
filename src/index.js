@@ -66,6 +66,11 @@ export default class Risizable extends Component {
     this.setSize(size);
   }
 
+  componentWillReceiveProps({ width, height }) {
+    if (width !== this.props.width) this.setState({ width });
+    if (height !== this.props.height) this.setState({ height });
+  }
+
   componentWillUnmount() {
     window.removeEventListener('mouseup', this.onMouseUp);
     window.removeEventListener('mousemove', this.onMouseMove);
