@@ -187,7 +187,7 @@ export default class Risizable extends Component {
     return (
       <div
         ref="resizable"
-        style={Object.assign({}, customStyle, style, { position: 'relative' })}
+        style={Object.assign({ position: 'relative' }, customStyle, style)}
         className={customClass}
         onClick={onClick}
         onMouseDown={onMouseDown}
