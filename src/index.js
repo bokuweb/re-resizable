@@ -158,11 +158,19 @@ export default class Risizable extends Component {
     });
   }
 
+  getBoxStyle() {
+    const style = {};
+    if (typeof this.state.width === 'undefined') style.width = 'auto';
+    else if (this.state.width.toString().indexOf('%') > -1) style.width = this.state.width;
+    else style.width = `${this.state.width}px`;
+    if (typeof this.state.height === 'undefined') style.height = 'auto';
+    else if (this.state.height.toString().indexOf('%') > -1) style.height = this.state.height;
+    else style.height = `${this.state.height}px`;
+    return style;
+  }
+
   render() {
-    const style = {
-      width: this.state.width ? `${this.state.width}px` : '100%',
-      height: this.state.height ? `${this.state.height}px` : '100%',
-    };
+    const style = this.getBoxStyle();
     const { isResizable, onClick, customStyle, handleStyle, customClass,
             onMouseDown, onDoubleClick, onTouchStart } = this.props;
     const onResizeStartX = this.onResizeStart.bind(this, 'x');
@@ -171,7 +179,7 @@ export default class Risizable extends Component {
     return (
       <div
         ref="resizable"
-        style={Object.assign({ position: 'relative' }, customStyle, style)}
+        style={Object.assign({}, customStyle, style, { position: 'relative' })}
         className={customClass}
         onClick={onClick}
         onMouseDown={onMouseDown}
