@@ -40,126 +40,31 @@ var Example = function (_Component) {
   }, {
     key: 'onResize',
     value: function onResize(i, dir, size, rect) {
-      console.log('Box' + i + ' resize!!! direction=' + dir + ' box.style.width=' + size.width + ', box.syle.height=' + size.height + ' boundingClientRect.width=' + rect.width + ' boundingClientRect.height=' + rect.height);
+      console.log('Box' + i + ' resize!!! direction=' + dir + ' box.style.width=' + size.width + ',\nbox.syle.height=' + size.height + ' boundingClientRect.width=' + rect.width + '\nboundingClientRect.height=' + rect.height);
     }
   }, {
     key: 'onResizeStop',
     value: function onResizeStop(i, dir, size, rect) {
-      console.log('Box' + i + ' resize stop!!! direction=' + dir + ' box.style.width=' + size.width + ', box.syle.height=' + size.height + '  boundingClientRect.width=' + rect.width + ' boundingClientRect.height=' + rect.height);
+      console.log('Box' + i + ' resize stop!!! direction=' + dir + ' box.style.width=' + size.width + ',\nbox.syle.height=' + size.height + '  boundingClientRect.width=' + rect.width + '\nboundingClientRect.height=' + rect.height);
     }
   }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-          _src2.default,
-          { customClass: 'item',
-            width: 320,
-            height: 100,
-            onResizeStart: this.onResizeStart.bind(this, 1),
-            onResize: this.onResize.bind(this, 1),
-            onResizeStop: this.onResizeStop.bind(this, 1)
-          },
-          _react2.default.createElement(
-            'p',
-            null,
-            'This is Simplest example.'
-          ),
-          _react2.default.createElement(
-            'p',
-            null,
-            'Start 320px x 100px.'
-          )
-        ),
-        _react2.default.createElement(
-          _src2.default,
-          { customClass: 'item',
-            width: 160,
-            height: 240,
-            minWidth: 160,
-            minHeight: 160,
-            maxWidth: 480,
-            maxHeight: 480,
-            onResizeStart: this.onResizeStart.bind(this, 2),
-            onResize: this.onResize.bind(this, 2),
-            onResizeStop: this.onResizeStop.bind(this, 2)
-          },
-          _react2.default.createElement(
-            'p',
-            null,
-            'Start 160px x 240px.'
-          ),
-          _react2.default.createElement(
-            'p',
-            null,
-            'Min size is 160x160, max size is 480px x 480px box'
-          )
-        ),
-        _react2.default.createElement(
-          _src2.default,
-          { customClass: 'item',
-            width: 120,
-            height: 180,
-            isResizable: { x: true, y: false, xy: false },
-            onResizeStart: this.onResizeStart.bind(this, 3),
-            onResize: this.onResize.bind(this, 3),
-            onResizeStop: this.onResizeStop.bind(this, 3)
-          },
-          _react2.default.createElement(
-            'p',
-            null,
-            'Start 120px x 180px.'
-          ),
-          _react2.default.createElement(
-            'p',
-            null,
-            'Only x-direction is resizable'
-          )
-        ),
-        _react2.default.createElement(
-          _src2.default,
-          { customClass: 'item',
-            width: 120,
-            height: 200,
-            isResizable: { x: false, y: true, xy: false },
-            onResizeStart: this.onResizeStart.bind(this, 4),
-            onResize: this.onResize.bind(this, 4),
-            onResizeStop: this.onResizeStop.bind(this, 4)
-          },
-          _react2.default.createElement(
-            'p',
-            null,
-            'Start 120px x 200px.'
-          ),
-          _react2.default.createElement(
-            'p',
-            null,
-            'Only y-directions is resizable'
-          )
-        ),
-        _react2.default.createElement(
-          _src2.default,
-          { customClass: 'item',
-            width: 200,
-            height: 100,
-            isResizable: { x: false, y: false, xy: true },
-            onResizeStart: this.onResizeStart.bind(this, 5),
-            onResize: this.onResize.bind(this, 5),
-            onResizeStop: this.onResizeStop.bind(this, 5)
-          },
-          _react2.default.createElement(
-            'p',
-            null,
-            'Start 200px x 100px.'
-          ),
-          _react2.default.createElement(
-            'p',
-            null,
-            'Only xy-directions is resizable'
-          )
-        )
+        _src2.default,
+        {
+          customClass: 'item',
+          width: '50%',
+          height: 200,
+          minHeight: 200,
+          minWidth: 200,
+          maxHeight: 400,
+          maxWidth: 800,
+          onResizeStart: this.onResizeStart.bind(this, 1),
+          onResize: this.onResize.bind(this, 1),
+          onResizeStop: this.onResizeStop.bind(this, 1)
+        },
+        'react-resizable-box example.'
       );
     }
   }]);
@@ -19282,6 +19187,15 @@ var Risizable = function (_Component) {
       this.setSize(size);
     }
   }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(_ref) {
+      var width = _ref.width;
+      var height = _ref.height;
+
+      if (width !== this.props.width) this.setState({ width: width });
+      if (height !== this.props.height) this.setState({ height: height });
+    }
+  }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       window.removeEventListener('mouseup', this.onMouseUp);
@@ -19296,9 +19210,9 @@ var Risizable = function (_Component) {
     }
   }, {
     key: 'onMouseMove',
-    value: function onMouseMove(_ref) {
-      var clientX = _ref.clientX;
-      var clientY = _ref.clientY;
+    value: function onMouseMove(_ref2) {
+      var clientX = _ref2.clientX;
+      var clientY = _ref2.clientY;
       var _state = this.state;
       var direction = _state.direction;
       var original = _state.original;
@@ -19326,13 +19240,13 @@ var Risizable = function (_Component) {
         newHeight = clamp(newHeight, _min, _max);
         this.setState({ height: newHeight });
       }
-      var rect = this.refs.resizable.getBoundingClientRect();
+      var resizable = this.refs.resizable;
       this.props.onResize(direction, {
         width: newWidth || this.state.width,
         height: newHeight || this.state.height
       }, {
-        width: rect.width,
-        height: rect.height
+        width: resizable.clientWidth,
+        height: resizable.clientHeight
       });
     }
   }, {
@@ -19345,13 +19259,13 @@ var Risizable = function (_Component) {
       var direction = _state2.direction;
 
       if (!isActive) return;
-      var rect = this.refs.resizable.getBoundingClientRect();
+      var resizable = this.refs.resizable;
       this.props.onResizeStop(direction, {
         width: width,
         height: height
       }, {
-        width: rect.width,
-        height: rect.height
+        width: resizable.clientWidth,
+        height: resizable.clientHeight
       });
       this.setState({ isActive: false });
     }
@@ -19391,16 +19305,28 @@ var Risizable = function (_Component) {
       });
     }
   }, {
+    key: 'getBoxStyle',
+    value: function getBoxStyle() {
+      var _this2 = this;
+
+      var getSize = function getSize(key) {
+        if (typeof _this2.state[key] === 'undefined') return 'auto';else if (/px$/.test(_this2.state[key].toString())) return _this2.state[key];else if (/%$/.test(_this2.state[key].toString())) return _this2.state[key];
+        return _this2.state[key] + 'px';
+      };
+      return {
+        width: getSize('width'),
+        height: getSize('height')
+      };
+    }
+  }, {
     key: 'render',
     value: function render() {
-      var style = {
-        width: this.state.width ? this.state.width + 'px' : '',
-        height: this.state.height ? this.state.height + 'px' : ''
-      };
+      var style = this.getBoxStyle();
       var _props2 = this.props;
       var isResizable = _props2.isResizable;
       var onClick = _props2.onClick;
       var customStyle = _props2.customStyle;
+      var handleStyle = _props2.handleStyle;
       var customClass = _props2.customClass;
       var onMouseDown = _props2.onMouseDown;
       var onDoubleClick = _props2.onDoubleClick;
@@ -19413,7 +19339,7 @@ var Risizable = function (_Component) {
         'div',
         {
           ref: 'resizable',
-          style: Object.assign({ position: 'relative' }, customStyle, style),
+          style: Object.assign({}, customStyle, style, { position: 'relative' }),
           className: customClass,
           onClick: onClick,
           onMouseDown: onMouseDown,
@@ -19421,9 +19347,9 @@ var Risizable = function (_Component) {
           onTouchStart: onTouchStart
         },
         this.props.children,
-        isResizable.x !== false ? _react2.default.createElement(_resizer2.default, { type: 'x', onResizeStart: onResizeStartX }) : null,
-        isResizable.y !== false ? _react2.default.createElement(_resizer2.default, { type: 'y', onResizeStart: onResizeStartY }) : null,
-        isResizable.xy !== false ? _react2.default.createElement(_resizer2.default, { type: 'xy', onResizeStart: onResizeStartXY }) : null
+        isResizable.x !== false ? _react2.default.createElement(_resizer2.default, { type: 'x', onResizeStart: onResizeStartX, replaceStyles: handleStyle.x }) : null,
+        isResizable.y !== false ? _react2.default.createElement(_resizer2.default, { type: 'y', onResizeStart: onResizeStartY, replaceStyles: handleStyle.y }) : null,
+        isResizable.xy !== false ? _react2.default.createElement(_resizer2.default, { type: 'xy', onResizeStart: onResizeStartXY, replaceStyles: handleStyle.xy }) : null
       );
     }
   }]);
@@ -19441,14 +19367,19 @@ Risizable.propTypes = {
   onTouchStart: _react.PropTypes.func,
   onResize: _react.PropTypes.func,
   customStyle: _react.PropTypes.object,
+  handleStyle: _react.PropTypes.shape({
+    x: _react.PropTypes.object,
+    y: _react.PropTypes.object,
+    xy: _react.PropTypes.object
+  }),
   isResizable: _react.PropTypes.shape({
     x: _react.PropTypes.bool,
     y: _react.PropTypes.bool,
     xy: _react.PropTypes.bool
   }),
   customClass: _react.PropTypes.string,
-  width: _react.PropTypes.number,
-  height: _react.PropTypes.number,
+  width: _react.PropTypes.oneOfType([_react.PropTypes.number, _react.PropTypes.string]),
+  height: _react.PropTypes.oneOfType([_react.PropTypes.number, _react.PropTypes.string]),
   minWidth: _react.PropTypes.number,
   minHeight: _react.PropTypes.number,
   maxWidth: _react.PropTypes.number,
@@ -19465,7 +19396,8 @@ Risizable.defaultProps = {
     return null;
   },
   isResizable: { x: true, y: true, xy: true },
-  customStyle: {}
+  customStyle: {},
+  handleStyle: {}
 };
 exports.default = Risizable;
 
@@ -19507,6 +19439,7 @@ var styles = {
     width: '100%',
     height: '10px',
     bottom: '-5px',
+    left: 0,
     cursor: 'row-resize'
   },
   xy: {
@@ -19534,11 +19467,19 @@ var Resizer = function (_Component) {
       this.props.onResizeStart(event.touches[0]);
     }
   }, {
+    key: 'getStyle',
+    value: function getStyle() {
+      if (this.props.replaceStyles) {
+        return this.props.replaceStyles;
+      }
+      return _extends({}, styles.base, styles[this.props.type]);
+    }
+  }, {
     key: 'render',
     value: function render() {
       var onTouchStart = this.onTouchStart.bind(this);
       return _react2.default.createElement('div', {
-        style: _extends({}, styles.base, styles[this.props.type]),
+        style: this.getStyle(),
         onMouseDown: this.props.onResizeStart,
         onTouchStart: onTouchStart
       });
@@ -19550,7 +19491,8 @@ var Resizer = function (_Component) {
 
 Resizer.propTypes = {
   onResizeStart: _react.PropTypes.func,
-  type: _react.PropTypes.oneOf(['x', 'y', 'xy']).isRequired
+  type: _react.PropTypes.oneOf(['x', 'y', 'xy']).isRequired,
+  replaceStyles: _react.PropTypes.object
 };
 exports.default = Resizer;
 
