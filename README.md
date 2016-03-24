@@ -9,6 +9,7 @@ Resizable component for React.
 ## Demo
 
 ![screenshot](https://github.com/bokuweb/react-resizable-box/blob/master/docs/screenshot.gif?raw=true)
+   
 See demo: [http://bokuweb.github.io/react-resizable-box/example/](http://bokuweb.github.io/react-resizable-box/example/)
 
 
@@ -52,15 +53,15 @@ npm i react-resizable-box
 
 #### `width`: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 
-The `width` property is used to set the width of a resizable component.
-Forexample, you can set `300`, `'300px'`, `50%`.
-If ommited, set `'auto'`.
+The `width` property is used to set the width of a resizable component.   
+For example, you can set `300`, `'300px'`, `50%`.     
+If ommited, set `'auto'`.    
 
 #### `height`: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 
-The `height` property is used to set the width of a resizable component.
-Forexample, you can set `300`, `'300px'`, `50%`.
-If ommited, set `'auto'`.
+The `height` property is used to set the width of a resizable component.    
+For example, you can set `300`, `'300px'`, `50%`.    
+If ommited, set `'auto'`.    
 
 #### `minWidth`: PropTypes.number
 
