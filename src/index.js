@@ -25,8 +25,14 @@ export default class Risizable extends Component {
       xy: PropTypes.bool,
     }),
     customClass: PropTypes.string,
-    width: PropTypes.number,
-    height: PropTypes.number,
+    width: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string,
+    ]),
+    height: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string,
+    ]),
     minWidth: PropTypes.number,
     minHeight: PropTypes.number,
     maxWidth: PropTypes.number,
