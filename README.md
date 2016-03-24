@@ -50,13 +50,17 @@ npm i react-resizable-box
 
 ## Props
 
-#### `width`: PropTypes.number
+#### `width`: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 
 The `width` property is used to set the width of a resizable component.
+Forexample, you can set `300`, `'300px'`, `50%`.
+If ommited, set `'auto'`.
 
-#### `height`: PropTypes.number
+#### `height`: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 
 The `height` property is used to set the width of a resizable component.
+Forexample, you can set `300`, `'300px'`, `50%`.
+If ommited, set `'auto'`.
 
 #### `minWidth`: PropTypes.number
 
@@ -146,6 +150,12 @@ For example, when `<Resizable width={100} height={200} style={{ padding: '20px'}
 ``` sh
 npm test
 ```
+
+## Changelog
+
+#### v0.4.0
+
+- Support `'px'` and `'%'` for width and height props.
 
 ## License
 
