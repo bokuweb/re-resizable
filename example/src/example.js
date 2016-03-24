@@ -25,7 +25,7 @@ boundingClientRect.height=${rect.height}`);
       <Resizable
         customClass="item"
         width={'50%'}
-        height={300}
+        height={200}
         minHeight={200}
         minWidth={200}
         maxHeight={400}

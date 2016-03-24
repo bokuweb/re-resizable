@@ -159,14 +159,16 @@ export default class Risizable extends Component {
   }
 
   getBoxStyle() {
-    const style = {};
-    if (typeof this.state.width === 'undefined') style.width = 'auto';
-    else if (this.state.width.toString().indexOf('%') > -1) style.width = this.state.width;
-    else style.width = `${this.state.width}px`;
-    if (typeof this.state.height === 'undefined') style.height = 'auto';
-    else if (this.state.height.toString().indexOf('%') > -1) style.height = this.state.height;
-    else style.height = `${this.state.height}px`;
-    return style;
+    const getSize = key => {
+      if (typeof this.state[key] === 'undefined') return 'auto';
+      else if (/px$/.test(this.state[key].toString())) return this.state[key];
+      else if (/%$/.test(this.state[key].toString())) return this.state[key];
+      return `${this.state[key]}px`;
+    };
+    return {
+      width: getSize('width'),
+      height: getSize('height'),
+    };
   }
 
   render() {
