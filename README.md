@@ -117,9 +117,10 @@ Calls when resizable component double clicked.
 #### `onResizeStart`: PropTypes.func
 
 Calls when resizable component resize starts.
-Calls back with (`direction: string`)
+Calls back with (`direction: string`, `event: object`)
 
 - direction: `x` or `y` or `xy`
+- event: `mouse down event`
 
 #### `onResize`: PropTypes.func
 
