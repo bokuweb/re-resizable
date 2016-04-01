@@ -133,7 +133,7 @@ export default class Risizable extends Component {
   }
 
   onResizeStart(direction, e) {
-    this.props.onResizeStart(direction);
+    this.props.onResizeStart(direction, e);
     const size = this.getBoxSize();
     this.setState({
       original: {
