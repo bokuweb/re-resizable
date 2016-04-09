@@ -34,7 +34,7 @@ boundingClientRect.height=${rect.height}`);
         onResize={this.onResize.bind(this, 1) }
         onResizeStop={this.onResizeStop.bind(this, 1) }
       >
-        react-resizable-box example.
+        <span>react-resizable-box example.</span>
       </Resizable>
     );
   }
