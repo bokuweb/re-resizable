@@ -104,23 +104,23 @@ The `customClass` property is used to set the custom `className` of a resizable 
 The `customStyle` property is used to set the custom `classStyle` of a resizable component.
 
 
-#### handleStyle: PropTypes.shape({ x: PropTypes.object, y: PropTypes.object, xy: PropTypes.object })
+#### handleStyle: PropTypes.shape({ top: PropTypes.object, right: PropTypes.object, bottom: PropTypes.object, left: PropTypes.object, topRight: PropTypes.object, bottomRight: PropTypes.object, bottomLeft: PropTypes.object, topLeft: PropTypes.object })
 
 
 The `handleStyle` property is used to override the style of one or more resize handles.
 Only the axis you specify will have its handle style replaced.
-If you specify a value for `x` it will completely replace the styles for the X resize handle,
-but the `y` and `xy` handle will still use the default styles.
+If you specify a value for `right` it will completely replace the styles for the `right` resize handle,
+but other handle will still use the default styles.
 
 
-#### `isResizable`: Proptypes.shape({ x: PropTypes.bool, y: PropTypes.bool, xy: PropTypes.bool })
+#### `isResizable`: PropTypes.shape({ top: PropTypes.bool, right: PropTypes.bool, bottom: PropTypes.bool, left: PropTypes.bool, topRight: PropTypes.bool, bottomRight: PropTypes.bool, bottomLeft: PropTypes.bool, topLeft: PropTypes.bool })
 
 
 The `isResizable` property is used to set the resizable permission of a resizable component.
 
-The permission of `x`, `y`, `xy` direction resizing.
-If omitted, `x`, `y`, `xy` direction resizing is enabled.
-If you want to permit only x direction resizing, set `{ x:true, y:false, xy:false }`. 
+The permission of `top`, `right`, `bottom`, `left`, `topRight`, `bottomRight`, `bottomLeft`, `topLeft` direction resizing.
+If omitted, all resizer are enabled.
+If you want to permit only right direction resizing, set `{ top:false, right:true, bottom:false, left:false, topRight:false, bottomRight:false, bottomLeft:false, topLeft:false }`. 
 
 
 #### `onClick`: PropTypes.func
@@ -147,7 +147,7 @@ Calls when resizable component double clicked.
 Calls when resizable component resize starts.
 Calls back with (`direction: string`, `event: object`)
 
-- direction: `x` or `y` or `xy`
+- direction: `top`, `right`, `bottom`, `left`, `topRight`, `bottomRight`, `bottomLeft`, and `topLeft`.
 - event: `mouse down event`
 
 
@@ -157,13 +157,13 @@ Calls back with (`direction: string`, `event: object`)
 Calls when resizable component resize.
 Calls back with (`direction: string`, `styleSize: object`, `clientSize: object`)
 
-- direction: `x` or `y` or `xy`
+- direction: `top`, `right`, `bottom`, `left`, `topRight`, `bottomRight`, `bottomLeft`, and `topLeft`.
 - getComputedStyleSize: `{ width, height }`
   - this argument is {width, height} of getComputedStyle.
 - clientSize: `{ width`, height }`
   - this argument is `clientWidth` and `clientHeight`.
   
-For example, when `<Resizable width={100} height={200} style={{ padding: '20px'}} onResize={...} />` mounted and resize 'x', this callback is called with `('x', { width: 100, height: 200 }, { width: 140, height: 240 })`
+For example, when `<Resizable width={100} height={200} style={{ padding: '20px'}} onResize={...} />` mounted and resize 'right', this callback is called with `('right', { width: 100, height: 200 }, { width: 140, height: 240 })`
 
 
 #### `onResizeStop`: PropTypes.func
@@ -171,13 +171,13 @@ For example, when `<Resizable width={100} height={200} style={{ padding: '20px'}
 
 Calls back with (`direction: string`, `styleSize: object`, `clientSize: object`)
 
-- direction: `x` or `y` or `xy`
+- direction: `top`, `right`, `bottom`, `left`, `topRight`, `bottomRight`, `bottomLeft`, and `topLeft`.
 - getComputedStyleSize: `{ width, height }`
   - this argument is {width, height} of getComputedStyle.
 - clientSize: `{ width`, height }`
   - this argument is `clientWidth` and `clientHeight`.
   
-For example, when `<Resizable width={100} height={200} style={{ padding: '20px'}} onResize={...} />` mounted and resize 'x', this callback is called with `('x', { width: 100, height: 200 }, { width: 140, height: 240 })`
+For example, when `<Resizable width={100} height={200} style={{ padding: '20px'}} onResize={...} />` mounted and resize 'right', this callback is called with `('right', { width: 100, height: 200 }, { width: 140, height: 240 })`
 
 
 ## Test
@@ -187,6 +187,10 @@ npm test
 ```
 
 ## Changelog
+
+#### v1.0.0
+
+- Rename and add resizer.
 
 #### v0.4.2
 
