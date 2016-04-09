@@ -40,9 +40,7 @@ export default class Resizer extends Component {
   }
 
   getStyle() {
-    if (this.props.replaceStyles) {
-      return this.props.replaceStyles;
-    }
+    if (this.props.replaceStyles) return this.props.replaceStyles;
     return { ...styles.base, ...styles[this.props.type] };
   }
 
