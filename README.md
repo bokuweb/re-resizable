@@ -156,6 +156,11 @@ npm test
 
 ## Changelog
 
+#### v0.4.2
+
+- Support react v15
+- ESLint run when push  
+
 #### v0.4.1
 
 - Add mousedown event object to `onResizeStart` callback argument.
