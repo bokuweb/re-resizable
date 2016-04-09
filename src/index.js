@@ -15,14 +15,24 @@ export default class Risizable extends Component {
     onResize: PropTypes.func,
     customStyle: PropTypes.object,
     handleStyle: PropTypes.shape({
-      x: PropTypes.object,
-      y: PropTypes.object,
-      xy: PropTypes.object,
+      top: PropTypes.object,
+      right: PropTypes.object,
+      bottom: PropTypes.object,
+      left: PropTypes.object,
+      topRight: PropTypes.object,
+      bottomRight: PropTypes.object,
+      bottomLeft: PropTypes.object,
+      topLeft: PropTypes.object,
     }),
     isResizable: PropTypes.shape({
-      x: PropTypes.bool,
-      y: PropTypes.bool,
-      xy: PropTypes.bool,
+      top: PropTypes.bool,
+      right: PropTypes.bool,
+      bottom: PropTypes.bool,
+      left: PropTypes.bool,
+      topRight: PropTypes.bool,
+      bottomRight: PropTypes.bool,
+      bottomLeft: PropTypes.bool,
+      topLeft: PropTypes.bool,
     }),
     customClass: PropTypes.string,
     width: PropTypes.oneOfType([
@@ -43,7 +53,10 @@ export default class Risizable extends Component {
     onResizeStart: () => null,
     onResize: () => null,
     onResizeStop: () => null,
-    isResizable: { x: true, y: true, xy: true },
+    isResizable: {
+      top: true, right: true, bottom: true, left: true,
+      topRight: true, bottomRight: true, bottomLeft: true, topLeft: true,
+    },
     customStyle: {},
     handleStyle: {},
   }
@@ -94,15 +107,29 @@ export default class Risizable extends Component {
     let newWidth;
     let newHeight;
     if (!isActive) return;
-    if (direction.indexOf('x') !== -1) {
+    if (/right/i.test(direction)) {
       newWidth = original.width + clientX - original.x;
       const min = (minWidth < 0 || typeof minWidth === 'undefined') ? 0 : minWidth;
       const max = (maxWidth < 0 || typeof maxWidth === 'undefined') ? newWidth : maxWidth;
       newWidth = clamp(newWidth, min, max);
       this.setState({ width: newWidth });
     }
-    if (direction.indexOf('y') !== -1) {
+    if (/left/i.test(direction)) {
+      newWidth = original.width - clientX + original.x;
+      const min = (minWidth < 0 || typeof minWidth === 'undefined') ? 0 : minWidth;
+      const max = (maxWidth < 0 || typeof maxWidth === 'undefined') ? newWidth : maxWidth;
+      newWidth = clamp(newWidth, min, max);
+      this.setState({ width: newWidth });
+    }
+    if (/bottom/i.test(direction)) {
       newHeight = original.height + clientY - original.y;
+      const min = (minHeight < 0 || typeof minHeight === 'undefined') ? 0 : minHeight;
+      const max = (maxHeight < 0 || typeof maxHeight === 'undefined') ? newHeight : maxHeight;
+      newHeight = clamp(newHeight, min, max);
+      this.setState({ height: newHeight });
+    }
+    if (/top/i.test(direction)) {
+      newHeight = original.height - clientY + original.y;
       const min = (minHeight < 0 || typeof minHeight === 'undefined') ? 0 : minHeight;
       const max = (maxHeight < 0 || typeof maxHeight === 'undefined') ? newHeight : maxHeight;
       newHeight = clamp(newHeight, min, max);
@@ -148,9 +175,6 @@ export default class Risizable extends Component {
   }
 
   getBoxSize() {
-    if (typeof window.getComputedStyle === 'undefined') {
-      throw new Error('This browser not support window.getComputedStyle');
-    }
     const style = window.getComputedStyle(this.refs.resizable, null);
     const width = ~~style.getPropertyValue('width').replace('px', '');
     const height = ~~style.getPropertyValue('height').replace('px', '');
@@ -177,13 +201,28 @@ export default class Risizable extends Component {
     };
   }
 
+  renderResizer() {
+    const { isResizable, handleStyle } = this.props;
+    return Object.keys(isResizable).map(dir => {
+      const onResizeStart = this.onResizeStart.bind(this, dir);
+      if (isResizable[dir] !== false) {
+        return (
+          <Resizer
+            key={dir}
+            type={dir}
+            onResizeStart={onResizeStart}
+            replaceStyles={handleStyle[dir]}
+          />
+        );
+      }
+      return null;
+    });
+  }
+
   render() {
     const style = this.getBoxStyle();
-    const { isResizable, onClick, customStyle, handleStyle, customClass,
+    const { onClick, customStyle, customClass,
             onMouseDown, onDoubleClick, onTouchStart } = this.props;
-    const onResizeStartX = this.onResizeStart.bind(this, 'x');
-    const onResizeStartY = this.onResizeStart.bind(this, 'y');
-    const onResizeStartXY = this.onResizeStart.bind(this, 'xy');
     return (
       <div
         ref="resizable"
@@ -195,21 +234,7 @@ export default class Risizable extends Component {
         onTouchStart={onTouchStart}
       >
         {this.props.children}
-        {
-          isResizable.x !== false
-            ? <Resizer type={'x'} onResizeStart={onResizeStartX} replaceStyles={handleStyle.x} />
-            : null
-        }
-        {
-          isResizable.y !== false
-            ? <Resizer type={'y'} onResizeStart={onResizeStartY} replaceStyles={handleStyle.y} />
-            : null
-        }
-        {
-          isResizable.xy !== false
-            ? <Resizer type={'xy'} onResizeStart={onResizeStartXY} replaceStyles={handleStyle.xy} />
-            : null
-        }
+        {this.renderResizer()}
       </div>
     );
   }
