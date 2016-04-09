@@ -5,27 +5,31 @@ import TestUtils from 'react-addons-test-utils';
 import Resizer from '../src/resizer';
 
 describe('Resizer Component test', () => {
-  it ('Should call onResizeStart, when click', (done) => {
+  it('Should call onResizeStart, when click', (done) => {
     const onResizeStart = e => {
       assert.equal(e.clientX, 100);
       done();
-    }
-    const resizer = TestUtils.renderIntoDocument(<Resizer onResizeStart={onResizeStart} />);
+    };
+    const resizer = TestUtils.renderIntoDocument(
+      <Resizer onResizeStart={onResizeStart} type="right" />
+    );
     TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(resizer), { clientX: 100 });
   });
 
-  it ('Should call onResizeStart, when touch start', (done) => {
+  it('Should call onResizeStart, when touch start', (done) => {
     const onResizeStart = e => {
       assert.equal(e.clientX, 200);
       done();
-    }
-    const resizer = TestUtils.renderIntoDocument(<Resizer onResizeStart={onResizeStart} />);
-    TestUtils.Simulate.touchStart(ReactDOM.findDOMNode(resizer), { touches : [{ clientX: 200 }]});
+    };
+    const resizer = TestUtils.renderIntoDocument(
+      <Resizer onResizeStart={onResizeStart} type="right" />
+    );
+    TestUtils.Simulate.touchStart(ReactDOM.findDOMNode(resizer), { touches: [{ clientX: 200 }] });
   });
 
-  afterEach( done => {
+  afterEach(done => {
     ReactDOM.unmountComponentAtNode(document.body);
-    document.body.innerHTML = "";
+    document.body.innerHTML = '';
     setTimeout(done);
   });
 });

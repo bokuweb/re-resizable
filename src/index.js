@@ -107,6 +107,7 @@ export default class Risizable extends Component {
     let newWidth;
     let newHeight;
     if (!isActive) return;
+
     if (/right/i.test(direction)) {
       newWidth = original.width + clientX - original.x;
       const min = (minWidth < 0 || typeof minWidth === 'undefined') ? 0 : minWidth;
