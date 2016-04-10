@@ -131,6 +131,7 @@ export default class Risizable extends Component {
       const max = (maxHeight < 0 || typeof maxHeight === 'undefined') ? newHeight : maxHeight;
       newHeight = clamp(newHeight, min, max);
     }
+    this.setState({ width: newWidth, height: newHeight });
     const resizable = this.refs.resizable;
     const styleSize = {
       width: newWidth || this.state.width,
@@ -141,10 +142,9 @@ export default class Risizable extends Component {
       height: resizable.clientHeight,
     };
     const delta = {
-      width: original.width - newWidth,
-      height: original.height - newHeight,
+      width: newWidth - original.width,
+      height: newHeight - original.height,
     };
-    this.setState({ width: newWidth, height: newHeight });
     this.props.onResize(direction, styleSize, clientSize, delta);
   }
 
@@ -158,8 +158,8 @@ export default class Risizable extends Component {
       height: resizable.clientHeight,
     };
     const delta = {
-      width: original.width - width,
-      height: original.height - height,
+      width: width - original.width,
+      height: height - original.height,
     };
     this.props.onResizeStop(direction, styleSize, clientSize, delta);
     this.setState({ isActive: false });
