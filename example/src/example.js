@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import Resizable from '../../src';
 
 export default class Example extends Component {
-  onResizeStart(i, dir) {
-    console.log(`Box${i} resize start!!! direction=${dir}`);
+  onResizeStart(i, dir, size, rect) {
+    console.log(
+      `onResizeStart direction=${dir} box.style.width=${size.width}, box.syle.height=${size.height} client.width=${rect.width}, client.height=${rect.height}`);
   }
 
   onResize(i, dir, size, rect, delta) {

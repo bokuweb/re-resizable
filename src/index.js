@@ -149,24 +149,28 @@ export default class Risizable extends Component {
   }
 
   onMouseUp() {
-    const { width, height, isActive, direction, original } = this.state;
+    const { isActive, direction, original } = this.state;
     if (!isActive) return;
     const resizable = this.refs.resizable;
-    const styleSize = { width, height };
+    const styleSize = this.getBoxSize();
     const clientSize = {
       width: resizable.clientWidth,
       height: resizable.clientHeight,
     };
     const delta = {
-      width: width - original.width,
-      height: height - original.height,
+      width: styleSize.width - original.width,
+      height: styleSize.height - original.height,
     };
     this.props.onResizeStop(direction, styleSize, clientSize, delta);
     this.setState({ isActive: false });
   }
 
   onResizeStart(direction, e) {
-    this.props.onResizeStart(direction, e);
+    const clientSize = {
+      width: this.refs.resizable.clientWidth,
+      height: this.refs.resizable.clientHeight,
+    };
+    this.props.onResizeStart(direction, this.getBoxSize(), clientSize, e);
     const size = this.getBoxSize();
     this.setState({
       original: {

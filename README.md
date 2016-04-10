@@ -192,6 +192,11 @@ npm test
 
 ## Changelog
 
+#### v1.1.2
+
+- Add size argument to resizeStart callback.
+- Fix bug
+
 #### v1.1.1
 
 - Fix delta value bug
