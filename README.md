@@ -192,6 +192,10 @@ npm test
 
 ## Changelog
 
+#### v1.1.1
+
+- Fix delta value bug
+
 #### v1.1.0
 
 - Add delta argument to onResize and onResizeStop callback.
