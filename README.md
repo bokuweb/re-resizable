@@ -98,13 +98,13 @@ The `maxheight` property is used to set the maximum height of a resizable compon
 The `customClass` property is used to set the custom `className` of a resizable component.
 
 
-#### customStyle: Proptypes.object
+#### `customStyle`: Proptypes.object
 
 
 The `customStyle` property is used to set the custom `classStyle` of a resizable component.
 
 
-#### handleStyle: PropTypes.shape({ top: PropTypes.object, right: PropTypes.object, bottom: PropTypes.object, left: PropTypes.object, topRight: PropTypes.object, bottomRight: PropTypes.object, bottomLeft: PropTypes.object, topLeft: PropTypes.object })
+#### `handleStyle`: PropTypes.shape({ top: PropTypes.object, right: PropTypes.object, bottom: PropTypes.object, left: PropTypes.object, topRight: PropTypes.object, bottomRight: PropTypes.object, bottomLeft: PropTypes.object, topLeft: PropTypes.object })
 
 
 The `handleStyle` property is used to override the style of one or more resize handles.
@@ -155,29 +155,33 @@ Calls back with (`direction: string`, `event: object`)
 
 
 Calls when resizable component resize.
-Calls back with (`direction: string`, `styleSize: object`, `clientSize: object`)
+Calls back with (`direction: string`, `styleSize: object`, `clientSize: object`, `delta: object`)
 
 - direction: `top`, `right`, `bottom`, `left`, `topRight`, `bottomRight`, `bottomLeft`, and `topLeft`.
 - getComputedStyleSize: `{ width, height }`
   - this argument is {width, height} of getComputedStyle.
 - clientSize: `{ width`, height }`
   - this argument is `clientWidth` and `clientHeight`.
+- delta: `{ width`, height }`
+  - this delta width and height by resize. 
   
-For example, when `<Resizable width={100} height={200} style={{ padding: '20px'}} onResize={...} />` mounted and resize 'right', this callback is called with `('right', { width: 100, height: 200 }, { width: 140, height: 240 })`
+For example, when `<Resizable width={100} height={200} style={{ padding: '20px'}} onResize={...} />` mounted and resize 'right' 20px, this callback is called with `('right', { width: 120, height: 200 }, { width: 160, height: 240 }, {width: 20, height: 0})`
 
 
 #### `onResizeStop`: PropTypes.func
 
 
-Calls back with (`direction: string`, `styleSize: object`, `clientSize: object`)
+Calls back with (`direction: string`, `styleSize: object`, `clientSize: object`, `delta: object`)
 
 - direction: `top`, `right`, `bottom`, `left`, `topRight`, `bottomRight`, `bottomLeft`, and `topLeft`.
 - getComputedStyleSize: `{ width, height }`
   - this argument is {width, height} of getComputedStyle.
 - clientSize: `{ width`, height }`
   - this argument is `clientWidth` and `clientHeight`.
+- delta: `{ width`, height }`
+  - this delta width and height by resize. 
   
-For example, when `<Resizable width={100} height={200} style={{ padding: '20px'}} onResize={...} />` mounted and resize 'right', this callback is called with `('right', { width: 100, height: 200 }, { width: 140, height: 240 })`
+For example, when `<Resizable width={100} height={200} style={{ padding: '20px'}} onResize={...} />` mounted and resize 'right' 20px, this callback is called with `('right', { width: 120, height: 200 }, { width: 160, height: 240 }, {width: 20, height: 0})`
 
 
 ## Test
@@ -187,6 +191,10 @@ npm test
 ```
 
 ## Changelog
+
+#### v1.1.0
+
+- Add delta argument to onResize and onResizeStop callback.
 
 #### v1.0.0
 
