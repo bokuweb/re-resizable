@@ -6,18 +6,14 @@ export default class Example extends Component {
     console.log(`Box${i} resize start!!! direction=${dir}`);
   }
 
-  onResize(i, dir, size, rect) {
+  onResize(i, dir, size, rect, delta) {
     console.log(
-      `Box${i} resize!!! direction=${dir} box.style.width=${size.width},
-box.syle.height=${size.height} boundingClientRect.width=${rect.width}
-boundingClientRect.height=${rect.height}`);
+      `onResize direction=${dir} box.style.width=${size.width}, box.syle.height=${size.height} client.width=${rect.width}, client.height=${rect.height}, delta.width=${delta.width}, delta.height=${delta.height}`);
   }
 
-  onResizeStop(i, dir, size, rect) {
+  onResizeStop(i, dir, size, rect, delta) {
     console.log(
-      `Box${i} resize stop!!! direction=${dir} box.style.width=${size.width},
-box.syle.height=${size.height}  boundingClientRect.width=${rect.width}
-boundingClientRect.height=${rect.height}`);
+      `onResizeStop direction=${dir} box.style.width=${size.width}, box.syle.height=${size.height} client.width=${rect.width}, client.height=${rect.height}, delta.width=${delta.width}, delta.height=${delta.height}`);
   }
 
   render() {

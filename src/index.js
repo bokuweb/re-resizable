@@ -104,59 +104,64 @@ export default class Risizable extends Component {
   onMouseMove({ clientX, clientY }) {
     const { direction, original, isActive } = this.state;
     const { minWidth, maxWidth, minHeight, maxHeight } = this.props;
-    let newWidth;
-    let newHeight;
     if (!isActive) return;
-
+    let newWidth = original.width;
+    let newHeight = original.height;
     if (/right/i.test(direction)) {
       newWidth = original.width + clientX - original.x;
       const min = (minWidth < 0 || typeof minWidth === 'undefined') ? 0 : minWidth;
       const max = (maxWidth < 0 || typeof maxWidth === 'undefined') ? newWidth : maxWidth;
       newWidth = clamp(newWidth, min, max);
-      this.setState({ width: newWidth });
     }
     if (/left/i.test(direction)) {
       newWidth = original.width - clientX + original.x;
       const min = (minWidth < 0 || typeof minWidth === 'undefined') ? 0 : minWidth;
       const max = (maxWidth < 0 || typeof maxWidth === 'undefined') ? newWidth : maxWidth;
       newWidth = clamp(newWidth, min, max);
-      this.setState({ width: newWidth });
     }
     if (/bottom/i.test(direction)) {
       newHeight = original.height + clientY - original.y;
       const min = (minHeight < 0 || typeof minHeight === 'undefined') ? 0 : minHeight;
       const max = (maxHeight < 0 || typeof maxHeight === 'undefined') ? newHeight : maxHeight;
       newHeight = clamp(newHeight, min, max);
-      this.setState({ height: newHeight });
     }
     if (/top/i.test(direction)) {
       newHeight = original.height - clientY + original.y;
       const min = (minHeight < 0 || typeof minHeight === 'undefined') ? 0 : minHeight;
       const max = (maxHeight < 0 || typeof maxHeight === 'undefined') ? newHeight : maxHeight;
       newHeight = clamp(newHeight, min, max);
-      this.setState({ height: newHeight });
     }
     const resizable = this.refs.resizable;
-    this.props.onResize(direction, {
+    const styleSize = {
       width: newWidth || this.state.width,
       height: newHeight || this.state.height,
-    }, {
+    };
+    const clientSize = {
       width: resizable.clientWidth,
       height: resizable.clientHeight,
-    });
+    };
+    const delta = {
+      width: original.width - newWidth,
+      height: original.height - newHeight,
+    };
+    this.setState({ width: newWidth, height: newHeight });
+    this.props.onResize(direction, styleSize, clientSize, delta);
   }
 
   onMouseUp() {
-    const { width, height, isActive, direction } = this.state;
+    const { width, height, isActive, direction, original } = this.state;
     if (!isActive) return;
     const resizable = this.refs.resizable;
-    this.props.onResizeStop(direction, {
-      width,
-      height,
-    }, {
+    const styleSize = { width, height };
+    const clientSize = {
       width: resizable.clientWidth,
       height: resizable.clientHeight,
-    });
+    };
+    const delta = {
+      width: original.width - width,
+      height: original.height - height,
+    };
+    this.props.onResizeStop(direction, styleSize, clientSize, delta);
     this.setState({ isActive: false });
   }
 
