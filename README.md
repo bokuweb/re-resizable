@@ -145,9 +145,13 @@ Calls when resizable component double clicked.
 
 
 Calls when resizable component resize starts.
-Calls back with (`direction: string`, `event: object`)
+Calls back with (`direction: string`, `styleSize: object`, `clientSize: object`, `event: object`)
 
 - direction: `top`, `right`, `bottom`, `left`, `topRight`, `bottomRight`, `bottomLeft`, and `topLeft`.
+- styleSize: `{ width, height }`
+  - this argument is {width, height} of getComputedStyle.
+- clientSize: `{ width`, height }`
+  - this argument is `clientWidth` and `clientHeight`.
 - event: `mouse down event`
 
 
@@ -158,7 +162,7 @@ Calls when resizable component resize.
 Calls back with (`direction: string`, `styleSize: object`, `clientSize: object`, `delta: object`)
 
 - direction: `top`, `right`, `bottom`, `left`, `topRight`, `bottomRight`, `bottomLeft`, and `topLeft`.
-- getComputedStyleSize: `{ width, height }`
+- styleSize: `{ width, height }`
   - this argument is {width, height} of getComputedStyle.
 - clientSize: `{ width`, height }`
   - this argument is `clientWidth` and `clientHeight`.
@@ -174,7 +178,7 @@ For example, when `<Resizable width={100} height={200} style={{ padding: '20px'}
 Calls back with (`direction: string`, `styleSize: object`, `clientSize: object`, `delta: object`)
 
 - direction: `top`, `right`, `bottom`, `left`, `topRight`, `bottomRight`, `bottomLeft`, and `topLeft`.
-- getComputedStyleSize: `{ width, height }`
+- styleSize: `{ width, height }`
   - this argument is {width, height} of getComputedStyle.
 - clientSize: `{ width`, height }`
   - this argument is `clientWidth` and `clientHeight`.
@@ -191,6 +195,10 @@ npm test
 ```
 
 ## Changelog
+
+#### v1.1.3
+
+- Update document.
 
 #### v1.1.2
 
