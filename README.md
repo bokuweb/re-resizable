@@ -196,6 +196,10 @@ npm test
 
 ## Changelog
 
+#### v1.2.0
+
+- Add module export plugin for `require`.
+
 #### v1.1.3
 
 - Update document.
