@@ -34,18 +34,18 @@ var Example = function (_Component) {
 
   _createClass(Example, [{
     key: 'onResizeStart',
-    value: function onResizeStart(i, dir) {
-      console.log('Box' + i + ' resize start!!! direction=' + dir);
+    value: function onResizeStart(i, dir, size, rect) {
+      console.log('onResizeStart direction=' + dir + ' box.style.width=' + size.width + ', box.syle.height=' + size.height + ' client.width=' + rect.width + ', client.height=' + rect.height);
     }
   }, {
     key: 'onResize',
-    value: function onResize(i, dir, size, rect) {
-      console.log('Box' + i + ' resize!!! direction=' + dir + ' box.style.width=' + size.width + ',\nbox.syle.height=' + size.height + ' boundingClientRect.width=' + rect.width + '\nboundingClientRect.height=' + rect.height);
+    value: function onResize(i, dir, size, rect, delta) {
+      console.log('onResize direction=' + dir + ' box.style.width=' + size.width + ', box.syle.height=' + size.height + ' client.width=' + rect.width + ', client.height=' + rect.height + ', delta.width=' + delta.width + ', delta.height=' + delta.height);
     }
   }, {
     key: 'onResizeStop',
-    value: function onResizeStop(i, dir, size, rect) {
-      console.log('Box' + i + ' resize stop!!! direction=' + dir + ' box.style.width=' + size.width + ',\nbox.syle.height=' + size.height + '  boundingClientRect.width=' + rect.width + '\nboundingClientRect.height=' + rect.height);
+    value: function onResizeStop(i, dir, size, rect, delta) {
+      console.log('onResizeStop direction=' + dir + ' box.style.width=' + size.width + ', box.syle.height=' + size.height + ' client.width=' + rect.width + ', client.height=' + rect.height + ', delta.width=' + delta.width + ', delta.height=' + delta.height);
     }
   }, {
     key: 'render',
@@ -77,6 +77,7 @@ var Example = function (_Component) {
 }(_react.Component);
 
 exports.default = Example;
+module.exports = exports['default'];
 
 },{"../../src":168,"react":166}],2:[function(require,module,exports){
 'use strict';
@@ -19465,6 +19466,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
@@ -19558,71 +19561,79 @@ var Risizable = function (_Component) {
       var minHeight = _props.minHeight;
       var maxHeight = _props.maxHeight;
 
-      var newWidth = void 0;
-      var newHeight = void 0;
       if (!isActive) return;
-
+      var newWidth = original.width;
+      var newHeight = original.height;
       if (/right/i.test(direction)) {
         newWidth = original.width + clientX - original.x;
         var min = minWidth < 0 || typeof minWidth === 'undefined' ? 0 : minWidth;
         var max = maxWidth < 0 || typeof maxWidth === 'undefined' ? newWidth : maxWidth;
         newWidth = clamp(newWidth, min, max);
-        this.setState({ width: newWidth });
       }
       if (/left/i.test(direction)) {
         newWidth = original.width - clientX + original.x;
         var _min = minWidth < 0 || typeof minWidth === 'undefined' ? 0 : minWidth;
         var _max = maxWidth < 0 || typeof maxWidth === 'undefined' ? newWidth : maxWidth;
         newWidth = clamp(newWidth, _min, _max);
-        this.setState({ width: newWidth });
       }
       if (/bottom/i.test(direction)) {
         newHeight = original.height + clientY - original.y;
         var _min2 = minHeight < 0 || typeof minHeight === 'undefined' ? 0 : minHeight;
         var _max2 = maxHeight < 0 || typeof maxHeight === 'undefined' ? newHeight : maxHeight;
         newHeight = clamp(newHeight, _min2, _max2);
-        this.setState({ height: newHeight });
       }
       if (/top/i.test(direction)) {
         newHeight = original.height - clientY + original.y;
         var _min3 = minHeight < 0 || typeof minHeight === 'undefined' ? 0 : minHeight;
         var _max3 = maxHeight < 0 || typeof maxHeight === 'undefined' ? newHeight : maxHeight;
         newHeight = clamp(newHeight, _min3, _max3);
-        this.setState({ height: newHeight });
       }
+      this.setState({ width: newWidth, height: newHeight });
       var resizable = this.refs.resizable;
-      this.props.onResize(direction, {
+      var styleSize = {
         width: newWidth || this.state.width,
         height: newHeight || this.state.height
-      }, {
+      };
+      var clientSize = {
         width: resizable.clientWidth,
         height: resizable.clientHeight
-      });
+      };
+      var delta = {
+        width: newWidth - original.width,
+        height: newHeight - original.height
+      };
+      this.props.onResize(direction, styleSize, clientSize, delta);
     }
   }, {
     key: 'onMouseUp',
     value: function onMouseUp() {
       var _state2 = this.state;
-      var width = _state2.width;
-      var height = _state2.height;
       var isActive = _state2.isActive;
       var direction = _state2.direction;
+      var original = _state2.original;
 
       if (!isActive) return;
       var resizable = this.refs.resizable;
-      this.props.onResizeStop(direction, {
-        width: width,
-        height: height
-      }, {
+      var styleSize = this.getBoxSize();
+      var clientSize = {
         width: resizable.clientWidth,
         height: resizable.clientHeight
-      });
+      };
+      var delta = {
+        width: styleSize.width - original.width,
+        height: styleSize.height - original.height
+      };
+      this.props.onResizeStop(direction, styleSize, clientSize, delta);
       this.setState({ isActive: false });
     }
   }, {
     key: 'onResizeStart',
     value: function onResizeStart(direction, e) {
-      this.props.onResizeStart(direction, e);
+      var clientSize = {
+        width: this.refs.resizable.clientWidth,
+        height: this.refs.resizable.clientHeight
+      };
+      this.props.onResizeStart(direction, this.getBoxSize(), clientSize, e);
       var size = this.getBoxSize();
       this.setState({
         original: {
@@ -19703,7 +19714,7 @@ var Risizable = function (_Component) {
         'div',
         {
           ref: 'resizable',
-          style: Object.assign({ position: 'relative' }, customStyle, style),
+          style: _extends({ position: 'relative' }, customStyle, style),
           className: customClass,
           onClick: onClick,
           onMouseDown: onMouseDown,
@@ -19775,6 +19786,7 @@ Risizable.defaultProps = {
   handleStyle: {}
 };
 exports.default = Risizable;
+module.exports = exports['default'];
 
 },{"./resizer":169,"react":166}],169:[function(require,module,exports){
 'use strict';
@@ -19807,7 +19819,7 @@ var styles = {
     width: '100%',
     height: '10px',
     top: '-5px',
-    left: 0,
+    left: '0px',
     cursor: 'row-resize'
   },
   right: {
@@ -19821,7 +19833,7 @@ var styles = {
     width: '100%',
     height: '10px',
     bottom: '-5px',
-    left: 0,
+    left: '0px',
     cursor: 'row-resize'
   },
   left: {
@@ -19906,5 +19918,6 @@ Resizer.propTypes = {
   replaceStyles: _react.PropTypes.object
 };
 exports.default = Resizer;
+module.exports = exports['default'];
 
 },{"react":166}]},{},[2]);
