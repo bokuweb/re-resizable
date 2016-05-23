@@ -3,7 +3,7 @@ import Resizer from './resizer';
 
 const clamp = (n, min, max) => Math.max(Math.min(n, max), min);
 
-export default class Risizable extends Component {
+export default class Resizable extends Component {
   static propTypes = {
     children: PropTypes.any,
     onClick: PropTypes.func,
