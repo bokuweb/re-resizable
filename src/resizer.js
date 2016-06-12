@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import isEqual from 'lodash.isEqual';
 
 const styles = {
   base: {
@@ -74,6 +75,10 @@ export default class Resizer extends Component {
       'topRight', 'bottomRight', 'bottomLeft', 'topLeft',
     ]).isRequired,
     replaceStyles: PropTypes.object,
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return !isEqual(this.props, nextProps);
   }
 
   onTouchStart(event) {
