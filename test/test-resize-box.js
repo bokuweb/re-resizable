@@ -46,11 +46,19 @@ describe('Resizable Component test', () => {
     done();
   });
 
-  it('Should custom class name is applied to box', (done) => {
+  it('Should custom class name be applied to box', (done) => {
     const resizable = TestUtils.renderIntoDocument(<Resizable customClass={"custom-class-name"} />);
     const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
     assert.equal(divs.length, 9);
     assert.equal(divs[0].className, 'custom-class-name');
+    done();
+  });
+
+  it('Should custom class name be applied to resizer', (done) => {
+    const resizable = TestUtils.renderIntoDocument(<Resizable handleClass={{ right: 'right-handle-class' }} />);
+    const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
+    const node = ReactDOM.findDOMNode(divs[2]);
+    assert.equal(node.getAttribute('class'), 'right-handle-class');
     done();
   });
 

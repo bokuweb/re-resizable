@@ -70,6 +70,7 @@ export default class Resizable extends Component {
     },
     customStyle: {},
     handleStyle: {},
+    handleClass: {},
   }
 
   constructor(props) {
