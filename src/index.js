@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Resizer from './resizer';
-import isEqual from 'lodash.isEqual';
+import isEqual from 'lodash.isequal';
 
 const clamp = (n, min, max) => Math.max(Math.min(n, max), min);
 

@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import isEqual from 'lodash.isEqual';
+import isEqual from 'lodash.isequal';
 
 const styles = {
   base: {
