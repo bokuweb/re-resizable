@@ -29,20 +29,20 @@ export default class Example extends Component {
     return (
       <Resizable
         customClass="item"
-        width={'50%'}
+        width={'30%'}
         height={200}
         minHeight={200}
         minWidth={200}
         maxHeight={400}
         maxWidth={800}
         handleClass={{
-           bottomRight: 'bottom-right-classname',
+          bottomRight: 'bottom-right-classname',
         }}
         onResizeStart={this.onResizeStart.bind(this)}
         onResize={this.onResize.bind(this) }
         onResizeStop={this.onResizeStop.bind(this) }
       >
-        <span>react-resizable-box example.</span>
+        <span>Resize me!!</span>
       </Resizable>
     );
   }
