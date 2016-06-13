@@ -235,13 +235,31 @@ export default class Resizable extends Component {
   }
 
   render() {
+    const userSelect = this.state.isActive
+      ? {
+        userSelect: 'none',
+        MozUserSelect: 'none',
+        WebkitUserSelect: 'none',
+        MsUserSelect: 'none',
+      }
+      : {
+        userSelect: 'auto',
+        MozUserSelect: 'auto',
+        WebkitUserSelect: 'auto',
+        MsUserSelect: 'auto',
+      };
     const style = this.getBoxStyle();
     const { onClick, customStyle, customClass,
             onMouseDown, onDoubleClick, onTouchStart } = this.props;
     return (
       <div
         ref="resizable"
-        style={{ position: 'relative', ...customStyle, ...style }}
+        style={{
+          position: 'relative',
+          ...customStyle,
+          ...style,
+          ...userSelect,
+        }}
         className={customClass}
         onClick={onClick}
         onMouseDown={onMouseDown}
