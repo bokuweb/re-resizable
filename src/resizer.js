@@ -75,6 +75,7 @@ export default class Resizer extends Component {
       'topRight', 'bottomRight', 'bottomLeft', 'topLeft',
     ]).isRequired,
     replaceStyles: PropTypes.object,
+    className: PropTypes.string,
   }
 
   shouldComponentUpdate(nextProps) {
@@ -94,6 +95,7 @@ export default class Resizer extends Component {
     const onTouchStart = this.onTouchStart.bind(this);
     return (
       <div
+        className={this.props.className}
         style={this.getStyle()}
         onMouseDown={this.props.onResizeStart}
         onTouchStart={onTouchStart}

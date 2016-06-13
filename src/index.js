@@ -25,6 +25,16 @@ export default class Resizable extends Component {
       bottomLeft: PropTypes.object,
       topLeft: PropTypes.object,
     }),
+    handleClass: PropTypes.shape({
+      top: PropTypes.string,
+      right: PropTypes.string,
+      bottom: PropTypes.string,
+      left: PropTypes.string,
+      topRight: PropTypes.string,
+      bottomRight: PropTypes.string,
+      bottomLeft: PropTypes.string,
+      topLeft: PropTypes.string,
+    }),
     isResizable: PropTypes.shape({
       top: PropTypes.bool,
       right: PropTypes.bool,
@@ -217,7 +227,7 @@ export default class Resizable extends Component {
   }
 
   renderResizer() {
-    const { isResizable, handleStyle } = this.props;
+    const { isResizable, handleStyle, handleClass } = this.props;
     return Object.keys(isResizable).map(dir => {
       const onResizeStart = this.onResizeStart.bind(this, dir);
       if (isResizable[dir] !== false) {
@@ -227,6 +237,7 @@ export default class Resizable extends Component {
             type={dir}
             onResizeStart={onResizeStart}
             replaceStyles={handleStyle[dir]}
+            className={handleClass[dir]}
           />
         );
       }
