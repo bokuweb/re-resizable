@@ -94,7 +94,7 @@ export default class Resizable extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     return !isEqual(this.props, nextProps) || !isEqual(this.state, nextState);
   }
-  
+
   componentWillUnmount() {
     window.removeEventListener('mouseup', this.onMouseUp);
     window.removeEventListener('mousemove', this.onMouseMove);
@@ -241,7 +241,7 @@ export default class Resizable extends Component {
     return (
       <div
         ref="resizable"
-        style={Object.assign({ position: 'relative' }, customStyle, style)}
+        style={{ position: 'relative', ...customStyle, ...style }}
         className={customClass}
         onClick={onClick}
         onMouseDown={onMouseDown}
