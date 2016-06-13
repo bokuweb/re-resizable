@@ -196,7 +196,7 @@ npm test
 
 ## Changelog
 
-#### v1.2.2
+#### v1.3.0
 
 - Add `userSelect: none` when resize get srated.
 - Add shouldComponentUpdate.
