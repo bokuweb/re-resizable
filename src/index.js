@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Resizer from './resizer';
+import isEqual from 'lodash.isEqual';
 
 const clamp = (n, min, max) => Math.max(Math.min(n, max), min);
 
@@ -90,6 +91,10 @@ export default class Resizable extends Component {
     if (height !== this.props.height) this.setState({ height });
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return !isEqual(this.props, nextProps) || !isEqual(this.state, nextState);
+  }
+  
   componentWillUnmount() {
     window.removeEventListener('mouseup', this.onMouseUp);
     window.removeEventListener('mousemove', this.onMouseMove);
