@@ -200,6 +200,7 @@ npm test
 
 - Add `userSelect: none` when resize get srated.
 - Add shouldComponentUpdate.
+- Add hander custom className.
 
 #### v1.2.0
 
