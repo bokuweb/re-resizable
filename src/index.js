@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Resizer from './resizer';
+import isEqual from 'lodash.isEqual';
 
 const clamp = (n, min, max) => Math.max(Math.min(n, max), min);
 
@@ -23,6 +24,16 @@ export default class Resizable extends Component {
       bottomRight: PropTypes.object,
       bottomLeft: PropTypes.object,
       topLeft: PropTypes.object,
+    }),
+    handleClass: PropTypes.shape({
+      top: PropTypes.string,
+      right: PropTypes.string,
+      bottom: PropTypes.string,
+      left: PropTypes.string,
+      topRight: PropTypes.string,
+      bottomRight: PropTypes.string,
+      bottomLeft: PropTypes.string,
+      topLeft: PropTypes.string,
     }),
     isResizable: PropTypes.shape({
       top: PropTypes.bool,
@@ -59,6 +70,7 @@ export default class Resizable extends Component {
     },
     customStyle: {},
     handleStyle: {},
+    handleClass: {},
   }
 
   constructor(props) {
@@ -88,6 +100,10 @@ export default class Resizable extends Component {
   componentWillReceiveProps({ width, height }) {
     if (width !== this.props.width) this.setState({ width });
     if (height !== this.props.height) this.setState({ height });
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !isEqual(this.props, nextProps) || !isEqual(this.state, nextState);
   }
 
   componentWillUnmount() {
@@ -212,7 +228,7 @@ export default class Resizable extends Component {
   }
 
   renderResizer() {
-    const { isResizable, handleStyle } = this.props;
+    const { isResizable, handleStyle, handleClass } = this.props;
     return Object.keys(isResizable).map(dir => {
       const onResizeStart = this.onResizeStart.bind(this, dir);
       if (isResizable[dir] !== false) {
@@ -222,6 +238,7 @@ export default class Resizable extends Component {
             type={dir}
             onResizeStart={onResizeStart}
             replaceStyles={handleStyle[dir]}
+            className={handleClass[dir]}
           />
         );
       }
@@ -230,13 +247,31 @@ export default class Resizable extends Component {
   }
 
   render() {
+    const userSelect = this.state.isActive
+      ? {
+        userSelect: 'none',
+        MozUserSelect: 'none',
+        WebkitUserSelect: 'none',
+        MsUserSelect: 'none',
+      }
+      : {
+        userSelect: 'auto',
+        MozUserSelect: 'auto',
+        WebkitUserSelect: 'auto',
+        MsUserSelect: 'auto',
+      };
     const style = this.getBoxStyle();
     const { onClick, customStyle, customClass,
             onMouseDown, onDoubleClick, onTouchStart } = this.props;
     return (
       <div
         ref="resizable"
-        style={Object.assign({ position: 'relative' }, customStyle, style)}
+        style={{
+          position: 'relative',
+          ...customStyle,
+          ...style,
+          ...userSelect,
+        }}
         className={customClass}
         onClick={onClick}
         onMouseDown={onMouseDown}
