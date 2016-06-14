@@ -268,9 +268,9 @@ export default class Resizable extends Component {
         ref="resizable"
         style={{
           position: 'relative',
+          ...userSelect,
           ...customStyle,
           ...style,
-          ...userSelect,
         }}
         className={customClass}
         onClick={onClick}
