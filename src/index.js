@@ -3,6 +3,7 @@ import Resizer from './resizer';
 import isEqual from 'lodash.isequal';
 
 const clamp = (n, min, max) => Math.max(Math.min(n, max), min);
+const snap = (n, size) => Math.round(n / size) * size;
 
 export default class Resizable extends Component {
   static propTypes = {
@@ -58,6 +59,7 @@ export default class Resizable extends Component {
     minHeight: PropTypes.number,
     maxWidth: PropTypes.number,
     maxHeight: PropTypes.number,
+    grid: PropTypes.arrayOf(PropTypes.number),
   };
 
   static defaultProps = {
@@ -71,6 +73,7 @@ export default class Resizable extends Component {
     customStyle: {},
     handleStyle: {},
     handleClass: {},
+    grid: [1, 1],
   }
 
   constructor(props) {
@@ -128,24 +131,28 @@ export default class Resizable extends Component {
       const min = (minWidth < 0 || typeof minWidth === 'undefined') ? 0 : minWidth;
       const max = (maxWidth < 0 || typeof maxWidth === 'undefined') ? newWidth : maxWidth;
       newWidth = clamp(newWidth, min, max);
+      newWidth = snap(newWidth, this.props.grid[0]);
     }
     if (/left/i.test(direction)) {
       newWidth = original.width - clientX + original.x;
       const min = (minWidth < 0 || typeof minWidth === 'undefined') ? 0 : minWidth;
       const max = (maxWidth < 0 || typeof maxWidth === 'undefined') ? newWidth : maxWidth;
       newWidth = clamp(newWidth, min, max);
+      newWidth = snap(newWidth, this.props.grid[0]);
     }
     if (/bottom/i.test(direction)) {
       newHeight = original.height + clientY - original.y;
       const min = (minHeight < 0 || typeof minHeight === 'undefined') ? 0 : minHeight;
       const max = (maxHeight < 0 || typeof maxHeight === 'undefined') ? newHeight : maxHeight;
       newHeight = clamp(newHeight, min, max);
+      newHeight = snap(newHeight, this.props.grid[1]);
     }
     if (/top/i.test(direction)) {
       newHeight = original.height - clientY + original.y;
       const min = (minHeight < 0 || typeof minHeight === 'undefined') ? 0 : minHeight;
       const max = (maxHeight < 0 || typeof maxHeight === 'undefined') ? newHeight : maxHeight;
       newHeight = clamp(newHeight, min, max);
+      newHeight = snap(newHeight, this.props.grid[1]);
     }
     this.setState({ width: newWidth, height: newHeight });
     const resizable = this.refs.resizable;
