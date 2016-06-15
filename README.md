@@ -92,6 +92,12 @@ The `maxWidth` property is used to set the maximum width of a resizable componen
 The `maxheight` property is used to set the maximum height of a resizable component.
 
 
+#### `grid`: PropTypes.arrayOf(PropTypes.number)
+
+
+The `grid` property is used to specify the increments that resizing should snap to. Defaults to `[1, 1]`.
+
+
 #### `customClass`: PropTypes.string
 
 
