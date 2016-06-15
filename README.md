@@ -204,6 +204,11 @@ npm test
 
 #### v1.3.0
 
+- Add `grid` props to snap grid. (thanks @paulyoung)
+
+
+#### v1.3.0
+
 - Add `userSelect: none` when resize get srated.
 - Add shouldComponentUpdate.
 - Add hander custom className.
