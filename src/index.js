@@ -81,6 +81,11 @@ export default class Resizable extends Component {
     const { width, height } = props;
     this.state = {
       isActive: false,
+      width: typeof width === 'undefined' ? 'auto' : width,
+      height: typeof height === 'undefined' ? 'auto' : height,
+    };
+    this.state = {
+      isActive: false,
       width,
       height,
     };
@@ -121,7 +126,7 @@ export default class Resizable extends Component {
   }
 
   onMouseMove({ clientX, clientY }) {
-    const { direction, original, isActive } = this.state;
+    const { direction, original, isActive, width, height } = this.state;
     const { minWidth, maxWidth, minHeight, maxHeight } = this.props;
     if (!isActive) return;
     let newWidth = original.width;
@@ -154,7 +159,10 @@ export default class Resizable extends Component {
       newHeight = clamp(newHeight, min, max);
       newHeight = snap(newHeight, this.props.grid[1]);
     }
-    this.setState({ width: newWidth, height: newHeight });
+    this.setState({
+      width: width !== 'auto' ? newWidth : 'auto',
+      height: height !== 'auto' ? newHeight : 'auto',
+    });
     const resizable = this.refs.resizable;
     const styleSize = {
       width: newWidth || this.state.width,
