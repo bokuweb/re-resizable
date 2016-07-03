@@ -81,11 +81,6 @@ export default class Resizable extends Component {
     const { width, height } = props;
     this.state = {
       isActive: false,
-      width: typeof width === 'undefined' ? 'auto' : width,
-      height: typeof height === 'undefined' ? 'auto' : height,
-    };
-    this.state = {
-      isActive: false,
       width,
       height,
     };
