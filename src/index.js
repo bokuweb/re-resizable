@@ -226,7 +226,7 @@ export default class Resizable extends Component {
 
   getBoxStyle() {
     const getSize = key => {
-      if (typeof this.state[key] === 'undefined') return 'auto';
+      if (typeof this.state[key] === 'undefined' || this.state[key] === 'auto') return 'auto';
       else if (/px$/.test(this.state[key].toString())) return this.state[key];
       else if (/%$/.test(this.state[key].toString())) return this.state[key];
       return `${this.state[key]}px`;
