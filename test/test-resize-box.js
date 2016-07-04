@@ -36,6 +36,16 @@ describe('Resizable Component test', () => {
     done();
   });
 
+  it('Should box width and height equal auto', (done) => {
+    const resizable = TestUtils.renderIntoDocument(<Resizable width="auto" height="auto" />);
+    const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
+    assert.equal(divs.length, 9);
+    assert.equal(divs[0].style.width, 'auto');
+    assert.equal(divs[0].style.height, 'auto');
+    assert.equal(divs[0].style.position, 'relative');
+    done();
+  });
+
   it('Should style is applied to box', (done) => {
     const resizable = TestUtils.renderIntoDocument(
       <Resizable customStyle={{ position: 'absolute' }} />

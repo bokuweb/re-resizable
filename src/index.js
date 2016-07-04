@@ -121,7 +121,7 @@ export default class Resizable extends Component {
   }
 
   onMouseMove({ clientX, clientY }) {
-    const { direction, original, isActive } = this.state;
+    const { direction, original, isActive, width, height } = this.state;
     const { minWidth, maxWidth, minHeight, maxHeight } = this.props;
     if (!isActive) return;
     let newWidth = original.width;
@@ -154,7 +154,10 @@ export default class Resizable extends Component {
       newHeight = clamp(newHeight, min, max);
       newHeight = snap(newHeight, this.props.grid[1]);
     }
-    this.setState({ width: newWidth, height: newHeight });
+    this.setState({
+      width: width !== 'auto' ? newWidth : 'auto',
+      height: height !== 'auto' ? newHeight : 'auto',
+    });
     const resizable = this.refs.resizable;
     const styleSize = {
       width: newWidth || this.state.width,
@@ -223,7 +226,7 @@ export default class Resizable extends Component {
 
   getBoxStyle() {
     const getSize = key => {
-      if (typeof this.state[key] === 'undefined') return 'auto';
+      if (typeof this.state[key] === 'undefined' || this.state[key] === 'auto') return 'auto';
       else if (/px$/.test(this.state[key].toString())) return this.state[key];
       else if (/%$/.test(this.state[key].toString())) return this.state[key];
       return `${this.state[key]}px`;
