@@ -202,7 +202,11 @@ npm test
 
 ## Changelog
 
-#### v1.3.0
+#### v1.4.1
+
+- Support preserving auto size #40 (thanks @noradaiko)
+
+#### v1.4.0
 
 - Add `grid` props to snap grid. (thanks @paulyoung)
 
