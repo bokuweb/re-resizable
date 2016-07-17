@@ -202,6 +202,10 @@ npm test
 
 ## Changelog
 
+#### v1.4.3
+
+- Avoid unnecessary rendering on resizer
+
 #### v1.4.2
 
 - Fix onTouchStart bind timing to avoid re-rendering

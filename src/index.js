@@ -4,6 +4,9 @@ import isEqual from 'lodash.isequal';
 
 const clamp = (n, min, max) => Math.max(Math.min(n, max), min);
 const snap = (n, size) => Math.round(n / size) * size;
+const directions = [
+  'top', 'right', 'bottom', 'left', 'topRight', 'bottomRight', 'bottomLeft', 'topLeft'
+];
 
 export default class Resizable extends Component {
   static propTypes = {
@@ -85,6 +88,10 @@ export default class Resizable extends Component {
       height,
     };
 
+    this.onResizeStartWithDirection = {};
+    directions.forEach(d => {
+      this.onResizeStartWithDirection[d] = this.onResizeStart.bind(this, d);
+    });
     this.onTouchMove = this.onTouchMove.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
@@ -240,13 +247,12 @@ export default class Resizable extends Component {
   renderResizer() {
     const { isResizable, handleStyle, handleClass } = this.props;
     return Object.keys(isResizable).map(dir => {
-      const onResizeStart = this.onResizeStart.bind(this, dir);
       if (isResizable[dir] !== false) {
         return (
           <Resizer
             key={dir}
             type={dir}
-            onResizeStart={onResizeStart}
+            onResizeStart={this.onResizeStartWithDirection[dir]}
             replaceStyles={handleStyle[dir]}
             className={handleClass[dir]}
           />
