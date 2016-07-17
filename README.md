@@ -202,6 +202,10 @@ npm test
 
 ## Changelog
 
+#### v1.4.2
+
+- Fix onTouchStart bind timing to avoid re-rendering
+
 #### v1.4.1
 
 - Support preserving auto size #40 (thanks @noradaiko)
