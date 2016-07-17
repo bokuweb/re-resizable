@@ -78,6 +78,11 @@ export default class Resizer extends Component {
     className: PropTypes.string,
   }
 
+  constructor(props) {
+    super(props);
+    this.onTouchStart = this.onTouchStart.bind(this);
+  }
+
   shouldComponentUpdate(nextProps) {
     return !isEqual(this.props, nextProps);
   }
@@ -92,13 +97,12 @@ export default class Resizer extends Component {
   }
 
   render() {
-    const onTouchStart = this.onTouchStart.bind(this);
     return (
       <div
         className={this.props.className}
         style={this.getStyle()}
         onMouseDown={this.props.onResizeStart}
-        onTouchStart={onTouchStart}
+        onTouchStart={this.onTouchStart}
       />
     );
   }
