@@ -7,7 +7,7 @@
     "watch": "watchify --extension=js -o example/dist/bundle.js example/src/index.js",
     "compile": "babel -d lib/ src/",
     "test": "karma start",
-    "prepush": "npm run lint",
+    "prepush": "npm run lint && npm t",
     "lint": "eslint react",
     "prepublish": "npm run compile"
   },
@@ -27,10 +27,6 @@
     "url": "https://github.com/bokuweb/react-resizable-box/issues"
   },
   "homepage": "https://github.com/bokuweb/react-resizable-box",
-  "peerDependencies": {
-    "react": ">=0.14.6",
-    "react-dom": ">=0.14.6"
-  },
   "devDependencies": {
     "babel": "6.1.18",
     "babel-cli": "6.2.0",
