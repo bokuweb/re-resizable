@@ -21792,10 +21792,11 @@ var Resizable = function (_Component) {
     value: function onMouseMove(_ref2) {
       var clientX = _ref2.clientX;
       var clientY = _ref2.clientY;
+
+      if (!this.state.isActive) return;
       var _state = this.state;
       var direction = _state.direction;
       var original = _state.original;
-      var isActive = _state.isActive;
       var width = _state.width;
       var height = _state.height;
       var _props = this.props;
@@ -21803,38 +21804,47 @@ var Resizable = function (_Component) {
       var maxWidth = _props.maxWidth;
       var minHeight = _props.minHeight;
       var maxHeight = _props.maxHeight;
-      var canUpdateSizeByParent = _props.canUpdateSizeByParent;
+      var lockAspectRatio = _props.lockAspectRatio;
 
-      if (!isActive) return;
+      var ratio = original.height / original.width;
       var newWidth = original.width;
       var newHeight = original.height;
       if (/right/i.test(direction)) {
-        newWidth = canUpdateSizeByParent ? this.props.width : original.width + clientX - original.x;
+        newWidth = original.width + clientX - original.x;
         var min = minWidth < 0 || typeof minWidth === 'undefined' ? 0 : minWidth;
         var max = maxWidth < 0 || typeof maxWidth === 'undefined' ? newWidth : maxWidth;
         newWidth = clamp(newWidth, min, max);
         newWidth = snap(newWidth, this.props.grid[0]);
       }
       if (/left/i.test(direction)) {
-        newWidth = canUpdateSizeByParent ? this.props.width : original.width - clientX + original.x;
+        newWidth = original.width - clientX + original.x;
         var _min = minWidth < 0 || typeof minWidth === 'undefined' ? 0 : minWidth;
         var _max = maxWidth < 0 || typeof maxWidth === 'undefined' ? newWidth : maxWidth;
         newWidth = clamp(newWidth, _min, _max);
         newWidth = snap(newWidth, this.props.grid[0]);
       }
       if (/bottom/i.test(direction)) {
-        newHeight = canUpdateSizeByParent ? this.props.height : original.height + clientY - original.y;
+        newHeight = original.height + clientY - original.y;
         var _min2 = minHeight < 0 || typeof minHeight === 'undefined' ? 0 : minHeight;
         var _max2 = maxHeight < 0 || typeof maxHeight === 'undefined' ? newHeight : maxHeight;
         newHeight = clamp(newHeight, _min2, _max2);
         newHeight = snap(newHeight, this.props.grid[1]);
       }
       if (/top/i.test(direction)) {
-        newHeight = canUpdateSizeByParent ? this.props.height : original.height - clientY + original.y;
+        newHeight = original.height - clientY + original.y;
         var _min3 = minHeight < 0 || typeof minHeight === 'undefined' ? 0 : minHeight;
         var _max3 = maxHeight < 0 || typeof maxHeight === 'undefined' ? newHeight : maxHeight;
         newHeight = clamp(newHeight, _min3, _max3);
         newHeight = snap(newHeight, this.props.grid[1]);
+      }
+      if (lockAspectRatio) {
+        var deltaWidth = Math.abs(newWidth - original.width);
+        var deltaHeight = Math.abs(newHeight - original.height);
+        if (deltaWidth < deltaHeight) {
+          newWidth = newHeight / ratio;
+        } else {
+          newHeight = newWidth * ratio;
+        }
       }
       this.setState({
         width: width !== 'auto' ? newWidth : 'auto',
@@ -22043,7 +22053,7 @@ Resizable.propTypes = {
   maxWidth: _react.PropTypes.number,
   maxHeight: _react.PropTypes.number,
   grid: _react.PropTypes.arrayOf(_react.PropTypes.number),
-  canUpdateSizeByParent: _react.PropTypes.bool
+  lockAspectRatio: _react.PropTypes.bool.isRequired
 };
 Resizable.defaultProps = {
   onResizeStart: function onResizeStart() {
@@ -22063,7 +22073,7 @@ Resizable.defaultProps = {
   handleStyle: {},
   handleClass: {},
   grid: [1, 1],
-  canUpdateSizeByParent: false
+  lockAspectRatio: false
 };
 exports.default = Resizable;
 module.exports = exports['default'];

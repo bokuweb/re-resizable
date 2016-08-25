@@ -5,7 +5,7 @@ import isEqual from 'lodash.isequal';
 const clamp = (n, min, max) => Math.max(Math.min(n, max), min);
 const snap = (n, size) => Math.round(n / size) * size;
 const directions = [
-  'top', 'right', 'bottom', 'left', 'topRight', 'bottomRight', 'bottomLeft', 'topLeft'
+  'top', 'right', 'bottom', 'left', 'topRight', 'bottomRight', 'bottomLeft', 'topLeft',
 ];
 
 export default class Resizable extends Component {
@@ -63,6 +63,7 @@ export default class Resizable extends Component {
     maxWidth: PropTypes.number,
     maxHeight: PropTypes.number,
     grid: PropTypes.arrayOf(PropTypes.number),
+    lockAspectRatio: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -77,6 +78,7 @@ export default class Resizable extends Component {
     handleStyle: {},
     handleClass: {},
     grid: [1, 1],
+    lockAspectRatio: false,
   }
 
   constructor(props) {
@@ -128,9 +130,10 @@ export default class Resizable extends Component {
   }
 
   onMouseMove({ clientX, clientY }) {
-    const { direction, original, isActive, width, height } = this.state;
-    const { minWidth, maxWidth, minHeight, maxHeight } = this.props;
-    if (!isActive) return;
+    if (!this.state.isActive) return;
+    const { direction, original, width, height } = this.state;
+    const { minWidth, maxWidth, minHeight, maxHeight, lockAspectRatio } = this.props;
+    const ratio = original.height / original.width;
     let newWidth = original.width;
     let newHeight = original.height;
     if (/right/i.test(direction)) {
@@ -160,6 +163,15 @@ export default class Resizable extends Component {
       const max = (maxHeight < 0 || typeof maxHeight === 'undefined') ? newHeight : maxHeight;
       newHeight = clamp(newHeight, min, max);
       newHeight = snap(newHeight, this.props.grid[1]);
+    }
+    if (lockAspectRatio) {
+      const deltaWidth = Math.abs(newWidth - original.width);
+      const deltaHeight = Math.abs(newHeight - original.height);
+      if (deltaWidth < deltaHeight) {
+        newWidth = newHeight / ratio;
+      } else {
+        newHeight = newWidth * ratio;
+      }
     }
     this.setState({
       width: width !== 'auto' ? newWidth : 'auto',

@@ -97,6 +97,11 @@ The `maxheight` property is used to set the maximum height of a resizable compon
 
 The `grid` property is used to specify the increments that resizing should snap to. Defaults to `[1, 1]`.
 
+#### `lockAspectRatio`: PropTypes.bool
+
+The `lockAspectRatio` property is used to lock aspect ratio.
+If ommited, set `false`.
+
 
 #### `customClass`: PropTypes.string
 
@@ -201,6 +206,10 @@ npm test
 ```
 
 ## Changelog
+
+#### v1.5.0
+
+- Add `lockAspectRatio` property.
 
 #### v1.4.3
 

@@ -4,7 +4,7 @@
   "description": "",
   "main": "lib/index.js",
   "scripts": {
-    "watch": "watchify --extension=js -o example/dist/bundle.js example/src/index.js",
+    "watch": "watchify --extension=js -o docs/dist/bundle.js docs/src/index.js",
     "compile": "babel -d lib/ src/",
     "test": "karma start",
     "prepush": "npm run lint && npm t",

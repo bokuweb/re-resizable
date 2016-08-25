@@ -40,7 +40,7 @@ export default class Example extends Component {
         }}
         onResizeStart={this.onResizeStart.bind(this)}
         onResize={this.onResize.bind(this) }
-        onResizeStop={this.onResizeStop.bind(this) }
+        onResizeStop={this.onResizeStop.bind(this)}
       >
         <span>Resize me!!</span>
       </Resizable>
