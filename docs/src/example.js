@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Resizable from '../../src';
 
 export default class Example extends Component {
+
   onResizeStart(dir, size, rect) {
     console.log('onResizeStart');
     console.log(dir);
@@ -28,6 +29,7 @@ export default class Example extends Component {
   render() {
     return (
       <Resizable
+        ref={c => { this.resizable = c; }}
         customClass="item"
         width={'30%'}
         height={200}

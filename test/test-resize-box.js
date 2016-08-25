@@ -364,6 +364,19 @@ describe('Resizable Component test', () => {
     assert.deepEqual(onResizeStop.getCall(0).args[2], { width: 380, height: 400 });
   });
 
+  it('should component size updated when updateSize method called', () => {
+    // let resizable;
+    const resizable = ReactDOM.render(
+      <Resizable
+        width={100} height={100}
+      />,
+      document.getElementById('content')
+    );
+    resizable.updateSize({ width: 200, height: 300 });
+    assert.equal(resizable.state.width, 200);
+    assert.equal(resizable.state.height, 300);
+  });
+
   afterEach(done => {
     ReactDOM.unmountComponentAtNode(document.body);
     document.body.innerHTML = '';

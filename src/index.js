@@ -256,6 +256,10 @@ export default class Resizable extends Component {
     };
   }
 
+  updateSize({ width, height }) {
+    this.setState({ width, height });
+  }
+
   renderResizer() {
     const { isResizable, handleStyle, handleClass } = this.props;
     return Object.keys(isResizable).map(dir => {

@@ -3,7 +3,7 @@ module.exports = (config) => {
 
     basePath: '',
 
-    frameworks: ['phantomjs-shim', 'mocha', 'browserify', 'fixture'],
+    frameworks: ['mocha', 'browserify', 'fixture'],
 
     files: [
       './node_modules/babel-polyfill/dist/polyfill.js',

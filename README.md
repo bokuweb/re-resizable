@@ -199,6 +199,37 @@ Calls back with (`direction: string`, `styleSize: object`, `clientSize: object`,
 For example, when `<Resizable width={100} height={200} style={{ padding: '20px'}} onResize={...} />` mounted and resize 'right' 20px, this callback is called with `('right', { width: 120, height: 200 }, { width: 160, height: 240 }, {width: 20, height: 0})`
 
 
+## method
+
+#### `updateSize(object size)`
+
+Update component size.
+`grid` ,`max/minWidth`, `max/minHeight` props is ignored, when this method called.
+
+- for example
+
+``` js
+class YourComponent extends Component {
+
+  ...
+  
+  update() {
+    this.resizable.updateSize({ width: 200, height: 300 });
+  }
+  
+  render() {
+    return (
+      <Resizable ref={c => { this.resizable = c; }}>
+        example
+      </Resizable>
+    );
+  }
+
+  ...
+}
+```
+
+
 ## Test
 
 ``` sh
@@ -206,6 +237,10 @@ npm test
 ```
 
 ## Changelog
+
+#### v1.6.0
+
+- Add `updateSize` method.
 
 #### v1.5.1
 
