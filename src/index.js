@@ -97,11 +97,12 @@ export default class Resizable extends Component {
     this.onTouchMove = this.onTouchMove.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
-
-    window.addEventListener('mouseup', this.onMouseUp);
-    window.addEventListener('mousemove', this.onMouseMove);
-    window.addEventListener('touchmove', this.onTouchMove);
-    window.addEventListener('touchend', this.onMouseUp);
+    if (typeof window !== 'undefined') {
+      window.addEventListener('mouseup', this.onMouseUp);
+      window.addEventListener('mousemove', this.onMouseMove);
+      window.addEventListener('touchmove', this.onTouchMove);
+      window.addEventListener('touchend', this.onMouseUp);
+    }
   }
 
   componentDidMount() {
@@ -119,10 +120,12 @@ export default class Resizable extends Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('mouseup', this.onMouseUp);
-    window.removeEventListener('mousemove', this.onMouseMove);
-    window.removeEventListener('touchmove', this.onTouchMove);
-    window.removeEventListener('touchend', this.onMouseUp);
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('mouseup', this.onMouseUp);
+      window.removeEventListener('mousemove', this.onMouseMove);
+      window.removeEventListener('touchmove', this.onTouchMove);
+      window.removeEventListener('touchend', this.onMouseUp);
+    }
   }
 
   onTouchMove(event) {
@@ -230,9 +233,13 @@ export default class Resizable extends Component {
   }
 
   getBoxSize() {
-    const style = window.getComputedStyle(this.refs.resizable, null);
-    const width = ~~style.getPropertyValue('width').replace('px', '');
-    const height = ~~style.getPropertyValue('height').replace('px', '');
+    let width = '0';
+    let height = '0';
+    if (typeof window !== 'undefined') {
+      const style = window.getComputedStyle(this.refs.resizable, null);
+      width = ~~style.getPropertyValue('width').replace('px', '');
+      height = ~~style.getPropertyValue('height').replace('px', '');
+    }
     return { width, height };
   }
 
