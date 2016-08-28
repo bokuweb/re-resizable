@@ -22572,11 +22572,12 @@ var Resizable = function (_Component) {
     _this.onTouchMove = _this.onTouchMove.bind(_this);
     _this.onMouseMove = _this.onMouseMove.bind(_this);
     _this.onMouseUp = _this.onMouseUp.bind(_this);
-
-    window.addEventListener('mouseup', _this.onMouseUp);
-    window.addEventListener('mousemove', _this.onMouseMove);
-    window.addEventListener('touchmove', _this.onTouchMove);
-    window.addEventListener('touchend', _this.onMouseUp);
+    if (typeof window !== 'undefined') {
+      window.addEventListener('mouseup', _this.onMouseUp);
+      window.addEventListener('mousemove', _this.onMouseMove);
+      window.addEventListener('touchmove', _this.onTouchMove);
+      window.addEventListener('touchend', _this.onMouseUp);
+    }
     return _this;
   }
 
@@ -22603,10 +22604,12 @@ var Resizable = function (_Component) {
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      window.removeEventListener('mouseup', this.onMouseUp);
-      window.removeEventListener('mousemove', this.onMouseMove);
-      window.removeEventListener('touchmove', this.onTouchMove);
-      window.removeEventListener('touchend', this.onMouseUp);
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('mouseup', this.onMouseUp);
+        window.removeEventListener('mousemove', this.onMouseMove);
+        window.removeEventListener('touchmove', this.onTouchMove);
+        window.removeEventListener('touchend', this.onMouseUp);
+      }
     }
   }, {
     key: 'onTouchMove',
@@ -22736,9 +22739,13 @@ var Resizable = function (_Component) {
   }, {
     key: 'getBoxSize',
     value: function getBoxSize() {
-      var style = window.getComputedStyle(this.refs.resizable, null);
-      var width = ~~style.getPropertyValue('width').replace('px', '');
-      var height = ~~style.getPropertyValue('height').replace('px', '');
+      var width = '0';
+      var height = '0';
+      if (typeof window !== 'undefined') {
+        var style = window.getComputedStyle(this.refs.resizable, null);
+        width = ~~style.getPropertyValue('width').replace('px', '');
+        height = ~~style.getPropertyValue('height').replace('px', '');
+      }
       return { width: width, height: height };
     }
   }, {
