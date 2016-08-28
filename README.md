@@ -238,6 +238,10 @@ npm test
 
 ## Changelog
 
+#### v1.7.0
+
+- Support siver side rendering #43
+
 #### v1.6.0
 
 - Add `updateSize` method.
