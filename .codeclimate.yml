@@ -9,4 +9,4 @@ exclude_paths:
 - karma.conf.js
 - test/*
 - docs/*
-
+- docs/**/*
