@@ -8,3 +8,5 @@ exclude_paths:
 - example/**/*
 - karma.conf.js
 - test/*
+- docs/*
+
