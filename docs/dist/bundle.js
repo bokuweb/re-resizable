@@ -22826,7 +22826,7 @@ var Resizable = function (_Component) {
 
       return _react2.default.createElement(
         'div',
-        {
+        _extends({
           ref: 'resizable',
           style: _extends({
             position: 'relative'
@@ -22836,7 +22836,7 @@ var Resizable = function (_Component) {
           onMouseDown: onMouseDown,
           onDoubleClick: onDoubleClick,
           onTouchStart: onTouchStart
-        },
+        }, this.props.extendsProps),
         this.props.children,
         this.renderResizer()
       );
@@ -22894,7 +22894,8 @@ Resizable.propTypes = {
   maxWidth: _react.PropTypes.number,
   maxHeight: _react.PropTypes.number,
   grid: _react.PropTypes.arrayOf(_react.PropTypes.number),
-  lockAspectRatio: _react.PropTypes.bool.isRequired
+  lockAspectRatio: _react.PropTypes.bool.isRequired,
+  extendsProps: _react.PropTypes.object
 };
 Resizable.defaultProps = {
   onResizeStart: function onResizeStart() {

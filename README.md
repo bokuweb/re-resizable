@@ -198,6 +198,21 @@ Calls back with (`direction: string`, `styleSize: object`, `clientSize: object`,
   
 For example, when `<Resizable width={100} height={200} style={{ padding: '20px'}} onResize={...} />` mounted and resize 'right' 20px, this callback is called with `('right', { width: 120, height: 200 }, { width: 160, height: 240 }, {width: 20, height: 0})`
 
+#### `extendsProps`: PropTypes.object
+
+This property is used to pass the other props to the component.
+
+e.g.
+
+``` javascript
+const extendsProps = {
+  data-foo: 'foo',
+  onMouseOver: () => {},
+};
+
+<Resizable {...extendsProps} />
+```
+
 
 ## method
 
@@ -237,6 +252,10 @@ npm test
 ```
 
 ## Changelog
+
+#### v1.8.0
+
+- Add `extendsProps` prop to other props (e.g. `data-*`, `aria-*`, and other ).
 
 #### v1.7.0
 

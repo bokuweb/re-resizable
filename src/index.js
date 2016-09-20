@@ -64,6 +64,7 @@ export default class Resizable extends Component {
     maxHeight: PropTypes.number,
     grid: PropTypes.arrayOf(PropTypes.number),
     lockAspectRatio: PropTypes.bool.isRequired,
+    extendsProps: PropTypes.object,
   };
 
   static defaultProps = {
@@ -316,6 +317,7 @@ export default class Resizable extends Component {
         onMouseDown={onMouseDown}
         onDoubleClick={onDoubleClick}
         onTouchStart={onTouchStart}
+        {...this.props.extendsProps}
       >
         {this.props.children}
         {this.renderResizer()}
