@@ -215,6 +215,7 @@ export default class Resizable extends Component {
   }
 
   onResizeStart(direction, e) {
+    const ev = e.touches ? e.touches[0] : e;
     const clientSize = {
       width: this.refs.resizable.clientWidth,
       height: this.refs.resizable.clientHeight,
@@ -223,8 +224,8 @@ export default class Resizable extends Component {
     const size = this.getBoxSize();
     this.setState({
       original: {
-        x: e.clientX,
-        y: e.clientY,
+        x: ev.clientX,
+        y: ev.clientY,
         width: size.width,
         height: size.height,
       },
