@@ -18,7 +18,7 @@ describe('Resizer Component test', () => {
 
   it('Should call onResizeStart, when touch start', (done) => {
     const onResizeStart = e => {
-      assert.equal(e.clientX, 200);
+      assert.equal(e.touches[0].clientX, 200);
       done();
     };
     const resizer = TestUtils.renderIntoDocument(

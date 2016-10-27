@@ -88,7 +88,7 @@ export default class Resizer extends Component {
   }
 
   onTouchStart(event) {
-    this.props.onResizeStart(event.touches[0]);
+    this.props.onResizeStart(event);
   }
 
   getStyle() {
