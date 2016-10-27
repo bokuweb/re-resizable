@@ -253,6 +253,11 @@ npm test
 
 ## Changelog
 
+#### v1.8.1
+
+- Fixing issue on resizing with touch events
+
+
 #### v1.8.0
 
 - Add `extendsProps` prop to other props (e.g. `data-*`, `aria-*`, and other ).

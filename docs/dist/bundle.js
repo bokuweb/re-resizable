@@ -22719,6 +22719,7 @@ var Resizable = function (_Component) {
   }, {
     key: 'onResizeStart',
     value: function onResizeStart(direction, e) {
+      var ev = e.touches ? e.touches[0] : e;
       var clientSize = {
         width: this.refs.resizable.clientWidth,
         height: this.refs.resizable.clientHeight
@@ -22727,8 +22728,8 @@ var Resizable = function (_Component) {
       var size = this.getBoxSize();
       this.setState({
         original: {
-          x: e.clientX,
-          y: e.clientY,
+          x: ev.clientX,
+          y: ev.clientY,
           width: size.width,
           height: size.height
         },
@@ -23033,7 +23034,7 @@ var Resizer = function (_Component) {
   }, {
     key: 'onTouchStart',
     value: function onTouchStart(event) {
-      this.props.onResizeStart(event.touches[0]);
+      this.props.onResizeStart(event);
     }
   }, {
     key: 'getStyle',
