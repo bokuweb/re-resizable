@@ -171,11 +171,8 @@ export default class Resizable extends Component {
     if (lockAspectRatio) {
       const deltaWidth = Math.abs(newWidth - original.width);
       const deltaHeight = Math.abs(newHeight - original.height);
-      if (deltaWidth < deltaHeight) {
-        newWidth = newHeight / ratio;
-      } else {
-        newHeight = newWidth * ratio;
-      }
+      newWidth = newHeight / ratio;
+      newHeight = newWidth * ratio;
     }
     this.setState({
       width: width !== 'auto' ? newWidth : 'auto',
