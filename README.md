@@ -4,7 +4,7 @@ Resizable component for React.
 
 [![Build Status](https://img.shields.io/travis/bokuweb/react-resizable-box.svg?style=flat-square)](https://travis-ci.org/bokuweb/react-resizable-box)
 [![Version](https://img.shields.io/npm/v/react-resizable-box.svg?style=flat-square)](https://www.npmjs.com/package/react-resizable-box)
-[![Code Climate](https://img.shields.io/codeclimate/github/bokuweb/react-resizable-box/badges/gpa.svg?style=flat-square)](https://codeclimate.com/github/bokuweb/react-resizable-box)
+[![npm](https://img.shields.io/npm/dm/react-resizable-box.svg?style=flat-square)]()
 [![License](https://img.shields.io/npm/l/react-resizable-box.svg?style=flat-square)](https://github.com/bokuweb/react-resizable-box#license)
 
 ## Demo
