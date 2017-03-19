@@ -202,6 +202,9 @@ For example, when `<Resizable width={100} height={200} style={{ padding: '20px'}
 
 This property is used to pass the other props to the component.
 
+
+
+
 e.g.
 
 ``` javascript
@@ -253,10 +256,14 @@ npm test
 
 ## Changelog
 
+#### v1.8.2
+
+- Add index.d.ts.
+- Fix resize glitch when aspct ratio locked.
+
 #### v1.8.1
 
 - Fixing issue on resizing with touch events
-
 
 #### v1.8.0
 
@@ -292,6 +299,92 @@ npm test
 
 
 #### v1.3.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 - Add `userSelect: none` when resize get srated.
 - Add shouldComponentUpdate.
