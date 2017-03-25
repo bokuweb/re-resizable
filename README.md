@@ -256,6 +256,10 @@ npm test
 
 ## Changelog
 
+#### v1.8.3
+
+- Fix npm readme
+
 #### v1.8.2
 
 - Add index.d.ts.
