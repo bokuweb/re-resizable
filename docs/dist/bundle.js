@@ -22669,11 +22669,8 @@ var Resizable = function (_Component) {
       if (lockAspectRatio) {
         var deltaWidth = Math.abs(newWidth - original.width);
         var deltaHeight = Math.abs(newHeight - original.height);
-        if (deltaWidth < deltaHeight) {
-          newWidth = newHeight / ratio;
-        } else {
-          newHeight = newWidth * ratio;
-        }
+        newWidth = newHeight / ratio;
+        newHeight = newWidth * ratio;
       }
       this.setState({
         width: width !== 'auto' ? newWidth : 'auto',
@@ -22986,7 +22983,7 @@ var styles = {
     position: 'absolute',
     right: '-10px',
     top: '-10px',
-    cursor: 'sw-resize'
+    cursor: 'ne-resize'
   },
   bottomRight: {
     width: '20px',
@@ -22994,7 +22991,7 @@ var styles = {
     position: 'absolute',
     right: '-10px',
     bottom: '-10px',
-    cursor: 'nw-resize'
+    cursor: 'se-resize'
   },
   bottomLeft: {
     width: '20px',
@@ -23002,7 +22999,7 @@ var styles = {
     position: 'absolute',
     left: '-10px',
     bottom: '-10px',
-    cursor: 'ne-resize'
+    cursor: 'sw-resize'
   },
   topLeft: {
     width: '20px',
@@ -23010,7 +23007,7 @@ var styles = {
     position: 'absolute',
     left: '-10px',
     top: '-10px',
-    cursor: 'se-resize'
+    cursor: 'nw-resize'
   }
 };
 
