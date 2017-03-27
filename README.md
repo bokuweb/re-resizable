@@ -256,6 +256,10 @@ npm test
 
 ## Changelog
 
+#### v1.8.4
+
+- FIx cursor
+
 #### v1.8.3
 
 - Fix npm readme
