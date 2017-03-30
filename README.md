@@ -123,6 +123,12 @@ Only the axis you specify will have its handle style replaced.
 If you specify a value for `right` it will completely replace the styles for the `right` resize handle,
 but other handle will still use the default styles.
 
+#### `handleClass`: PropTypes.shape({ top: PropTypes.string, right: PropTypes.string, bottom: PropTypes.string, left: PropTypes.string, topRight: PropTypes.string, bottomRight: PropTypes.string, bottomLeft: PropTypes.string, topLeft: PropTypes.string })
+
+
+The `handleClass` property is used to add a custom className to one or more resize handles.
+Only the axis you specify will have its className added.
+
 
 #### `isResizable`: PropTypes.shape({ top: PropTypes.bool, right: PropTypes.bool, bottom: PropTypes.bool, left: PropTypes.bool, topRight: PropTypes.bool, bottomRight: PropTypes.bool, bottomLeft: PropTypes.bool, topLeft: PropTypes.bool })
 
