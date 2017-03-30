@@ -56,7 +56,7 @@ npm i react-resizable-box
 
 
 The `width` property is used to set the width of a resizable component.   
-For example, you can set `300`, `'300px'`, `50%`.     
+For example, you can set `300`, `'300px'`, `'50%'`.     
 If ommited, set `'auto'`.    
 
 
@@ -64,7 +64,7 @@ If ommited, set `'auto'`.
 
 
 The `height` property is used to set the width of a resizable component.    
-For example, you can set `300`, `'300px'`, `50%`.    
+For example, you can set `300`, `'300px'`, `'50%'`.    
 If ommited, set `'auto'`.    
 
 
