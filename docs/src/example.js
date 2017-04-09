@@ -30,14 +30,14 @@ export default class Example extends Component {
     return (
       <Resizable
         ref={c => { this.resizable = c; }}
-        customClass="item"
+        className="item"
         width={'30%'}
         height={200}
         minHeight={200}
         minWidth={200}
         maxHeight={400}
         maxWidth={800}
-        handleClass={{
+        handleClasses={{
           bottomRight: 'bottom-right-classname',
         }}
         onResizeStart={this.onResizeStart.bind(this)}

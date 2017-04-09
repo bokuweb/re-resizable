@@ -69,14 +69,14 @@ var Example = function (_Component) {
           ref: function ref(c) {
             _this2.resizable = c;
           },
-          customClass: 'item',
+          className: 'item',
           width: '30%',
           height: 200,
           minHeight: 200,
           minWidth: 200,
           maxHeight: 400,
           maxWidth: 800,
-          handleClass: {
+          handleClasses: {
             bottomRight: 'bottom-right-classname'
           },
           onResizeStart: this.onResizeStart.bind(this),
@@ -96,7 +96,6 @@ var Example = function (_Component) {
 }(_react.Component);
 
 exports.default = Example;
-module.exports = exports['default'];
 
 },{"../../src":184,"react":183}],2:[function(require,module,exports){
 'use strict';
@@ -22730,13 +22729,13 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _resizer = require('./resizer');
-
-var _resizer2 = _interopRequireDefault(_resizer);
-
 var _lodash = require('lodash.isequal');
 
 var _lodash2 = _interopRequireDefault(_lodash);
+
+var _resizer = require('./resizer');
+
+var _resizer2 = _interopRequireDefault(_resizer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22745,6 +22744,33 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable react/no-unused-prop-types */
+/* eslint-disable react/require-default-props */
+/* eslint-disable react/jsx-filename-extension */
+/* eslint-disable react/sort-comp */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable max-len */
+/* eslint-disable no-bitwise */
+/* eslint-disable react/no-did-mount-set-state */
+
+// flow-disable-line
+
+
+var userSelectNone = {
+  userSelect: 'none',
+  MozUserSelect: 'none',
+  WebkitUserSelect: 'none',
+  MsUserSelect: 'none'
+};
+
+var userSelectAuto = {
+  userSelect: 'auto',
+  MozUserSelect: 'auto',
+  WebkitUserSelect: 'auto',
+  MsUserSelect: 'auto'
+};
 
 var clamp = function clamp(n, min, max) {
   return Math.max(Math.min(n, max), min);
@@ -22768,9 +22794,15 @@ var Resizable = function (_Component) {
     _this.state = {
       isActive: false,
       width: width,
-      height: height
+      height: height,
+      direction: 'right',
+      original: {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0
+      }
     };
-
     _this.onResizeStartWithDirection = {};
     directions.forEach(function (d) {
       _this.onResizeStartWithDirection[d] = _this.onResizeStart.bind(_this, d);
@@ -22778,6 +22810,7 @@ var Resizable = function (_Component) {
     _this.onTouchMove = _this.onTouchMove.bind(_this);
     _this.onMouseMove = _this.onMouseMove.bind(_this);
     _this.onMouseUp = _this.onMouseUp.bind(_this);
+
     if (typeof window !== 'undefined') {
       window.addEventListener('mouseup', _this.onMouseUp);
       window.addEventListener('mousemove', _this.onMouseMove);
@@ -22790,8 +22823,12 @@ var Resizable = function (_Component) {
   _createClass(Resizable, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      var size = this.getBoxSize();
-      this.setSize(size);
+      var size = this.size;
+      // If props.width or height is not defined, set default size when mounted.
+      this.setState({
+        width: this.state.width || size.width,
+        height: this.state.height || size.height
+      });
     }
   }, {
     key: 'componentWillReceiveProps',
@@ -22845,36 +22882,34 @@ var Resizable = function (_Component) {
       var newWidth = original.width;
       var newHeight = original.height;
       if (/right/i.test(direction)) {
-        newWidth = original.width + clientX - original.x;
-        var min = minWidth < 0 || typeof minWidth === 'undefined' ? 0 : minWidth;
-        var max = maxWidth < 0 || typeof maxWidth === 'undefined' ? newWidth : maxWidth;
+        newWidth = original.width + (clientX - original.x);
+        var min = typeof minWidth === 'undefined' || minWidth < 0 ? 0 : minWidth;
+        var max = typeof maxWidth === 'undefined' || maxWidth < 0 ? newWidth : maxWidth;
         newWidth = clamp(newWidth, min, max);
         newWidth = snap(newWidth, this.props.grid[0]);
       }
       if (/left/i.test(direction)) {
-        newWidth = original.width - clientX + original.x;
-        var _min = minWidth < 0 || typeof minWidth === 'undefined' ? 0 : minWidth;
-        var _max = maxWidth < 0 || typeof maxWidth === 'undefined' ? newWidth : maxWidth;
+        newWidth = original.width - (clientX + original.x);
+        var _min = typeof minWidth === 'undefined' || minWidth < 0 ? 0 : minWidth;
+        var _max = typeof maxWidth === 'undefined' || maxWidth < 0 ? newWidth : maxWidth;
         newWidth = clamp(newWidth, _min, _max);
         newWidth = snap(newWidth, this.props.grid[0]);
       }
       if (/bottom/i.test(direction)) {
-        newHeight = original.height + clientY - original.y;
-        var _min2 = minHeight < 0 || typeof minHeight === 'undefined' ? 0 : minHeight;
-        var _max2 = maxHeight < 0 || typeof maxHeight === 'undefined' ? newHeight : maxHeight;
+        newHeight = original.height + (clientY - original.y);
+        var _min2 = typeof minHeight === 'undefined' || minHeight < 0 ? 0 : minHeight;
+        var _max2 = typeof maxHeight === 'undefined' || maxHeight < 0 ? newHeight : maxHeight;
         newHeight = clamp(newHeight, _min2, _max2);
         newHeight = snap(newHeight, this.props.grid[1]);
       }
       if (/top/i.test(direction)) {
-        newHeight = original.height - clientY + original.y;
-        var _min3 = minHeight < 0 || typeof minHeight === 'undefined' ? 0 : minHeight;
-        var _max3 = maxHeight < 0 || typeof maxHeight === 'undefined' ? newHeight : maxHeight;
+        newHeight = original.height - (clientY + original.y);
+        var _min3 = typeof minHeight === 'undefined' || minHeight < 0 ? 0 : minHeight;
+        var _max3 = typeof maxHeight === 'undefined' || maxHeight < 0 ? newHeight : maxHeight;
         newHeight = clamp(newHeight, _min3, _max3);
         newHeight = snap(newHeight, this.props.grid[1]);
       }
       if (lockAspectRatio) {
-        var deltaWidth = Math.abs(newWidth - original.width);
-        var deltaHeight = Math.abs(newHeight - original.height);
         newWidth = newHeight / ratio;
         newHeight = newWidth * ratio;
       }
@@ -22882,7 +22917,7 @@ var Resizable = function (_Component) {
         width: width !== 'auto' ? newWidth : 'auto',
         height: height !== 'auto' ? newHeight : 'auto'
       });
-      var resizable = this.refs.resizable;
+      var resizable = this.resizable;
       var styleSize = {
         width: newWidth || this.state.width,
         height: newHeight || this.state.height
@@ -22906,17 +22941,16 @@ var Resizable = function (_Component) {
           original = _state2.original;
 
       if (!isActive) return;
-      var resizable = this.refs.resizable;
-      var styleSize = this.getBoxSize();
+      var resizable = this.resizable;
       var clientSize = {
         width: resizable.clientWidth,
         height: resizable.clientHeight
       };
       var delta = {
-        width: styleSize.width - original.width,
-        height: styleSize.height - original.height
+        width: this.size.width - original.width,
+        height: this.size.height - original.height
       };
-      this.props.onResizeStop(direction, styleSize, clientSize, delta);
+      this.props.onResizeStop(direction, clientSize, delta);
       this.setState({ isActive: false });
     }
   }, {
@@ -22924,11 +22958,11 @@ var Resizable = function (_Component) {
     value: function onResizeStart(direction, e) {
       var ev = e.touches ? e.touches[0] : e;
       var clientSize = {
-        width: this.refs.resizable.clientWidth,
-        height: this.refs.resizable.clientHeight
+        width: this.resizable.clientWidth,
+        height: this.resizable.clientHeight
       };
-      this.props.onResizeStart(direction, this.getBoxSize(), clientSize, e);
-      var size = this.getBoxSize();
+      this.props.onResizeStart(direction, this.size, clientSize, e);
+      var size = this.size;
       this.setState({
         original: {
           x: ev.clientX,
@@ -22941,18 +22975,6 @@ var Resizable = function (_Component) {
       });
     }
   }, {
-    key: 'getBoxSize',
-    value: function getBoxSize() {
-      var width = '0';
-      var height = '0';
-      if (typeof window !== 'undefined') {
-        var style = window.getComputedStyle(this.refs.resizable, null);
-        width = ~~style.getPropertyValue('width').replace('px', '');
-        height = ~~style.getPropertyValue('height').replace('px', '');
-      }
-      return { width: width, height: height };
-    }
-  }, {
     key: 'setSize',
     value: function setSize(size) {
       this.setState({
@@ -22961,45 +22983,28 @@ var Resizable = function (_Component) {
       });
     }
   }, {
-    key: 'getBoxStyle',
-    value: function getBoxStyle() {
-      var _this2 = this;
-
-      var getSize = function getSize(key) {
-        if (typeof _this2.state[key] === 'undefined' || _this2.state[key] === 'auto') return 'auto';else if (/px$/.test(_this2.state[key].toString())) return _this2.state[key];else if (/%$/.test(_this2.state[key].toString())) return _this2.state[key];
-        return _this2.state[key] + 'px';
-      };
-      return {
-        width: getSize('width'),
-        height: getSize('height')
-      };
-    }
-  }, {
     key: 'updateSize',
-    value: function updateSize(_ref3) {
-      var width = _ref3.width,
-          height = _ref3.height;
-
-      this.setState({ width: width, height: height });
+    value: function updateSize(size) {
+      this.setState({ width: size.width, height: size.height });
     }
   }, {
     key: 'renderResizer',
     value: function renderResizer() {
-      var _this3 = this;
+      var _this2 = this;
 
       var _props2 = this.props,
-          isResizable = _props2.isResizable,
-          handleStyle = _props2.handleStyle,
-          handleClass = _props2.handleClass;
+          enable = _props2.enable,
+          handlerStyles = _props2.handlerStyles,
+          handlerClasses = _props2.handlerClasses;
 
-      return Object.keys(isResizable).map(function (dir) {
-        if (isResizable[dir] !== false) {
+      return Object.keys(enable).map(function (dir) {
+        if (enable[dir] !== false) {
           return _react2.default.createElement(_resizer2.default, {
             key: dir,
-            type: dir,
-            onResizeStart: _this3.onResizeStartWithDirection[dir],
-            replaceStyles: handleStyle[dir],
-            className: handleClass[dir]
+            direction: dir,
+            onResizeStart: _this2.onResizeStartWithDirection[dir],
+            replaceStyles: handlerStyles && handlerStyles[dir],
+            className: handlerClasses && handlerClasses[dir]
           });
         }
         return null;
@@ -23008,121 +23013,80 @@ var Resizable = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var userSelect = this.state.isActive ? {
-        userSelect: 'none',
-        MozUserSelect: 'none',
-        WebkitUserSelect: 'none',
-        MsUserSelect: 'none'
-      } : {
-        userSelect: 'auto',
-        MozUserSelect: 'auto',
-        WebkitUserSelect: 'auto',
-        MsUserSelect: 'auto'
-      };
-      var style = this.getBoxStyle();
+      var _this3 = this;
+
+      var userSelect = this.state.isActive ? userSelectNone : userSelectAuto;
       var _props3 = this.props,
-          onClick = _props3.onClick,
-          customStyle = _props3.customStyle,
-          customClass = _props3.customClass,
-          onMouseDown = _props3.onMouseDown,
-          onDoubleClick = _props3.onDoubleClick,
-          onTouchStart = _props3.onTouchStart;
+          style = _props3.style,
+          className = _props3.className;
 
       return _react2.default.createElement(
         'div',
         _extends({
-          ref: 'resizable',
+          ref: function ref(c) {
+            _this3.resizable = c;
+          },
           style: _extends({
             position: 'relative'
-          }, userSelect, customStyle, style),
-          className: customClass,
-          onClick: onClick,
-          onMouseDown: onMouseDown,
-          onDoubleClick: onDoubleClick,
-          onTouchStart: onTouchStart
+          }, userSelect, style, this.style),
+          className: className
         }, this.props.extendsProps),
         this.props.children,
         this.renderResizer()
       );
+    }
+  }, {
+    key: 'size',
+    get: function get() {
+      var width = 0;
+      var height = 0;
+      if (typeof window !== 'undefined') {
+        var _style = window.getComputedStyle(this.resizable, null);
+        width = ~~_style.getPropertyValue('width').replace('px', '');
+        height = ~~_style.getPropertyValue('height').replace('px', '');
+      }
+      return { width: width, height: height };
+    }
+  }, {
+    key: 'style',
+    get: function get() {
+      var _this4 = this;
+
+      var size = function size(key) {
+        if (typeof _this4.state[key] === 'undefined' || _this4.state[key] === 'auto') return 'auto';else if (/px$/.test(_this4.state[key].toString())) return _this4.state[key].toString();else if (/%$/.test(_this4.state[key].toString())) return _this4.state[key].toString();
+        return _this4.state[key] + 'px';
+      };
+      return {
+        width: size('width'),
+        height: size('height')
+      };
     }
   }]);
 
   return Resizable;
 }(_react.Component);
 
-Resizable.propTypes = {
-  children: _react.PropTypes.any,
-  onClick: _react.PropTypes.func,
-  onDoubleClick: _react.PropTypes.func,
-  onMouseDown: _react.PropTypes.func,
-  onResizeStop: _react.PropTypes.func,
-  onResizeStart: _react.PropTypes.func,
-  onTouchStart: _react.PropTypes.func,
-  onResize: _react.PropTypes.func,
-  customStyle: _react.PropTypes.object,
-  handleStyle: _react.PropTypes.shape({
-    top: _react.PropTypes.object,
-    right: _react.PropTypes.object,
-    bottom: _react.PropTypes.object,
-    left: _react.PropTypes.object,
-    topRight: _react.PropTypes.object,
-    bottomRight: _react.PropTypes.object,
-    bottomLeft: _react.PropTypes.object,
-    topLeft: _react.PropTypes.object
-  }),
-  handleClass: _react.PropTypes.shape({
-    top: _react.PropTypes.string,
-    right: _react.PropTypes.string,
-    bottom: _react.PropTypes.string,
-    left: _react.PropTypes.string,
-    topRight: _react.PropTypes.string,
-    bottomRight: _react.PropTypes.string,
-    bottomLeft: _react.PropTypes.string,
-    topLeft: _react.PropTypes.string
-  }),
-  isResizable: _react.PropTypes.shape({
-    top: _react.PropTypes.bool,
-    right: _react.PropTypes.bool,
-    bottom: _react.PropTypes.bool,
-    left: _react.PropTypes.bool,
-    topRight: _react.PropTypes.bool,
-    bottomRight: _react.PropTypes.bool,
-    bottomLeft: _react.PropTypes.bool,
-    topLeft: _react.PropTypes.bool
-  }),
-  customClass: _react.PropTypes.string,
-  width: _react.PropTypes.oneOfType([_react.PropTypes.number, _react.PropTypes.string]),
-  height: _react.PropTypes.oneOfType([_react.PropTypes.number, _react.PropTypes.string]),
-  minWidth: _react.PropTypes.number,
-  minHeight: _react.PropTypes.number,
-  maxWidth: _react.PropTypes.number,
-  maxHeight: _react.PropTypes.number,
-  grid: _react.PropTypes.arrayOf(_react.PropTypes.number),
-  lockAspectRatio: _react.PropTypes.bool.isRequired,
-  extendsProps: _react.PropTypes.object
-};
 Resizable.defaultProps = {
-  onResizeStart: function onResizeStart() {
-    return null;
+  onResizeStart: function onResizeStart() {},
+  onResize: function onResize() {},
+  onResizeStop: function onResizeStop() {},
+  enable: {
+    top: true,
+    right: true,
+    bottom: true,
+    left: true,
+    topRight: true,
+    bottomRight: true,
+    bottomLeft: true,
+    topLeft: true
   },
-  onResize: function onResize() {
-    return null;
-  },
-  onResizeStop: function onResizeStop() {
-    return null;
-  },
-  isResizable: {
-    top: true, right: true, bottom: true, left: true,
-    topRight: true, bottomRight: true, bottomLeft: true, topLeft: true
-  },
-  customStyle: {},
-  handleStyle: {},
-  handleClass: {},
+  width: 'auto',
+  height: 'auto',
+  style: {},
   grid: [1, 1],
   lockAspectRatio: false
 };
 exports.default = Resizable;
-module.exports = exports['default'];
 
 },{"./resizer":185,"lodash.isequal":26,"react":183}],185:[function(require,module,exports){
 'use strict';
@@ -23133,23 +23097,18 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable react/no-unused-prop-types */
+/* eslint-disable react/require-default-props */
+/* eslint-disable react/jsx-filename-extension */
+
+exports.default = ResizeHandler;
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _lodash = require('lodash.isequal');
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var styles = {
   base: {
@@ -23217,56 +23176,17 @@ var styles = {
   }
 };
 
-var Resizer = function (_Component) {
-  _inherits(Resizer, _Component);
-
-  function Resizer(props) {
-    _classCallCheck(this, Resizer);
-
-    var _this = _possibleConstructorReturn(this, (Resizer.__proto__ || Object.getPrototypeOf(Resizer)).call(this, props));
-
-    _this.onTouchStart = _this.onTouchStart.bind(_this);
-    return _this;
-  }
-
-  _createClass(Resizer, [{
-    key: 'shouldComponentUpdate',
-    value: function shouldComponentUpdate(nextProps) {
-      return !(0, _lodash2.default)(this.props, nextProps);
+function ResizeHandler(props) {
+  return _react2.default.createElement('div', {
+    className: props.className,
+    style: _extends({}, styles.base, styles[props.direction], props.replaceStyles || {}),
+    onMouseDown: function onMouseDown(e) {
+      return props.onResizeStart(e, props.direction);
+    },
+    onTouchStart: function onTouchStart(e) {
+      return props.onResizeStart(e, props.direction);
     }
-  }, {
-    key: 'onTouchStart',
-    value: function onTouchStart(event) {
-      this.props.onResizeStart(event);
-    }
-  }, {
-    key: 'getStyle',
-    value: function getStyle() {
-      if (this.props.replaceStyles) return this.props.replaceStyles;
-      return _extends({}, styles.base, styles[this.props.type]);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement('div', {
-        className: this.props.className,
-        style: this.getStyle(),
-        onMouseDown: this.props.onResizeStart,
-        onTouchStart: this.onTouchStart
-      });
-    }
-  }]);
+  });
+}
 
-  return Resizer;
-}(_react.Component);
-
-Resizer.propTypes = {
-  onResizeStart: _react.PropTypes.func,
-  type: _react.PropTypes.oneOf(['top', 'right', 'bottom', 'left', 'topRight', 'bottomRight', 'bottomLeft', 'topLeft']).isRequired,
-  replaceStyles: _react.PropTypes.object,
-  className: _react.PropTypes.string
-};
-exports.default = Resizer;
-module.exports = exports['default'];
-
-},{"lodash.isequal":26,"react":183}]},{},[2]);
+},{"react":183}]},{},[2]);

@@ -5,7 +5,7 @@
 /* eslint-disable react/require-default-props */
 /* eslint-disable react/jsx-filename-extension */
 
-import React, { SyntheticMouseEvent, SyntheticTouchEvent } from 'react';
+import React from 'react';
 
 const styles = {
   base: {
@@ -73,29 +73,29 @@ const styles = {
   },
 };
 
-export type Type = 'top' | 'right' | 'bottom' | 'left' | 'topRight' | 'bottomRight' | 'bottomLeft' | 'topLeft';
+export type Direction = 'top' | 'right' | 'bottom' | 'left' | 'topRight' | 'bottomRight' | 'bottomLeft' | 'topLeft';
 
 export type Props = {
-  +type: Type;
-  +className ?: string;
-  +replaceStyles ?: any;
-  +onResizeStart: (
-    e: React.SyntheticMouseEvent | React.SyntheticTouchEvent,
-    dir: Type,
+  direction: Direction;
+  className?: string;
+  replaceStyles?: any;
+  onResizeStart: (
+    e: SyntheticMouseEvent | SyntheticTouchEvent,
+    dir: Direction,
   ) => void;
 }
 
 export default function ResizeHandler(props: Props) {
   return (
     <div
-      className={this.props.className}
+      className={props.className}
       style={{
         ...styles.base,
-        ...styles[props.type],
+        ...styles[props.direction],
         ...(props.replaceStyles || {}),
       }}
-      onMouseDown={(e: SyntheticMouseEvent) => props.onResizeStart(e, props.type)}
-      onTouchStart={(e: SyntheticTouchEvent) => props.onResizeStart(e, props.type)}
+      onMouseDown={(e: SyntheticMouseEvent) => props.onResizeStart(e, props.direction)}
+      onTouchStart={(e: SyntheticTouchEvent) => props.onResizeStart(e, props.direction)}
     />
   );
 }
