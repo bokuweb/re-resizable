@@ -1,5 +1,11 @@
-import React, { Component, PropTypes } from 'react';
-import isEqual from 'lodash.isequal';
+/* @flow */
+
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable react/no-unused-prop-types */
+/* eslint-disable react/require-default-props */
+/* eslint-disable react/jsx-filename-extension */
+
+import React, { SyntheticMouseEvent, SyntheticTouchEvent } from 'react';
 
 const styles = {
   base: {
@@ -67,43 +73,29 @@ const styles = {
   },
 };
 
-export default class Resizer extends Component {
-  static propTypes = {
-    onResizeStart: PropTypes.func,
-    type: PropTypes.oneOf([
-      'top', 'right', 'bottom', 'left',
-      'topRight', 'bottomRight', 'bottomLeft', 'topLeft',
-    ]).isRequired,
-    replaceStyles: PropTypes.object,
-    className: PropTypes.string,
-  }
+export type Type = 'top' | 'right' | 'bottom' | 'left' | 'topRight' | 'bottomRight' | 'bottomLeft' | 'topLeft';
 
-  constructor(props) {
-    super(props);
-    this.onTouchStart = this.onTouchStart.bind(this);
-  }
+export type Props = {
+  +type: Type;
+  +className ?: string;
+  +replaceStyles ?: any;
+  +onResizeStart: (
+    e: React.SyntheticMouseEvent | React.SyntheticTouchEvent,
+    dir: Type,
+  ) => void;
+}
 
-  shouldComponentUpdate(nextProps) {
-    return !isEqual(this.props, nextProps);
-  }
-
-  onTouchStart(event) {
-    this.props.onResizeStart(event);
-  }
-
-  getStyle() {
-    if (this.props.replaceStyles) return this.props.replaceStyles;
-    return { ...styles.base, ...styles[this.props.type] };
-  }
-
-  render() {
-    return (
-      <div
-        className={this.props.className}
-        style={this.getStyle()}
-        onMouseDown={this.props.onResizeStart}
-        onTouchStart={this.onTouchStart}
-      />
-    );
-  }
+export default function ResizeHandler(props: Props) {
+  return (
+    <div
+      className={this.props.className}
+      style={{
+        ...styles.base,
+        ...styles[props.type],
+        ...(props.replaceStyles || {}),
+      }}
+      onMouseDown={(e: SyntheticMouseEvent) => props.onResizeStart(e, props.type)}
+      onTouchStart={(e: SyntheticTouchEvent) => props.onResizeStart(e, props.type)}
+    />
+  );
 }
