@@ -22784,9 +22784,6 @@ var clamp = function clamp(n, min, max) {
 var snap = function snap(n, size) {
   return Math.round(n / size) * size;
 };
-// const directions: Array<Direction> = [
-//  'top', 'right', 'bottom', 'left', 'topRight', 'bottomRight', 'bottomLeft', 'topLeft',
-// ];
 
 var Resizable = function (_Component) {
   _inherits(Resizable, _Component);
@@ -22823,8 +22820,6 @@ var Resizable = function (_Component) {
     }
     return _this;
   }
-  // onResizeStartWithDirection: any;
-
 
   _createClass(Resizable, [{
     key: 'componentDidMount',
@@ -22872,11 +22867,6 @@ var Resizable = function (_Component) {
         clientX = event.nativeEvent.touches[0].clientX;
         clientY = event.nativeEvent.touches[0].clientY;
       }
-      // const clientSize = {
-      //   width: this.resizable.clientWidth,
-      //   height: this.resizable.clientHeight,
-      // };
-      // this.props.onResizeStart(direction, this.size, clientSize, event);
       if (this.props.onResizeStart) {
         this.props.onResizeStart(event, direction, this.resizable);
       }
@@ -22949,14 +22939,6 @@ var Resizable = function (_Component) {
         width: width !== 'auto' ? newWidth : 'auto',
         height: height !== 'auto' ? newHeight : 'auto'
       });
-      // const styleSize = {
-      //   width: newWidth || this.state.width,
-      //   height: newHeight || this.state.height,
-      // };
-      // const clientSize = {
-      //   width: this.resizable.clientWidth,
-      //   height: this.resizable.clientHeight,
-      // };
       var delta = {
         width: newWidth - original.width,
         height: newHeight - original.height
@@ -22974,11 +22956,6 @@ var Resizable = function (_Component) {
           original = _state2.original;
 
       if (!isResizing) return;
-      // const resizable = this.resizable;
-      // const clientSize = {
-      //   width: resizable.clientWidth,
-      //   height: resizable.clientHeight,
-      // };
       var delta = {
         width: this.size.width - original.width,
         height: this.size.height - original.height
@@ -22986,7 +22963,6 @@ var Resizable = function (_Component) {
       if (this.props.onResizeStop) {
         this.props.onResizeStop(event, direction, this.resizable, delta);
       }
-      // this.props.onResizeStop(direction, clientSize, delta);
       this.setState({ isResizing: false });
     }
   }, {

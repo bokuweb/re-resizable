@@ -122,18 +122,14 @@ type State = {
   height: number | string;
 }
 
-const clamp = (n: number, min: number, max: number) => Math.max(Math.min(n, max), min);
-const snap = (n: number, size: number) => Math.round(n / size) * size;
-// const directions: Array<Direction> = [
-//  'top', 'right', 'bottom', 'left', 'topRight', 'bottomRight', 'bottomLeft', 'topLeft',
-// ];
+const clamp = (n: number, min: number, max: number): number => Math.max(Math.min(n, max), min);
+const snap = (n: number, size: number): number => Math.round(n / size) * size;
 
 export default class Resizable extends Component {
 
   props: Props;
   state: State;
   resizable: React$Element<*>;
-  // onResizeStartWithDirection: any;
   onTouchMove: Callback;
   onMouseMove: Callback;
   onMouseUp: Callback;
@@ -224,11 +220,6 @@ export default class Resizable extends Component {
       clientX = event.nativeEvent.touches[0].clientX;
       clientY = event.nativeEvent.touches[0].clientY;
     }
-    // const clientSize = {
-    //   width: this.resizable.clientWidth,
-    //   height: this.resizable.clientHeight,
-    // };
-    // this.props.onResizeStart(direction, this.size, clientSize, event);
     if (this.props.onResizeStart) {
       this.props.onResizeStart(event, direction, this.resizable);
     }
@@ -290,14 +281,6 @@ export default class Resizable extends Component {
       width: width !== 'auto' ? newWidth : 'auto',
       height: height !== 'auto' ? newHeight : 'auto',
     });
-    // const styleSize = {
-    //   width: newWidth || this.state.width,
-    //   height: newHeight || this.state.height,
-    // };
-    // const clientSize = {
-    //   width: this.resizable.clientWidth,
-    //   height: this.resizable.clientHeight,
-    // };
     const delta = {
       width: newWidth - original.width,
       height: newHeight - original.height,
@@ -310,11 +293,6 @@ export default class Resizable extends Component {
   onMouseUp(event: MouseEvent | TouchEvent) {
     const { isResizing, direction, original } = this.state;
     if (!isResizing) return;
-    // const resizable = this.resizable;
-    // const clientSize = {
-    //   width: resizable.clientWidth,
-    //   height: resizable.clientHeight,
-    // };
     const delta = {
       width: this.size.width - original.width,
       height: this.size.height - original.height,
@@ -322,7 +300,6 @@ export default class Resizable extends Component {
     if (this.props.onResizeStop) {
       this.props.onResizeStop(event, direction, this.resizable, delta);
     }
-    // this.props.onResizeStop(direction, clientSize, delta);
     this.setState({ isResizing: false });
   }
 
