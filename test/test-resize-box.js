@@ -48,7 +48,7 @@ describe('Resizable Component test', () => {
 
   it('Should style is applied to box', (done) => {
     const resizable = TestUtils.renderIntoDocument(
-      <Resizable customStyle={{ position: 'absolute' }} />
+      <Resizable style={{ position: 'absolute' }} />
     );
     const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
     assert.equal(divs.length, 9);
@@ -57,7 +57,7 @@ describe('Resizable Component test', () => {
   });
 
   it('Should custom class name be applied to box', (done) => {
-    const resizable = TestUtils.renderIntoDocument(<Resizable customClass={"custom-class-name"} />);
+    const resizable = TestUtils.renderIntoDocument(<Resizable className={"custom-class-name"} />);
     const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
     assert.equal(divs.length, 9);
     assert.equal(divs[0].className, 'custom-class-name');
@@ -65,17 +65,17 @@ describe('Resizable Component test', () => {
   });
 
   it('Should custom class name be applied to resizer', (done) => {
-    const resizable = TestUtils.renderIntoDocument(<Resizable handleClass={{ right: 'right-handle-class' }} />);
+    const resizable = TestUtils.renderIntoDocument(<Resizable handlerClasses={{ right: 'right-handle-class' }} />);
     const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
     const node = ReactDOM.findDOMNode(divs[2]);
     assert.equal(node.getAttribute('class'), 'right-handle-class');
     done();
   });
 
-  it('Should not render resizer when isResizable props all false', () => {
+  it('Should not render resizer when enable props all false', () => {
     const resizable = TestUtils.renderIntoDocument(
       <Resizable
-        isResizable={{
+        enable={{
           top: false,
           right: false,
           bottom: false,
@@ -85,16 +85,16 @@ describe('Resizable Component test', () => {
           bottomLeft: false,
           topLeft: false,
         }}
-      />
+      />,
     );
     const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
     assert.equal(divs.length, 1);
   });
 
-  it('Should render one resizer when one isResizable props set true', () => {
+  it('Should render one resizer when one enable props set true', () => {
     const resizable = TestUtils.renderIntoDocument(
       <Resizable
-        isResizable={{
+        enable={{
           top: false,
           right: true,
           bottom: false,
@@ -110,10 +110,10 @@ describe('Resizable Component test', () => {
     assert.equal(divs.length, 2);
   });
 
-  it('Should render two resizer when two isResizable props set true', () => {
+  it('Should render two resizer when two enable props set true', () => {
     const resizable = TestUtils.renderIntoDocument(
       <Resizable
-        isResizable={{
+        enable={{
           top: true,
           right: true,
           bottom: false,
@@ -129,10 +129,10 @@ describe('Resizable Component test', () => {
     assert.equal(divs.length, 3);
   });
 
-  it('Should render three resizer when three isResizable props set true', () => {
+  it('Should render three resizer when three enable props set true', () => {
     const resizable = TestUtils.renderIntoDocument(
       <Resizable
-        isResizable={{
+        enable={{
           top: true,
           right: true,
           bottom: true,
@@ -153,7 +153,7 @@ describe('Resizable Component test', () => {
     const resizable = TestUtils.renderIntoDocument(
       <Resizable
         onResizeStart={onResizeStart}
-        isResizable={{
+        enable={{
           top: false,
           right: true,
           bottom: false,
@@ -177,7 +177,7 @@ describe('Resizable Component test', () => {
     const resizable = TestUtils.renderIntoDocument(
       <Resizable
         onResizeStart={onResizeStart}
-        isResizable={{
+        enable={{
           top: false,
           right: false,
           bottom: true,
@@ -201,7 +201,7 @@ describe('Resizable Component test', () => {
     const resizable = TestUtils.renderIntoDocument(
       <Resizable
         onResizeStart={onResizeStart}
-        isResizable={{
+        enable={{
           top: false,
           right: false,
           bottom: false,
@@ -225,12 +225,13 @@ describe('Resizable Component test', () => {
     const onResizeStart = sinon.spy();
     const resizable = ReactDOM.render(
       <Resizable
-        width={100} height={100}
+        width={100}
+        height={100}
         onResize={onResize}
         onResizeStart={onResizeStart}
-        customStyle={{ padding: '40px' }}
+        style={{ padding: '40px' }}
       />,
-      document.getElementById('content')
+      document.getElementById('content'),
     );
     const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
     const node = ReactDOM.findDOMNode(divs[2]);
@@ -251,7 +252,7 @@ describe('Resizable Component test', () => {
         width={100} height={100}
         onResize={onResize}
         onResizeStart={onResizeStart}
-        customStyle={{ padding: '40px' }}
+        style={{ padding: '40px' }}
       />,
       document.getElementById('content')
     );
@@ -274,7 +275,7 @@ describe('Resizable Component test', () => {
         width={100} height={100}
         onResize={onResize}
         onResizeStart={onResizeStart}
-        customStyle={{ padding: '40px' }}
+        style={{ padding: '40px' }}
       />,
       document.getElementById('content')
     );
@@ -299,7 +300,7 @@ describe('Resizable Component test', () => {
         onResize={onResize}
         onResizeStart={onResizeStart}
         onResizeStop={onResizeStop}
-        customStyle={{ padding: '40px' }}
+        style={{ padding: '40px' }}
       />,
       document.getElementById('content')
     );
@@ -324,7 +325,7 @@ describe('Resizable Component test', () => {
         onResize={onResize}
         onResizeStart={onResizeStart}
         onResizeStop={onResizeStop}
-        customStyle={{ padding: '40px' }}
+        style={{ padding: '40px' }}
       />,
       document.getElementById('content')
     );
@@ -349,7 +350,7 @@ describe('Resizable Component test', () => {
         onResize={onResize}
         onResizeStart={onResizeStart}
         onResizeStop={onResizeStop}
-        customStyle={{ padding: '40px' }}
+        style={{ padding: '40px' }}
       />,
       document.getElementById('content')
     );

@@ -44,7 +44,13 @@ export default class Example extends Component {
         onResize={this.onResize.bind(this) }
         onResizeStop={this.onResizeStop.bind(this)}
       >
-        <span>Resize me!!</span>
+        <span>
+          Resize me!!<br />
+          <span style={{ fontSize: '11px', fontFamily: 'Arial' }}>
+            react-resizable-box v2.0
+          </span>
+        </span>
+        
       </Resizable>
     );
   }

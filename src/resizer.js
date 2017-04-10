@@ -75,14 +75,16 @@ const styles = {
 
 export type Direction = 'top' | 'right' | 'bottom' | 'left' | 'topRight' | 'bottomRight' | 'bottomLeft' | 'topLeft';
 
+export type OnStartCallback = (
+  e: SyntheticMouseEvent | SyntheticTouchEvent,
+  dir: Direction,
+) => void;
+
 export type Props = {
   direction: Direction;
   className?: string;
   replaceStyles?: any;
-  onResizeStart: (
-    e: SyntheticMouseEvent | SyntheticTouchEvent,
-    dir: Direction,
-  ) => void;
+  onResizeStart: OnStartCallback;
 }
 
 export default function ResizeHandler(props: Props) {

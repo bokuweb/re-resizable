@@ -15,7 +15,7 @@ import React, { Component } from 'react';
 import isEqual from 'lodash.isequal';
 import Resizer from './resizer';
 
-import type { Direction } from './resizer';
+import type { Direction, OnStartCallback } from './resizer';
 
 const userSelectNone = {
   userSelect: 'none',
@@ -64,7 +64,28 @@ type HandlerClassName = {
   topLeft?: string;
 }
 
-type Callback = (event: SyntheticMouseEvent | SyntheticTouchEvent, direction: Direction, resizableRef: HTMLElement) => void;
+type Size = {
+  width: string | number;
+  height: string | number;
+}
+
+type NumberSize = {
+  width: number;
+  height: number;
+}
+
+type Callback = (
+  event: MouseEvent | TouchEvent,
+  direction: Direction,
+  resizableRef: React$Element<*>,
+  delta: NumberSize,
+) => void;
+
+type ResizeStartCallBack = (
+  e: SyntheticMouseEvent | SyntheticTouchEvent,
+  dir: Direction,
+  resizableRef: React$Element<*>,
+) => void;
 
 type Props = {
   style?: any;
@@ -83,13 +104,13 @@ type Props = {
   handlerStyles?: HandlerStyles;
   handlerClasses?: HandlerClassName;
   children?: any;
-  onResizeStart?: Callback;
+  onResizeStart?: ResizeStartCallBack;
   onResize?: Callback;
   onResizeStop?: Callback;
 }
 
 type State = {
-  isActive: boolean;
+  isResizing: boolean;
   direction: Direction;
   original: {
     x: number;
@@ -101,31 +122,22 @@ type State = {
   height: number | string;
 }
 
-type Size = {
-  width: string | number;
-  height: string | number;
-}
-
-type NumberSize = {
-  width: number;
-  height: number;
-}
-
 const clamp = (n: number, min: number, max: number) => Math.max(Math.min(n, max), min);
 const snap = (n: number, size: number) => Math.round(n / size) * size;
-const directions: Array<Direction> = [
-  'top', 'right', 'bottom', 'left', 'topRight', 'bottomRight', 'bottomLeft', 'topLeft',
-];
+// const directions: Array<Direction> = [
+//  'top', 'right', 'bottom', 'left', 'topRight', 'bottomRight', 'bottomLeft', 'topLeft',
+// ];
 
 export default class Resizable extends Component {
 
   props: Props;
   state: State;
-  resizable: HTMLElement;
-  onResizeStartWithDirection: any;
+  resizable: React$Element<*>;
+  // onResizeStartWithDirection: any;
   onTouchMove: Callback;
   onMouseMove: Callback;
   onMouseUp: Callback;
+  onResizeStart: OnStartCallback;
 
   static defaultProps = {
     onResizeStart: () => { },
@@ -152,7 +164,7 @@ export default class Resizable extends Component {
     super(props);
     const { width, height } = props;
     this.state = {
-      isActive: false,
+      isResizing: false,
       width,
       height,
       direction: 'right',
@@ -163,18 +175,14 @@ export default class Resizable extends Component {
         height: 0,
       },
     };
-    this.onResizeStartWithDirection = {};
-    directions.forEach((d: Direction) => {
-      this.onResizeStartWithDirection[d] = this.onResizeStart.bind(this, d);
-    });
-    this.onTouchMove = this.onTouchMove.bind(this);
+    this.onResizeStart = this.onResizeStart.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
 
     if (typeof window !== 'undefined') {
       window.addEventListener('mouseup', this.onMouseUp);
       window.addEventListener('mousemove', this.onMouseMove);
-      window.addEventListener('touchmove', this.onTouchMove);
+      window.addEventListener('touchmove', this.onMouseMove);
       window.addEventListener('touchend', this.onMouseUp);
     }
   }
@@ -193,7 +201,7 @@ export default class Resizable extends Component {
     if (height !== this.props.height) this.setState({ height });
   }
 
-  shouldComponentUpdate(nextProps: Props, nextState: State) {
+  shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
     return !isEqual(this.props, nextProps) || !isEqual(this.state, nextState);
   }
 
@@ -206,12 +214,41 @@ export default class Resizable extends Component {
     }
   }
 
-  onTouchMove(event: SyntheticTouchEvent) {
-    this.onMouseMove(event.touches[0]);
+  onResizeStart(event: SyntheticMouseEvent | SyntheticTouchEvent, direction: Direction) {
+    let clientX = 0;
+    let clientY = 0;
+    if (event.nativeEvent instanceof MouseEvent) {
+      clientX = event.nativeEvent.clientX;
+      clientY = event.nativeEvent.clientY;
+    } else if (event.nativeEvent instanceof TouchEvent) {
+      clientX = event.nativeEvent.touches[0].clientX;
+      clientY = event.nativeEvent.touches[0].clientY;
+    }
+    // const clientSize = {
+    //   width: this.resizable.clientWidth,
+    //   height: this.resizable.clientHeight,
+    // };
+    // this.props.onResizeStart(direction, this.size, clientSize, event);
+    if (this.props.onResizeStart) {
+      this.props.onResizeStart(event, direction, this.resizable);
+    }
+    const size = this.size;
+    this.setState({
+      original: {
+        x: clientX,
+        y: clientY,
+        width: size.width,
+        height: size.height,
+      },
+      isResizing: true,
+      direction,
+    });
   }
 
-  onMouseMove({ clientX, clientY }) {
-    if (!this.state.isActive) return;
+  onMouseMove(event: MouseEvent | TouchEvent) {
+    if (!this.state.isResizing) return;
+    const clientX = event instanceof MouseEvent ? event.clientX : event.touches[0].clientX;
+    const clientY = event instanceof MouseEvent ? event.clientY : event.touches[0].clientY;
     const { direction, original, width, height } = this.state;
     const { minWidth, maxWidth, minHeight, maxHeight, lockAspectRatio } = this.props;
     const ratio = original.height / original.width;
@@ -253,56 +290,40 @@ export default class Resizable extends Component {
       width: width !== 'auto' ? newWidth : 'auto',
       height: height !== 'auto' ? newHeight : 'auto',
     });
-    const resizable = this.resizable;
-    const styleSize = {
-      width: newWidth || this.state.width,
-      height: newHeight || this.state.height,
-    };
-    const clientSize = {
-      width: resizable.clientWidth,
-      height: resizable.clientHeight,
-    };
+    // const styleSize = {
+    //   width: newWidth || this.state.width,
+    //   height: newHeight || this.state.height,
+    // };
+    // const clientSize = {
+    //   width: this.resizable.clientWidth,
+    //   height: this.resizable.clientHeight,
+    // };
     const delta = {
       width: newWidth - original.width,
       height: newHeight - original.height,
     };
-    this.props.onResize(direction, styleSize, clientSize, delta);
+    if (this.props.onResize) {
+      this.props.onResize(event, direction, this.resizable, delta);
+    }
   }
 
-  onMouseUp() {
-    const { isActive, direction, original } = this.state;
-    if (!isActive) return;
-    const resizable = this.resizable;
-    const clientSize = {
-      width: resizable.clientWidth,
-      height: resizable.clientHeight,
-    };
+  onMouseUp(event: MouseEvent | TouchEvent) {
+    const { isResizing, direction, original } = this.state;
+    if (!isResizing) return;
+    // const resizable = this.resizable;
+    // const clientSize = {
+    //   width: resizable.clientWidth,
+    //   height: resizable.clientHeight,
+    // };
     const delta = {
       width: this.size.width - original.width,
       height: this.size.height - original.height,
     };
-    this.props.onResizeStop(direction, clientSize, delta);
-    this.setState({ isActive: false });
-  }
-
-  onResizeStart(direction, e) {
-    const ev = e.touches ? e.touches[0] : e;
-    const clientSize = {
-      width: this.resizable.clientWidth,
-      height: this.resizable.clientHeight,
-    };
-    this.props.onResizeStart(direction, this.size, clientSize, e);
-    const size = this.size;
-    this.setState({
-      original: {
-        x: ev.clientX,
-        y: ev.clientY,
-        width: size.width,
-        height: size.height,
-      },
-      isActive: true,
-      direction,
-    });
+    if (this.props.onResizeStop) {
+      this.props.onResizeStop(event, direction, this.resizable, delta);
+    }
+    // this.props.onResizeStop(direction, clientSize, delta);
+    this.setState({ isResizing: false });
   }
 
   get size(): NumberSize {
@@ -323,7 +344,7 @@ export default class Resizable extends Component {
     });
   }
 
-  get style(): Size {
+  get style(): { width: string, height: string } {
     const size = (key: 'width' | 'height'): string => {
       if (typeof this.state[key] === 'undefined' || this.state[key] === 'auto') return 'auto';
       else if (/px$/.test(this.state[key].toString())) return this.state[key].toString();
@@ -336,7 +357,7 @@ export default class Resizable extends Component {
     };
   }
 
-  updateSize(size: NumberSize) {
+  updateSize(size: Size) {
     this.setState({ width: size.width, height: size.height });
   }
 
@@ -348,7 +369,7 @@ export default class Resizable extends Component {
           <Resizer
             key={dir}
             direction={dir}
-            onResizeStart={this.onResizeStartWithDirection[dir]}
+            onResizeStart={this.onResizeStart}
             replaceStyles={handlerStyles && handlerStyles[dir]}
             className={handlerClasses && handlerClasses[dir]}
           />
@@ -359,7 +380,7 @@ export default class Resizable extends Component {
   }
 
   render() {
-    const userSelect = this.state.isActive ? userSelectNone : userSelectAuto;
+    const userSelect = this.state.isResizing ? userSelectNone : userSelectAuto;
     const { style, className } = this.props;
     return (
       <div

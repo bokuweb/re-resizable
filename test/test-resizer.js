@@ -6,12 +6,12 @@ import Resizer from '../src/resizer';
 
 describe('Resizer Component test', () => {
   it('Should call onResizeStart, when click', (done) => {
-    const onResizeStart = e => {
+    const onResizeStart = (e) => {
       assert.equal(e.clientX, 100);
       done();
     };
     const resizer = TestUtils.renderIntoDocument(
-      <Resizer onResizeStart={onResizeStart} type="right" />
+      <Resizer onResizeStart={onResizeStart} direction="right" />,
     );
     TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(resizer), { clientX: 100 });
   });
@@ -22,12 +22,12 @@ describe('Resizer Component test', () => {
       done();
     };
     const resizer = TestUtils.renderIntoDocument(
-      <Resizer onResizeStart={onResizeStart} type="right" />
+      <Resizer onResizeStart={onResizeStart} direction="right" />
     );
     TestUtils.Simulate.touchStart(ReactDOM.findDOMNode(resizer), { touches: [{ clientX: 200 }] });
   });
 
-  afterEach(done => {
+  afterEach((done) => {
     ReactDOM.unmountComponentAtNode(document.body);
     document.body.innerHTML = '';
     setTimeout(done);

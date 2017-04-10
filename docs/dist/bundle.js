@@ -86,7 +86,13 @@ var Example = function (_Component) {
         _react2.default.createElement(
           'span',
           null,
-          'Resize me!!'
+          'Resize me!!',
+          _react2.default.createElement('br', null),
+          _react2.default.createElement(
+            'span',
+            { style: { fontSize: '11px', fontFamily: 'Arial' } },
+            'react-resizable-box v2.0'
+          )
         )
       );
     }
@@ -22778,7 +22784,9 @@ var clamp = function clamp(n, min, max) {
 var snap = function snap(n, size) {
   return Math.round(n / size) * size;
 };
-var directions = ['top', 'right', 'bottom', 'left', 'topRight', 'bottomRight', 'bottomLeft', 'topLeft'];
+// const directions: Array<Direction> = [
+//  'top', 'right', 'bottom', 'left', 'topRight', 'bottomRight', 'bottomLeft', 'topLeft',
+// ];
 
 var Resizable = function (_Component) {
   _inherits(Resizable, _Component);
@@ -22792,7 +22800,7 @@ var Resizable = function (_Component) {
         height = props.height;
 
     _this.state = {
-      isActive: false,
+      isResizing: false,
       width: width,
       height: height,
       direction: 'right',
@@ -22803,22 +22811,20 @@ var Resizable = function (_Component) {
         height: 0
       }
     };
-    _this.onResizeStartWithDirection = {};
-    directions.forEach(function (d) {
-      _this.onResizeStartWithDirection[d] = _this.onResizeStart.bind(_this, d);
-    });
-    _this.onTouchMove = _this.onTouchMove.bind(_this);
+    _this.onResizeStart = _this.onResizeStart.bind(_this);
     _this.onMouseMove = _this.onMouseMove.bind(_this);
     _this.onMouseUp = _this.onMouseUp.bind(_this);
 
     if (typeof window !== 'undefined') {
       window.addEventListener('mouseup', _this.onMouseUp);
       window.addEventListener('mousemove', _this.onMouseMove);
-      window.addEventListener('touchmove', _this.onTouchMove);
+      window.addEventListener('touchmove', _this.onMouseMove);
       window.addEventListener('touchend', _this.onMouseUp);
     }
     return _this;
   }
+  // onResizeStartWithDirection: any;
+
 
   _createClass(Resizable, [{
     key: 'componentDidMount',
@@ -22855,17 +22861,43 @@ var Resizable = function (_Component) {
       }
     }
   }, {
-    key: 'onTouchMove',
-    value: function onTouchMove(event) {
-      this.onMouseMove(event.touches[0]);
+    key: 'onResizeStart',
+    value: function onResizeStart(event, direction) {
+      var clientX = 0;
+      var clientY = 0;
+      if (event.nativeEvent instanceof MouseEvent) {
+        clientX = event.nativeEvent.clientX;
+        clientY = event.nativeEvent.clientY;
+      } else if (event.nativeEvent instanceof TouchEvent) {
+        clientX = event.nativeEvent.touches[0].clientX;
+        clientY = event.nativeEvent.touches[0].clientY;
+      }
+      // const clientSize = {
+      //   width: this.resizable.clientWidth,
+      //   height: this.resizable.clientHeight,
+      // };
+      // this.props.onResizeStart(direction, this.size, clientSize, event);
+      if (this.props.onResizeStart) {
+        this.props.onResizeStart(event, direction, this.resizable);
+      }
+      var size = this.size;
+      this.setState({
+        original: {
+          x: clientX,
+          y: clientY,
+          width: size.width,
+          height: size.height
+        },
+        isResizing: true,
+        direction: direction
+      });
     }
   }, {
     key: 'onMouseMove',
-    value: function onMouseMove(_ref2) {
-      var clientX = _ref2.clientX,
-          clientY = _ref2.clientY;
-
-      if (!this.state.isActive) return;
+    value: function onMouseMove(event) {
+      if (!this.state.isResizing) return;
+      var clientX = event instanceof MouseEvent ? event.clientX : event.touches[0].clientX;
+      var clientY = event instanceof MouseEvent ? event.clientY : event.touches[0].clientY;
       var _state = this.state,
           direction = _state.direction,
           original = _state.original,
@@ -22917,62 +22949,45 @@ var Resizable = function (_Component) {
         width: width !== 'auto' ? newWidth : 'auto',
         height: height !== 'auto' ? newHeight : 'auto'
       });
-      var resizable = this.resizable;
-      var styleSize = {
-        width: newWidth || this.state.width,
-        height: newHeight || this.state.height
-      };
-      var clientSize = {
-        width: resizable.clientWidth,
-        height: resizable.clientHeight
-      };
+      // const styleSize = {
+      //   width: newWidth || this.state.width,
+      //   height: newHeight || this.state.height,
+      // };
+      // const clientSize = {
+      //   width: this.resizable.clientWidth,
+      //   height: this.resizable.clientHeight,
+      // };
       var delta = {
         width: newWidth - original.width,
         height: newHeight - original.height
       };
-      this.props.onResize(direction, styleSize, clientSize, delta);
+      if (this.props.onResize) {
+        this.props.onResize(event, direction, this.resizable, delta);
+      }
     }
   }, {
     key: 'onMouseUp',
-    value: function onMouseUp() {
+    value: function onMouseUp(event) {
       var _state2 = this.state,
-          isActive = _state2.isActive,
+          isResizing = _state2.isResizing,
           direction = _state2.direction,
           original = _state2.original;
 
-      if (!isActive) return;
-      var resizable = this.resizable;
-      var clientSize = {
-        width: resizable.clientWidth,
-        height: resizable.clientHeight
-      };
+      if (!isResizing) return;
+      // const resizable = this.resizable;
+      // const clientSize = {
+      //   width: resizable.clientWidth,
+      //   height: resizable.clientHeight,
+      // };
       var delta = {
         width: this.size.width - original.width,
         height: this.size.height - original.height
       };
-      this.props.onResizeStop(direction, clientSize, delta);
-      this.setState({ isActive: false });
-    }
-  }, {
-    key: 'onResizeStart',
-    value: function onResizeStart(direction, e) {
-      var ev = e.touches ? e.touches[0] : e;
-      var clientSize = {
-        width: this.resizable.clientWidth,
-        height: this.resizable.clientHeight
-      };
-      this.props.onResizeStart(direction, this.size, clientSize, e);
-      var size = this.size;
-      this.setState({
-        original: {
-          x: ev.clientX,
-          y: ev.clientY,
-          width: size.width,
-          height: size.height
-        },
-        isActive: true,
-        direction: direction
-      });
+      if (this.props.onResizeStop) {
+        this.props.onResizeStop(event, direction, this.resizable, delta);
+      }
+      // this.props.onResizeStop(direction, clientSize, delta);
+      this.setState({ isResizing: false });
     }
   }, {
     key: 'setSize',
@@ -23002,7 +23017,7 @@ var Resizable = function (_Component) {
           return _react2.default.createElement(_resizer2.default, {
             key: dir,
             direction: dir,
-            onResizeStart: _this2.onResizeStartWithDirection[dir],
+            onResizeStart: _this2.onResizeStart,
             replaceStyles: handlerStyles && handlerStyles[dir],
             className: handlerClasses && handlerClasses[dir]
           });
@@ -23015,7 +23030,7 @@ var Resizable = function (_Component) {
     value: function render() {
       var _this3 = this;
 
-      var userSelect = this.state.isActive ? userSelectNone : userSelectAuto;
+      var userSelect = this.state.isResizing ? userSelectNone : userSelectAuto;
       var _props3 = this.props,
           style = _props3.style,
           className = _props3.className;
