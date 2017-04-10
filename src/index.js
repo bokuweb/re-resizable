@@ -77,14 +77,14 @@ type NumberSize = {
 type Callback = (
   event: MouseEvent | TouchEvent,
   direction: Direction,
-  resizableRef: React$Element<*>,
+  refToElement: HTMLElement,
   delta: NumberSize,
 ) => void;
 
 type ResizeStartCallBack = (
   e: SyntheticMouseEvent | SyntheticTouchEvent,
   dir: Direction,
-  resizableRef: React$Element<*>,
+  refToElement: HTMLElement,
 ) => void;
 
 type Props = {
@@ -129,7 +129,7 @@ export default class Resizable extends Component {
 
   props: Props;
   state: State;
-  resizable: React$Element<*>;
+  resizable: HTMLElement;
   onTouchMove: Callback;
   onMouseMove: Callback;
   onMouseUp: Callback;

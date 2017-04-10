@@ -41,7 +41,7 @@ export default class Example extends Component {
           bottomRight: 'bottom-right-classname',
         }}
         onResizeStart={this.onResizeStart.bind(this)}
-        onResize={this.onResize.bind(this) }
+        onResize={this.onResize.bind(this)}
         onResizeStop={this.onResizeStop.bind(this)}
       >
         <span>
@@ -50,7 +50,7 @@ export default class Example extends Component {
             react-resizable-box v2.0
           </span>
         </span>
-        
+
       </Resizable>
     );
   }
