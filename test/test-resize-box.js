@@ -8,7 +8,7 @@ import Resizable from '../src';
 const mouseMove = (x, y) => {
   const event = document.createEvent('MouseEvents');
   event.initMouseEvent('mousemove', true, true, window,
-                       0, 0, 0, x, y, false, false, false, false, 0, null);
+    0, 0, 0, x, y, false, false, false, false, 0, null);
   document.dispatchEvent(event);
   return event;
 };
@@ -16,7 +16,7 @@ const mouseMove = (x, y) => {
 const mouseUp = (x, y) => {
   const event = document.createEvent('MouseEvents');
   event.initMouseEvent('mouseup', true, true, window,
-                       0, 0, 0, x, y, false, false, false, false, 0, null);
+    0, 0, 0, x, y, false, false, false, false, 0, null);
   document.dispatchEvent(event);
   return event;
 };
@@ -57,7 +57,7 @@ describe('Resizable Component test', () => {
   });
 
   it('Should custom class name be applied to box', (done) => {
-    const resizable = TestUtils.renderIntoDocument(<Resizable className={"custom-class-name"} />);
+    const resizable = TestUtils.renderIntoDocument(<Resizable className={'custom-class-name'} />);
     const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
     assert.equal(divs.length, 9);
     assert.equal(divs[0].className, 'custom-class-name');
@@ -239,9 +239,11 @@ describe('Resizable Component test', () => {
     mouseMove(200, 220);
     TestUtils.Simulate.mouseUp(node);
     assert.equal(onResize.callCount, 1);
+    assert(onResize.getCall(0).args[0] instanceof Event);
     assert.equal(onResize.getCall(0).args[1], 'right');
-    // assert.deepEqual(onResize.getCall(0).args[2], { width: 300, height: 100 });
-    // assert.deepEqual(onResize.getCall(0).args[3], { width: 380, height: 180 });
+    assert.deepEqual(onResize.getCall(0).args[2].clientWidth, 380);
+    assert.deepEqual(onResize.getCall(0).args[2].clientHeight, 180);
+    assert.deepEqual(onResize.getCall(0).args[3], { width: 200, height: 0 });
   });
 
   it('should call onResize with expected args when resize direction bottom', () => {
@@ -254,7 +256,7 @@ describe('Resizable Component test', () => {
         onResizeStart={onResizeStart}
         style={{ padding: '40px' }}
       />,
-      document.getElementById('content')
+      document.getElementById('content'),
     );
     const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
     const node = ReactDOM.findDOMNode(divs[3]);
@@ -262,9 +264,11 @@ describe('Resizable Component test', () => {
     mouseMove(200, 220);
     TestUtils.Simulate.mouseUp(node);
     assert.equal(onResize.callCount, 1);
+    assert(onResize.getCall(0).args[0] instanceof MouseEvent);
     assert.equal(onResize.getCall(0).args[1], 'bottom');
-    // assert.deepEqual(onResize.getCall(0).args[1], { width: 100, height: 320 });
-    // assert.deepEqual(onResize.getCall(0).args[2], { width: 180, height: 400 });
+    assert.deepEqual(onResize.getCall(0).args[2].clientWidth, 180);
+    assert.deepEqual(onResize.getCall(0).args[2].clientHeight, 400);
+    assert.deepEqual(onResize.getCall(0).args[3], { width: 0, height: 220 });
   });
 
   it('should call onResize with expected args when resize direction bottomRight', () => {
@@ -277,7 +281,7 @@ describe('Resizable Component test', () => {
         onResizeStart={onResizeStart}
         style={{ padding: '40px' }}
       />,
-      document.getElementById('content')
+      document.getElementById('content'),
     );
     const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
     const node = ReactDOM.findDOMNode(divs[6]);
@@ -285,9 +289,11 @@ describe('Resizable Component test', () => {
     mouseMove(200, 220);
     TestUtils.Simulate.mouseUp(node);
     assert.equal(onResize.callCount, 1);
+    assert(onResize.getCall(0).args[0] instanceof MouseEvent);
     assert.equal(onResize.getCall(0).args[1], 'bottomRight');
-    // assert.deepEqual(onResize.getCall(0).args[1], { width: 300, height: 320 });
-    // assert.deepEqual(onResize.getCall(0).args[2], { width: 380, height: 400 });
+    assert.deepEqual(onResize.getCall(0).args[2].clientWidth, 380);
+    assert.deepEqual(onResize.getCall(0).args[2].clientHeight, 400);
+    assert.deepEqual(onResize.getCall(0).args[3], { width: 200, height: 220 });
   });
 
   it('should call onResizeStop when resize stop direction right', () => {
@@ -302,7 +308,7 @@ describe('Resizable Component test', () => {
         onResizeStop={onResizeStop}
         style={{ padding: '40px' }}
       />,
-      document.getElementById('content')
+      document.getElementById('content'),
     );
     const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
     const node = ReactDOM.findDOMNode(divs[2]);
@@ -310,9 +316,11 @@ describe('Resizable Component test', () => {
     mouseMove(200, 220);
     mouseUp(200, 220);
     assert.equal(onResizeStop.callCount, 1);
+    assert(onResize.getCall(0).args[0] instanceof MouseEvent);
     assert.deepEqual(onResizeStop.getCall(0).args[1], 'right');
-    // assert.deepEqual(onResizeStop.getCall(0).args[1], { width: 300, height: 100 });
-    // assert.deepEqual(onResizeStop.getCall(0).args[2], { width: 380, height: 180 });
+    assert.deepEqual(onResizeStop.getCall(0).args[2].clientWidth, 380);
+    assert.deepEqual(onResizeStop.getCall(0).args[2].clientHeight, 180);
+    assert.deepEqual(onResizeStop.getCall(0).args[3], { width: 200, height: 0 });
   });
 
   it('should call onResizeStop when resize stop direction bottom', () => {
@@ -327,7 +335,7 @@ describe('Resizable Component test', () => {
         onResizeStop={onResizeStop}
         style={{ padding: '40px' }}
       />,
-      document.getElementById('content')
+      document.getElementById('content'),
     );
     const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
     const node = ReactDOM.findDOMNode(divs[3]);
@@ -335,9 +343,11 @@ describe('Resizable Component test', () => {
     mouseMove(200, 220);
     mouseUp(200, 220);
     assert.equal(onResizeStop.callCount, 1);
+    assert(onResize.getCall(0).args[0] instanceof MouseEvent);
     assert.deepEqual(onResizeStop.getCall(0).args[1], 'bottom');
-    // assert.deepEqual(onResizeStop.getCall(0).args[1], { width: 100, height: 320 });
-    // assert.deepEqual(onResizeStop.getCall(0).args[2], { width: 180, height: 400 });
+    assert.deepEqual(onResizeStop.getCall(0).args[2].clientWidth, 180);
+    assert.deepEqual(onResizeStop.getCall(0).args[2].clientHeight, 400);
+    assert.deepEqual(onResizeStop.getCall(0).args[3], { width: 0, height: 220 });
   });
 
   it('should call onResizeStop when resize stop direction bottomRight', () => {
@@ -360,9 +370,10 @@ describe('Resizable Component test', () => {
     mouseMove(200, 220);
     mouseUp(200, 220);
     assert.equal(onResizeStop.callCount, 1);
+    assert(onResize.getCall(0).args[0] instanceof MouseEvent);
     assert.deepEqual(onResizeStop.getCall(0).args[1], 'bottomRight');
-    // assert.deepEqual(onResizeStop.getCall(0).args[1], { width: 300, height: 320 });
-    // assert.deepEqual(onResizeStop.getCall(0).args[2], { width: 380, height: 400 });
+    assert.deepEqual(onResize.getCall(0).args[2].clientHeight, 400);
+    assert.deepEqual(onResize.getCall(0).args[3], { width: 200, height: 220 });
   });
 
   it('should component size updated when updateSize method called', () => {
