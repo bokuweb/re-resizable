@@ -33,10 +33,6 @@ export default class Example extends Component {
         className="item"
         width={'30%'}
         height={200}
-        minHeight={200}
-        minWidth={200}
-        maxHeight={400}
-        maxWidth={800}
         lockAspectRatio
         handleClasses={{
           bottomRight: 'bottom-right-classname',

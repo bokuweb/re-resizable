@@ -72,10 +72,6 @@ var Example = function (_Component) {
           className: 'item',
           width: '30%',
           height: 200,
-          minHeight: 200,
-          minWidth: 200,
-          maxHeight: 400,
-          maxWidth: 800,
           lockAspectRatio: true,
           handleClasses: {
             bottomRight: 'bottom-right-classname'
@@ -22903,11 +22899,10 @@ var Resizable = function (_Component) {
       var newHeight = original.height;
       if (/right/i.test(direction)) {
         newWidth = original.width + (clientX - original.x);
-        console.log(newWidth, '1');
         if (lockAspectRatio) newHeight = newWidth * ratio;
       }
       if (/left/i.test(direction)) {
-        newWidth = original.width - (clientX + original.x);
+        newWidth = original.width - (clientX - original.x);
         if (lockAspectRatio) newHeight = newWidth * ratio;
       }
       if (/bottom/i.test(direction)) {
@@ -22915,38 +22910,28 @@ var Resizable = function (_Component) {
         if (lockAspectRatio) newWidth = newHeight / ratio;
       }
       if (/top/i.test(direction)) {
-        newHeight = original.height - (clientY + original.y);
+        newHeight = original.height - (clientY - original.y);
         if (lockAspectRatio) newWidth = newHeight / ratio;
       }
-      console.log(newWidth, '2');
-      var min = typeof minWidth === 'undefined' || minWidth < 0 ? 0 : minWidth;
-      var max = typeof maxWidth === 'undefined' || maxWidth < 0 ? newWidth : maxWidth;
 
-      var hmin = typeof minHeight === 'undefined' || minHeight < 0 ? 0 : minHeight;
-      var hmax = typeof maxHeight === 'undefined' || maxHeight < 0 ? newHeight : maxHeight;
+      var computedMinWidth = typeof minWidth === 'undefined' || minWidth < 0 ? 0 : minWidth;
+      var computedMaxWidth = typeof maxWidth === 'undefined' || maxWidth < 0 ? newWidth : maxWidth;
+      var computedMinHeight = typeof minHeight === 'undefined' || minHeight < 0 ? 0 : minHeight;
+      var computedMaxHeight = typeof maxHeight === 'undefined' || maxHeight < 0 ? newHeight : maxHeight;
 
-      var trueMinWidth = minWidth > minHeight / ratio ? minWidth : minHeight / ratio;
-      var trueMaxWidth = maxWidth < maxHeight / ratio ? maxWidth : maxHeight / ratio;
-
-      console.log(trueMinWidth);
       if (lockAspectRatio) {
-        newWidth = clamp(newWidth, trueMinWidth, trueMaxWidth);
-        console.log(newWidth, '3');
-        newHeight = clamp(newHeight, hmin, hmax);
+        var lockedMinWidth = computedMinWidth > computedMinHeight / ratio ? computedMinWidth : computedMinHeight / ratio;
+        var lockedMaxWidth = computedMaxWidth < computedMaxHeight / ratio ? computedMaxWidth : computedMaxHeight / ratio;
+        var lockedMinHeight = computedMinHeight > computedMinWidth * ratio ? computedMinHeight : computedMinWidth * ratio;
+        var lockedMaxHeight = computedMaxHeight < computedMaxWidth * ratio ? computedMaxHeight : computedMaxWidth * ratio;
+        newWidth = clamp(newWidth, lockedMinWidth, lockedMaxWidth);
+        newHeight = clamp(newHeight, lockedMinHeight, lockedMaxHeight);
       } else {
-        newWidth = clamp(newWidth, min, max);
-        newHeight = clamp(newHeight, hmin, hmax);
+        newWidth = clamp(newWidth, computedMinWidth, computedMaxWidth);
+        newHeight = clamp(newHeight, computedMinHeight, computedMaxHeight);
       }
       newWidth = snap(newWidth, this.props.grid[0]);
       newHeight = snap(newHeight, this.props.grid[1]);
-      // newWidth = clamp(newWidth, min, max);
-      // newWidth = snap(newWidth, this.props.grid[0]);
-      // newHeight = clamp(newHeight, hmin, hmax);
-      // if (newWidth === maxWidth || newWidth === minWidth) {
-      //   if (lockAspectRatio) newHeight = newWidth * ratio;
-      // } else if (newHeight === maxHeight || newHeight === minHeight) {
-      //   if (lockAspectRatio) newWidth = newHeight / ratio;
-      // }    
       this.setState({
         width: width !== 'auto' ? newWidth : 'auto',
         height: height !== 'auto' ? newHeight : 'auto'
