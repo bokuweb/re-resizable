@@ -392,4 +392,174 @@ describe('Resizable Component test', () => {
     document.body.innerHTML = '';
     setTimeout(done);
   });
+
+  it('should snapped by grid value', () => {
+    const onResize = sinon.spy();
+    const onResizeStart = sinon.spy();
+    const onResizeStop = sinon.spy();
+    const resizable = ReactDOM.render(
+      <Resizable
+        width={100} height={100}
+        onResize={onResize}
+        onResizeStart={onResizeStart}
+        onResizeStop={onResizeStop}
+        grid={[10, 10]}
+      />,
+      document.getElementById('content'),
+    );
+    const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
+    const node = ReactDOM.findDOMNode(divs[6]);
+    TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
+    mouseMove(12, 12);
+    assert(onResize.getCall(0).args[0] instanceof MouseEvent);
+    assert.deepEqual(onResize.getCall(0).args[2].clientHeight, 110);
+    assert.deepEqual(onResize.getCall(0).args[2].clientWidth, 110);
+    assert.deepEqual(onResize.getCall(0).args[3], { width: 10, height: 10 });
+  });
+
+  it('should clamped by max width', () => {
+    const onResize = sinon.spy();
+    const onResizeStart = sinon.spy();
+    const onResizeStop = sinon.spy();
+    const resizable = ReactDOM.render(
+      <Resizable
+        width={100} height={100}
+        maxWidth={200}
+        onResize={onResize}
+        onResizeStart={onResizeStart}
+        onResizeStop={onResizeStop}
+      />,
+      document.getElementById('content'),
+    );
+    const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
+    const node = ReactDOM.findDOMNode(divs[6]);
+    TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
+    mouseMove(200, 0);
+    assert(onResize.getCall(0).args[0] instanceof MouseEvent);
+    assert.deepEqual(onResize.getCall(0).args[2].clientWidth, 200);
+    assert.deepEqual(onResize.getCall(0).args[3], { width: 100, height: 0 });
+  });
+
+
+  it('should clamped by min width', () => {
+    const onResize = sinon.spy();
+    const onResizeStart = sinon.spy();
+    const onResizeStop = sinon.spy();
+    const resizable = ReactDOM.render(
+      <Resizable
+        width={100} height={100}
+        minWidth={50}
+        onResize={onResize}
+        onResizeStart={onResizeStart}
+        onResizeStop={onResizeStop}
+      />,
+      document.getElementById('content'),
+    );
+    const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
+    const node = ReactDOM.findDOMNode(divs[6]);
+    TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
+    mouseMove(-100, 0);
+    assert(onResize.getCall(0).args[0] instanceof MouseEvent);
+    assert.deepEqual(onResize.getCall(0).args[2].clientWidth, 50);
+    assert.deepEqual(onResize.getCall(0).args[3], { width: -50, height: 0 });
+  });
+
+  it('should clamped by max height', () => {
+    const onResize = sinon.spy();
+    const onResizeStart = sinon.spy();
+    const onResizeStop = sinon.spy();
+    const resizable = ReactDOM.render(
+      <Resizable
+        width={100} height={100}
+        maxHeight={200}
+        onResize={onResize}
+        onResizeStart={onResizeStart}
+        onResizeStop={onResizeStop}
+      />,
+      document.getElementById('content'),
+    );
+    const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
+    const node = ReactDOM.findDOMNode(divs[6]);
+    TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
+    mouseMove(0, 200);
+    assert(onResize.getCall(0).args[0] instanceof MouseEvent);
+    assert.deepEqual(onResize.getCall(0).args[2].clientHeight, 200);
+    assert.deepEqual(onResize.getCall(0).args[3], { width: 0, height: 100 });
+  });
+
+
+  it('should clamped by min height', () => {
+    const onResize = sinon.spy();
+    const onResizeStart = sinon.spy();
+    const onResizeStop = sinon.spy();
+    const resizable = ReactDOM.render(
+      <Resizable
+        width={100} height={100}
+        minHeight={50}
+        onResize={onResize}
+        onResizeStart={onResizeStart}
+        onResizeStop={onResizeStop}
+      />,
+      document.getElementById('content'),
+    );
+    const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
+    const node = ReactDOM.findDOMNode(divs[6]);
+    TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
+    mouseMove(0, -100);
+    assert(onResize.getCall(0).args[0] instanceof MouseEvent);
+    assert.deepEqual(onResize.getCall(0).args[2].clientHeight, 50);
+    assert.deepEqual(onResize.getCall(0).args[3], { width: 0, height: -50 });
+  });
+
+  it('should aspect ratio locked when resize to right', () => {
+    const onResize = sinon.spy();
+    const onResizeStart = sinon.spy();
+    const onResizeStop = sinon.spy();
+    const resizable = ReactDOM.render(
+      <Resizable
+        width={100} height={100}
+        onResize={onResize}
+        onResizeStart={onResizeStart}
+        onResizeStop={onResizeStop}
+        lockAspectRatio
+      />,
+      document.getElementById('content'),
+    );
+    const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
+    const node = ReactDOM.findDOMNode(divs[6]);
+    TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
+    mouseMove(200, 0);
+    mouseUp(200, 0);
+    assert.equal(onResizeStop.callCount, 1);
+    assert(onResize.getCall(0).args[0] instanceof MouseEvent);
+    assert.deepEqual(onResizeStop.getCall(0).args[1], 'bottomRight');
+    assert.deepEqual(onResize.getCall(0).args[2].clientWidth, 400);
+    assert.deepEqual(onResize.getCall(0).args[2].clientHeight, 400);
+    // assert.deepEqual(onResize.getCall(0).args[3], { width: 200, height: 220 });
+  });
+
+/*
+  it('should aspect ratio locked when resize to bottom', () => {
+    const onResize = sinon.spy();
+    const onResizeStart = sinon.spy();
+    const onResizeStop = sinon.spy();
+    const resizable = ReactDOM.render(
+      <Resizable
+        width={100} height={100}
+        lockAspectRatio
+        onResize={onResize}
+        onResizeStart={onResizeStart}
+        onResizeStop={onResizeStop}
+      />,
+      document.getElementById('content'),
+    );
+    const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
+    const node = ReactDOM.findDOMNode(divs[6]);
+    TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
+    mouseMove(0, 100);
+    assert.deepEqual(onResize.getCall(0).args[2].clientWidth, 200);
+    assert.deepEqual(onResize.getCall(0).args[2].clientHeight, 200);
+    assert.deepEqual(onResize.getCall(0).args[3], { width: 100, height: 100 });
+  });
+  */
 });

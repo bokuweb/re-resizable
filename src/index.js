@@ -11,7 +11,6 @@
 /* eslint-disable react/no-did-mount-set-state */
 
 import React, { Component } from 'react';
-// flow-disable-line
 import isEqual from 'lodash.isequal';
 import Resizer from './resizer';
 
@@ -151,6 +150,10 @@ export default class Resizable extends Component {
     },
     width: 'auto',
     height: 'auto',
+    minWidth: 0,
+    minHeight: 0,
+    maxWidth: 1000000,
+    maxHeight: 1000000,
     style: {},
     grid: [1, 1],
     lockAspectRatio: false,
@@ -247,36 +250,50 @@ export default class Resizable extends Component {
     let newHeight = original.height;
     if (/right/i.test(direction)) {
       newWidth = original.width + (clientX - original.x);
-      const min = (typeof minWidth === 'undefined' || minWidth < 0) ? 0 : minWidth;
-      const max = (typeof maxWidth === 'undefined' || maxWidth < 0) ? newWidth : maxWidth;
-      newWidth = clamp(newWidth, min, max);
-      newWidth = snap(newWidth, this.props.grid[0]);
+      console.log(newWidth, '1')
+      if (lockAspectRatio) newHeight = newWidth * ratio;
     }
     if (/left/i.test(direction)) {
       newWidth = original.width - (clientX + original.x);
-      const min = (typeof minWidth === 'undefined' || minWidth < 0) ? 0 : minWidth;
-      const max = (typeof maxWidth === 'undefined' || maxWidth < 0) ? newWidth : maxWidth;
-      newWidth = clamp(newWidth, min, max);
-      newWidth = snap(newWidth, this.props.grid[0]);
+      if (lockAspectRatio) newHeight = newWidth * ratio;
     }
     if (/bottom/i.test(direction)) {
       newHeight = original.height + (clientY - original.y);
-      const min = (typeof minHeight === 'undefined' || minHeight < 0) ? 0 : minHeight;
-      const max = (typeof maxHeight === 'undefined' || maxHeight < 0) ? newHeight : maxHeight;
-      newHeight = clamp(newHeight, min, max);
-      newHeight = snap(newHeight, this.props.grid[1]);
+      if (lockAspectRatio) newWidth = newHeight / ratio;
     }
     if (/top/i.test(direction)) {
       newHeight = original.height - (clientY + original.y);
-      const min = (typeof minHeight === 'undefined' || minHeight < 0) ? 0 : minHeight;
-      const max = (typeof maxHeight === 'undefined' || maxHeight < 0) ? newHeight : maxHeight;
-      newHeight = clamp(newHeight, min, max);
-      newHeight = snap(newHeight, this.props.grid[1]);
+      if (lockAspectRatio) newWidth = newHeight / ratio;
     }
+    console.log(newWidth, '2')
+    const min = (typeof minWidth === 'undefined' || minWidth < 0) ? 0 : minWidth;
+    const max = (typeof maxWidth === 'undefined' || maxWidth < 0) ? newWidth : maxWidth;
+
+    const hmin = (typeof minHeight === 'undefined' || minHeight < 0) ? 0 : minHeight;
+    const hmax = (typeof maxHeight === 'undefined' || maxHeight < 0) ? newHeight : maxHeight;
+
+    const trueMinWidth = minWidth > minHeight / ratio ? minWidth : minHeight / ratio;
+    const trueMaxWidth = maxWidth < maxHeight / ratio ? maxWidth : maxHeight / ratio;
+
+    console.log(trueMinWidth)
     if (lockAspectRatio) {
-      newWidth = newHeight / ratio;
-      newHeight = newWidth * ratio;
+      newWidth = clamp(newWidth, trueMinWidth, trueMaxWidth);
+      console.log(newWidth, '3')
+      newHeight = clamp(newHeight, hmin, hmax);
+    } else {
+      newWidth = clamp(newWidth, min, max);
+      newHeight = clamp(newHeight, hmin, hmax);
     }
+    newWidth = snap(newWidth, this.props.grid[0]);
+    newHeight = snap(newHeight, this.props.grid[1]);
+    // newWidth = clamp(newWidth, min, max);
+    // newWidth = snap(newWidth, this.props.grid[0]);
+    // newHeight = clamp(newHeight, hmin, hmax);
+    // if (newWidth === maxWidth || newWidth === minWidth) {
+    //   if (lockAspectRatio) newHeight = newWidth * ratio;
+    // } else if (newHeight === maxHeight || newHeight === minHeight) {
+    //   if (lockAspectRatio) newWidth = newHeight / ratio;
+    // }    
     this.setState({
       width: width !== 'auto' ? newWidth : 'auto',
       height: height !== 'auto' ? newHeight : 'auto',
