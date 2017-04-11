@@ -4,13 +4,14 @@
   "description": "",
   "main": "lib/index.js",
   "scripts": {
+    "build:flow-gen": "flow gen-flow-files src/index.js --out-dir lib",
     "watch": "watchify --extension=js -o docs/dist/bundle.js docs/src/index.js",
     "compile": "babel -d lib/ src/",
-    "test": "karma start",
+    "test": "npm run flow && npm run lint && karma start",
     "prepush": "npm run lint && npm t",
     "lint": "eslint react",
     "flow": "flow",
-    "prepublish": "npm run compile"
+    "prepublish": "npm run compile && npm run build:flow-gen"
   },
   "repository": {
     "type": "git",
