@@ -23070,10 +23070,6 @@ Resizable.defaultProps = {
   },
   width: 'auto',
   height: 'auto',
-  minWidth: 0,
-  minHeight: 0,
-  maxWidth: 1000000,
-  maxHeight: 1000000,
   style: {},
   grid: [1, 1],
   lockAspectRatio: false

@@ -526,19 +526,17 @@ describe('Resizable Component test', () => {
       document.getElementById('content'),
     );
     const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
-    const node = ReactDOM.findDOMNode(divs[6]);
+    const node = ReactDOM.findDOMNode(divs[2]);
     TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
     mouseMove(200, 0);
     mouseUp(200, 0);
     assert.equal(onResizeStop.callCount, 1);
     assert(onResize.getCall(0).args[0] instanceof MouseEvent);
-    assert.deepEqual(onResizeStop.getCall(0).args[1], 'bottomRight');
-    assert.deepEqual(onResize.getCall(0).args[2].clientWidth, 400);
-    assert.deepEqual(onResize.getCall(0).args[2].clientHeight, 400);
-    // assert.deepEqual(onResize.getCall(0).args[3], { width: 200, height: 220 });
+    assert.deepEqual(onResize.getCall(0).args[2].clientWidth, 300);
+    assert.deepEqual(onResize.getCall(0).args[2].clientHeight, 300);
+    assert.deepEqual(onResize.getCall(0).args[3], { width: 200, height: 200 });
   });
 
-/*
   it('should aspect ratio locked when resize to bottom', () => {
     const onResize = sinon.spy();
     const onResizeStart = sinon.spy();
@@ -546,20 +544,22 @@ describe('Resizable Component test', () => {
     const resizable = ReactDOM.render(
       <Resizable
         width={100} height={100}
-        lockAspectRatio
         onResize={onResize}
         onResizeStart={onResizeStart}
         onResizeStop={onResizeStop}
+        lockAspectRatio
       />,
       document.getElementById('content'),
     );
     const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
-    const node = ReactDOM.findDOMNode(divs[6]);
+    const node = ReactDOM.findDOMNode(divs[3]);
     TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
-    mouseMove(0, 100);
-    assert.deepEqual(onResize.getCall(0).args[2].clientWidth, 200);
-    assert.deepEqual(onResize.getCall(0).args[2].clientHeight, 200);
-    assert.deepEqual(onResize.getCall(0).args[3], { width: 100, height: 100 });
+    mouseMove(0, 200);
+    mouseUp(0, 200);
+    assert.equal(onResizeStop.callCount, 1);
+    assert(onResize.getCall(0).args[0] instanceof MouseEvent);
+    assert.deepEqual(onResize.getCall(0).args[2].clientWidth, 300);
+    assert.deepEqual(onResize.getCall(0).args[2].clientHeight, 300);
+    assert.deepEqual(onResize.getCall(0).args[3], { width: 200, height: 200 });
   });
-  */
 });
