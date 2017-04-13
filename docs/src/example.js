@@ -3,6 +3,11 @@ import Resizable from '../../src';
 
 export default class Example extends Component {
 
+constructor(props) {
+  super(props);
+  this.state = {b: null}
+
+}
   onResizeStart(dir, size, rect) {
     console.log('onResizeStart');
     console.log(dir);
@@ -26,14 +31,23 @@ export default class Example extends Component {
     console.log(delta);
   }
 
+  componentDidMount() {
+    this.setState({b: this.b})
+    console.log('aaa', this.b)
+  }
+
   render() {
+
     return (
+      <div ref={c => this.b = c} style={{width: '400px', height: '300px'}}>
+        <div>
       <Resizable
         ref={c => { this.resizable = c; }}
         className="item"
         width={'30%'}
         height={200}
-        lockAspectRatio
+        bounds={this.state.b}
+
         handleClasses={{
           bottomRight: 'bottom-right-classname',
         }}
@@ -47,8 +61,9 @@ export default class Example extends Component {
             react-resizable-box v2.0
           </span>
         </span>
-
       </Resizable>
+      </div>
+      </div>
     );
   }
 }

@@ -240,7 +240,8 @@ export default class Resizable extends Component {
     const clientX = event instanceof MouseEvent ? event.clientX : event.touches[0].clientX;
     const clientY = event instanceof MouseEvent ? event.clientY : event.touches[0].clientY;
     const { direction, original, width, height } = this.state;
-    const { minWidth, maxWidth, minHeight, maxHeight, lockAspectRatio } = this.props;
+    const { lockAspectRatio, minWidth, minHeight } = this.props;
+    let { maxWidth, maxHeight } = this.props;
     const ratio = original.height / original.width;
     let newWidth = original.width;
     let newHeight = original.height;
@@ -259,6 +260,29 @@ export default class Resizable extends Component {
     if (/top/i.test(direction)) {
       newHeight = original.height - (clientY - original.y);
       if (lockAspectRatio) newWidth = newHeight / ratio;
+    }
+
+    console.log(this.props.bounds)
+    if (this.props.bounds === 'parent') {
+      const parent = this.resizable.parentNode;
+      if (parent instanceof HTMLElement) {
+        const boundWidth = parent.offsetWidth + (parent.offsetLeft - this.resizable.offsetLeft);
+        const boundHeight = parent.offsetHeight + (parent.offsetTop - this.resizable.offsetTop);
+        maxWidth = maxWidth && maxWidth < boundWidth ? maxWidth : boundWidth;
+        maxHeight = maxHeight && maxHeight < boundHeight ? maxHeight : boundHeight;
+      }
+    } else if (this.props.bounds === 'window') {
+      if (typeof window !== 'undefined') {
+        const boundWidth = window.innerWidth - this.resizable.offsetLeft;
+        const boundHeight = window.innerHeight - this.resizable.offsetTop;
+        maxWidth = maxWidth && maxWidth < boundWidth ? maxWidth : boundWidth;
+        maxHeight = maxHeight && maxHeight < boundHeight ? maxHeight : boundHeight;
+      }
+    } else if (this.props.bounds && this.props.bounds instanceof HTMLElement) {
+      const boundWidth = this.props.bounds.offsetWidth + (this.props.bounds.offsetLeft - this.resizable.offsetLeft);
+      const boundHeight = this.props.bounds.offsetHeight + (this.props.bounds.offsetTop - this.resizable.offsetTop);
+      maxWidth = maxWidth && maxWidth < boundWidth ? maxWidth : boundWidth;
+      maxHeight = maxHeight && maxHeight < boundHeight ? maxHeight : boundHeight;
     }
 
     const computedMinWidth = (typeof minWidth === 'undefined' || minWidth < 0) ? 0 : minWidth;
