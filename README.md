@@ -213,6 +213,19 @@ npm test
 
 ## Changelog
 
+#### v2.0.0-rc.2
+
+- Use `flowtype`.
+- Change callback args.
+- Change some props name.
+  - isResizable => enable.
+  - customClass => className.
+  - customStyle => style.
+  - handleStyle => handlerStyles.
+  - handleClass => handlerClasses.
+- Add bounds feature.
+- Fix min/max size checker when aspect ratio locked.
+
 #### v1.8.4
 
 - FIx cursor
