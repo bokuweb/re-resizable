@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -17,109 +15,35 @@ var _src2 = _interopRequireDefault(_src);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Example = function (_Component) {
-  _inherits(Example, _Component);
-
-  function Example(props) {
-    _classCallCheck(this, Example);
-
-    var _this = _possibleConstructorReturn(this, (Example.__proto__ || Object.getPrototypeOf(Example)).call(this, props));
-
-    _this.state = { b: null };
-
-    return _this;
-  }
-
-  _createClass(Example, [{
-    key: 'onResizeStart',
-    value: function onResizeStart(dir, size, rect) {
-      console.log('onResizeStart');
-      console.log(dir);
-      console.log(size);
-      console.log(rect);
-    }
-  }, {
-    key: 'onResize',
-    value: function onResize(dir, size, rect, delta) {
-      console.log('onResize');
-      console.log(dir);
-      console.log(size);
-      console.log(rect);
-      console.log(delta);
-    }
-  }, {
-    key: 'onResizeStop',
-    value: function onResizeStop(dir, size, rect, delta) {
-      console.log('onResizeStop');
-      console.log(dir);
-      console.log(size);
-      console.log(rect);
-      console.log(delta);
-    }
-  }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.setState({ b: this.b });
-      console.log('aaa', this.b);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      return _react2.default.createElement(
-        'div',
-        { ref: function ref(c) {
-            return _this2.b = c;
-          }, style: { width: '400px', height: '300px' } },
+exports.default = function () {
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(
+      _src2.default,
+      {
+        className: 'item',
+        width: '480',
+        height: '300',
+        minWidth: '240',
+        minHeight: '120',
+        maxWidth: '800',
+        maxHeight: '600'
+      },
+      _react2.default.createElement(
+        'span',
+        null,
+        'Resize me!!',
+        _react2.default.createElement('br', null),
         _react2.default.createElement(
-          'div',
-          null,
-          _react2.default.createElement(
-            _src2.default,
-            {
-              ref: function ref(c) {
-                _this2.resizable = c;
-              },
-              className: 'item',
-              width: '30%',
-              height: 200,
-              bounds: this.state.b,
-
-              handleClasses: {
-                bottomRight: 'bottom-right-classname'
-              },
-              onResizeStart: this.onResizeStart.bind(this),
-              onResize: this.onResize.bind(this),
-              onResizeStop: this.onResizeStop.bind(this)
-            },
-            _react2.default.createElement(
-              'span',
-              null,
-              'Resize me!!',
-              _react2.default.createElement('br', null),
-              _react2.default.createElement(
-                'span',
-                { style: { fontSize: '11px', fontFamily: 'Arial' } },
-                'react-resizable-box v2.0'
-              )
-            )
-          )
+          'span',
+          { style: { fontSize: '11px', fontFamily: 'Arial' } },
+          'max 800 * 600 / min 240 * 120'
         )
-      );
-    }
-  }]);
-
-  return Example;
-}(_react.Component);
-
-exports.default = Example;
+      )
+    )
+  );
+};
 
 },{"../../src":184,"react":183}],2:[function(require,module,exports){
 'use strict';
@@ -22813,8 +22737,8 @@ var Resizable = function (_Component) {
 
     _this.state = {
       isResizing: false,
-      width: width,
-      height: height,
+      width: typeof width === 'undefined' ? 'auto' : width,
+      height: typeof height === 'undefined' ? 'auto' : height,
       direction: 'right',
       original: {
         x: 0,
@@ -22852,7 +22776,10 @@ var Resizable = function (_Component) {
       var width = _ref.width,
           height = _ref.height;
 
-      if (width !== this.props.width) this.setState({ width: width });
+      var newWidth = typeof this.props.width === 'undefined' ? 'auto' : this.props.width;
+      if (width !== newWidth) {
+        this.setState({ width: newWidth });
+      }
       if (height !== this.props.height) this.setState({ height: height });
     }
   }, {
@@ -22936,7 +22863,6 @@ var Resizable = function (_Component) {
         if (lockAspectRatio) newWidth = newHeight / ratio;
       }
 
-      console.log(this.props.bounds);
       if (this.props.bounds === 'parent') {
         var parent = this.resizable.parentNode;
         if (parent instanceof HTMLElement) {
@@ -22975,8 +22901,13 @@ var Resizable = function (_Component) {
         newWidth = clamp(newWidth, computedMinWidth, computedMaxWidth);
         newHeight = clamp(newHeight, computedMinHeight, computedMaxHeight);
       }
-      newWidth = snap(newWidth, this.props.grid[0]);
-      newHeight = snap(newHeight, this.props.grid[1]);
+      if (this.props.grid) {
+        newWidth = snap(newWidth, this.props.grid[0]);
+      }
+      if (this.props.grid) {
+        newHeight = snap(newHeight, this.props.grid[1]);
+      }
+
       this.setState({
         width: width !== 'auto' ? newWidth : 'auto',
         height: height !== 'auto' ? newHeight : 'auto'
@@ -23030,6 +22961,7 @@ var Resizable = function (_Component) {
           handlerStyles = _props3.handlerStyles,
           handlerClasses = _props3.handlerClasses;
 
+      if (!enable) return null;
       return Object.keys(enable).map(function (dir) {
         if (enable[dir] !== false) {
           return _react2.default.createElement(_resizer2.default, {
@@ -23113,8 +23045,6 @@ Resizable.defaultProps = {
     bottomLeft: true,
     topLeft: true
   },
-  width: 'auto',
-  height: 'auto',
   style: {},
   grid: [1, 1],
   lockAspectRatio: false
