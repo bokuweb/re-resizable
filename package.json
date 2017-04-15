@@ -6,7 +6,7 @@
   "scripts": {
     "flow:gen": "flow gen-flow-files src/index.js --out-dir lib && flow gen-flow-files src/resizer.js --out-dir lib",
     "watch": "watchify --extension=js -o docs/dist/bundle.js docs/src/index.js",
-    "compile": "babel -d lib/ src/",
+    "compile": "babel -d lib/ src/ --copy-files",
     "test": "npm run flow && npm run lint && karma start",
     "prepush": "npm run lint && npm t",
     "lint": "eslint react",
