@@ -19,6 +19,17 @@ Resizable component for React.
 - [Changelog](#changelog)
 - [License](#license)
 
+## Table of Contents
+
+- [Demo](#Demo)
+- [Install](#install)
+- [Usage](#usage)
+- [Props](#props)
+- [Method](#method)
+- [Test](#test)
+- [Changelog](#changelog)
+- [License](#license)
+
 ## Demo
 
 ![screenshot](https://github.com/bokuweb/react-resizable-box/blob/master/docs/screenshot.gif?raw=true)
