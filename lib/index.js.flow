@@ -1,0 +1,94 @@
+// @flow
+
+declare module 'react-resizable-box' {
+  declare type Direction = "top" | "right" | "bottom" | "left" | "topRight" | "bottomRight" | "bottomLeft" | "topLeft";
+
+  declare type DefaultProps = {
+    enable: {
+      bottom: boolean,
+      bottomLeft: boolean,
+      bottomRight: boolean,
+      left: boolean,
+      right: boolean,
+      top: boolean,
+      topLeft: boolean,
+      topRight: boolean
+    },
+    grid: [number, number],
+    lockAspectRatio: boolean,
+    onResize: () => void,
+    onResizeStart: () => void,
+    onResizeStop: () => void,
+    style: {}
+  }
+
+  declare type Props = {
+    bounds?: "parent" | "window" | HTMLElement,
+    children?: any,
+    className?: string,
+    enable?: {
+      bottom?: boolean,
+      bottomLeft?: boolean,
+      bottomRight?: boolean,
+      left?: boolean,
+      right?: boolean,
+      top?: boolean,
+      topLeft?: boolean,
+      topRight?: boolean
+    },
+    extendsProps?: any,
+    grid?: [number, number],
+    handlerClasses?: {
+      bottom?: string,
+      bottomLeft?: string,
+      bottomRight?: string,
+      left?: string,
+      right?: string,
+      top?: string,
+      topLeft?: string,
+      topRight?: string
+    },
+    handlerStyles?: {
+      bottom?: any,
+      bottomLeft?: any,
+      bottomRight?: any,
+      left?: any,
+      right?: any,
+      top?: any,
+      topLeft?: any,
+      topRight?: any
+    },
+    height?: string | number,
+    lockAspectRatio?: boolean,
+    maxHeight?: number,
+    maxWidth?: number,
+    minHeight?: number,
+    minWidth?: number,
+    onResize?: (
+      event: MouseEvent | TouchEvent,
+      direction: Direction,
+      refToElement: HTMLElement,
+      delta: { height: number, width: number }
+    ) => void,
+    onResizeStart?: (
+      event: SyntheticMouseEvent | SyntheticTouchEvent,
+      dir: Direction,
+      refToElement: HTMLElement
+    ) => void,
+    onResizeStop?: (
+      event: MouseEvent | TouchEvent,
+      direction: Direction,
+      refToElement: HTMLElement,
+      delta: { height: number, width: number }
+    ) => void,
+    style?: any,
+    width?: string | number
+  };
+
+  declare class Resizable extends React$Component {
+    static updateSize(size: { height?: string | number, width?: string | number }): void;
+    static defaultProps: DefaultProps;
+    props: Props;
+  }
+  declare var exports: Resizable;
+}
