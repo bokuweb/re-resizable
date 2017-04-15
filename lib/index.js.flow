@@ -90,5 +90,5 @@ declare module 'react-resizable-box' {
     static defaultProps: DefaultProps;
     props: Props;
   }
-  declare var exports: typeof Resizable;
+  declare var exports: Resizable;
 }
