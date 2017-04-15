@@ -6,6 +6,18 @@ Resizable component for React.
 [![Version](https://img.shields.io/npm/v/react-resizable-box.svg?style=flat-square)](https://www.npmjs.com/package/react-resizable-box)
 [![npm](https://img.shields.io/npm/dm/react-resizable-box.svg?style=flat-square)]()
 [![License](https://img.shields.io/npm/l/react-resizable-box.svg?style=flat-square)](https://github.com/bokuweb/react-resizable-box#license)
+[![Greenkeeper badge](https://badges.greenkeeper.io/bokuweb/react-resizable-box.svg)](https://greenkeeper.io/)
+
+## Table of Contents
+
+- [Demo](#Demo)
+- [Install](#install)
+- [Usage](#usage)
+- [Props](#props)
+- [Method](#method)
+- [Test](#test)
+- [Changelog](#changelog)
+- [License](#license)
 
 ## Table of Contents
 
