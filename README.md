@@ -50,6 +50,7 @@ $ npm install --save react-resizable-box
 
 The `className` property is used to set the custom `className` of a resizable component.
 
+
 #### `style?: any;`
 
 The `style` property is used to set the custom `style` of a resizable component.
