@@ -76,8 +76,10 @@
       "babelify"
     ]
   },
+  "typings": "./index.d.ts",
   "files": [
-    "lib"
+    "lib",
+    "index.d.ts"
   ],
   "dependencies": {
     "lodash.isequal": "^4.5.0"
