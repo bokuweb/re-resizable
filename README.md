@@ -1,5 +1,7 @@
 # react-resizable-box
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/bokuweb/react-resizable-box.svg)](https://greenkeeper.io/)
+
 Resizable component for React.
 
 [![Build Status](https://img.shields.io/travis/bokuweb/react-resizable-box.svg?style=flat-square)](https://travis-ci.org/bokuweb/react-resizable-box)
