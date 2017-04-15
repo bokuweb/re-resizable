@@ -7,26 +7,36 @@ Resizable component for React.
 [![npm](https://img.shields.io/npm/dm/react-resizable-box.svg?style=flat-square)]()
 [![License](https://img.shields.io/npm/l/react-resizable-box.svg?style=flat-square)](https://github.com/bokuweb/react-resizable-box#license)
 
+## Table of Contents
+
+- [Demo](#Demo)
+- [Install](#install)
+- [Usage](#usage)
+- [Props](#props)
+- [Method](#method)
+- [Test](#test)
+- [Changelog](#changelog)
+- [License](#license)
+
 ## Demo
 
 ![screenshot](https://github.com/bokuweb/react-resizable-box/blob/master/docs/screenshot.gif?raw=true)
    
 See demo: [http://bokuweb.github.io/react-resizable-box/example/](http://bokuweb.github.io/react-resizable-box/)
 
+## Install
 
-## Installation
-
-```sh
-npm i react-resizable-box
+``` sh
+$ npm install --save react-resizable-box
 ```
 
-## Overview
+## Usage
 
 ### Basic
 
 ``` javascript
 <Resizable
-  customClass="item"
+  className="item"
   width={320}
   height={200}
 >
@@ -34,182 +44,126 @@ npm i react-resizable-box
 </Resizable>
 ```
 
-### With min/max width and height
-
-``` javascript
-<Resizable
-  customClass="item"
-  width={320}
-  height={200}
-  minWidth={160}
-  minHeight={160}
-  maxWidth={480}
-  maxHeight={480}
->
-  min size is 160px x 160px, max size is 480px x 480px.
-</Resizable>
-```
-
 ## Props
 
-#### `width`: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+#### `className?: string;`
+
+The `className` property is used to set the custom `className` of a resizable component.
 
 
-The `width` property is used to set the width of a resizable component.   
-For example, you can set `300`, `'300px'`, `'50%'`.     
-If ommited, set `'auto'`.    
+#### `style?: any;`
 
+The `style` property is used to set the custom `style` of a resizable component.
 
-#### `height`: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+#### `width?: (number | string);`
 
+The `width` property is used to set the initial width of a resizable component.   
+For example, you can set `300`, `'300px'`, `50%`.     
+If omitted, set `'auto'`.    
 
-The `height` property is used to set the width of a resizable component.    
-For example, you can set `300`, `'300px'`, `'50%'`.    
-If ommited, set `'auto'`.    
+#### `height?: (number | string);`
 
+The `height` property is used to set the initial height of a resizable component.    
+For example, you can set `300`, `'300px'`, `50%`.    
+If omitted, set `'auto'`.    
 
-#### `minWidth`: PropTypes.number
-
+#### `minWidth?: number;`
 
 The `minWidth` property is used to set the minimum width of a resizable component.
 
-
-#### `minHeight`: PropTypes.number
-
+#### `minHeight?: number;`
 
 The `minHeight` property is used to set the minimum height of a resizable component.
 
-
-#### `maxWidth`: PropTypes.number
-
+#### `maxWidth?: number;`
 
 The `maxWidth` property is used to set the maximum width of a resizable component.
 
+#### `maxHeight?: number`;
 
-#### `maxHeight`: PropTypes.number
+The `maxHeight` property is used to set the maximum height of a resizable component.
 
-
-The `maxheight` property is used to set the maximum height of a resizable component.
-
-
-#### `grid`: PropTypes.arrayOf(PropTypes.number)
-
+#### `grid?: Array<number>;`
 
 The `grid` property is used to specify the increments that resizing should snap to. Defaults to `[1, 1]`.
 
-#### `lockAspectRatio`: PropTypes.bool
+#### `lockAspectRatio?: boolean;`
 
 The `lockAspectRatio` property is used to lock aspect ratio.
-If ommited, set `false`.
+If omitted, set `false`.
 
+#### `bounds?: ('window' | 'parent' | HTMLElement);`
 
-#### `customClass`: PropTypes.string
+Specifies resize boundaries.
 
+#### `handlerStyles?: HandlersStyles;`
 
-The `customClass` property is used to set the custom `className` of a resizable component.
+The `handleStyles` property is used to override the style of one or more resize handlers.
+Only the axis you specify will have its handler style replaced.
+If you specify a value for `right` it will completely replace the styles for the `right` resize handler,
+but other handler will still use the default styles.
 
+#### `handlerClasses?: HandlersClassName;`
 
-#### `customStyle`: Proptypes.object
+The `handlerClasses` property is used to set the className of one or more resize handlers.
 
+#### `enable?: ?Enable;`
 
-The `customStyle` property is used to set the custom `classStyle` of a resizable component.
-
-
-#### `handleStyle`: PropTypes.shape({ top: PropTypes.object, right: PropTypes.object, bottom: PropTypes.object, left: PropTypes.object, topRight: PropTypes.object, bottomRight: PropTypes.object, bottomLeft: PropTypes.object, topLeft: PropTypes.object })
-
-
-The `handleStyle` property is used to override the style of one or more resize handles.
-Only the axis you specify will have its handle style replaced.
-If you specify a value for `right` it will completely replace the styles for the `right` resize handle,
-but other handle will still use the default styles.
-
-#### `handleClass`: PropTypes.shape({ top: PropTypes.string, right: PropTypes.string, bottom: PropTypes.string, left: PropTypes.string, topRight: PropTypes.string, bottomRight: PropTypes.string, bottomLeft: PropTypes.string, topLeft: PropTypes.string })
-
-
-The `handleClass` property is used to add a custom className to one or more resize handles.
-Only the axis you specify will have its className added.
-
-
-#### `isResizable`: PropTypes.shape({ top: PropTypes.bool, right: PropTypes.bool, bottom: PropTypes.bool, left: PropTypes.bool, topRight: PropTypes.bool, bottomRight: PropTypes.bool, bottomLeft: PropTypes.bool, topLeft: PropTypes.bool })
-
-
-The `isResizable` property is used to set the resizable permission of a resizable component.
+The `enable` property is used to set the resizable permission of a resizable component.
 
 The permission of `top`, `right`, `bottom`, `left`, `topRight`, `bottomRight`, `bottomLeft`, `topLeft` direction resizing.
 If omitted, all resizer are enabled.
 If you want to permit only right direction resizing, set `{ top:false, right:true, bottom:false, left:false, topRight:false, bottomRight:false, bottomLeft:false, topLeft:false }`. 
 
+#### `onResizeStart?: ResizeStartCallBack;`
 
-#### `onClick`: PropTypes.func
+`ResizeStartCallBack` type is below.
 
+```
+type ResizeStartCallBack = (
+  e: SyntheticMouseEvent | SyntheticTouchEvent,
+  dir: Direction,
+  refToElement: HTMLElement,
+) => void;
+```
 
-Calls when resizable component clicked.
+Calls when resizable component resize start.
 
+#### `onResize?: Callback;`
 
-#### `onTouchStart`: PropTypes.func
+### Basic
 
+`Callback` type is below.
 
-Calls when resizable component touched.
+```
+type Callback = (
+  event: MouseEvent | TouchEvent,
+  direction: Direction,
+  refToElement: HTMLElement,
+  delta: NumberSize,
+) => void;
+```
 
+Calls when resizable component resizing.
 
-#### `onDoubleClick`: PropTypes.func
+#### `onResizeStop?: Callback;`
 
+`Callback` type is below.
 
-Calls when resizable component double clicked.
+```
+type Callback = (
+  event: MouseEvent | TouchEvent,
+  direction: Direction,
+  refToElement: HTMLElement,
+  delta: NumberSize,
+) => void;
+```
 
+Calls when resizable component resize startStop.
 
-#### `onResizeStart`: PropTypes.func
-
-
-Calls when resizable component resize starts.
-Calls back with (`direction: string`, `styleSize: object`, `clientSize: object`, `event: object`)
-
-- direction: `top`, `right`, `bottom`, `left`, `topRight`, `bottomRight`, `bottomLeft`, and `topLeft`.
-- styleSize: `{ width, height }`
-  - this argument is {width, height} of getComputedStyle.
-- clientSize: `{ width, height }`
-  - this argument is `clientWidth` and `clientHeight`.
-- event: `mouse down event`
-
-
-#### `onResize`: PropTypes.func
-
-
-Calls when resizable component resize.
-Calls back with (`direction: string`, `styleSize: object`, `clientSize: object`, `delta: object`)
-
-- direction: `top`, `right`, `bottom`, `left`, `topRight`, `bottomRight`, `bottomLeft`, and `topLeft`.
-- styleSize: `{ width, height }`
-  - this argument is {width, height} of getComputedStyle.
-- clientSize: `{ width, height }`
-  - this argument is `clientWidth` and `clientHeight`.
-- delta: `{ width, height }`
-  - this delta width and height by resize. 
-  
-For example, when `<Resizable width={100} height={200} style={{ padding: '20px'}} onResize={...} />` mounted and resize 'right' 20px, this callback is called with `('right', { width: 120, height: 200 }, { width: 160, height: 240 }, {width: 20, height: 0})`
-
-
-#### `onResizeStop`: PropTypes.func
-
-
-Calls back with (`direction: string`, `styleSize: object`, `clientSize: object`, `delta: object`)
-
-- direction: `top`, `right`, `bottom`, `left`, `topRight`, `bottomRight`, `bottomLeft`, and `topLeft`.
-- styleSize: `{ width, height }`
-  - this argument is {width, height} of getComputedStyle.
-- clientSize: `{ width, height }`
-  - this argument is `clientWidth` and `clientHeight`.
-- delta: `{ width, height }`
-  - this delta width and height by resize. 
-  
-For example, when `<Resizable width={100} height={200} style={{ padding: '20px'}} onResize={...} />` mounted and resize 'right' 20px, this callback is called with `('right', { width: 120, height: 200 }, { width: 160, height: 240 }, {width: 20, height: 0})`
-
-#### `extendsProps`: PropTypes.object
+#### `extendsProps?: any;`
 
 This property is used to pass the other props to the component.
-
-
-
 
 e.g.
 
@@ -219,9 +173,8 @@ const extendsProps = {
   onMouseOver: () => {},
 };
 
-<Resizable {...extendsProps} />
+<Resizable extendsProps={extendsProps} />
 ```
-
 
 ## method
 
@@ -253,7 +206,6 @@ class YourComponent extends Component {
 }
 ```
 
-
 ## Test
 
 ``` sh
@@ -261,6 +213,19 @@ npm test
 ```
 
 ## Changelog
+
+#### v2.0.0-rc.2
+
+- Use `flowtype`.
+- Change callback args.
+- Change some props name.
+  - isResizable => enable.
+  - customClass => className.
+  - customStyle => style.
+  - handleStyle => handlerStyles.
+  - handleClass => handlerClasses.
+- Add bounds feature.
+- Fix min/max size checker when aspect ratio locked.
 
 #### v1.8.4
 
@@ -311,98 +276,11 @@ npm test
 
 - Add `grid` props to snap grid. (thanks @paulyoung)
 
-
 #### v1.3.0
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 - Add `userSelect: none` when resize get srated.
 - Add shouldComponentUpdate.
-- Add hander custom className.
+- Add handler custom className.
 
 #### v1.2.0
 
@@ -442,11 +320,12 @@ npm test
 
 - Support `'px'` and `'%'` for width and height props.
 
+
 ## License
 
 The MIT License (MIT)
 
-Copyright (c) 2016 @Bokuweb
+Copyright (c) 2017 bokuweb
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

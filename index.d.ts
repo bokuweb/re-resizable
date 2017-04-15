@@ -1,4 +1,4 @@
-// Type definitions for react-resizable-box 1.8
+// Type definitions for react-resizable-box 2.0
 // Project: https://github.com/bokuweb/react-resizable-box
 // Definitions by: Kalle Ott <https://github.com/kaoDev>
 // Definitions: https://github.com/kaoDev/react-resizable-box
@@ -16,7 +16,7 @@ export interface ResizableState {
     width: number,
     height: number,
   },
-  isActive?: boolean;
+  isResizing?: boolean;
 }
 
 export type Size = {
@@ -29,20 +29,26 @@ export type CSSSize = {
   height: string;
 }
 
-export type ResizeHandler = (direction: string, styleSize: Size, clientSize: Size, delta: Size) => any;
-export type ResizeStartHandler = (direction: string, styleSize: Size, clientSize: Size, event: React.MouseEvent<any> | React.TouchEvent<any>) => any;
+export type ResizeHandler = (
+  event: MouseEvent | TouchEvent,
+  direction: string,
+  refToElement: HTMLElement,
+  delta: Size,
+) => void;
+
+export type ResizeStartCallBack = (
+  e: React.MouseEvent<any> | React.TouchEvent<any>,
+  dir: string,
+  refToElement: HTMLElement,
+) => void;
 
 export interface ResizableProps {
   children?: React.ReactChildren;
-  onClick?: React.MouseEventHandler<any>;
-  onDoubleClick?: React.MouseEventHandler<any>;
-  onMouseDown?: React.MouseEventHandler<any>;
   onResizeStop?: ResizeHandler;
-  onResizeStart?: ResizeStartHandler;
-  onTouchStart?: React.TouchEventHandler<any>;
+  onResizeStart?: ResizeStartCallBack;
   onResize?: ResizeHandler;
-  customStyle?: React.CSSProperties;
-  handleStyle?: {
+  style?: React.CSSProperties;
+  handlerStyles?: {
     top?: React.CSSProperties,
     right?: React.CSSProperties,
     bottom?: React.CSSProperties,
@@ -52,7 +58,7 @@ export interface ResizableProps {
     bottomLeft?: React.CSSProperties,
     topLeft?: React.CSSProperties,
   },
-  handleClass?: {
+  handlerClasses?: {
     top?: string,
     right?: string,
     bottom?: string,
@@ -62,7 +68,7 @@ export interface ResizableProps {
     bottomLeft?: string,
     topLeft?: string,
   },
-  isResizable?: {
+  enable?: {
     top: boolean,
     right: boolean,
     bottom: boolean,
@@ -72,7 +78,7 @@ export interface ResizableProps {
     bottomLeft: boolean,
     topLeft: boolean,
   },
-  customClass?: string,
+  className?: string,
   width?: string | number,
   height?: string | number,
   minWidth?: number,
@@ -80,21 +86,22 @@ export interface ResizableProps {
   maxWidth?: number,
   maxHeight?: number,
   grid?: number[],
+  bounds?: 'parent' | 'window' | HTMLElement,
   lockAspectRatio?: boolean,
   extendsProps?: object,
 }
 
 export default class Resizable extends React.Component<ResizableProps, ResizableState> {
 
-  onResizeStartWithDirection: object;
+  resizable: HTMLElement;
 
   onTouchMove(event: React.TouchEvent<any>): void;
 
-  onMouseMove(params: { clientX: number, clientY: number }): void;
+  onMouseMove(event: MouseEvent | TouchEvent): void;
 
-  onMouseUp(): void;
+  onMouseUp(event: MouseEvent | TouchEvent): void;
 
-  onResizeStart(direction: string, e: React.TouchEvent<any> | React.MouseEvent<any>): void
+  onResizeStart(event: React.TouchEvent<any> | React.MouseEvent<any>, direction: string): void
 
   getBoxSize(): Size;
 

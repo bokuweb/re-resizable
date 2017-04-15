@@ -1,7 +1,7 @@
 {
   "presets": ["react", "es2015", "stage-0"],
   "plugins": [
-    "add-module-exports",
-    "transform-object-assign"
+    "transform-object-assign",
+    "babel-plugin-transform-flow-strip-types"
   ]
 }
