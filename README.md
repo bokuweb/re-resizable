@@ -215,6 +215,10 @@ npm test
 
 ## Changelog
 
+#### v2.0.0-rc.4
+
+- Update index.js.flow
+
 #### v2.0.0-rc.3
 
 - Update index.js.flow
