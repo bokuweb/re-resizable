@@ -64,8 +64,8 @@ type HandlerClassName = {
 }
 
 type Size = {
-  width: string | number;
-  height: string | number;
+  width?: string | number;
+  height?: string | number;
 }
 
 type NumberSize = {
@@ -90,16 +90,16 @@ type Props = {
   style?: any;
   className?: string;
   extendsProps?: any;
-  grid: [number, number];
+  grid?: [number, number];
   bounds?: 'parent' | 'window' | HTMLElement;
-  width: number | string;
-  height: number | string;
+  width?: string | number;
+  height?: string | number;
   minWidth?: number;
   minHeight?: number;
   maxWidth?: number;
   maxHeight?: number;
   lockAspectRatio?: boolean;
-  enable: Enable;
+  enable?: Enable;
   handlerStyles?: HandlerStyles;
   handlerClasses?: HandlerClassName;
   children?: any;
@@ -148,8 +148,6 @@ export default class Resizable extends Component {
       bottomLeft: true,
       topLeft: true,
     },
-    width: 'auto',
-    height: 'auto',
     style: {},
     grid: [1, 1],
     lockAspectRatio: false,
@@ -160,8 +158,8 @@ export default class Resizable extends Component {
     const { width, height } = props;
     this.state = {
       isResizing: false,
-      width,
-      height,
+      width: typeof width === 'undefined' ? 'auto' : width,
+      height: typeof height === 'undefined' ? 'auto' : height,
       direction: 'right',
       original: {
         x: 0,
@@ -192,7 +190,10 @@ export default class Resizable extends Component {
   }
 
   componentWillReceiveProps({ width, height }: Size) {
-    if (width !== this.props.width) this.setState({ width });
+    const newWidth = typeof this.props.width === 'undefined' ? 'auto' : this.props.width;
+    if (width !== newWidth) {
+      this.setState({ width: newWidth });
+    }
     if (height !== this.props.height) this.setState({ height });
   }
 
@@ -262,7 +263,6 @@ export default class Resizable extends Component {
       if (lockAspectRatio) newWidth = newHeight / ratio;
     }
 
-    console.log(this.props.bounds)
     if (this.props.bounds === 'parent') {
       const parent = this.resizable.parentNode;
       if (parent instanceof HTMLElement) {
@@ -301,8 +301,13 @@ export default class Resizable extends Component {
       newWidth = clamp(newWidth, computedMinWidth, computedMaxWidth);
       newHeight = clamp(newHeight, computedMinHeight, computedMaxHeight);
     }
-    newWidth = snap(newWidth, this.props.grid[0]);
-    newHeight = snap(newHeight, this.props.grid[1]);
+    if (this.props.grid) {
+      newWidth = snap(newWidth, this.props.grid[0]);
+    }
+    if (this.props.grid) {
+      newHeight = snap(newHeight, this.props.grid[1]);
+    }
+
     this.setState({
       width: width !== 'auto' ? newWidth : 'auto',
       height: height !== 'auto' ? newHeight : 'auto',
@@ -366,6 +371,7 @@ export default class Resizable extends Component {
 
   renderResizer() {
     const { enable, handlerStyles, handlerClasses } = this.props;
+    if (!enable) return null;
     return Object.keys(enable).map((dir: Direction) => {
       if (enable[dir] !== false) {
         return (

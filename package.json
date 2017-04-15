@@ -4,14 +4,14 @@
   "description": "",
   "main": "lib/index.js",
   "scripts": {
-    "build:flow-gen": "flow gen-flow-files src/index.js --out-dir lib && flow gen-flow-files src/resizer.js --out-dir lib",
+    "flow:gen": "flow gen-flow-files src/index.js --out-dir lib && flow gen-flow-files src/resizer.js --out-dir lib",
     "watch": "watchify --extension=js -o docs/dist/bundle.js docs/src/index.js",
     "compile": "babel -d lib/ src/",
     "test": "npm run flow && npm run lint && karma start",
     "prepush": "npm run lint && npm t",
     "lint": "eslint react",
     "flow": "flow",
-    "prepublish": "npm run compile && npm run build:flow-gen"
+    "prepublish": "npm run compile && npm run flow:gen"
   },
   "repository": {
     "type": "git",

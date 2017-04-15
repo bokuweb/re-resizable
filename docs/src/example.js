@@ -44,8 +44,6 @@ constructor(props) {
       <Resizable
         ref={c => { this.resizable = c; }}
         className="item"
-        width={'30%'}
-        height={200}
         bounds={this.state.b}
 
         handleClasses={{

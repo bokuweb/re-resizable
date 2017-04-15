@@ -7,6 +7,161 @@ Resizable component for React.
 [![npm](https://img.shields.io/npm/dm/react-resizable-box.svg?style=flat-square)]()
 [![License](https://img.shields.io/npm/l/react-resizable-box.svg?style=flat-square)](https://github.com/bokuweb/react-resizable-box#license)
 
+## Table of Contents
+
+- [Install](#install)
+- [Usage](#usage)
+- [Props](#props)
+- [Method](#method)
+- [Development](#development)
+- [Test](#test)
+- [Contribute](#contribute)
+- [Changelog](#changelog)
+- [License](#license)
+
+## Install
+
+``` sh
+$ npm install --save react-resizable-box
+```
+
+## Usage
+
+### Basic
+
+``` javascript
+<Resizable
+  className="item"
+  width={320}
+  height={200}
+>
+  Basic Sample
+</Resizable>
+```
+
+## Props
+
+#### `width?: (number | string);`
+
+The `width` property is used to set the initial width of a resizable component.   
+For example, you can set `300`, `'300px'`, `50%`.     
+If omitted, set `'auto'`.    
+
+#### `height?: (number | string);`
+
+The `height` property is used to set the initial height of a resizable component.    
+For example, you can set `300`, `'300px'`, `50%`.    
+If omitted, set `'auto'`.    
+
+#### `minWidth?: number;`
+
+The `minWidth` property is used to set the minimum width of a resizable component.
+
+#### `minHeight?: number;`
+
+The `minHeight` property is used to set the minimum height of a resizable component.
+
+#### `maxWidth?: number;`
+
+The `maxWidth` property is used to set the maximum width of a resizable component.
+
+#### `maxHeight?: number`;
+
+The `maxheight` property is used to set the maximum height of a resizable component.
+
+#### `grid?: Array<number>;`
+
+The `grid` property is used to specify the increments that resizing should snap to. Defaults to `[1, 1]`.
+
+#### `lockAspectRatio?: boolean;`
+
+The `lockAspectRatio` property is used to lock aspect ratio.
+If omitted, set `false`.
+
+#### `bounds?: ('window' | 'parent' | HTMLElement);`
+
+Specifies resize boundaries.
+
+#### `handlerStyles: ?HandlersStyles;`
+
+The `handleStyles` property is used to override the style of one or more resize handlers.
+Only the axis you specify will have its handler style replaced.
+If you specify a value for `right` it will completely replace the styles for the `right` resize handler,
+but other handler will still use the default styles.
+
+#### `handlerClasses: ?HandlersClassName;`
+
+The `handlerClasses` property is used to set the className of one or more resize handlers.
+
+#### `isResizable: ?IsResizable;`
+
+The `isResizable` property is used to set the resizable permission of a resizable component.
+
+The permission of `top`, `right`, `bottom`, `left`, `topRight`, `bottomRight`, `bottomLeft`, `topLeft` direction resizing.
+If omitted, all resizer are enabled.
+If you want to permit only right direction resizing, set `{ top:false, right:true, bottom:false, left:false, topRight:false, bottomRight:false, bottomLeft:false, topLeft:false }`. 
+
+#### `onResizeStart: ?(event: SyntheticMouseEvent | SyntheticTouchEvent, direction: Direction, resizableRef: React$Component<*>) => void;`
+
+Calls when resizable component resize start.
+
+#### `onResize: ?(event: SyntheticMouseEvent | SyntheticTouchEvent, direction: Direction, resizableRef: React$Component<*>) => void;`
+
+Calls when resizable component resizing.
+
+#### `onResizeStop: ?(event: SyntheticMouseEvent | SyntheticTouchEvent, direction: Direction, resizableRef: React$Component<*>) => void;`
+
+Calls when resizable component resize startStop.
+
+## method
+
+#### `[resize]: (width: string | number, height: string | number) => void;`
+
+Update component size.
+`grid` ,`max/minWidth`, `max/minHeight` props is ignored, when this method called.
+
+- for example
+
+``` js
+import { resize } from 'react-resizable-decorator';
+
+class YourComponent extends Component {
+
+  update() {
+    this.resizable[resize]({ width: 200, height: 300 });
+  }
+  
+  render() {
+    return (
+      <Resizable ref={c => { this.resizable = c; }}>
+        Hello
+      </Resizable>
+    );
+  }
+}
+```
+
+## Development
+
+``` sh
+npm start
+```
+
+Open `localhost:3333`.
+
+## Test
+
+``` sh
+$ npm run test:ci
+```
+
+
+
+
+
+
+
+
 ## Demo
 
 ![screenshot](https://github.com/bokuweb/react-resizable-box/blob/master/docs/screenshot.gif?raw=true)
@@ -435,6 +590,7 @@ npm test
 #### v0.4.0
 
 - Support `'px'` and `'%'` for width and height props.
+
 
 ## License
 
