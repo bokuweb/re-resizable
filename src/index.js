@@ -119,6 +119,10 @@ type State = {
   };
   width: number | string;
   height: number | string;
+  offset: {
+    x: number;
+    y: number;
+  }
 }
 
 const clamp = (n: number, min: number, max: number): number => Math.max(Math.min(n, max), min);
@@ -166,6 +170,11 @@ export default class Resizable extends Component {
         y: 0,
         width: 0,
         height: 0,
+      },
+      // offset is back door for rnd component
+      offset: {
+        x: 0,
+        y: 0,
       },
     };
     this.onResizeStart = this.onResizeStart.bind(this);
@@ -266,21 +275,21 @@ export default class Resizable extends Component {
     if (this.props.bounds === 'parent') {
       const parent = this.resizable.parentNode;
       if (parent instanceof HTMLElement) {
-        const boundWidth = parent.offsetWidth + (parent.offsetLeft - this.resizable.offsetLeft);
-        const boundHeight = parent.offsetHeight + (parent.offsetTop - this.resizable.offsetTop);
+        const boundWidth = parent.offsetWidth + (parent.offsetLeft - this.resizable.offsetLeft) - this.state.offset.x;
+        const boundHeight = parent.offsetHeight + (parent.offsetTop - this.resizable.offsetTop) - this.state.offset.y;
         maxWidth = maxWidth && maxWidth < boundWidth ? maxWidth : boundWidth;
         maxHeight = maxHeight && maxHeight < boundHeight ? maxHeight : boundHeight;
       }
     } else if (this.props.bounds === 'window') {
       if (typeof window !== 'undefined') {
-        const boundWidth = window.innerWidth - this.resizable.offsetLeft;
-        const boundHeight = window.innerHeight - this.resizable.offsetTop;
+        const boundWidth = window.innerWidth - this.resizable.offsetLeft - this.state.offset.x;
+        const boundHeight = window.innerHeight - this.resizable.offsetTop - this.state.offset.y;
         maxWidth = maxWidth && maxWidth < boundWidth ? maxWidth : boundWidth;
         maxHeight = maxHeight && maxHeight < boundHeight ? maxHeight : boundHeight;
       }
     } else if (this.props.bounds && this.props.bounds instanceof HTMLElement) {
-      const boundWidth = this.props.bounds.offsetWidth + (this.props.bounds.offsetLeft - this.resizable.offsetLeft);
-      const boundHeight = this.props.bounds.offsetHeight + (this.props.bounds.offsetTop - this.resizable.offsetTop);
+      const boundWidth = this.props.bounds.offsetWidth + (this.props.bounds.offsetLeft - this.resizable.offsetLeft) - this.state.offset.x;
+      const boundHeight = this.props.bounds.offsetHeight + (this.props.bounds.offsetTop - this.resizable.offsetTop) - this.state.offset.y;
       maxWidth = maxWidth && maxWidth < boundWidth ? maxWidth : boundWidth;
       maxHeight = maxHeight && maxHeight < boundHeight ? maxHeight : boundHeight;
     }

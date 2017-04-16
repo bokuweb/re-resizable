@@ -69,8 +69,26 @@ declare module 'react-resizable-box' {
     width?: string | number
   };
 
+  declare type State = {
+    isResizing: boolean;
+    direction: Direction;
+    original: {
+      x: number;
+      y: number;
+      width: number;
+      height: number;
+    };
+    width: number | string;
+    height: number | string;
+    offset: {
+      x: number;
+      y: number;
+    }
+  };
+
   declare export default class Resizable extends React$Component {
     updateSize(size: { height?: string | number, width?: string | number }): void;
+    state: State;
     props: Props;
   }
 }
