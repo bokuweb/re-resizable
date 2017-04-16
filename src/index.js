@@ -119,10 +119,6 @@ type State = {
   };
   width: number | string;
   height: number | string;
-  offset: {
-    x: number;
-    y: number;
-  }
 }
 
 const clamp = (n: number, min: number, max: number): number => Math.max(Math.min(n, max), min);
@@ -170,11 +166,6 @@ export default class Resizable extends Component {
         y: 0,
         width: 0,
         height: 0,
-      },
-      // offset is back door for rnd component
-      offset: {
-        x: 0,
-        y: 0,
       },
     };
     this.onResizeStart = this.onResizeStart.bind(this);
@@ -275,21 +266,31 @@ export default class Resizable extends Component {
     if (this.props.bounds === 'parent') {
       const parent = this.resizable.parentNode;
       if (parent instanceof HTMLElement) {
-        const boundWidth = parent.offsetWidth + (parent.offsetLeft - this.resizable.offsetLeft) - this.state.offset.x;
-        const boundHeight = parent.offsetHeight + (parent.offsetTop - this.resizable.offsetTop) - this.state.offset.y;
+        const parentRect = parent.getBoundingClientRect();
+        const parentLeft = parentRect.left;
+        const parentTop = parentRect.top;
+        const { left, top } = this.resizable.getBoundingClientRect();
+        const boundWidth = parent.offsetWidth + (parentLeft - left);
+        const boundHeight = parent.offsetHeight + (parentTop - top);
         maxWidth = maxWidth && maxWidth < boundWidth ? maxWidth : boundWidth;
         maxHeight = maxHeight && maxHeight < boundHeight ? maxHeight : boundHeight;
       }
     } else if (this.props.bounds === 'window') {
       if (typeof window !== 'undefined') {
-        const boundWidth = window.innerWidth - this.resizable.offsetLeft - this.state.offset.x;
-        const boundHeight = window.innerHeight - this.resizable.offsetTop - this.state.offset.y;
+        const { left, top } = this.resizable.getBoundingClientRect();
+        const boundWidth = window.innerWidth - left;
+        const boundHeight = window.innerHeight - top;
         maxWidth = maxWidth && maxWidth < boundWidth ? maxWidth : boundWidth;
         maxHeight = maxHeight && maxHeight < boundHeight ? maxHeight : boundHeight;
       }
-    } else if (this.props.bounds && this.props.bounds instanceof HTMLElement) {
-      const boundWidth = this.props.bounds.offsetWidth + (this.props.bounds.offsetLeft - this.resizable.offsetLeft) - this.state.offset.x;
-      const boundHeight = this.props.bounds.offsetHeight + (this.props.bounds.offsetTop - this.resizable.offsetTop) - this.state.offset.y;
+    } else if (this.props.bounds instanceof HTMLElement) {
+      const targetRect = this.props.bounds.getBoundingClientRect();
+      const targetLeft = targetRect.left;
+      const targetTop = targetRect.top;
+      const { left, top } = this.resizable.getBoundingClientRect();
+      if (!(this.props.bounds instanceof HTMLElement)) return;
+      const boundWidth = this.props.bounds.offsetWidth + (targetLeft - left);
+      const boundHeight = this.props.bounds.offsetHeight + (targetTop - top);
       maxWidth = maxWidth && maxWidth < boundWidth ? maxWidth : boundWidth;
       maxHeight = maxHeight && maxHeight < boundHeight ? maxHeight : boundHeight;
     }
@@ -408,6 +409,7 @@ export default class Resizable extends Component {
           ...userSelect,
           ...style,
           ...this.style,
+          boxSizing: 'border-box',
         }}
         className={className}
         {...this.props.extendsProps}

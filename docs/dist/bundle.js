@@ -18,17 +18,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = function () {
   return _react2.default.createElement(
     'div',
-    null,
+    { style: { width: '400px', margin: '100px' } },
     _react2.default.createElement(
       _src2.default,
       {
         className: 'item',
-        width: '480',
+        width: '280',
         height: '300',
         minWidth: '240',
         minHeight: '120',
         maxWidth: '800',
-        maxHeight: '600'
+        maxHeight: '600',
+        bounds: 'parent'
       },
       _react2.default.createElement(
         'span',
@@ -22866,21 +22867,41 @@ var Resizable = function (_Component) {
       if (this.props.bounds === 'parent') {
         var parent = this.resizable.parentNode;
         if (parent instanceof HTMLElement) {
-          var boundWidth = parent.offsetWidth + (parent.offsetLeft - this.resizable.offsetLeft);
-          var boundHeight = parent.offsetHeight + (parent.offsetTop - this.resizable.offsetTop);
+          var parentRect = parent.getBoundingClientRect();
+          var parentLeft = parentRect.left;
+          var parentTop = parentRect.top;
+
+          var _resizable$getBoundin = this.resizable.getBoundingClientRect(),
+              _left = _resizable$getBoundin.left,
+              _top = _resizable$getBoundin.top;
+
+          var boundWidth = parent.offsetWidth + (parentLeft - _left);
+          var boundHeight = parent.offsetHeight + (parentTop - _top);
           maxWidth = maxWidth && maxWidth < boundWidth ? maxWidth : boundWidth;
           maxHeight = maxHeight && maxHeight < boundHeight ? maxHeight : boundHeight;
         }
       } else if (this.props.bounds === 'window') {
         if (typeof window !== 'undefined') {
-          var _boundWidth = window.innerWidth - this.resizable.offsetLeft;
-          var _boundHeight = window.innerHeight - this.resizable.offsetTop;
+          var _resizable$getBoundin2 = this.resizable.getBoundingClientRect(),
+              _left2 = _resizable$getBoundin2.left,
+              _top2 = _resizable$getBoundin2.top;
+
+          var _boundWidth = window.innerWidth - _left2;
+          var _boundHeight = window.innerHeight - _top2;
           maxWidth = maxWidth && maxWidth < _boundWidth ? maxWidth : _boundWidth;
           maxHeight = maxHeight && maxHeight < _boundHeight ? maxHeight : _boundHeight;
         }
       } else if (this.props.bounds && this.props.bounds instanceof HTMLElement) {
-        var _boundWidth2 = this.props.bounds.offsetWidth + (this.props.bounds.offsetLeft - this.resizable.offsetLeft);
-        var _boundHeight2 = this.props.bounds.offsetHeight + (this.props.bounds.offsetTop - this.resizable.offsetTop);
+        var targetRect = this.props.bounds.getBoundingClientRect();
+        var targetLeft = targetRect.left;
+        var targetTop = targetRect.top;
+
+        var _resizable$getBoundin3 = this.resizable.getBoundingClientRect(),
+            _left3 = _resizable$getBoundin3.left,
+            _top3 = _resizable$getBoundin3.top;
+
+        var _boundWidth2 = this.props.bounds.offsetWidth + (targetLeft - _left3);
+        var _boundHeight2 = this.props.bounds.offsetHeight + (targetTop - _top3);
         maxWidth = maxWidth && maxWidth < _boundWidth2 ? maxWidth : _boundWidth2;
         maxHeight = maxHeight && maxHeight < _boundHeight2 ? maxHeight : _boundHeight2;
       }
@@ -22993,7 +23014,9 @@ var Resizable = function (_Component) {
           },
           style: _extends({
             position: 'relative'
-          }, userSelect, style, this.style),
+          }, userSelect, style, this.style, {
+            boxSizing: 'border-box'
+          }),
           className: className
         }, this.props.extendsProps),
         this.props.children,

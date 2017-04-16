@@ -80,10 +80,6 @@ declare module 'react-resizable-box' {
     };
     width: number | string;
     height: number | string;
-    offset: {
-      x: number;
-      y: number;
-    }
   };
 
   declare export default class Resizable extends React$Component {
