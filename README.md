@@ -215,6 +215,10 @@ npm test
 
 ## Changelog
 
+#### v2.0.1
+
+- Add offset state for rnd component.
+
 #### v2.0.0
 
 - Update index.js.flow
