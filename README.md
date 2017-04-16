@@ -215,6 +215,12 @@ npm test
 
 ## Changelog
 
+#### v2.0.2
+
+- Remove offset state.
+- Use `border-box`.
+- Fix boundary size. 
+
 #### v2.0.1
 
 - Add offset state for rnd component.

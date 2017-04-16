@@ -241,8 +241,8 @@ describe('Resizable Component test', () => {
     assert.equal(onResize.callCount, 1);
     assert(onResize.getCall(0).args[0] instanceof Event);
     assert.equal(onResize.getCall(0).args[1], 'right');
-    assert.deepEqual(onResize.getCall(0).args[2].clientWidth, 380);
-    assert.deepEqual(onResize.getCall(0).args[2].clientHeight, 180);
+    assert.deepEqual(onResize.getCall(0).args[2].clientWidth, 300);
+    assert.deepEqual(onResize.getCall(0).args[2].clientHeight, 100);
     assert.deepEqual(onResize.getCall(0).args[3], { width: 200, height: 0 });
   });
 
@@ -266,8 +266,8 @@ describe('Resizable Component test', () => {
     assert.equal(onResize.callCount, 1);
     assert(onResize.getCall(0).args[0] instanceof MouseEvent);
     assert.equal(onResize.getCall(0).args[1], 'bottom');
-    assert.deepEqual(onResize.getCall(0).args[2].clientWidth, 180);
-    assert.deepEqual(onResize.getCall(0).args[2].clientHeight, 400);
+    assert.deepEqual(onResize.getCall(0).args[2].clientWidth, 100);
+    assert.deepEqual(onResize.getCall(0).args[2].clientHeight, 320);
     assert.deepEqual(onResize.getCall(0).args[3], { width: 0, height: 220 });
   });
 
@@ -291,8 +291,8 @@ describe('Resizable Component test', () => {
     assert.equal(onResize.callCount, 1);
     assert(onResize.getCall(0).args[0] instanceof MouseEvent);
     assert.equal(onResize.getCall(0).args[1], 'bottomRight');
-    assert.deepEqual(onResize.getCall(0).args[2].clientWidth, 380);
-    assert.deepEqual(onResize.getCall(0).args[2].clientHeight, 400);
+    assert.deepEqual(onResize.getCall(0).args[2].clientWidth, 300);
+    assert.deepEqual(onResize.getCall(0).args[2].clientHeight, 320);
     assert.deepEqual(onResize.getCall(0).args[3], { width: 200, height: 220 });
   });
 
@@ -318,8 +318,8 @@ describe('Resizable Component test', () => {
     assert.equal(onResizeStop.callCount, 1);
     assert(onResize.getCall(0).args[0] instanceof MouseEvent);
     assert.deepEqual(onResizeStop.getCall(0).args[1], 'right');
-    assert.deepEqual(onResizeStop.getCall(0).args[2].clientWidth, 380);
-    assert.deepEqual(onResizeStop.getCall(0).args[2].clientHeight, 180);
+    assert.deepEqual(onResizeStop.getCall(0).args[2].clientWidth, 300);
+    assert.deepEqual(onResizeStop.getCall(0).args[2].clientHeight, 100);
     assert.deepEqual(onResizeStop.getCall(0).args[3], { width: 200, height: 0 });
   });
 
@@ -345,8 +345,8 @@ describe('Resizable Component test', () => {
     assert.equal(onResizeStop.callCount, 1);
     assert(onResize.getCall(0).args[0] instanceof MouseEvent);
     assert.deepEqual(onResizeStop.getCall(0).args[1], 'bottom');
-    assert.deepEqual(onResizeStop.getCall(0).args[2].clientWidth, 180);
-    assert.deepEqual(onResizeStop.getCall(0).args[2].clientHeight, 400);
+    assert.deepEqual(onResizeStop.getCall(0).args[2].clientWidth, 100);
+    assert.deepEqual(onResizeStop.getCall(0).args[2].clientHeight, 320);
     assert.deepEqual(onResizeStop.getCall(0).args[3], { width: 0, height: 220 });
   });
 
@@ -372,7 +372,7 @@ describe('Resizable Component test', () => {
     assert.equal(onResizeStop.callCount, 1);
     assert(onResize.getCall(0).args[0] instanceof MouseEvent);
     assert.deepEqual(onResizeStop.getCall(0).args[1], 'bottomRight');
-    assert.deepEqual(onResize.getCall(0).args[2].clientHeight, 400);
+    assert.deepEqual(onResize.getCall(0).args[2].clientHeight, 320);
     assert.deepEqual(onResize.getCall(0).args[3], { width: 200, height: 220 });
   });
 
