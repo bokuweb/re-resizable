@@ -18,7 +18,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = function () {
   return _react2.default.createElement(
     'div',
-    { style: { width: '400px', margin: '100px' } },
+    null,
     _react2.default.createElement(
       _src2.default,
       {
@@ -28,8 +28,7 @@ exports.default = function () {
         minWidth: '240',
         minHeight: '120',
         maxWidth: '800',
-        maxHeight: '600',
-        bounds: 'parent'
+        maxHeight: '600'
       },
       _react2.default.createElement(
         'span',
@@ -22891,7 +22890,7 @@ var Resizable = function (_Component) {
           maxWidth = maxWidth && maxWidth < _boundWidth ? maxWidth : _boundWidth;
           maxHeight = maxHeight && maxHeight < _boundHeight ? maxHeight : _boundHeight;
         }
-      } else if (this.props.bounds && this.props.bounds instanceof HTMLElement) {
+      } else if (this.props.bounds instanceof HTMLElement) {
         var targetRect = this.props.bounds.getBoundingClientRect();
         var targetLeft = targetRect.left;
         var targetTop = targetRect.top;
@@ -22900,6 +22899,7 @@ var Resizable = function (_Component) {
             _left3 = _resizable$getBoundin3.left,
             _top3 = _resizable$getBoundin3.top;
 
+        if (!(this.props.bounds instanceof HTMLElement)) return;
         var _boundWidth2 = this.props.bounds.offsetWidth + (targetLeft - _left3);
         var _boundHeight2 = this.props.bounds.offsetHeight + (targetTop - _top3);
         maxWidth = maxWidth && maxWidth < _boundWidth2 ? maxWidth : _boundWidth2;
