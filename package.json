@@ -45,7 +45,7 @@
     "browserify": "14.3.0",
     "eslint": "3.19.0",
     "eslint-config-airbnb": "14.1.0",
-    "eslint-plugin-flowtype": "^2.30.4",
+    "eslint-plugin-flowtype": "^2.31.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "6.10.3",
