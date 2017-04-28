@@ -84,6 +84,7 @@ declare module 'react-resizable-box' {
 
   declare export default class Resizable extends React$Component {
     updateSize(size: { height?: string | number, width?: string | number }): void;
+    size: { height: number, width: number };
     state: State;
     props: Props;
   }
