@@ -18,7 +18,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = function () {
   return _react2.default.createElement(
     'div',
-    { style: { width: '900px', background: '#ccc', marginLeft: '100px' } },
+    null,
     _react2.default.createElement(
       _src2.default,
       {
@@ -27,7 +27,8 @@ exports.default = function () {
         height: '300',
         minWidth: '240',
         minHeight: '120',
-        bounds: 'parent'
+        maxWidth: '800',
+        maxHeight: '600'
       },
       _react2.default.createElement(
         'span',
@@ -22928,7 +22929,10 @@ var Resizable = function (_Component) {
         newHeight = snap(newHeight, this.props.grid[1]);
       }
 
-      this.setState({ width: newWidth, height: newHeight });
+      this.setState({
+        width: width !== 'auto' ? newWidth : 'auto',
+        height: height !== 'auto' ? newHeight : 'auto'
+      });
       var delta = {
         width: newWidth - original.width,
         height: newHeight - original.height

@@ -318,7 +318,10 @@ export default class Resizable extends Component {
       newHeight = snap(newHeight, this.props.grid[1]);
     }
 
-    this.setState({ width: newWidth, height: newHeight });
+    this.setState({
+      width: width !== 'auto' ? newWidth : 'auto',
+      height: height !== 'auto' ? newHeight : 'auto',
+    });
     const delta = {
       width: newWidth - original.width,
       height: newHeight - original.height,
