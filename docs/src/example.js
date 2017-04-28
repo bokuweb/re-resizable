@@ -2,15 +2,14 @@ import React from 'react';
 import Resizable from '../../src';
 
 export default () => (
-  <div>
+  <div style={{ width: '900px', background: '#ccc', marginLeft: '100px' }}>
     <Resizable
       className="item"
       width="280"
       height="300"
       minWidth="240"
       minHeight="120"
-      maxWidth="800"
-      maxHeight="600"
+      bounds="parent"
     >
       <span>
         Resize me!!<br />
