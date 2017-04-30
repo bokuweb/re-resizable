@@ -215,6 +215,11 @@ npm test
 
 ## Changelog
 
+#### v2.0.3
+
+- Update dev dependencies.
+- Modify index.js.flow.
+
 #### v2.0.2
 
 - Remove offset state.
