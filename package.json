@@ -68,7 +68,7 @@
     "react": "^15.5.3",
     "react-addons-test-utils": "^15.5.1",
     "react-dom": "^15.5.3",
-    "sinon": "2.1.0",
+    "sinon": "2.2.0",
     "watchify": "3.9.0"
   },
   "browserify": {
