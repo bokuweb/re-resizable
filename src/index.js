@@ -189,12 +189,13 @@ export default class Resizable extends Component {
     });
   }
 
-  componentWillReceiveProps({ width, height }: Size) {
-    const newWidth = typeof this.props.width === 'undefined' ? 'auto' : this.props.width;
-    if (width !== newWidth) {
-      this.setState({ width: newWidth });
+  componentWillReceiveProps({ width, height }: Props) {
+    if (width !== this.props.width) {
+      this.setState({ width });
     }
-    if (height !== this.props.height) this.setState({ height });
+    if (height !== this.props.height) {
+      this.setState({ height });
+    }
   }
 
   shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
