@@ -215,6 +215,10 @@ npm test
 
 ## Changelog
 
+#### v2.0.4
+
+- Fix receiveProps. (related #85)
+
 #### v2.0.3
 
 - Update dev dependencies.
