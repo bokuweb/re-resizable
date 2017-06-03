@@ -64,7 +64,7 @@
     "karma-phantomjs-launcher": "^1.0.4",
     "mocha": "3.4.1",
     "phantomjs-prebuilt": "^2.1.14",
-    "power-assert": "1.4.2",
+    "power-assert": "1.4.3",
     "react": "^15.5.3",
     "react-addons-test-utils": "^15.5.1",
     "react-dom": "^15.5.3",
