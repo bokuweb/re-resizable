@@ -206,7 +206,7 @@ export default class Resizable extends Component {
     if (typeof window !== 'undefined') {
       window.removeEventListener('mouseup', this.onMouseUp);
       window.removeEventListener('mousemove', this.onMouseMove);
-      window.removeEventListener('touchmove', this.onTouchMove);
+      window.removeEventListener('touchmove', this.onMouseMove);
       window.removeEventListener('touchend', this.onMouseUp);
     }
   }
