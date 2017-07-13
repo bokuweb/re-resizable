@@ -52,7 +52,7 @@
     "espower-babel": "4.0.3",
     "estraverse": "4.2.0",
     "estraverse-fb": "1.3.2",
-    "flow-bin": "^0.49.1",
+    "flow-bin": "^0.50.0",
     "flow-runtime": "^0.12.0",
     "husky": "^0.14.0",
     "karma": "^1.6.0",
