@@ -215,6 +215,10 @@ npm test
 
 ## Changelog
 
+#### v2.0.5
+
+- Fix remove event listener
+
 #### v2.0.4
 
 - Fix receiveProps. (related #85)
