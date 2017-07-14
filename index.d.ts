@@ -43,7 +43,6 @@ export type ResizeStartCallBack = (
 ) => void;
 
 export interface ResizableProps {
-  children?: React.ReactChildren;
   onResizeStop?: ResizeHandler;
   onResizeStart?: ResizeStartCallBack;
   onResize?: ResizeHandler;
