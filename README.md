@@ -215,9 +215,13 @@ npm test
 
 ## Changelog
 
+#### v2.0.6
+
+- Fix index.d.ts (#116)
+
 #### v2.0.5
 
-- Fix remove event listener
+- Fix remove event listener (#114)
 
 #### v2.0.4
 
