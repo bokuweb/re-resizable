@@ -43,7 +43,7 @@
     "babel-preset-stage-0": "6.24.1",
     "babelify": "7.3.0",
     "browserify": "14.4.0",
-    "eslint-config-airbnb": "15.0.2",
+    "eslint-config-airbnb": "15.1.0",
     "eslint": "4.3.0",
     "eslint-plugin-flowtype": "^2.31.0",
     "eslint-plugin-import": "^2.2.0",
