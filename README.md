@@ -1,12 +1,16 @@
-# react-resizable-box
+<p align="center"><img src ="https://github.com/bokuweb/react-resizable-box/blob/master/logo.png?raw=true" /></p>
 
-Resizable component for React.
+<p align="center">Resizable component for React.</p>
 
-[![Build Status](https://img.shields.io/travis/bokuweb/react-resizable-box.svg?style=flat-square)](https://travis-ci.org/bokuweb/react-resizable-box)
-[![Version](https://img.shields.io/npm/v/react-resizable-box.svg?style=flat-square)](https://www.npmjs.com/package/react-resizable-box)
-[![npm](https://img.shields.io/npm/dm/react-resizable-box.svg?style=flat-square)]()
-[![License](https://img.shields.io/npm/l/react-resizable-box.svg?style=flat-square)](https://github.com/bokuweb/react-resizable-box#license)
-[![Greenkeeper badge](https://badges.greenkeeper.io/bokuweb/react-resizable-box.svg)](https://greenkeeper.io/)
+<p align="center"><a href="https://travis-ci.org/bokuweb/react-resizable-box">
+<img src="https://img.shields.io/travis/bokuweb/react-resizable-box.svg" alt="Build Status" /></a>
+<a href="https://www.npmjs.com/package/react-resizable-box">
+<img src="https://img.shields.io/npm/v/react-resizable-box.svg" alt="Build Status" /></a> 
+<a href="https://www.npmjs.com/package/react-resizable-box">
+<img src="https://img.shields.io/npm/dm/react-resizable-box.svg" /></a> 
+<a href="https://greenkeeper.io/">
+<img src="https://badges.greenkeeper.io/bokuweb/react-resizable-box.svg" /></a> 
+</p>
 
 ## Table of Contents
 
