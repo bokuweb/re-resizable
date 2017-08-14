@@ -50,6 +50,7 @@ type HandlerStyles = {
   bottomRight?: any;
   bottomLeft?: any;
   topLeft?: any;
+  wrapper?: any;
 }
 
 type HandlerClassName = {
@@ -401,7 +402,9 @@ export default class Resizable extends Component {
 
       // #93 Wrap the resize box in span (will not break 100% width/height)
     if (handlerClasses && handlerClasses['wrapper']) {
-      return <span className={handlerClasses && handlerClasses['wrapper']}>
+      return <span
+        className={handlerClasses && handlerClasses['wrapper']}
+        style={handlerStyles && handlerStyles[dir]} >
         {content}
       </span>;
     }
