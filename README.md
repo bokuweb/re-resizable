@@ -5,11 +5,11 @@
 <p align="center"><a href="https://travis-ci.org/bokuweb/react-resizable-box">
 <img src="https://img.shields.io/travis/bokuweb/react-resizable-box.svg" alt="Build Status" /></a>
 <a href="https://www.npmjs.com/package/react-resizable-box">
-<img src="https://img.shields.io/npm/v/react-resizable-box.svg" alt="Build Status" /></a> 
+<img src="https://img.shields.io/npm/v/react-resizable-box.svg" alt="Build Status" /></a>
 <a href="https://www.npmjs.com/package/react-resizable-box">
-<img src="https://img.shields.io/npm/dm/react-resizable-box.svg" /></a> 
+<img src="https://img.shields.io/npm/dm/react-resizable-box.svg" /></a>
 <a href="https://greenkeeper.io/">
-<img src="https://badges.greenkeeper.io/bokuweb/react-resizable-box.svg" /></a> 
+<img src="https://badges.greenkeeper.io/bokuweb/react-resizable-box.svg" /></a>
 </p>
 
 ## Table of Contents
@@ -26,7 +26,7 @@
 ## Demo
 
 ![screenshot](https://github.com/bokuweb/react-resizable-box/blob/master/docs/screenshot.gif?raw=true)
-   
+
 See demo: [http://bokuweb.github.io/react-resizable-box/example/](http://bokuweb.github.io/react-resizable-box/)
 
 ## Install
@@ -110,7 +110,7 @@ but other handler will still use the default styles.
 
 #### `handlerClasses?: HandlersClassName;`
 
-The `handlerClasses` property is used to set the className of one or more resize handlers.
+The `handlerClasses` property is used to set the className of one or more resize handlers. You can set className for span wrapper with `wrapper` index.
 
 #### `enable?: ?Enable;`
 
@@ -118,7 +118,7 @@ The `enable` property is used to set the resizable permission of a resizable com
 
 The permission of `top`, `right`, `bottom`, `left`, `topRight`, `bottomRight`, `bottomLeft`, `topLeft` direction resizing.
 If omitted, all resizer are enabled.
-If you want to permit only right direction resizing, set `{ top:false, right:true, bottom:false, left:false, topRight:false, bottomRight:false, bottomLeft:false, topLeft:false }`. 
+If you want to permit only right direction resizing, set `{ top:false, right:true, bottom:false, left:false, topRight:false, bottomRight:false, bottomLeft:false, topLeft:false }`.
 
 #### `onResizeStart?: ResizeStartCallBack;`
 
@@ -194,11 +194,11 @@ Update component size.
 class YourComponent extends Component {
 
   ...
-  
+
   update() {
     this.resizable.updateSize({ width: 200, height: 300 });
   }
-  
+
   render() {
     return (
       <Resizable ref={c => { this.resizable = c; }}>
@@ -236,7 +236,7 @@ npm test
 
 - Remove offset state.
 - Use `border-box`.
-- Fix boundary size. 
+- Fix boundary size.
 
 #### v2.0.1
 
