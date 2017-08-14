@@ -400,11 +400,14 @@ export default class Resizable extends Component {
       return null;
     });
 
+    const wrapperClass = handlerClasses && handlerClasses['wrapper']
+    const wrapperStyle = handlerStyles && handlerStyles['wrapper']
+
       // #93 Wrap the resize box in span (will not break 100% width/height)
-    if (handlerClasses && handlerClasses['wrapper']) {
+    if (wrapperClass || wrapperStyle) {
       return <span
-        className={handlerClasses && handlerClasses['wrapper']}
-        style={handlerStyles && handlerStyles['wrapper']}>
+        className={wrapperClass}
+        style={wrapperStyle}>
         {content}
       </span>;
     }
