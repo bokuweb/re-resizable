@@ -404,7 +404,7 @@ export default class Resizable extends Component {
     if (handlerClasses && handlerClasses['wrapper']) {
       return <span
         className={handlerClasses && handlerClasses['wrapper']}
-        style={handlerStyles && handlerStyles[dir]} >
+        style={handlerStyles && handlerStyles['wrapper']}>
         {content}
       </span>;
     }
