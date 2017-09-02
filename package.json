@@ -44,7 +44,7 @@
     "babelify": "7.3.0",
     "browserify": "14.4.0",
     "eslint-config-airbnb": "15.1.0",
-    "eslint": "4.4.0",
+    "eslint": "4.5.0",
     "eslint-plugin-flowtype": "^2.31.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^6.0.0",
