@@ -1,10 +1,10 @@
+/* eslint-disable */
+
 import React from 'react';
-
 import { storiesOf } from '@storybook/react';
-// import { action } from '@storybook/addon-actions';
-// import { linkTo } from '@storybook/addon-links';
+import './styles.css';
 
-import Resizable from '../src';
+import Basic from './basic';
 
 storiesOf('react-resizable-box', module)
-  .add('with text', () => <Resizable>A</Resizable>);
+  .add('basic', () => <Basic />);
