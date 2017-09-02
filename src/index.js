@@ -309,8 +309,8 @@ export default class Resizable extends Component<Props, State> {
     }
 
     this.setState({
-      width: width !== 'auto' ? newWidth : 'auto',
-      height: height !== 'auto' ? newHeight : 'auto',
+      width: width !== 'auto' || typeof this.props.width === 'undefined' ? newWidth : 'auto',
+      height: height !== 'auto' || typeof this.props.height === 'undefined' ? newHeight : 'auto',
     });
     const delta = {
       width: newWidth - original.width,
