@@ -22,7 +22,8 @@
     "dev": "rollup -c config/dev.js -w",
     "browse": "browser-sync start --s --index 'html/index.html' --files 'html/**/*.html, build/**/*.js' --no-notify",
     "start": "npm-run-all --parallel dev browse storybook",
-    "test": "npm run flow && npm run build",
+    "test": "NODE_ENV='test' avaron test --renderer",
+    "test:ci": "npm run flow && npm run build",
     "flow-copy": "flow-copy-source -v src lib",
     "prepublish": "npm run build && npm run flow-copy",
     "storybook": "start-storybook -p 6006",
@@ -47,10 +48,12 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-assign": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-flow": "^6.23.0",
     "babel-preset-react": "^6.24.1",
+    "babel-register": "^6.26.0",
     "eslint": "^4.2.0",
     "eslint-config-airbnb": "^15.0.2",
     "eslint-plugin-flowtype": "^2.34.1",
@@ -77,5 +80,13 @@
     "lib",
     "index.d.ts"
   ],
+  "avaron": {
+    "babel": "inherit",
+    "require": [
+      "babel-polyfill",
+      "babel-register"
+    ],
+    "fixture": "./test/fixture.html"
+  },
   "dependencies": {}
 }
