@@ -1,17 +1,7 @@
 /* @flow */
 
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable react/no-unused-prop-types */
-/* eslint-disable react/require-default-props */
-/* eslint-disable react/jsx-filename-extension */
-/* eslint-disable react/sort-comp */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable max-len */
-/* eslint-disable no-bitwise */
-/* eslint-disable react/no-did-mount-set-state */
-
 import React, { Component } from 'react';
-import isEqual from 'lodash.isequal';
+// import isEqual from 'lodash.isequal';
 import Resizer from './resizer';
 
 import type { Direction, OnStartCallback } from './resizer';
@@ -200,9 +190,9 @@ export default class Resizable extends Component {
     }
   }
 
-  shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
-    return !isEqual(this.props, nextProps) || !isEqual(this.state, nextState);
-  }
+  // shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
+  //   return !isEqual(this.props, nextProps) || !isEqual(this.state, nextState);
+  // }
 
   componentWillUnmount() {
     if (typeof window !== 'undefined') {

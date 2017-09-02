@@ -1,7 +1,54 @@
 {
-  "presets": ["react", "es2015", "stage-0"],
+  "presets": [
+    "react",
+    [
+      "env",
+      {
+        "targets": {
+          "Chrome": 56
+        },
+        "modules": false
+      }
+    ]
+  ],
   "plugins": [
-    "transform-object-assign",
-    "babel-plugin-transform-flow-strip-types"
-  ]
+    "transform-class-properties",
+    "transform-object-rest-spread"
+  ],
+  "env": {
+    "test": {
+      "presets": [
+        "react",
+        [
+          "env",
+          {
+            "targets": {
+              "node": 6
+            }
+          }
+        ]
+      ]
+    },
+    "production": {
+      "presets": [
+        "react",
+        "flow",
+        [
+          "env",
+          {
+            "targets": {
+              "browsers": [
+                "last 2 versions",
+                "IE 11"
+              ]
+            }
+          }
+        ]
+      ],
+      "plugins": [
+        "transform-class-properties",
+        "transform-object-rest-spread"
+      ]
+    }
+  }
 }
