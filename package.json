@@ -23,7 +23,7 @@
     "browse": "browser-sync start --s --index 'html/index.html' --files 'html/**/*.html, build/**/*.js' --no-notify",
     "start": "npm-run-all --parallel dev browse storybook",
     "test": "npm run flow && npm run build",
-    "flow-copy": "flow-copy-source -v src/components lib && cp lib/index.js.flow lib/react-sortable-pane.js.flow && cp lib/index.js.flow lib/react-sortable-pane.es.js5.flow",
+    "flow-copy": "flow-copy-source -v src lib",
     "prepublish": "npm run build && npm run flow-copy",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
