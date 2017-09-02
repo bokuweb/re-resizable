@@ -1,7 +1,6 @@
 /* @flow */
 
 import React, { Component } from 'react';
-// import isEqual from 'lodash.isequal';
 import Resizer from './resizer';
 
 import type { Direction, OnStartCallback } from './resizer';
@@ -73,7 +72,7 @@ type Callback = (
 ) => void;
 
 type ResizeStartCallBack = (
-  e: SyntheticMouseEvent | SyntheticTouchEvent,
+  e: SyntheticMouseEvent<HTMLDivElement> | SyntheticTouchEvent<HTMLDivElement>,
   dir: Direction,
   refToElement: HTMLElement,
 ) => void;
@@ -116,10 +115,7 @@ type State = {
 const clamp = (n: number, min: number, max: number): number => Math.max(Math.min(n, max), min);
 const snap = (n: number, size: number): number => Math.round(n / size) * size;
 
-export default class Resizable extends Component {
-
-  props: Props;
-  state: State;
+export default class Resizable extends Component<Props, State> {
   resizable: HTMLElement;
   onTouchMove: Callback;
   onMouseMove: Callback;
@@ -203,7 +199,10 @@ export default class Resizable extends Component {
     }
   }
 
-  onResizeStart(event: SyntheticMouseEvent | SyntheticTouchEvent, direction: Direction) {
+  onResizeStart(
+    event: SyntheticMouseEvent<HTMLDivElement> | SyntheticTouchEvent<HTMLDivElement>,
+    direction: Direction,
+  ) {
     let clientX = 0;
     let clientY = 0;
     if (event.nativeEvent instanceof MouseEvent) {
@@ -390,19 +389,20 @@ export default class Resizable extends Component {
       return null;
     });
 
-    const wrapperClass = handlerClasses && handlerClasses['wrapper']
-    const wrapperStyle = handlerStyles && handlerStyles['wrapper']
+    const wrapperClass = handlerClasses && handlerClasses.wrapper;
+    const wrapperStyle = handlerStyles && handlerStyles.wrapper;
 
-      // #93 Wrap the resize box in span (will not break 100% width/height)
+    // #93 Wrap the resize box in span (will not break 100% width/height)
     if (wrapperClass || wrapperStyle) {
-      return <span
-        className={wrapperClass}
-        style={wrapperStyle}>
-        {content}
-      </span>;
+      return (
+        <span
+          className={wrapperClass}
+          style={wrapperStyle}
+        >
+          {content}
+        </span>);
     }
-
-    return content
+    return content;
   }
 
   render() {

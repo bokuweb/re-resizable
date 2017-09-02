@@ -33,7 +33,9 @@
     "jsx-a11y/no-static-element-interactions": 0,
     "max-len": 0,
     "no-bitwise": 0,
-    "react/no-did-mount-set-state": 0
+    "arrow-body-style": 0,
+    "react/no-did-mount-set-state": 0,
+    "jsx-a11y/href-no-hash": 0
   },
   "settings": {
     "flowtype": {

@@ -9,7 +9,7 @@ declare module 'react-resizable-box' {
   ) => void;
 
   declare export type ResizeStartHandler = (
-    event: SyntheticMouseEvent | SyntheticTouchEvent,
+    event: SyntheticMouseEvent<> | SyntheticTouchEvent<>,
     dir: Direction,
     refToElement: HTMLElement
   ) => void;
