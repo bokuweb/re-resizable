@@ -50,6 +50,7 @@ type HandlerStyles = {
   bottomRight?: any;
   bottomLeft?: any;
   topLeft?: any;
+  wrapper?: any;
 }
 
 type HandlerClassName = {
@@ -61,6 +62,7 @@ type HandlerClassName = {
   bottomRight?: string;
   bottomLeft?: string;
   topLeft?: string;
+  wrapper?: string;
 }
 
 type Size = {
@@ -383,7 +385,7 @@ export default class Resizable extends Component {
   renderResizer() {
     const { enable, handlerStyles, handlerClasses } = this.props;
     if (!enable) return null;
-    return Object.keys(enable).map((dir: Direction) => {
+    const content = Object.keys(enable).map((dir: Direction) => {
       if (enable[dir] !== false) {
         return (
           <Resizer
@@ -397,6 +399,20 @@ export default class Resizable extends Component {
       }
       return null;
     });
+
+    const wrapperClass = handlerClasses && handlerClasses['wrapper']
+    const wrapperStyle = handlerStyles && handlerStyles['wrapper']
+
+      // #93 Wrap the resize box in span (will not break 100% width/height)
+    if (wrapperClass || wrapperStyle) {
+      return <span
+        className={wrapperClass}
+        style={wrapperStyle}>
+        {content}
+      </span>;
+    }
+
+    return content
   }
 
   render() {

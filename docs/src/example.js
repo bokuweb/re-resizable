@@ -1,6 +1,10 @@
 import React from 'react';
 import Resizable from '../../src';
 
+const handlerClasses = {
+  wrapper: 'react-resize-wrapper'
+}
+
 export default () => (
   <div>
     <Resizable
@@ -11,13 +15,14 @@ export default () => (
       minHeight="120"
       maxWidth="800"
       maxHeight="600"
+      handlerClasses={handlerClasses}
     >
-      <span>
+      <div className="content">
         Resize me!!<br />
         <span style={{ fontSize: '11px', fontFamily: 'Arial' }}>
           max 800 * 600 / min 240 * 120
           </span>
-      </span>
+      </div>
     </Resizable>
   </div>
 );

@@ -110,7 +110,7 @@ but other handler will still use the default styles.
 
 #### `handlerClasses?: HandlersClassName;`
 
-The `handlerClasses` property is used to set the className of one or more resize handlers.
+The `handlerClasses` property is used to set the className of one or more resize handlers. You can set className for span wrapper with `wrapper` index.
 
 #### `enable?: ?Enable;`
 

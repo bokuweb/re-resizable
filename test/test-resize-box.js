@@ -72,6 +72,14 @@ describe('Resizable Component test', () => {
     done();
   });
 
+  it('Should create custom span that wraps resizable divs ', (done) => {
+    const resizable = TestUtils.renderIntoDocument(<Resizable handlerClasses={{ wrapper: 'wrapper-class' }} />);
+    const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'span');
+    const node = ReactDOM.findDOMNode(divs[0]);
+    assert.equal(node.getAttribute('class'), 'wrapper-class');
+    done();
+  });
+
   it('Should not render resizer when enable props all false', () => {
     const resizable = TestUtils.renderIntoDocument(
       <Resizable
