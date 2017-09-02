@@ -41,6 +41,7 @@
   },
   "homepage": "https://github.com/bokuweb/react-resizable-box",
   "devDependencies": {
+    "@storybook/addon-info": "^3.2.9",
     "@storybook/react": "^3.2.8",
     "avaron": "^0.0.12",
     "babel-eslint": "^7.2.3",
