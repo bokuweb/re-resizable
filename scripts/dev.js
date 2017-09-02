@@ -16,7 +16,7 @@ export default {
       babelrc: true,
       exclude: 'node_modules/**',
       presets: [['es2015', { modules: false }], 'react'],
-      plugins: ['external-helpers', 'transform-class-properties']
+      plugins: ['external-helpers', 'transform-class-properties'],
     }),
     cjs({
       exclude: 'node_modules/process-es6/**',

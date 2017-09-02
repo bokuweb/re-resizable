@@ -6,5 +6,5 @@ import './styles.css';
 
 import Basic from './basic';
 
-storiesOf('react-resizable-box', module)
+storiesOf('re-resizable', module)
   .add('basic', () => <Basic />);

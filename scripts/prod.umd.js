@@ -2,7 +2,7 @@ import common from './prod.common';
 
 export default Object.assign({}, common, {
   output: {
-    file: 'lib/react-resizable-box.umd.js',
+    file: 'lib/re-resizable.umd.js',
     format: 'umd',
   },
 });

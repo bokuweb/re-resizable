@@ -11,7 +11,7 @@ export default {
   ],
   sourcemap: true,
   exports: 'named',
-  name: 'react-resizable-box',
+  name: 're-resizable',
   external: ['react'],
   globals: {
     react: 'React',

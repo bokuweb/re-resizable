@@ -1,11 +1,11 @@
 {
-  "name": "react-resizable-box",
-  "version": "2.0.5",
+  "name": "re-resizable",
+  "version": "3.0.0-beta.1",
   "description": "Resizable component for React.",
-  "title": "react-resizable-box",
-  "main": "./lib/react-resizable-box.es5.js",
-  "module": "./lib/react-resizable-box.js",
-  "jsnext:main": "./lib/react-resizable-box.js",
+  "title": "re-resizable",
+  "main": "./lib/index.es5.js",
+  "module": "./lib/index.js",
+  "jsnext:main": "./lib/index.js",
   "keywords": [
     "react",
     "resize",

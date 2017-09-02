@@ -91,8 +91,12 @@ export default (props: Props): React.Element<'div'> => {
         ...styles[props.direction],
         ...(props.replaceStyles || {}),
       }}
-      onMouseDown={(e: SyntheticMouseEvent<HTMLDivElement>) => props.onResizeStart(e, props.direction)}
-      onTouchStart={(e: SyntheticTouchEvent<HTMLDivElement>) => props.onResizeStart(e, props.direction)}
+      onMouseDown={(e: SyntheticMouseEvent<HTMLDivElement>) => {
+        props.onResizeStart(e, props.direction);
+      }}
+      onTouchStart={(e: SyntheticTouchEvent<HTMLDivElement>) => {
+        props.onResizeStart(e, props.direction);
+      }}
     />
   );
 };

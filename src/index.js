@@ -30,7 +30,7 @@ type Enable = {
   topLeft?: boolean;
 }
 
-type HandlerStyles = {
+type HandleStyles = {
   top?: any;
   right?: any;
   bottom?: any;
@@ -42,7 +42,7 @@ type HandlerStyles = {
   wrapper?: any;
 }
 
-type HandlerClassName = {
+type HandleClassName = {
   top?: string;
   right?: string;
   bottom?: string;
@@ -91,8 +91,8 @@ type Props = {
   maxHeight?: number;
   lockAspectRatio?: boolean;
   enable?: Enable;
-  handlerStyles?: HandlerStyles;
-  handlerClasses?: HandlerClassName;
+  handleStyles?: HandleStyles;
+  handleClasses?: HandleClassName;
   children?: any;
   onResizeStart?: ResizeStartCallBack;
   onResize?: Callback;
@@ -371,26 +371,26 @@ export default class Resizable extends Component<Props, State> {
     this.setState({ width: size.width, height: size.height });
   }
 
-  renderResizer() {
-    const { enable, handlerStyles, handlerClasses } = this.props;
+  renderResizer(): React$Node {
+    const { enable, handleStyles, handleClasses } = this.props;
     if (!enable) return null;
-    const content = Object.keys(enable).map((dir: Direction) => {
+    const content = Object.keys(enable).map((dir: Direction): React$Node | null => {
       if (enable[dir] !== false) {
         return (
           <Resizer
             key={dir}
             direction={dir}
             onResizeStart={this.onResizeStart}
-            replaceStyles={handlerStyles && handlerStyles[dir]}
-            className={handlerClasses && handlerClasses[dir]}
+            replaceStyles={handleStyles && handleStyles[dir]}
+            className={handleClasses && handleClasses[dir]}
           />
         );
       }
       return null;
     });
 
-    const wrapperClass = handlerClasses && handlerClasses.wrapper;
-    const wrapperStyle = handlerStyles && handlerStyles.wrapper;
+    const wrapperClass = handleClasses && handleClasses.wrapper;
+    const wrapperStyle = handleStyles && handleStyles.wrapper;
 
     // #93 Wrap the resize box in span (will not break 100% width/height)
     if (wrapperClass || wrapperStyle) {
@@ -405,7 +405,7 @@ export default class Resizable extends Component<Props, State> {
     return content;
   }
 
-  render() {
+  render(): React$Node {
     const userSelect = this.state.isResizing ? userSelectNone : userSelectAuto;
     const { style, className } = this.props;
     return (
