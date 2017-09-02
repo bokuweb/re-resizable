@@ -93,6 +93,8 @@ type Props = {
   enable?: Enable;
   handleStyles?: HandleStyles;
   handleClasses?: HandleClassName;
+  handleWrapperStyle?: { [key: string]: string };
+  handleWrapperClass?: string;
   children?: any;
   onResizeStart?: ResizeStartCallBack;
   onResize?: Callback;
@@ -185,10 +187,6 @@ export default class Resizable extends Component<Props, State> {
       this.setState({ height });
     }
   }
-
-  // shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
-  //   return !isEqual(this.props, nextProps) || !isEqual(this.state, nextState);
-  // }
 
   componentWillUnmount() {
     if (typeof window !== 'undefined') {
@@ -372,9 +370,9 @@ export default class Resizable extends Component<Props, State> {
   }
 
   renderResizer(): React$Node {
-    const { enable, handleStyles, handleClasses } = this.props;
+    const { enable, handleStyles, handleClasses, handleWrapperStyle, handleWrapperClass } = this.props;
     if (!enable) return null;
-    const content = Object.keys(enable).map((dir: Direction): React$Node | null => {
+    const resizers = Object.keys(enable).map((dir: Direction): React$Node => {
       if (enable[dir] !== false) {
         return (
           <Resizer
@@ -389,20 +387,14 @@ export default class Resizable extends Component<Props, State> {
       return null;
     });
 
-    const wrapperClass = handleClasses && handleClasses.wrapper;
-    const wrapperStyle = handleStyles && handleStyles.wrapper;
-
     // #93 Wrap the resize box in span (will not break 100% width/height)
-    if (wrapperClass || wrapperStyle) {
-      return (
-        <span
-          className={wrapperClass}
-          style={wrapperStyle}
-        >
-          {content}
-        </span>);
-    }
-    return content;
+    return (
+      <span
+        className={handleWrapperClass}
+        style={handleWrapperStyle}
+      >
+        {resizers}
+      </span>);
   }
 
   render(): React$Node {
