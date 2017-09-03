@@ -1,9 +1,9 @@
 /* @flow */
 
 import React, { Component } from 'react';
-import Resizer from './resizer';
 import ResizeObserver from 'resize-observer-polyfill';
 import debounce from 'lodash.debounce';
+import Resizer from './resizer';
 
 import type { Direction, OnStartCallback } from './resizer';
 
@@ -191,7 +191,7 @@ export default class Resizable extends Component<ResizableProps, State> {
     const size = this.size;
     const debounced = debounce(() => {
       this.setState(this.style);
-    }, 60);
+    }, 0);
     const ro = new ResizeObserver(debounced);
     ro.observe(this.resizable.parentNode);
     // If props.width or height is not defined, set default size when mounted.
@@ -463,7 +463,6 @@ export default class Resizable extends Component<ResizableProps, State> {
   render(): React$Node {
     const userSelect = this.state.isResizing ? userSelectNone : userSelectAuto;
     const { style, className } = this.props;
-    // const Content = sizeMe({ refreshMode: 'debounce' })(({ children }) => (<span>A</span>));
     return (
       <div
         ref={(c: HTMLElement) => { this.resizable = c; }}
