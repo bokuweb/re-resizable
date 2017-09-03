@@ -380,8 +380,8 @@ export default class Resizable extends Component<Props, State> {
   get style(): { width: string, height: string } {
     const size = (key: 'width' | 'height'): string => {
       if (typeof this.state[key] === 'undefined' || this.state[key] === 'auto') return 'auto';
-      else if (/px$/.test(this.state[key].toString())) return this.state[key].toString();
-      else if (/%$/.test(this.state[key].toString())) return this.state[key].toString();
+      else if (this.state[key].toString().endsWith('px')) return this.state[key].toString();
+      else if (this.state[key].toString().endsWith('%')) return this.state[key].toString();
       return `${this.state[key]}px`;
     };
     return {
