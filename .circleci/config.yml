@@ -30,7 +30,7 @@ jobs:
           command: yarn
       - add-ssh-keys:
           fingerprints:
-            - "7c:17:bc:7b:8a:a2:ef:6b:11:f3:56:a0:ac:15:4c:9a"          
+            - "45:1a:73:5c:53:97:cc:7d:ef:b0:75:48:93:9f:08:31"          
       - run:
           name: Setup git
           command: |
@@ -47,7 +47,7 @@ jobs:
     steps:
       - add-ssh-keys:
           fingerprints:
-            - "7c:17:bc:7b:8a:a2:ef:6b:11:f3:56:a0:ac:15:4c:9a"
+            - "45:1a:73:5c:53:97:cc:7d:ef:b0:75:48:93:9f:08:31"
       - checkout
       - run:
           name: Install dependencies
@@ -68,13 +68,13 @@ jobs:
       - run:
           name: Publish to npm
           command: |
-            sh deploy-patch.sh
+            sh scripts/deploy-patch.sh
   minor_release:
     <<: *defaults
     steps:
       - add-ssh-keys:
           fingerprints:
-            - "7c:17:bc:7b:8a:a2:ef:6b:11:f3:56:a0:ac:15:4c:9a"
+            - "45:1a:73:5c:53:97:cc:7d:ef:b0:75:48:93:9f:08:31"
       - checkout
       - run:
           name: Install dependencies
@@ -95,7 +95,7 @@ jobs:
       - run:
           name: Publish to npm
           command: |
-            sh deploy-minor.sh
+            sh scripts/deploy-minor.sh
 workflows:
   version: 2
   build_pipeline:
