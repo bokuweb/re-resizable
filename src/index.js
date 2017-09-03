@@ -19,7 +19,11 @@ const userSelectAuto = {
   MsUserSelect: 'auto',
 };
 
-type Enable = {
+export type Style = {
+  [key: string]: string;
+}
+
+export type Enable = {
   top?: boolean;
   right?: boolean;
   bottom?: boolean;
@@ -30,7 +34,7 @@ type Enable = {
   topLeft?: boolean;
 }
 
-type HandleStyles = {
+export type HandleStyles = {
   top?: any;
   right?: any;
   bottom?: any;
@@ -39,10 +43,9 @@ type HandleStyles = {
   bottomRight?: any;
   bottomLeft?: any;
   topLeft?: any;
-  wrapper?: any;
 }
 
-type HandleClassName = {
+export type HandleClassName = {
   top?: string;
   right?: string;
   bottom?: string;
@@ -51,10 +54,9 @@ type HandleClassName = {
   bottomRight?: string;
   bottomLeft?: string;
   topLeft?: string;
-  wrapper?: string;
 }
 
-type Size = {
+export type Size = {
   width?: string | number;
   height?: string | number;
 }
@@ -64,20 +66,20 @@ type NumberSize = {
   height: number;
 }
 
-type Callback = (
+export type Callback = (
   event: MouseEvent | TouchEvent,
   direction: Direction,
   refToElement: HTMLElement,
   delta: NumberSize,
 ) => void;
 
-type ResizeStartCallBack = (
+export type ResizeStartCallBack = (
   e: SyntheticMouseEvent<HTMLDivElement> | SyntheticTouchEvent<HTMLDivElement>,
   dir: Direction,
   refToElement: HTMLElement,
 ) => void;
 
-type Props = {
+export type ResizableProps = {
   style?: any;
   className?: string;
   extendsProps?: any;
@@ -85,8 +87,8 @@ type Props = {
   bounds?: 'parent' | 'window' | HTMLElement;
   width?: string | number;
   height?: string | number;
-  minWidth?: number;
-  minHeight?: number;
+  minWidth?: string | number;
+  minHeight?: string | number;
   maxWidth?: string | number;
   maxHeight?: string | number;
   lockAspectRatio?: boolean;
@@ -117,7 +119,7 @@ type State = {
 const clamp = (n: number, min: number, max: number): number => Math.max(Math.min(n, max), min);
 const snap = (n: number, size: number): number => Math.round(n / size) * size;
 
-export default class Resizable extends Component<Props, State> {
+export default class Resizable extends Component<ResizableProps, State> {
   resizable: HTMLElement;
   onTouchMove: Callback;
   onMouseMove: Callback;
@@ -143,7 +145,7 @@ export default class Resizable extends Component<Props, State> {
     lockAspectRatio: false,
   }
 
-  constructor(props: Props) {
+  constructor(props: ResizableProps) {
     super(props);
     const { width, height } = props;
     this.state = {
@@ -190,7 +192,7 @@ export default class Resizable extends Component<Props, State> {
     });
   }
 
-  componentWillReceiveProps({ width, height }: Props) {
+  componentWillReceiveProps({ width, height }: ResizableProps) {
     if (width !== this.props.width) {
       this.setState({ width });
     }
@@ -242,9 +244,10 @@ export default class Resizable extends Component<Props, State> {
     const clientX = event instanceof MouseEvent ? event.clientX : event.touches[0].clientX;
     const clientY = event instanceof MouseEvent ? event.clientY : event.touches[0].clientY;
     const { direction, original, width, height } = this.state;
-    const { lockAspectRatio, minWidth, minHeight } = this.props;
-    let { maxWidth, maxHeight } = this.props;
+    const { lockAspectRatio } = this.props;
+    let { maxWidth, maxHeight, minWidth, minHeight } = this.props;
 
+    // TODO: 
     const parentSize = this.getParentSize();
     if (maxWidth && typeof maxWidth === 'string' && maxWidth.endsWith('%')) {
       const ratio = Number(maxWidth.replace('%', '')) / 100;
@@ -254,9 +257,18 @@ export default class Resizable extends Component<Props, State> {
       const ratio = Number(maxHeight.replace('%', '')) / 100;
       maxHeight = parentSize.height * ratio;
     }
-
+    if (minWidth && typeof minWidth === 'string' && minWidth.endsWith('%')) {
+      const ratio = Number(minWidth.replace('%', '')) / 100;
+      minWidth = parentSize.width * ratio;
+    }
+    if (minHeight && typeof minHeight === 'string' && minHeight.endsWith('%')) {
+      const ratio = Number(minHeight.replace('%', '')) / 100;
+      minHeight = parentSize.height * ratio;
+    }
     maxWidth = typeof maxWidth === 'undefined' ? undefined : Number(maxWidth);
     maxHeight = typeof maxHeight === 'undefined' ? undefined : Number(maxHeight);
+    minWidth = typeof minWidth === 'undefined' ? undefined : Number(minWidth);
+    minHeight = typeof minHeight === 'undefined' ? undefined : Number(minHeight);
 
     const ratio = original.height / original.width;
     let newWidth = original.width;
@@ -425,6 +437,7 @@ export default class Resizable extends Component<Props, State> {
   render(): React$Node {
     const userSelect = this.state.isResizing ? userSelectNone : userSelectAuto;
     const { style, className } = this.props;
+    // const Content = sizeMe({ refreshMode: 'debounce' })(({ children }) => (<span>A</span>));
     return (
       <div
         ref={(c: HTMLElement) => { this.resizable = c; }}
@@ -435,6 +448,8 @@ export default class Resizable extends Component<Props, State> {
           ...this.style,
           maxWidth: this.props.maxWidth,
           maxHeight: this.props.maxHeight,
+          minWidth: this.props.minWidth,
+          minHeight: this.props.minHeight,
           boxSizing: 'border-box',
         }}
         className={className}

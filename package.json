@@ -89,5 +89,6 @@
     ],
     "fixture": "./test/fixture.html"
   },
-  "dependencies": {}
+  "dependencies": {
+  }
 }
