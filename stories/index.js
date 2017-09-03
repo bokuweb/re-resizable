@@ -18,6 +18,7 @@ import BoundsParent from './bounds-parent';
 import WithTextarea from './with-textarea';
 import MaxSizePercent from './max-size-percent';
 import MinSizePercent from './min-size-percent';
+import PercentSize from './percent-size';
 
 storiesOf('re-resizable', module)
   .add('basic.', () => <Basic />)
@@ -33,4 +34,6 @@ storiesOf('re-resizable', module)
   .add('bounds parent', () => <BoundsParent />)
   .add('with expandable textarea', () => <WithTextarea />)
   .add('max size percent', () => <MaxSizePercent />)
-  .add('min size percent', () => <MinSizePercent />);
+  .add('min size percent', () => <MinSizePercent />)
+  .add('percent size', () => <PercentSize />);
+

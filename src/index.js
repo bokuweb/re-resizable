@@ -247,7 +247,7 @@ export default class Resizable extends Component<ResizableProps, State> {
     const { lockAspectRatio } = this.props;
     let { maxWidth, maxHeight, minWidth, minHeight } = this.props;
 
-    // TODO: 
+    // TODO: refactor
     const parentSize = this.getParentSize();
     if (maxWidth && typeof maxWidth === 'string' && maxWidth.endsWith('%')) {
       const ratio = Number(maxWidth.replace('%', '')) / 100;
@@ -392,8 +392,15 @@ export default class Resizable extends Component<ResizableProps, State> {
   get style(): { width: string, height: string } {
     const size = (key: 'width' | 'height'): string => {
       if (typeof this.state[key] === 'undefined' || this.state[key] === 'auto') return 'auto';
-      else if (this.state[key].toString().endsWith('px')) return this.state[key].toString();
-      else if (this.state[key].toString().endsWith('%')) return this.state[key].toString();
+      if (this.props[key] && this.props[key].toString().endsWith('%')) {
+        if (this.state[key].toString().endsWith('%')) return this.state[key].toString();
+        const parentSize = this.getParentSize();
+        const value = Number(this.state[key].toString().replace('px', ''));
+        const percent = (value / parentSize[key]) * 100;
+        return `${percent}%`;
+      }
+      if (this.state[key].toString().endsWith('px')) return this.state[key].toString();
+      if (this.state[key].toString().endsWith('%')) return this.state[key].toString();
       return `${this.state[key]}px`;
     };
     return {
