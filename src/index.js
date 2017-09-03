@@ -103,6 +103,7 @@ export type ResizableProps = {
   onResizeStart?: ResizeStartCallBack;
   onResize?: Callback;
   onResizeStop?: Callback;
+  parentNode?: HTMLElement;
 }
 
 type State = {
@@ -179,8 +180,13 @@ export default class Resizable extends Component<ResizableProps, State> {
     }
   }
 
+  get parentNode(): HTMLElement {
+    return this.props.parentNode || (this.resizable.parentNode: any);
+  }
+
   getParentSize(): { width: number, height: number } {
     const base = (document.getElementById(this.baseSizeId): any);
+    if (!base) return { width: window.innerWidth, height: window.innerHeight };
     return {
       width: (base: HTMLDivElement).offsetWidth,
       height: (base: HTMLDivElement).offsetHeight,
@@ -193,7 +199,7 @@ export default class Resizable extends Component<ResizableProps, State> {
     // this.setState(this.style);
     // }, 0);
     // const ro = new ResizeObserver(debounced);
-    // ro.observe(this.resizable.parentNode);
+    // ro.observe(this.parentNode);
     // If props.width or height is not defined, set default size when mounted.
     this.setState({
       width: this.state.width || size.width,
@@ -204,8 +210,8 @@ export default class Resizable extends Component<ResizableProps, State> {
     element.style.width = '100%';
     element.style.height = '100%';
     element.style.position = 'relative';
-    element.style.left = '-9999px';
-    const parent = this.resizable.parentNode;
+    element.style.left = '-99999px';
+    const parent = this.parentNode;
     if (!(parent instanceof HTMLElement)) return;
     parent.appendChild(element);
   }
@@ -225,6 +231,12 @@ export default class Resizable extends Component<ResizableProps, State> {
       window.removeEventListener('mousemove', this.onMouseMove);
       window.removeEventListener('touchmove', this.onMouseMove);
       window.removeEventListener('touchend', this.onMouseUp);
+
+      const parent = this.parentNode;
+      const base = document.getElementById(this.baseSizeId);
+      if (!base) return;
+      if (!(parent instanceof HTMLElement)) return;
+      parent.removeChild(base);
     }
   }
 
@@ -309,7 +321,7 @@ export default class Resizable extends Component<ResizableProps, State> {
     }
 
     if (this.props.bounds === 'parent') {
-      const parent = this.resizable.parentNode;
+      const parent = this.parentNode;
       if (parent instanceof HTMLElement) {
         const parentRect = parent.getBoundingClientRect();
         const parentLeft = parentRect.left;
@@ -410,13 +422,6 @@ export default class Resizable extends Component<ResizableProps, State> {
       height = +style.getPropertyValue('height').replace('px', '');
     }
     return { width, height };
-  }
-
-  setSize(size: Size) {
-    this.setState({
-      width: this.state.width || size.width,
-      height: this.state.height || size.height,
-    });
   }
 
   // TODO: rename 
