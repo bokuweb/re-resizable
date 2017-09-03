@@ -90,5 +90,7 @@
     "fixture": "./test/fixture.html"
   },
   "dependencies": {
+    "lodash.debounce": "^4.0.8",
+    "resize-observer-polyfill": "^1.4.2"
   }
 }

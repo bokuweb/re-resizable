@@ -2,6 +2,8 @@
 
 import React, { Component } from 'react';
 import Resizer from './resizer';
+import ResizeObserver from 'resize-observer-polyfill';
+import debounce from 'lodash.debounce';
 
 import type { Direction, OnStartCallback } from './resizer';
 
@@ -97,7 +99,7 @@ export type ResizableProps = {
   handleClasses?: HandleClassName;
   handleWrapperStyle?: { [key: string]: string };
   handleWrapperClass?: string;
-  children?: any;
+  children?: React$Node;
   onResizeStart?: ResizeStartCallBack;
   onResize?: Callback;
   onResizeStop?: Callback;
@@ -119,12 +121,15 @@ type State = {
 const clamp = (n: number, min: number, max: number): number => Math.max(Math.min(n, max), min);
 const snap = (n: number, size: number): number => Math.round(n / size) * size;
 
+let baseSizeId = 0;
+
 export default class Resizable extends Component<ResizableProps, State> {
   resizable: HTMLElement;
   onTouchMove: Callback;
   onMouseMove: Callback;
   onMouseUp: Callback;
   onResizeStart: OnStartCallback;
+  baseSizeId: string;
 
   static defaultProps = {
     onResizeStart: () => { },
@@ -163,6 +168,8 @@ export default class Resizable extends Component<ResizableProps, State> {
     this.onResizeStart = this.onResizeStart.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
+    this.baseSizeId = `__resizable${baseSizeId}`;
+    baseSizeId += 1;
 
     if (typeof window !== 'undefined') {
       window.addEventListener('mouseup', this.onMouseUp);
@@ -173,23 +180,34 @@ export default class Resizable extends Component<ResizableProps, State> {
   }
 
   getParentSize(): { width: number, height: number } {
-    const parent = this.resizable.parentNode;
-    if (!(parent instanceof HTMLElement)) {
-      return { width: 0, height: 0 };
-    }
+    const base = (document.getElementById(this.baseSizeId): any);
     return {
-      width: parent.offsetWidth,
-      height: parent.offsetHeight,
+      width: (base: HTMLDivElement).offsetWidth,
+      height: (base: HTMLDivElement).offsetHeight,
     };
   }
 
   componentDidMount() {
     const size = this.size;
+    const debounced = debounce(() => {
+      this.setState(this.style);
+    }, 60);
+    const ro = new ResizeObserver(debounced);
+    ro.observe(this.resizable.parentNode);
     // If props.width or height is not defined, set default size when mounted.
     this.setState({
       width: this.state.width || size.width,
       height: this.state.height || size.height,
     });
+    const element = document.createElement('div');
+    element.id = this.baseSizeId;
+    element.style.width = '100%';
+    element.style.height = '100%';
+    element.style.position = 'relative';
+    element.style.left = '-9999px';
+    const parent = this.resizable.parentNode;
+    if (!(parent instanceof HTMLElement)) return;
+    parent.appendChild(element);
   }
 
   componentWillReceiveProps({ width, height }: ResizableProps) {
@@ -376,8 +394,8 @@ export default class Resizable extends Component<ResizableProps, State> {
     let height = 0;
     if (typeof window !== 'undefined') {
       const style = window.getComputedStyle(this.resizable, null);
-      width = ~~style.getPropertyValue('width').replace('px', '');
-      height = ~~style.getPropertyValue('height').replace('px', '');
+      width = +style.getPropertyValue('width').replace('px', '');
+      height = +style.getPropertyValue('height').replace('px', '');
     }
     return { width, height };
   }
@@ -389,6 +407,7 @@ export default class Resizable extends Component<ResizableProps, State> {
     });
   }
 
+  // TODO: rename 
   get style(): { width: string, height: string } {
     const size = (key: 'width' | 'height'): string => {
       if (typeof this.state[key] === 'undefined' || this.state[key] === 'auto') return 'auto';
