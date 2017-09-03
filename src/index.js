@@ -1,8 +1,8 @@
 /* @flow */
 
 import React, { Component } from 'react';
-import ResizeObserver from 'resize-observer-polyfill';
-import debounce from 'lodash.debounce';
+// import ResizeObserver from 'resize-observer-polyfill';
+// import debounce from 'lodash.debounce';
 import Resizer from './resizer';
 
 import type { Direction, OnStartCallback } from './resizer';
@@ -189,11 +189,11 @@ export default class Resizable extends Component<ResizableProps, State> {
 
   componentDidMount() {
     const size = this.size;
-    const debounced = debounce(() => {
-      this.setState(this.style);
-    }, 0);
-    const ro = new ResizeObserver(debounced);
-    ro.observe(this.resizable.parentNode);
+    // const debounced = debounce(() => {
+    // this.setState(this.style);
+    // }, 0);
+    // const ro = new ResizeObserver(debounced);
+    // ro.observe(this.resizable.parentNode);
     // If props.width or height is not defined, set default size when mounted.
     this.setState({
       width: this.state.width || size.width,
@@ -363,14 +363,26 @@ export default class Resizable extends Component<ResizableProps, State> {
       newHeight = snap(newHeight, this.props.grid[1]);
     }
 
-    this.setState({
-      width: width !== 'auto' || typeof this.props.width === 'undefined' ? newWidth : 'auto',
-      height: height !== 'auto' || typeof this.props.height === 'undefined' ? newHeight : 'auto',
-    });
     const delta = {
       width: newWidth - original.width,
       height: newHeight - original.height,
     };
+
+    if (width && typeof width === 'string' && width.endsWith('%')) {
+      const percent = (newWidth / parentSize.width) * 100;
+      newWidth = `${percent}%`;
+    }
+
+    if (height && typeof height === 'string' && height.endsWith('%')) {
+      const percent = (newHeight / parentSize.height) * 100;
+      newHeight = `${percent}%`;
+    }
+
+    this.setState({
+      width: width !== 'auto' || typeof this.props.width === 'undefined' ? newWidth : 'auto',
+      height: height !== 'auto' || typeof this.props.height === 'undefined' ? newHeight : 'auto',
+    });
+
     if (this.props.onResize) {
       this.props.onResize(event, direction, this.resizable, delta);
     }
