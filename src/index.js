@@ -87,8 +87,8 @@ type Props = {
   height?: string | number;
   minWidth?: number;
   minHeight?: number;
-  maxWidth?: number;
-  maxHeight?: number;
+  maxWidth?: string | number;
+  maxHeight?: string | number;
   lockAspectRatio?: boolean;
   enable?: Enable;
   handleStyles?: HandleStyles;
@@ -170,6 +170,17 @@ export default class Resizable extends Component<Props, State> {
     }
   }
 
+  getParentSize(): { width: number, height: number } {
+    const parent = this.resizable.parentNode;
+    if (!(parent instanceof HTMLElement)) {
+      return { width: 0, height: 0 };
+    }
+    return {
+      width: parent.offsetWidth,
+      height: parent.offsetHeight,
+    };
+  }
+
   componentDidMount() {
     const size = this.size;
     // If props.width or height is not defined, set default size when mounted.
@@ -233,6 +244,20 @@ export default class Resizable extends Component<Props, State> {
     const { direction, original, width, height } = this.state;
     const { lockAspectRatio, minWidth, minHeight } = this.props;
     let { maxWidth, maxHeight } = this.props;
+
+    const parentSize = this.getParentSize();
+    if (maxWidth && typeof maxWidth === 'string' && maxWidth.endsWith('%')) {
+      const ratio = Number(maxWidth.replace('%', '')) / 100;
+      maxWidth = parentSize.width * ratio;
+    }
+    if (maxHeight && typeof maxHeight === 'string' && maxHeight.endsWith('%')) {
+      const ratio = Number(maxHeight.replace('%', '')) / 100;
+      maxHeight = parentSize.height * ratio;
+    }
+
+    maxWidth = typeof maxWidth === 'undefined' ? undefined : Number(maxWidth);
+    maxHeight = typeof maxHeight === 'undefined' ? undefined : Number(maxHeight);
+
     const ratio = original.height / original.width;
     let newWidth = original.width;
     let newHeight = original.height;
@@ -408,6 +433,8 @@ export default class Resizable extends Component<Props, State> {
           ...userSelect,
           ...style,
           ...this.style,
+          maxWidth: this.props.maxWidth,
+          maxHeight: this.props.maxHeight,
           boxSizing: 'border-box',
         }}
         className={className}

@@ -16,6 +16,7 @@ import Grid from './grid';
 import LockAspect from './lock-aspect';
 import BoundsParent from './bounds-parent';
 import WithTextarea from './with-textarea';
+import MaxSizePercent from './max-size-percent';
 
 storiesOf('re-resizable', module)
   .add('basic.', () => <Basic />)
@@ -29,4 +30,5 @@ storiesOf('re-resizable', module)
   .add('grid [10, 20].', () => <Grid />)
   .add('lock aspect ratio w:h = 2:3', () => <LockAspect />)
   .add('bounds parent', () => <BoundsParent />)
-  .add('with expandable textarea', () => <WithTextarea />);
+  .add('with expandable textarea', () => <WithTextarea />)
+  .add('max size percent', () => <MaxSizePercent />);
