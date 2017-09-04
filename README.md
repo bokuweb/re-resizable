@@ -32,7 +32,7 @@ See demo: [http://bokuweb.github.io/react-resizable-box/example/](http://bokuweb
 ## Install
 
 ``` sh
-$ npm install --save react-resizable-box
+$ npm install --save re-resizable
 ```
 
 ## Usage
@@ -101,16 +101,25 @@ If omitted, set `false`.
 
 Specifies resize boundaries.
 
-#### `handlerStyles?: HandlersStyles;`
+#### `handleStyles?: HandleStyles;`
 
-The `handleStyles` property is used to override the style of one or more resize handlers.
-Only the axis you specify will have its handler style replaced.
-If you specify a value for `right` it will completely replace the styles for the `right` resize handler,
-but other handler will still use the default styles.
+The `handleStyles` property is used to override the style of one or more resize handles.
+Only the axis you specify will have its handle style replaced.
+If you specify a value for `right` it will completely replace the styles for the `right` resize handle,
+but other handle will still use the default styles.
 
-#### `handlerClasses?: HandlersClassName;`
+#### `handleClasses?: HandleClassName;`
 
-The `handlerClasses` property is used to set the className of one or more resize handlers. You can set className for span wrapper with `wrapper` index.
+The `handleClasses` property is used to set the className of one or more resize handles.
+
+
+#### `handleWrapperStyle?: { [key: string]: string };`
+
+T.B.D
+
+#### `handleWrapperClass?: string;`
+
+T.B.D
 
 #### `enable?: ?Enable;`
 
@@ -219,6 +228,22 @@ npm test
 
 ## Changelog
 
+#### v3.0.0-beta.1
+
+- Fix flow filename.
+- Change logo
+
+#### v3.0.0-beta.0
+
+- Change package name, `react-resizable-box` -> `re-resizable`.
+- Add `handleWrapperStyle` and `handleWrapperClass` props.
+- Change behavior that is set percentage size to width or height as props.
+- Support percentage max/min size.
+- Use rollup.
+- Fix props name.
+  - `handersClasses` -> `handleClasses`
+  - `handersStyles` -> `handleStyles`
+
 #### v2.0.5
 
 - Fix remove event listener
@@ -312,7 +337,7 @@ npm test
 
 - Add `userSelect: none` when resize get srated.
 - Add shouldComponentUpdate.
-- Add handler custom className.
+- Add handle custom className.
 
 #### v1.2.0
 

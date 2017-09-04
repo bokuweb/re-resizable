@@ -24,7 +24,7 @@
     "start": "npm-run-all --parallel dev browse storybook",
     "test": "NODE_ENV='test' avaron test --renderer",
     "test:ci": "npm run flow && npm run build",
-    "flow-copy": "flow-copy-source -v src lib",
+    "flow-copy": "flow-copy-source -v src lib && cp lib/index.js.flow lib/index.es5.js.flow ",
     "prepublish": "npm run build && npm run flow-copy",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
@@ -91,7 +91,5 @@
     "fixture": "./test/fixture.html"
   },
   "dependencies": {
-    "lodash.debounce": "^4.0.8",
-    "resize-observer-polyfill": "^1.4.2"
   }
 }
