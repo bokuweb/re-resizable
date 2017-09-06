@@ -228,6 +228,11 @@ npm test
 
 ## Changelog
 
+#### v3.0.0-beta.2
+
+- export `ResizeDirection` type.
+- rename `Callback` to `ResizeCallback`.
+
 #### v3.0.0-beta.1
 
 - Fix flow filename.

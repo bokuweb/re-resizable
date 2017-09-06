@@ -1,8 +1,6 @@
 /* @flow */
 
 import React, { Component } from 'react';
-// import ResizeObserver from 'resize-observer-polyfill';
-// import debounce from 'lodash.debounce';
 import Resizer from './resizer';
 
 import type { Direction, OnStartCallback } from './resizer';
@@ -20,6 +18,8 @@ const userSelectAuto = {
   WebkitUserSelect: 'auto',
   MsUserSelect: 'auto',
 };
+
+export type ResizeDirection = Direction;
 
 export type Style = {
   [key: string]: string;
@@ -68,7 +68,7 @@ type NumberSize = {
   height: number;
 }
 
-export type Callback = (
+export type ResizeCallback = (
   event: MouseEvent | TouchEvent,
   direction: Direction,
   refToElement: HTMLElement,
@@ -101,8 +101,8 @@ export type ResizableProps = {
   handleWrapperClass?: string;
   children?: React$Node;
   onResizeStart?: ResizeStartCallBack;
-  onResize?: Callback;
-  onResizeStop?: Callback;
+  onResize?: ResizeCallback;
+  onResizeStop?: ResizeCallback;
   parentNode?: HTMLElement;
 }
 
@@ -126,9 +126,9 @@ let baseSizeId = 0;
 
 export default class Resizable extends Component<ResizableProps, State> {
   resizable: HTMLElement;
-  onTouchMove: Callback;
-  onMouseMove: Callback;
-  onMouseUp: Callback;
+  onTouchMove: ResizeCallback;
+  onMouseMove: ResizeCallback;
+  onMouseUp: ResizeCallback;
   onResizeStart: OnStartCallback;
   baseSizeId: string;
 
