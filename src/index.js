@@ -75,7 +75,7 @@ export type ResizeCallback = (
   delta: NumberSize,
 ) => void;
 
-export type ResizeStartCallBack = (
+export type ResizeStartCallback = (
   e: SyntheticMouseEvent<HTMLDivElement> | SyntheticTouchEvent<HTMLDivElement>,
   dir: Direction,
   refToElement: HTMLElement,
@@ -100,7 +100,7 @@ export type ResizableProps = {
   handleWrapperStyle?: { [key: string]: string };
   handleWrapperClass?: string;
   children?: React$Node;
-  onResizeStart?: ResizeStartCallBack;
+  onResizeStart?: ResizeStartCallback;
   onResize?: ResizeCallback;
   onResizeStop?: ResizeCallback;
   parentNode?: HTMLElement;

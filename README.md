@@ -228,6 +228,10 @@ npm test
 
 ## Changelog
 
+#### v3.0.0-beta.3
+
+- fix typo. `ResizeStartCallBack` -> `ResizeStartCallback`.
+
 #### v3.0.0-beta.2
 
 - export `ResizeDirection` type.
