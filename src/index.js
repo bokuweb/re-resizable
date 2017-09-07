@@ -37,14 +37,14 @@ export type Enable = {
 }
 
 export type HandleStyles = {
-  top?: any;
-  right?: any;
-  bottom?: any;
-  left?: any;
-  topRight?: any;
-  bottomRight?: any;
-  bottomLeft?: any;
-  topLeft?: any;
+  top?: Style;
+  right?: Style;
+  bottom?: Style;
+  left?: Style;
+  topRight?: Style;
+  bottomRight?: Style;
+  bottomLeft?: Style;
+  topLeft?: Style;
 }
 
 export type HandleClassName = {
