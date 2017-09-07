@@ -1,6 +1,6 @@
 {
   "name": "react-resizable-box",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -8,7 +8,6 @@
     "watch": "watchify --extension=js -o docs/dist/bundle.js docs/src/index.js",
     "compile": "babel -d lib/ src/ --copy-files",
     "test": "npm run flow && npm run lint && karma start",
-    "prepush": "npm run lint && npm t",
     "lint": "eslint react",
     "flow": "flow",
     "prepublish": "npm run compile"
@@ -80,8 +79,5 @@
   "files": [
     "lib",
     "index.d.ts"
-  ],
-  "dependencies": {
-    "lodash.isequal": "^4.5.0"
-  }
+  ]
 }
