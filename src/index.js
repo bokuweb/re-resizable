@@ -11,7 +11,6 @@
 /* eslint-disable react/no-did-mount-set-state */
 
 import React, { Component } from 'react';
-import isEqual from 'lodash.isequal';
 import Resizer from './resizer';
 
 import type { Direction, OnStartCallback } from './resizer';
@@ -198,10 +197,6 @@ export default class Resizable extends Component {
     if (height !== this.props.height) {
       this.setState({ height });
     }
-  }
-
-  shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
-    return !isEqual(this.props, nextProps) || !isEqual(this.state, nextState);
   }
 
   componentWillUnmount() {
