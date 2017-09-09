@@ -84,7 +84,7 @@ export type ResizeStartCallback = (
 export type ResizableProps = {
   style?: any;
   className?: string;
-  extendsProps?: any;
+  extendsProps?: { [key: string]: any };
   grid?: [number, number];
   bounds?: 'parent' | 'window' | HTMLElement;
   width?: string | number;
@@ -475,7 +475,6 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     return (
       <div
         ref={(c: React$ElementRef<'div'> | null) => { this.resizable = c; }}
-        {...this.props}
         style={{
           position: 'relative',
           ...userSelect,
@@ -487,6 +486,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
           minHeight: this.props.minHeight,
           boxSizing: 'border-box',
         }}
+        {...this.props.extendsProps}
       >
         {this.props.children}
         {this.renderResizer()}
