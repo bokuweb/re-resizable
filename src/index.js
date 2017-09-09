@@ -84,7 +84,7 @@ export type ResizeStartCallback = (
 export type ResizableProps = {
   style?: any;
   className?: string;
-  extendsProps?: { [key: string]: any };
+  // extendsProps?: { [key: string]: any };
   grid?: [number, number];
   bounds?: 'parent' | 'window' | HTMLElement;
   width?: string | number;
@@ -123,6 +123,13 @@ const snap = (n: number, size: number): number => Math.round(n / size) * size;
 
 let baseSizeId = 0;
 
+const definedProps = [
+  'style', 'className', 'grid', 'bounds', 'width', 'height',
+  'minWidth', 'minHeight', 'maxWidth', 'maxHeight', 'lockAspectRatio',
+  'enable', 'handleStyles', 'handleClasses', 'handleWrapperStyle',
+  'handleWrapperClass', 'children', 'onResizeStart', 'onResize', 'onResizeStop',
+];
+
 export default class Resizable extends React.Component<ResizableProps, State> {
   resizable: (React.ElementRef<'div'> | null);
   onTouchMove: ResizeCallback;
@@ -130,6 +137,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
   onMouseUp: ResizeCallback;
   onResizeStart: OnStartCallback;
   baseSizeId: string;
+  extendsProps: { [key: string]: any };
 
   static defaultProps = {
     onResizeStart: () => { },
@@ -165,6 +173,8 @@ export default class Resizable extends React.Component<ResizableProps, State> {
         height: 0,
       },
     };
+
+    this.updateExtendsProps(props);
     this.onResizeStart = this.onResizeStart.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
@@ -181,6 +191,14 @@ export default class Resizable extends React.Component<ResizableProps, State> {
 
   get parentNode(): HTMLElement {
     return ((this.resizable: any).parentNode: any);
+  }
+
+  updateExtendsProps(props) {
+    this.extendsProps = Object.keys(props).reduce((acc, key) => {
+      if (definedProps.includes(key)) return acc;
+      acc[key] = props[key];
+      return acc;
+    }, {});
   }
 
   getParentSize(): { width: number, height: number } {
@@ -216,6 +234,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     if (height !== this.props.height) {
       this.setState({ height });
     }
+    this.updateExtendsProps(this.props);
   }
 
   componentWillUnmount() {
@@ -474,7 +493,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     const userSelect = this.state.isResizing ? userSelectNone : userSelectAuto;
     return (
       <div
-        ref={(c: React$ElementRef<'div'> | null) => { this.resizable = c; }}
+        ref={(c: React.ElementRef<'div'> | null) => { this.resizable = c; }}
         style={{
           position: 'relative',
           ...userSelect,
@@ -487,7 +506,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
           boxSizing: 'border-box',
         }}
         className={this.props.className}
-        {...this.props.extendsProps}
+        {...this.extendsProps}
       >
         {this.props.children}
         {this.renderResizer()}
