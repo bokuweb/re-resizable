@@ -71,14 +71,14 @@ type NumberSize = {
 export type ResizeCallback = (
   event: MouseEvent | TouchEvent,
   direction: Direction,
-  refToElement: HTMLElement,
+  refToElement: React.ElementRef<'div'>,
   delta: NumberSize,
 ) => void;
 
 export type ResizeStartCallback = (
   e: SyntheticMouseEvent<HTMLDivElement> | SyntheticTouchEvent<HTMLDivElement>,
   dir: Direction,
-  refToElement: HTMLElement,
+  refToElement: React.ElementRef<'div'>,
 ) => void;
 
 export type ResizableProps = {
@@ -193,7 +193,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     return ((this.resizable: any).parentNode: any);
   }
 
-  updateExtendsProps(props) {
+  updateExtendsProps(props: ResizableProps) {
     this.extendsProps = Object.keys(props).reduce((acc, key) => {
       if (definedProps.includes(key)) return acc;
       acc[key] = props[key];
