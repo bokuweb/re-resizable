@@ -345,9 +345,9 @@ export default class Resizable extends React.Component<ResizableProps, State> {
       maxHeight = maxHeight && maxHeight < boundHeight ? maxHeight : boundHeight;
     }
 
-    const computedMinWidth = (typeof minWidth === 'undefined' || minWidth < 0) ? 0 : minWidth;
+    const computedMinWidth = (typeof minWidth === 'undefined' || minWidth < 10) ? 10 : minWidth;
     const computedMaxWidth = (typeof maxWidth === 'undefined' || maxWidth < 0) ? newWidth : maxWidth;
-    const computedMinHeight = (typeof minHeight === 'undefined' || minHeight < 0) ? 0 : minHeight;
+    const computedMinHeight = (typeof minHeight === 'undefined' || minHeight < 10) ? 10 : minHeight;
     const computedMaxHeight = (typeof maxHeight === 'undefined' || maxHeight < 0) ? newHeight : maxHeight;
 
     if (lockAspectRatio) {
