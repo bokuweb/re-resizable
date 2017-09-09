@@ -486,6 +486,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
           minHeight: this.props.minHeight,
           boxSizing: 'border-box',
         }}
+        className={this.props.className}
         {...this.props.extendsProps}
       >
         {this.props.children}
