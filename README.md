@@ -1,15 +1,15 @@
-<p align="center"><img src ="https://github.com/bokuweb/react-resizable-box/blob/master/logo.png?raw=true" /></p>
+<p align="center"><img src ="https://github.com/bokuweb/re-resizable/blob/master/logo.png?raw=true" /></p>
 
-<p align="center">Resizable component for React.</p>
+<p align="center">📐 A resizable component for React.</p>
 
-<p align="center"><a href="https://circleci.com/gh/bokuweb/react-resizable-box/tree/master">
-<img src="https://circleci.com/gh/bokuweb/react-resizable-box/tree/master.svg?style=svg" alt="Build Status" /></a>
-<a href="https://www.npmjs.com/package/react-resizable-box">
-<img src="https://img.shields.io/npm/v/react-resizable-box.svg" alt="Build Status" /></a> 
-<a href="https://www.npmjs.com/package/react-resizable-box">
-<img src="https://img.shields.io/npm/dm/react-resizable-box.svg" /></a> 
+<p align="center"><a href="https://circleci.com/gh/bokuweb/re-resizable/tree/master">
+<img src="https://circleci.com/gh/bokuweb/re-resizable/tree/master.svg?style=svg" alt="Build Status" /></a>
+<a href="https://www.npmjs.com/package/re-resizable">
+<img src="https://img.shields.io/npm/v/re-resizable.svg" alt="Build Status" /></a> 
+<a href="https://www.npmjs.com/package/re-resizable">
+<img src="https://img.shields.io/npm/dm/re-resizable.svg" /></a> 
 <a href="https://greenkeeper.io/">
-<img src="https://badges.greenkeeper.io/bokuweb/react-resizable-box.svg" /></a> 
+<img src="https://badges.greenkeeper.io/bokuweb/re-resizable.svg" /></a> 
 </p>
 
 ## Table of Contents
@@ -25,9 +25,9 @@
 
 ## Demo
 
-![screenshot](https://github.com/bokuweb/react-resizable-box/blob/master/docs/screenshot.gif?raw=true)
+![screenshot](https://github.com/bokuweb/re-resizable/blob/master/docs/screenshot.gif?raw=true)
    
-See demo: [http://bokuweb.github.io/react-resizable-box/example/](http://bokuweb.github.io/react-resizable-box/)
+See demo: [http://bokuweb.github.io/re-resizable/example/](http://bokuweb.github.io/re-resizable/)
 
 ## Install
 
