@@ -47,7 +47,7 @@ export interface ResizableProps {
   onResizeStart?: ResizeStartCallBack;
   onResize?: ResizeHandler;
   style?: React.CSSProperties;
-  handlerStyles?: {
+  handleStyles?: {
     top?: React.CSSProperties,
     right?: React.CSSProperties,
     bottom?: React.CSSProperties,
@@ -57,7 +57,7 @@ export interface ResizableProps {
     bottomLeft?: React.CSSProperties,
     topLeft?: React.CSSProperties,
   },
-  handlerClasses?: {
+  handleClasses?: {
     top?: string,
     right?: string,
     bottom?: string,
@@ -80,14 +80,13 @@ export interface ResizableProps {
   className?: string,
   width?: string | number,
   height?: string | number,
-  minWidth?: number,
-  minHeight?: number,
-  maxWidth?: number,
-  maxHeight?: number,
+  minWidth?: number | string,
+  minHeight?: number | string,
+  maxWidth?: number | string,
+  maxHeight?: number | string,
   grid?: number[],
   bounds?: 'parent' | 'window' | HTMLElement,
   lockAspectRatio?: boolean,
-  extendsProps?: object,
 }
 
 export default class Resizable extends React.Component<ResizableProps, ResizableState> {
