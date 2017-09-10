@@ -27,8 +27,6 @@
 
 ![screenshot](https://github.com/bokuweb/re-resizable/blob/master/docs/screenshot.gif?raw=true)
    
-See demo: [http://bokuweb.github.io/re-resizable/example/](http://bokuweb.github.io/re-resizable/)
-
 ## Install
 
 ``` sh
