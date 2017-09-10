@@ -2,8 +2,8 @@
 
 <p align="center">Resizable component for React.</p>
 
-<p align="center"><a href="https://travis-ci.org/bokuweb/react-resizable-box">
-<img src="https://img.shields.io/travis/bokuweb/react-resizable-box.svg" alt="Build Status" /></a>
+<p align="center"><a href="https://circleci.com/gh/bokuweb/react-resizable-box/tree/master">
+<img src="https://circleci.com/gh/bokuweb/react-resizable-box/tree/master.svg?style=svg" alt="Build Status" /></a>
 <a href="https://www.npmjs.com/package/react-resizable-box">
 <img src="https://img.shields.io/npm/v/react-resizable-box.svg" alt="Build Status" /></a> 
 <a href="https://www.npmjs.com/package/react-resizable-box">
