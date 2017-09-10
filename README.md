@@ -55,8 +55,7 @@ $ npm install --save re-resizable
 
 The `className` property is used to set the custom `className` of a resizable component.
 
-
-#### `style?: any;`
+#### `style?: { [key: string]: string };`
 
 The `style` property is used to set the custom `style` of a resizable component.
 
@@ -72,23 +71,23 @@ The `height` property is used to set the initial height of a resizable component
 For example, you can set `300`, `'300px'`, `50%`.    
 If omitted, set `'auto'`.    
 
-#### `minWidth?: number;`
+#### `minWidth?: number | string;`
 
 The `minWidth` property is used to set the minimum width of a resizable component.
 
-#### `minHeight?: number;`
+#### `minHeight?: number | string;`
 
 The `minHeight` property is used to set the minimum height of a resizable component.
 
-#### `maxWidth?: number;`
+#### `maxWidth?: number | string;`
 
 The `maxWidth` property is used to set the maximum width of a resizable component.
 
-#### `maxHeight?: number`;
+#### `maxHeight?: number | string`;
 
 The `maxHeight` property is used to set the maximum height of a resizable component.
 
-#### `grid?: Array<number>;`
+#### `grid?: [number, number];`
 
 The `grid` property is used to specify the increments that resizing should snap to. Defaults to `[1, 1]`.
 
@@ -112,14 +111,13 @@ but other handle will still use the default styles.
 
 The `handleClasses` property is used to set the className of one or more resize handles.
 
-
 #### `handleWrapperStyle?: { [key: string]: string };`
 
-T.B.D
+The `handleWrapperStyle` property is used to override the style of resize handles wrapper.
 
 #### `handleWrapperClass?: string;`
 
-T.B.D
+The `handleWrapperClass` property is used to override the className of resize handles wrapper.
 
 #### `enable?: ?Enable;`
 
@@ -134,61 +132,46 @@ If you want to permit only right direction resizing, set `{ top:false, right:tru
 `ResizeStartCallBack` type is below.
 
 ```
-type ResizeStartCallBack = (
-  e: SyntheticMouseEvent | SyntheticTouchEvent,
+type ResizeStartCallback = (
+  e: SyntheticMouseEvent<HTMLDivElement> | SyntheticTouchEvent<HTMLDivElement>,
   dir: Direction,
-  refToElement: HTMLElement,
+  refToElement: React.ElementRef<'div'>,
 ) => void;
 ```
 
 Calls when resizable component resize start.
 
-#### `onResize?: Callback;`
+#### `onResize?: ResizeCallback;`
 
 ### Basic
 
-`Callback` type is below.
+`ResizeCallback` type is below.
 
 ```
-type Callback = (
+type ResizeCallback = (
   event: MouseEvent | TouchEvent,
   direction: Direction,
-  refToElement: HTMLElement,
+  refToElement: React.ElementRef<'div'>,
   delta: NumberSize,
 ) => void;
 ```
 
 Calls when resizable component resizing.
 
-#### `onResizeStop?: Callback;`
+#### `onResizeStop?: ResizeCallback;`
 
-`Callback` type is below.
+`ResizeCallback` type is below.
 
 ```
-type Callback = (
+type ResizeCallback = (
   event: MouseEvent | TouchEvent,
   direction: Direction,
-  refToElement: HTMLElement,
+  refToElement: React.ElementRef<'div'>,
   delta: NumberSize,
 ) => void;
 ```
 
-Calls when resizable component resize startStop.
-
-#### `extendsProps?: any;`
-
-This property is used to pass the other props to the component.
-
-e.g.
-
-``` javascript
-const extendsProps = {
-  data-foo: 'foo',
-  onMouseOver: () => {},
-};
-
-<Resizable extendsProps={extendsProps} />
-```
+Calls when resizable component resize stop.
 
 ## method
 
@@ -227,6 +210,17 @@ npm test
 ```
 
 ## Changelog
+
+#### v3.0.0
+
+- Fix flowtype annotation.
+- Remove `extendsProps`.
+
+You can add extendsProps as follows.
+
+```
+<Resizable data-foo="foo" />
+```
 
 #### v3.0.0-beta.3
 
