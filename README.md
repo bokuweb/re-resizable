@@ -207,6 +207,11 @@ class YourComponent extends Component {
 npm test
 ```
 
+## Related
+
+- https://github.com/bokuweb/react-rnd
+- https://github.com/bokuweb/react-sortable-pane
+
 ## Changelog
 
 #### v3.0.0
