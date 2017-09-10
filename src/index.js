@@ -1,16 +1,6 @@
 /* @flow */
 
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable react/no-unused-prop-types */
-/* eslint-disable react/require-default-props */
-/* eslint-disable react/jsx-filename-extension */
-/* eslint-disable react/sort-comp */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable max-len */
-/* eslint-disable no-bitwise */
-/* eslint-disable react/no-did-mount-set-state */
-
-import React, { Component } from 'react';
+import * as React from 'react';
 import Resizer from './resizer';
 
 import type { Direction, OnStartCallback } from './resizer';
@@ -29,7 +19,13 @@ const userSelectAuto = {
   MsUserSelect: 'auto',
 };
 
-type Enable = {
+export type ResizeDirection = Direction;
+
+export type Style = {
+  [key: string]: string;
+}
+
+export type Enable = {
   top?: boolean;
   right?: boolean;
   bottom?: boolean;
@@ -40,19 +36,18 @@ type Enable = {
   topLeft?: boolean;
 }
 
-type HandlerStyles = {
-  top?: any;
-  right?: any;
-  bottom?: any;
-  left?: any;
-  topRight?: any;
-  bottomRight?: any;
-  bottomLeft?: any;
-  topLeft?: any;
-  wrapper?: any;
+export type HandleStyles = {
+  top?: Style;
+  right?: Style;
+  bottom?: Style;
+  left?: Style;
+  topRight?: Style;
+  bottomRight?: Style;
+  bottomLeft?: Style;
+  topLeft?: Style;
 }
 
-type HandlerClassName = {
+export type HandleClassName = {
   top?: string;
   right?: string;
   bottom?: string;
@@ -61,10 +56,9 @@ type HandlerClassName = {
   bottomRight?: string;
   bottomLeft?: string;
   topLeft?: string;
-  wrapper?: string;
 }
 
-type Size = {
+export type Size = {
   width?: string | number;
   height?: string | number;
 }
@@ -74,39 +68,41 @@ type NumberSize = {
   height: number;
 }
 
-type Callback = (
+export type ResizeCallback = (
   event: MouseEvent | TouchEvent,
   direction: Direction,
-  refToElement: HTMLElement,
+  refToElement: React.ElementRef<'div'>,
   delta: NumberSize,
 ) => void;
 
-type ResizeStartCallBack = (
-  e: SyntheticMouseEvent | SyntheticTouchEvent,
+export type ResizeStartCallback = (
+  e: SyntheticMouseEvent<HTMLDivElement> | SyntheticTouchEvent<HTMLDivElement>,
   dir: Direction,
-  refToElement: HTMLElement,
+  refToElement: React.ElementRef<'div'>,
 ) => void;
 
-type Props = {
+export type ResizableProps = {
   style?: any;
   className?: string;
-  extendsProps?: any;
+  // extendsProps?: { [key: string]: any };
   grid?: [number, number];
   bounds?: 'parent' | 'window' | HTMLElement;
   width?: string | number;
   height?: string | number;
-  minWidth?: number;
-  minHeight?: number;
-  maxWidth?: number;
-  maxHeight?: number;
+  minWidth?: string | number;
+  minHeight?: string | number;
+  maxWidth?: string | number;
+  maxHeight?: string | number;
   lockAspectRatio?: boolean;
   enable?: Enable;
-  handlerStyles?: HandlerStyles;
-  handlerClasses?: HandlerClassName;
-  children?: any;
-  onResizeStart?: ResizeStartCallBack;
-  onResize?: Callback;
-  onResizeStop?: Callback;
+  handleStyles?: HandleStyles;
+  handleClasses?: HandleClassName;
+  handleWrapperStyle?: { [key: string]: string };
+  handleWrapperClass?: string;
+  children?: React$Node;
+  onResizeStart?: ResizeStartCallback;
+  onResize?: ResizeCallback;
+  onResizeStop?: ResizeCallback;
 }
 
 type State = {
@@ -125,15 +121,23 @@ type State = {
 const clamp = (n: number, min: number, max: number): number => Math.max(Math.min(n, max), min);
 const snap = (n: number, size: number): number => Math.round(n / size) * size;
 
-export default class Resizable extends Component {
+let baseSizeId = 0;
 
-  props: Props;
-  state: State;
-  resizable: HTMLElement;
-  onTouchMove: Callback;
-  onMouseMove: Callback;
-  onMouseUp: Callback;
+const definedProps = [
+  'style', 'className', 'grid', 'bounds', 'width', 'height',
+  'minWidth', 'minHeight', 'maxWidth', 'maxHeight', 'lockAspectRatio',
+  'enable', 'handleStyles', 'handleClasses', 'handleWrapperStyle',
+  'handleWrapperClass', 'children', 'onResizeStart', 'onResize', 'onResizeStop',
+];
+
+export default class Resizable extends React.Component<ResizableProps, State> {
+  resizable: (React.ElementRef<'div'> | null);
+  onTouchMove: ResizeCallback;
+  onMouseMove: ResizeCallback;
+  onMouseUp: ResizeCallback;
   onResizeStart: OnStartCallback;
+  baseSizeId: string;
+  extendsProps: { [key: string]: any };
 
   static defaultProps = {
     onResizeStart: () => { },
@@ -154,7 +158,7 @@ export default class Resizable extends Component {
     lockAspectRatio: false,
   }
 
-  constructor(props: Props) {
+  constructor(props: ResizableProps) {
     super(props);
     const { width, height } = props;
     this.state = {
@@ -169,9 +173,13 @@ export default class Resizable extends Component {
         height: 0,
       },
     };
+
+    this.updateExtendsProps(props);
     this.onResizeStart = this.onResizeStart.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
+    this.baseSizeId = `__resizable${baseSizeId}`;
+    baseSizeId += 1;
 
     if (typeof window !== 'undefined') {
       window.addEventListener('mouseup', this.onMouseUp);
@@ -181,22 +189,52 @@ export default class Resizable extends Component {
     }
   }
 
+  get parentNode(): HTMLElement {
+    return ((this.resizable: any).parentNode: any);
+  }
+
+  updateExtendsProps(props: ResizableProps) {
+    this.extendsProps = Object.keys(props).reduce((acc, key) => {
+      if (definedProps.includes(key)) return acc;
+      acc[key] = props[key];
+      return acc;
+    }, {});
+  }
+
+  getParentSize(): { width: number, height: number } {
+    const base = (document.getElementById(this.baseSizeId): any);
+    if (!base) return { width: window.innerWidth, height: window.innerHeight };
+    return {
+      width: (base: HTMLDivElement).offsetWidth,
+      height: (base: HTMLDivElement).offsetHeight,
+    };
+  }
+
   componentDidMount() {
     const size = this.size;
-    // If props.width or height is not defined, set default size when mounted.
     this.setState({
       width: this.state.width || size.width,
       height: this.state.height || size.height,
     });
+    const element = document.createElement('div');
+    element.id = this.baseSizeId;
+    element.style.width = '100%';
+    element.style.height = '100%';
+    element.style.position = 'absolute';
+    element.style.left = '-99999px';
+    const parent = this.parentNode;
+    if (!(parent instanceof HTMLElement)) return;
+    parent.appendChild(element);
   }
 
-  componentWillReceiveProps({ width, height }: Props) {
+  componentWillReceiveProps({ width, height }: ResizableProps) {
     if (width !== this.props.width) {
       this.setState({ width });
     }
     if (height !== this.props.height) {
       this.setState({ height });
     }
+    this.updateExtendsProps(this.props);
   }
 
   componentWillUnmount() {
@@ -205,10 +243,19 @@ export default class Resizable extends Component {
       window.removeEventListener('mousemove', this.onMouseMove);
       window.removeEventListener('touchmove', this.onMouseMove);
       window.removeEventListener('touchend', this.onMouseUp);
+
+      const parent = this.parentNode;
+      const base = document.getElementById(this.baseSizeId);
+      if (!base) return;
+      if (!(parent instanceof HTMLElement)) return;
+      parent.removeChild(base);
     }
   }
 
-  onResizeStart(event: SyntheticMouseEvent | SyntheticTouchEvent, direction: Direction) {
+  onResizeStart(
+    event: SyntheticMouseEvent<HTMLDivElement> | SyntheticTouchEvent<HTMLDivElement>,
+    direction: Direction,
+  ) {
     let clientX = 0;
     let clientY = 0;
     if (event.nativeEvent instanceof MouseEvent) {
@@ -219,7 +266,7 @@ export default class Resizable extends Component {
       clientY = event.nativeEvent.touches[0].clientY;
     }
     if (this.props.onResizeStart) {
-      this.props.onResizeStart(event, direction, this.resizable);
+      this.props.onResizeStart(event, direction, (this.resizable: any));
     }
     const size = this.size;
     this.setState({
@@ -239,8 +286,32 @@ export default class Resizable extends Component {
     const clientX = event instanceof MouseEvent ? event.clientX : event.touches[0].clientX;
     const clientY = event instanceof MouseEvent ? event.clientY : event.touches[0].clientY;
     const { direction, original, width, height } = this.state;
-    const { lockAspectRatio, minWidth, minHeight } = this.props;
-    let { maxWidth, maxHeight } = this.props;
+    const { lockAspectRatio } = this.props;
+    let { maxWidth, maxHeight, minWidth, minHeight } = this.props;
+
+    // TODO: refactor
+    const parentSize = this.getParentSize();
+    if (maxWidth && typeof maxWidth === 'string' && maxWidth.endsWith('%')) {
+      const ratio = Number(maxWidth.replace('%', '')) / 100;
+      maxWidth = parentSize.width * ratio;
+    }
+    if (maxHeight && typeof maxHeight === 'string' && maxHeight.endsWith('%')) {
+      const ratio = Number(maxHeight.replace('%', '')) / 100;
+      maxHeight = parentSize.height * ratio;
+    }
+    if (minWidth && typeof minWidth === 'string' && minWidth.endsWith('%')) {
+      const ratio = Number(minWidth.replace('%', '')) / 100;
+      minWidth = parentSize.width * ratio;
+    }
+    if (minHeight && typeof minHeight === 'string' && minHeight.endsWith('%')) {
+      const ratio = Number(minHeight.replace('%', '')) / 100;
+      minHeight = parentSize.height * ratio;
+    }
+    maxWidth = typeof maxWidth === 'undefined' ? undefined : Number(maxWidth);
+    maxHeight = typeof maxHeight === 'undefined' ? undefined : Number(maxHeight);
+    minWidth = typeof minWidth === 'undefined' ? undefined : Number(minWidth);
+    minHeight = typeof minHeight === 'undefined' ? undefined : Number(minHeight);
+
     const ratio = original.height / original.width;
     let newWidth = original.width;
     let newHeight = original.height;
@@ -262,12 +333,12 @@ export default class Resizable extends Component {
     }
 
     if (this.props.bounds === 'parent') {
-      const parent = this.resizable.parentNode;
+      const parent = this.parentNode;
       if (parent instanceof HTMLElement) {
         const parentRect = parent.getBoundingClientRect();
         const parentLeft = parentRect.left;
         const parentTop = parentRect.top;
-        const { left, top } = this.resizable.getBoundingClientRect();
+        const { left, top } = (this.resizable: any).getBoundingClientRect();
         const boundWidth = parent.offsetWidth + (parentLeft - left);
         const boundHeight = parent.offsetHeight + (parentTop - top);
         maxWidth = maxWidth && maxWidth < boundWidth ? maxWidth : boundWidth;
@@ -275,7 +346,7 @@ export default class Resizable extends Component {
       }
     } else if (this.props.bounds === 'window') {
       if (typeof window !== 'undefined') {
-        const { left, top } = this.resizable.getBoundingClientRect();
+        const { left, top } = (this.resizable: any).getBoundingClientRect();
         const boundWidth = window.innerWidth - left;
         const boundHeight = window.innerHeight - top;
         maxWidth = maxWidth && maxWidth < boundWidth ? maxWidth : boundWidth;
@@ -285,7 +356,7 @@ export default class Resizable extends Component {
       const targetRect = this.props.bounds.getBoundingClientRect();
       const targetLeft = targetRect.left;
       const targetTop = targetRect.top;
-      const { left, top } = this.resizable.getBoundingClientRect();
+      const { left, top } = (this.resizable: any).getBoundingClientRect();
       if (!(this.props.bounds instanceof HTMLElement)) return;
       const boundWidth = this.props.bounds.offsetWidth + (targetLeft - left);
       const boundHeight = this.props.bounds.offsetHeight + (targetTop - top);
@@ -293,9 +364,9 @@ export default class Resizable extends Component {
       maxHeight = maxHeight && maxHeight < boundHeight ? maxHeight : boundHeight;
     }
 
-    const computedMinWidth = (typeof minWidth === 'undefined' || minWidth < 0) ? 0 : minWidth;
+    const computedMinWidth = (typeof minWidth === 'undefined' || minWidth < 10) ? 10 : minWidth;
     const computedMaxWidth = (typeof maxWidth === 'undefined' || maxWidth < 0) ? newWidth : maxWidth;
-    const computedMinHeight = (typeof minHeight === 'undefined' || minHeight < 0) ? 0 : minHeight;
+    const computedMinHeight = (typeof minHeight === 'undefined' || minHeight < 10) ? 10 : minHeight;
     const computedMaxHeight = (typeof maxHeight === 'undefined' || maxHeight < 0) ? newHeight : maxHeight;
 
     if (lockAspectRatio) {
@@ -316,16 +387,28 @@ export default class Resizable extends Component {
       newHeight = snap(newHeight, this.props.grid[1]);
     }
 
-    this.setState({
-      width: width !== 'auto' ? newWidth : 'auto',
-      height: height !== 'auto' ? newHeight : 'auto',
-    });
     const delta = {
       width: newWidth - original.width,
       height: newHeight - original.height,
     };
+
+    if (width && typeof width === 'string' && width.endsWith('%')) {
+      const percent = (newWidth / parentSize.width) * 100;
+      newWidth = `${percent}%`;
+    }
+
+    if (height && typeof height === 'string' && height.endsWith('%')) {
+      const percent = (newHeight / parentSize.height) * 100;
+      newHeight = `${percent}%`;
+    }
+
+    this.setState({
+      width: width !== 'auto' || typeof this.props.width === 'undefined' ? newWidth : 'auto',
+      height: height !== 'auto' || typeof this.props.height === 'undefined' ? newHeight : 'auto',
+    });
+
     if (this.props.onResize) {
-      this.props.onResize(event, direction, this.resizable, delta);
+      this.props.onResize(event, direction, (this.resizable: any), delta);
     }
   }
 
@@ -337,7 +420,7 @@ export default class Resizable extends Component {
       height: this.size.height - original.height,
     };
     if (this.props.onResizeStop) {
-      this.props.onResizeStop(event, direction, this.resizable, delta);
+      this.props.onResizeStop(event, direction, (this.resizable: any), delta);
     }
     this.setState({ isResizing: false });
   }
@@ -347,24 +430,25 @@ export default class Resizable extends Component {
     let height = 0;
     if (typeof window !== 'undefined') {
       const style = window.getComputedStyle(this.resizable, null);
-      width = ~~style.getPropertyValue('width').replace('px', '');
-      height = ~~style.getPropertyValue('height').replace('px', '');
+      width = +style.getPropertyValue('width').replace('px', '');
+      height = +style.getPropertyValue('height').replace('px', '');
     }
     return { width, height };
   }
 
-  setSize(size: Size) {
-    this.setState({
-      width: this.state.width || size.width,
-      height: this.state.height || size.height,
-    });
-  }
-
+  // TODO: rename 
   get style(): { width: string, height: string } {
     const size = (key: 'width' | 'height'): string => {
       if (typeof this.state[key] === 'undefined' || this.state[key] === 'auto') return 'auto';
-      else if (/px$/.test(this.state[key].toString())) return this.state[key].toString();
-      else if (/%$/.test(this.state[key].toString())) return this.state[key].toString();
+      if (this.props[key] && this.props[key].toString().endsWith('%')) {
+        if (this.state[key].toString().endsWith('%')) return this.state[key].toString();
+        const parentSize = this.getParentSize();
+        const value = Number(this.state[key].toString().replace('px', ''));
+        const percent = (value / parentSize[key]) * 100;
+        return `${percent}%`;
+      }
+      if (this.state[key].toString().endsWith('px')) return this.state[key].toString();
+      if (this.state[key].toString().endsWith('%')) return this.state[key].toString();
       return `${this.state[key]}px`;
     };
     return {
@@ -377,54 +461,52 @@ export default class Resizable extends Component {
     this.setState({ width: size.width, height: size.height });
   }
 
-  renderResizer() {
-    const { enable, handlerStyles, handlerClasses } = this.props;
+  renderResizer(): React$Node {
+    const { enable, handleStyles, handleClasses, handleWrapperStyle, handleWrapperClass } = this.props;
     if (!enable) return null;
-    const content = Object.keys(enable).map((dir: Direction) => {
+    const resizers = Object.keys(enable).map((dir: Direction): React$Node => {
       if (enable[dir] !== false) {
         return (
           <Resizer
             key={dir}
             direction={dir}
             onResizeStart={this.onResizeStart}
-            replaceStyles={handlerStyles && handlerStyles[dir]}
-            className={handlerClasses && handlerClasses[dir]}
+            replaceStyles={handleStyles && handleStyles[dir]}
+            className={handleClasses && handleClasses[dir]}
           />
         );
       }
       return null;
     });
 
-    const wrapperClass = handlerClasses && handlerClasses['wrapper']
-    const wrapperStyle = handlerStyles && handlerStyles['wrapper']
-
-      // #93 Wrap the resize box in span (will not break 100% width/height)
-    if (wrapperClass || wrapperStyle) {
-      return <span
-        className={wrapperClass}
-        style={wrapperStyle}>
-        {content}
-      </span>;
-    }
-
-    return content
+    // #93 Wrap the resize box in span (will not break 100% width/height)
+    return (
+      <span
+        className={handleWrapperClass}
+        style={handleWrapperStyle}
+      >
+        {resizers}
+      </span>);
   }
 
-  render() {
+  render(): React.Node {
     const userSelect = this.state.isResizing ? userSelectNone : userSelectAuto;
-    const { style, className } = this.props;
     return (
       <div
-        ref={(c: HTMLElement) => { this.resizable = c; }}
+        ref={(c: React.ElementRef<'div'> | null) => { this.resizable = c; }}
         style={{
           position: 'relative',
           ...userSelect,
-          ...style,
+          ...this.props.style,
           ...this.style,
+          maxWidth: this.props.maxWidth,
+          maxHeight: this.props.maxHeight,
+          minWidth: this.props.minWidth,
+          minHeight: this.props.minHeight,
           boxSizing: 'border-box',
         }}
-        className={className}
-        {...this.props.extendsProps}
+        className={this.props.className}
+        {...this.extendsProps}
       >
         {this.props.children}
         {this.renderResizer()}

@@ -2,8 +2,8 @@
 
 <p align="center">Resizable component for React.</p>
 
-<p align="center"><a href="https://travis-ci.org/bokuweb/react-resizable-box">
-<img src="https://img.shields.io/travis/bokuweb/react-resizable-box.svg" alt="Build Status" /></a>
+<p align="center"><a href="https://circleci.com/gh/bokuweb/react-resizable-box/tree/master">
+<img src="https://circleci.com/gh/bokuweb/react-resizable-box/tree/master.svg?style=svg" alt="Build Status" /></a>
 <a href="https://www.npmjs.com/package/react-resizable-box">
 <img src="https://img.shields.io/npm/v/react-resizable-box.svg" alt="Build Status" /></a> 
 <a href="https://www.npmjs.com/package/react-resizable-box">
@@ -32,7 +32,7 @@ See demo: [http://bokuweb.github.io/react-resizable-box/example/](http://bokuweb
 ## Install
 
 ``` sh
-$ npm install --save react-resizable-box
+$ npm install --save re-resizable
 ```
 
 ## Usage
@@ -55,8 +55,7 @@ $ npm install --save react-resizable-box
 
 The `className` property is used to set the custom `className` of a resizable component.
 
-
-#### `style?: any;`
+#### `style?: { [key: string]: string };`
 
 The `style` property is used to set the custom `style` of a resizable component.
 
@@ -72,23 +71,23 @@ The `height` property is used to set the initial height of a resizable component
 For example, you can set `300`, `'300px'`, `50%`.    
 If omitted, set `'auto'`.    
 
-#### `minWidth?: number;`
+#### `minWidth?: number | string;`
 
 The `minWidth` property is used to set the minimum width of a resizable component.
 
-#### `minHeight?: number;`
+#### `minHeight?: number | string;`
 
 The `minHeight` property is used to set the minimum height of a resizable component.
 
-#### `maxWidth?: number;`
+#### `maxWidth?: number | string;`
 
 The `maxWidth` property is used to set the maximum width of a resizable component.
 
-#### `maxHeight?: number`;
+#### `maxHeight?: number | string`;
 
 The `maxHeight` property is used to set the maximum height of a resizable component.
 
-#### `grid?: Array<number>;`
+#### `grid?: [number, number];`
 
 The `grid` property is used to specify the increments that resizing should snap to. Defaults to `[1, 1]`.
 
@@ -101,16 +100,24 @@ If omitted, set `false`.
 
 Specifies resize boundaries.
 
-#### `handlerStyles?: HandlersStyles;`
+#### `handleStyles?: HandleStyles;`
 
-The `handleStyles` property is used to override the style of one or more resize handlers.
-Only the axis you specify will have its handler style replaced.
-If you specify a value for `right` it will completely replace the styles for the `right` resize handler,
-but other handler will still use the default styles.
+The `handleStyles` property is used to override the style of one or more resize handles.
+Only the axis you specify will have its handle style replaced.
+If you specify a value for `right` it will completely replace the styles for the `right` resize handle,
+but other handle will still use the default styles.
 
-#### `handlerClasses?: HandlersClassName;`
+#### `handleClasses?: HandleClassName;`
 
-The `handlerClasses` property is used to set the className of one or more resize handlers. You can set className for span wrapper with `wrapper` index.
+The `handleClasses` property is used to set the className of one or more resize handles.
+
+#### `handleWrapperStyle?: { [key: string]: string };`
+
+The `handleWrapperStyle` property is used to override the style of resize handles wrapper.
+
+#### `handleWrapperClass?: string;`
+
+The `handleWrapperClass` property is used to override the className of resize handles wrapper.
 
 #### `enable?: ?Enable;`
 
@@ -125,61 +132,46 @@ If you want to permit only right direction resizing, set `{ top:false, right:tru
 `ResizeStartCallBack` type is below.
 
 ```
-type ResizeStartCallBack = (
-  e: SyntheticMouseEvent | SyntheticTouchEvent,
+type ResizeStartCallback = (
+  e: SyntheticMouseEvent<HTMLDivElement> | SyntheticTouchEvent<HTMLDivElement>,
   dir: Direction,
-  refToElement: HTMLElement,
+  refToElement: React.ElementRef<'div'>,
 ) => void;
 ```
 
 Calls when resizable component resize start.
 
-#### `onResize?: Callback;`
+#### `onResize?: ResizeCallback;`
 
 ### Basic
 
-`Callback` type is below.
+`ResizeCallback` type is below.
 
 ```
-type Callback = (
+type ResizeCallback = (
   event: MouseEvent | TouchEvent,
   direction: Direction,
-  refToElement: HTMLElement,
+  refToElement: React.ElementRef<'div'>,
   delta: NumberSize,
 ) => void;
 ```
 
 Calls when resizable component resizing.
 
-#### `onResizeStop?: Callback;`
+#### `onResizeStop?: ResizeCallback;`
 
-`Callback` type is below.
+`ResizeCallback` type is below.
 
 ```
-type Callback = (
+type ResizeCallback = (
   event: MouseEvent | TouchEvent,
   direction: Direction,
-  refToElement: HTMLElement,
+  refToElement: React.ElementRef<'div'>,
   delta: NumberSize,
 ) => void;
 ```
 
-Calls when resizable component resize startStop.
-
-#### `extendsProps?: any;`
-
-This property is used to pass the other props to the component.
-
-e.g.
-
-``` javascript
-const extendsProps = {
-  data-foo: 'foo',
-  onMouseOver: () => {},
-};
-
-<Resizable extendsProps={extendsProps} />
-```
+Calls when resizable component resize stop.
 
 ## method
 
@@ -219,6 +211,41 @@ npm test
 
 ## Changelog
 
+#### v3.0.0
+
+- Fix flowtype annotation.
+- Remove `extendsProps`.
+
+You can add extendsProps as follows.
+
+```
+<Resizable data-foo="foo" />
+```
+
+#### v3.0.0-beta.3
+
+- fix typo. `ResizeStartCallBack` -> `ResizeStartCallback`.
+
+#### v3.0.0-beta.2
+
+- export `ResizeDirection` type.
+- rename `Callback` to `ResizeCallback`.
+
+#### v3.0.0-beta.1
+
+- Fix flow filename.
+- Change logo
+
+#### v3.0.0-beta.0
+
+- Change package name, `react-resizable-box` -> `re-resizable`.
+- Add `handleWrapperStyle` and `handleWrapperClass` props.
+- Change behavior that is set percentage size to width or height as props.
+- Support percentage max/min size.
+- Use rollup.
+- Fix props name.
+  - `handersClasses` -> `handleClasses`
+  - `handersStyles` -> `handleStyles`
 
 #### v2.1.0
 
@@ -322,7 +349,7 @@ npm test
 
 - Add `userSelect: none` when resize get srated.
 - Add shouldComponentUpdate.
-- Add handler custom className.
+- Add handle custom className.
 
 #### v1.2.0
 
