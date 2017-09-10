@@ -1,6 +1,6 @@
 <p align="center"><img src ="https://github.com/bokuweb/re-resizable/blob/master/logo.png?raw=true" /></p>
 
-<p align="center">📐 A resizable component for React.</p>
+<p align="center">📏 A resizable component for React.</p>
 
 <p align="center"><a href="https://circleci.com/gh/bokuweb/re-resizable/tree/master">
 <img src="https://circleci.com/gh/bokuweb/re-resizable/tree/master.svg?style=svg" alt="Build Status" /></a>
