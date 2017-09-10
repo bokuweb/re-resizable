@@ -15,7 +15,6 @@ import AutoHeight from './auto-height';
 import Grid from './grid';
 import LockAspect from './lock-aspect';
 import BoundsParent from './bounds-parent';
-import WithTextarea from './with-textarea';
 import MaxSizePercent from './max-size-percent';
 import MinSizePercent from './min-size-percent';
 import PercentSize from './percent-size';
@@ -32,7 +31,6 @@ storiesOf('re-resizable', module)
   .add('grid [10, 20].', () => <Grid />)
   .add('lock aspect ratio w:h = 2:3', () => <LockAspect />)
   .add('bounds parent', () => <BoundsParent />)
-  .add('with expandable textarea', () => <WithTextarea />)
   .add('max size percent', () => <MaxSizePercent />)
   .add('min size percent', () => <MinSizePercent />)
   .add('percent size', () => <PercentSize />);
