@@ -247,6 +247,15 @@ You can add extendsProps as follows.
   - `handersClasses` -> `handleClasses`
   - `handersStyles` -> `handleStyles`
 
+#### v2.1.0
+
+- Remove `shouldUpdateComponent` (#135).
+- Remove `lodash.isEqual`.
+
+#### v2.0.6
+
+- Update README.
+
 #### v2.0.5
 
 - Fix remove event listener
