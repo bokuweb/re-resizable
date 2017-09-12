@@ -210,8 +210,8 @@ npm test
 
 ## Related
 
-- (raect-rnd)[https://github.com/bokuweb/react-rnd]
-- (raect-sortable-pane)[https://github.com/bokuweb/react-sortable-pane]
+- [raect-rnd](https://github.com/bokuweb/react-rnd)
+- [raect-sortable-pane](https://github.com/bokuweb/react-sortable-pane)
 
 ## Changelog
 
