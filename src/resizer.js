@@ -37,7 +37,6 @@ const styles = {
   topRight: {
     width: '20px',
     height: '20px',
-    position: 'absolute',
     right: '-10px',
     top: '-10px',
     cursor: 'ne-resize',
@@ -45,7 +44,6 @@ const styles = {
   bottomRight: {
     width: '20px',
     height: '20px',
-    position: 'absolute',
     right: '-10px',
     bottom: '-10px',
     cursor: 'se-resize',
@@ -53,7 +51,6 @@ const styles = {
   bottomLeft: {
     width: '20px',
     height: '20px',
-    position: 'absolute',
     left: '-10px',
     bottom: '-10px',
     cursor: 'sw-resize',
@@ -61,7 +58,6 @@ const styles = {
   topLeft: {
     width: '20px',
     height: '20px',
-    position: 'absolute',
     left: '-10px',
     top: '-10px',
     cursor: 'nw-resize',
@@ -88,8 +84,7 @@ export default (props: Props): React.Element<'div'> => {
       className={props.className}
       style={{
         ...styles.base,
-        ...styles[props.direction],
-        ...(props.replaceStyles || {}),
+        ...(props.replaceStyles || styles[props.direction]),
       }}
       onMouseDown={(e: SyntheticMouseEvent<HTMLDivElement>) => {
         props.onResizeStart(e, props.direction);
