@@ -22,7 +22,7 @@ const userSelectAuto = {
 export type ResizeDirection = Direction;
 
 export type Style = {
-  [key: string]: string;
+  [key: string]: string | number;
 }
 
 export type Enable = {
@@ -82,7 +82,7 @@ export type ResizeStartCallback = (
 ) => void;
 
 export type ResizableProps = {
-  style?: { [key: string]: string };
+  style?: Style;
   className?: string;
   grid?: [number, number];
   bounds?: 'parent' | 'window' | HTMLElement;
@@ -95,7 +95,7 @@ export type ResizableProps = {
   enable?: Enable;
   handleStyles?: HandleStyles;
   handleClasses?: HandleClassName;
-  handleWrapperStyle?: { [key: string]: string };
+  handleWrapperStyle?: Style;
   handleWrapperClass?: string;
   children?: React.Node;
   onResizeStart?: ResizeStartCallback;
