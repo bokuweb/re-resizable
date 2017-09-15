@@ -5,6 +5,8 @@ import Resizer from './resizer';
 
 import type { Direction, OnStartCallback } from './resizer';
 
+const BASE_ID = '__resizable_base';
+
 const userSelectNone = {
   userSelect: 'none',
   MozUserSelect: 'none',
@@ -126,8 +128,6 @@ const getStringSize = (n: number | string): string => {
   return `${n}px`;
 };
 
-let baseSizeId = 0;
-
 const definedProps = [
   'style', 'className', 'grid', 'bounds', 'size', 'defaultSize',
   'minWidth', 'minHeight', 'maxWidth', 'maxHeight', 'lockAspectRatio',
@@ -186,8 +186,6 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     this.onResizeStart = this.onResizeStart.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
-    this.baseSizeId = `__resizable${baseSizeId}`;
-    baseSizeId += 1;
 
     if (typeof window !== 'undefined') {
       window.addEventListener('mouseup', this.onMouseUp);
@@ -214,11 +212,17 @@ export default class Resizable extends React.Component<ResizableProps, State> {
   }
 
   getParentSize(): { width: number, height: number } {
-    const base = (document.getElementById(this.baseSizeId): any);
-    if (!base) return { width: window.innerWidth, height: window.innerHeight };
+    const parent = this.parentNode;
+    if (!(parent instanceof HTMLElement)) {
+      return { width: window.innerWidth, height: window.innerHeight };
+    }
+    const base = parent.querySelector(`* > .${BASE_ID}`);
+    if (!base) {
+      return { width: window.innerWidth, height: window.innerHeight };
+    }
     return {
-      width: (base: HTMLDivElement).offsetWidth,
-      height: (base: HTMLDivElement).offsetHeight,
+      width: base.offsetWidth,
+      height: base.offsetHeight,
     };
   }
 
@@ -228,15 +232,16 @@ export default class Resizable extends React.Component<ResizableProps, State> {
       width: this.state.width || size.width,
       height: this.state.height || size.height,
     });
+    const parent = this.parentNode;
+    if (!(parent instanceof HTMLElement)) return;
+    const base = parent.querySelector(`* > .${BASE_ID}`);
+    if (base) return;
     const element = document.createElement('div');
-    element.id = this.baseSizeId;
+    element.className = BASE_ID;
     element.style.width = '100%';
     element.style.height = '100%';
     element.style.position = 'relative';
     element.style.transform = 'scale(0, 0)';
-    element.style.left = '-2147483647px';
-    const parent = this.parentNode;
-    if (!(parent instanceof HTMLElement)) return;
     parent.appendChild(element);
   }
 
@@ -250,11 +255,10 @@ export default class Resizable extends React.Component<ResizableProps, State> {
       window.removeEventListener('mousemove', this.onMouseMove);
       window.removeEventListener('touchmove', this.onMouseMove);
       window.removeEventListener('touchend', this.onMouseUp);
-
       const parent = this.parentNode;
-      const base = document.getElementById(this.baseSizeId);
-      if (!base) return;
       if (!(parent instanceof HTMLElement)) return;
+      const base = parent.querySelector(`* > .${BASE_ID}`);
+      if (!base) return;
       parent.removeChild(base);
     }
   }
