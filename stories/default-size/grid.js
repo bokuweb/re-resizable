@@ -1,20 +1,25 @@
 /* eslint-disable */
 
 import React from 'react';
-import Resizable from '../src';
+import Resizable from '../../src';
 
 const style = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   border: 'solid 1px #ddd',
   background: '#f0f0f0',
-  padding: '30px',
 };
 
 export default () => (
   <Resizable
     style={style}
-    width={200}
-    height={200}
+    defaultSize={{
+      width: 200,
+      height: 200,
+    }}
+    grid={[10, 20]}
   >
-    <textarea style={{ width: '100%', height: '60%' }} />
+    001
   </Resizable>
 );

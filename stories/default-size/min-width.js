@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 import React from 'react';
-import Resizable from '../src';
+import Resizable from '../../src';
 
 const style = {
   display: 'flex',
@@ -14,9 +14,11 @@ const style = {
 export default () => (
   <Resizable
     style={style}
-    width={200}
-    height={200}
-    grid={[10, 20]}
+    defaultSize={{
+      width: 200,
+      height: 200,
+    }}      
+    minWidth={100}
   >
     001
   </Resizable>

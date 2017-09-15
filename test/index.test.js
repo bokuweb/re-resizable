@@ -24,20 +24,13 @@ const mouseUp = (x, y) => {
   return event;
 };
 
-//   beforeEach(async t => {
-//     document.body.innerHTML = window.__html__['test/fixtures.html'];
-//   });
-// 
-
 test.afterEach(async t => {
   ReactDOM.unmountComponentAtNode(document.body);
   ReactDOM.unmountComponentAtNode(document.querySelector('#content'));
-  // document.body.innerHTML = '';
-  // setTimeout(done);
 });
 
 test.serial('should box width and height equal 100px', async t => {
-  const resizable = TestUtils.renderIntoDocument(<Resizable width={100} height={100} />);
+  const resizable = TestUtils.renderIntoDocument(<Resizable defaultSize={{ width: 100, height: 100 }} />);
   const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
   t.is(divs.length, 9);
   t.is(divs[0].style.width, '100px');
@@ -45,8 +38,17 @@ test.serial('should box width and height equal 100px', async t => {
   t.is(divs[0].style.position, 'relative');
 });
 
-test.serial('Should box width and height equal auto', async t => {
-  const resizable = TestUtils.renderIntoDocument(<Resizable width="auto" height="auto" />);
+test.serial('should box width and height equal auto when size omitted', async t => {
+  const resizable = TestUtils.renderIntoDocument(<Resizable />);
+  const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
+  t.is(divs.length, 9);
+  t.is(divs[0].style.width, 'auto');
+  t.is(divs[0].style.height, 'auto');
+  t.is(divs[0].style.position, 'relative');
+});
+
+test.serial('should box width and height equal auto when set auto', async t => {
+  const resizable = TestUtils.renderIntoDocument(<Resizable defaultSize={{ width: 'auto', height: 'auto' }} />);
   const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
   t.is(divs.length, 9);
   t.is(divs[0].style.width, 'auto');
@@ -237,8 +239,7 @@ test.serial('should call onResize with expected args when resize direction right
   const onResizeStart = sinon.spy();
   const resizable = ReactDOM.render(
     <Resizable
-      width={100}
-      height={100}
+      defaultSize={{ width: 100, height: 100 }}
       onResize={onResize}
       onResizeStart={onResizeStart}
       style={{ padding: '40px' }}
@@ -263,7 +264,7 @@ test.serial('should call onResize with expected args when resize direction botto
   const onResizeStart = sinon.spy();
   const resizable = ReactDOM.render(
     <Resizable
-      width={100} height={100}
+      defaultSize={{ width: 100, height: 100 }}
       onResize={onResize}
       onResizeStart={onResizeStart}
       style={{ padding: '40px' }}
@@ -288,7 +289,7 @@ test.serial('should call onResize with expected args when resize direction botto
   const onResizeStart = sinon.spy();
   const resizable = ReactDOM.render(
     <Resizable
-      width={100} height={100}
+      defaultSize={{ width: 100, height: 100 }}
       onResize={onResize}
       onResizeStart={onResizeStart}
       style={{ padding: '40px' }}
@@ -314,7 +315,7 @@ test.serial('should call onResizeStop when resize stop direction right', async t
   const onResizeStop = sinon.spy();
   const resizable = ReactDOM.render(
     <Resizable
-      width={100} height={100}
+      defaultSize={{ width: 100, height: 100 }}
       onResize={onResize}
       onResizeStart={onResizeStart}
       onResizeStop={onResizeStop}
@@ -341,7 +342,7 @@ test.serial('should call onResizeStop when resize stop direction bottom', async 
   const onResizeStop = sinon.spy();
   const resizable = ReactDOM.render(
     <Resizable
-      width={100} height={100}
+      defaultSize={{ width: 100, height: 100 }}
       onResize={onResize}
       onResizeStart={onResizeStart}
       onResizeStop={onResizeStop}
@@ -368,7 +369,7 @@ test.serial('should call onResizeStop when resize stop direction bottomRight', a
   const onResizeStop = sinon.spy();
   const resizable = ReactDOM.render(
     <Resizable
-      width={100} height={100}
+      defaultSize={{ width: 100, height: 100 }}
       onResize={onResize}
       onResizeStart={onResizeStart}
       onResizeStop={onResizeStop}
@@ -391,7 +392,7 @@ test.serial('should call onResizeStop when resize stop direction bottomRight', a
 test.serial('should component size updated when updateSize method called', async t => {
   // let resizable;
   const resizable = ReactDOM.render(
-    <Resizable width={100} height={100} />,
+    <Resizable defaultSize={{ width: 100, height: 100 }} />,
     document.getElementById('content'),
   );
   resizable.updateSize({ width: 200, height: 300 });
@@ -405,7 +406,7 @@ test.serial('should snapped by grid value', async t => {
   const onResizeStop = sinon.spy();
   const resizable = ReactDOM.render(
     <Resizable
-      width={100} height={100}
+      defaultSize={{ width: 100, height: 100 }}
       onResize={onResize}
       onResizeStart={onResizeStart}
       onResizeStop={onResizeStop}
@@ -429,7 +430,7 @@ test.serial('should clamped by max width', async t => {
   const onResizeStop = sinon.spy();
   const resizable = ReactDOM.render(
     <Resizable
-      width={100} height={100}
+      defaultSize={{ width: 100, height: 100 }}
       maxWidth={200}
       onResize={onResize}
       onResizeStart={onResizeStart}
@@ -453,7 +454,7 @@ test.serial('should clamped by min width', async t => {
   const onResizeStop = sinon.spy();
   const resizable = ReactDOM.render(
     <Resizable
-      width={100} height={100}
+      defaultSize={{ width: 100, height: 100 }}
       minWidth={50}
       onResize={onResize}
       onResizeStart={onResizeStart}
@@ -476,7 +477,7 @@ test.serial('should clamped by max height', async t => {
   const onResizeStop = sinon.spy();
   const resizable = ReactDOM.render(
     <Resizable
-      width={100} height={100}
+      defaultSize={{ width: 100, height: 100 }}
       maxHeight={200}
       onResize={onResize}
       onResizeStart={onResizeStart}
@@ -500,7 +501,7 @@ test.serial('should clamped by min height', async t => {
   const onResizeStop = sinon.spy();
   const resizable = ReactDOM.render(
     <Resizable
-      width={100} height={100}
+      defaultSize={{ width: 100, height: 100 }}
       minHeight={50}
       onResize={onResize}
       onResizeStart={onResizeStart}
@@ -523,7 +524,7 @@ test.serial('should aspect ratio locked when resize to right', async t => {
   const onResizeStop = sinon.spy();
   const resizable = ReactDOM.render(
     <Resizable
-      width={100} height={100}
+      defaultSize={{ width: 100, height: 100 }}
       onResize={onResize}
       onResizeStart={onResizeStart}
       onResizeStop={onResizeStop}
@@ -549,7 +550,7 @@ test.serial('should aspect ratio locked when resize to bottom', async t => {
   const onResizeStop = sinon.spy();
   const resizable = ReactDOM.render(
     <Resizable
-      width={100} height={100}
+      defaultSize={{ width: 100, height: 100 }}
       onResize={onResize}
       onResizeStart={onResizeStart}
       onResizeStop={onResizeStop}
@@ -575,8 +576,7 @@ test.serial('should clamped by parent width', async t => {
   const onResizeStop = sinon.spy();
   const resizable = ReactDOM.render(
     <Resizable
-      width={100}
-      height={100}
+      defaultSize={{ width: 100, height: 100 }}
       bounds="parent"
       onResize={onResize}
       onResizeStart={onResizeStart}
@@ -600,8 +600,7 @@ test.serial('should clamped by parent height', async t => {
   const onResizeStop = sinon.spy();
   const resizable = ReactDOM.render(
     <Resizable
-      width={100}
-      height={100}
+      defaultSize={{ width: 100, height: 100 }}
       bounds="parent"
       onResize={onResize}
       onResizeStart={onResizeStart}
@@ -616,4 +615,17 @@ test.serial('should clamped by parent height', async t => {
   t.true(onResize.getCall(0).args[0] instanceof MouseEvent);
   t.deepEqual(onResize.getCall(0).args[2].clientHeight, 200);
   t.deepEqual(onResize.getCall(0).args[3], { width: 0, height: 100 });
+});
+
+test.serial('should defaultSize ignored when size set', async t => {
+  const resizable = TestUtils.renderIntoDocument(
+    <Resizable
+      defaultSize={{ width: 100, height: 100 }}
+      size={{ width: 200, height: 300 }}
+    />);
+  const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
+  t.is(divs.length, 9);
+  t.is(divs[0].style.width, '200px');
+  t.is(divs[0].style.height, '300px');
+  t.is(divs[0].style.position, 'relative');
 });

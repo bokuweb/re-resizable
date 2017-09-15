@@ -31,7 +31,7 @@ export type CSSSize = {
 
 export type ResizeHandler = (
   event: MouseEvent | TouchEvent,
-  direction: string,
+  dir: string,
   refToElement: HTMLElement,
   delta: Size,
 ) => void;
@@ -40,6 +40,7 @@ export type ResizeStartCallBack = (
   e: React.MouseEvent<any> | React.TouchEvent<any>,
   dir: string,
   refToElement: HTMLElement,
+  delta: Size,
 ) => void;
 
 export interface ResizableProps {
@@ -78,8 +79,14 @@ export interface ResizableProps {
     topLeft: boolean,
   },
   className?: string,
-  width?: string | number,
-  height?: string | number,
+  defaultSize?: {
+    width: string | number,
+    height: string | number,
+  },
+  size?: {
+    width: string | number,
+    height: string | number,
+  },  
   minWidth?: number | string,
   minHeight?: number | string,
   maxWidth?: number | string,
@@ -93,6 +100,8 @@ export default class Resizable extends React.Component<ResizableProps, Resizable
 
   resizable: HTMLElement;
 
+  get size(): Size;
+
   onTouchMove(event: React.TouchEvent<any>): void;
 
   onMouseMove(event: MouseEvent | TouchEvent): void;
@@ -100,8 +109,6 @@ export default class Resizable extends React.Component<ResizableProps, Resizable
   onMouseUp(event: MouseEvent | TouchEvent): void;
 
   onResizeStart(event: React.TouchEvent<any> | React.MouseEvent<any>, direction: string): void
-
-  getBoxSize(): Size;
 
   setSize(size: Size): void;
 

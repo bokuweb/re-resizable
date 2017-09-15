@@ -36,19 +36,51 @@ $ npm install --save re-resizable
 
 ## Usage
 
-### Basic
+### Example with `defaultSize`
 
 ``` javascript
 <Resizable
-  className="item"
-  width={320}
-  height={200}
+  defaultSize={{
+    width:320,
+    height:200,
+  }}
 >
-  Basic Sample
+  Sample with default size
+</Resizable>
+```
+
+### Example with `size`
+
+``` javascript
+<Resizable
+  size={{ width: this.state.width, height: this.state.height }}
+  onResizeStop={(e, direction, ref, d) => {
+    this.setState({
+      width: this.state.width + d.width,
+      height: this.state.height + d.height,
+    });
+  }}
+>
+  Sample with size
 </Resizable>
 ```
 
 ## Props
+
+#### `defaultSize?: { width: (number | string), height: (number | string) };`
+
+Specifies the `width` and `height` that the dragged item should start at.
+For example, you can set `300`, `'300px'`, `50%`.   
+If both `defaultSize` and `size` omitted, set `'auto'`.    
+    
+`defaultSize` will be ignored when `size` set.
+
+#### `size?: { width: (number | string), height: (number | string) };`
+
+The `size` property is used to set the size of the component.   
+For example, you can set `300`, `'300px'`, `50%`.   
+
+Use `size` if you need to control size state by yourself.    
 
 #### `className?: string;`
 
@@ -57,19 +89,7 @@ The `className` property is used to set the custom `className` of a resizable co
 #### `style?: { [key: string]: string };`
 
 The `style` property is used to set the custom `style` of a resizable component.
-
-#### `width?: (number | string);`
-
-The `width` property is used to set the initial width of a resizable component.   
-For example, you can set `300`, `'300px'`, `50%`.     
-If omitted, set `'auto'`.    
-
-#### `height?: (number | string);`
-
-The `height` property is used to set the initial height of a resizable component.    
-For example, you can set `300`, `'300px'`, `50%`.    
-If omitted, set `'auto'`.    
-
+   
 #### `minWidth?: number | string;`
 
 The `minWidth` property is used to set the minimum width of a resizable component.
@@ -214,6 +234,11 @@ npm test
 - [raect-sortable-pane](https://github.com/bokuweb/react-sortable-pane)
 
 ## Changelog
+
+#### v4.0.0-beta.0
+
+- Remove `width` and `height`.
+- Add `defaultSize` and `size`,
 
 #### v3.0.0
 
