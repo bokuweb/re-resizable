@@ -5,7 +5,7 @@ import Resizer from './resizer';
 
 import type { Direction, OnStartCallback } from './resizer';
 
-const BASE_ID = '__resizable_base';
+export const BASE_ID = '__resizable_base';
 
 const userSelectNone = {
   userSelect: 'none',
@@ -241,6 +241,8 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     element.style.width = '100%';
     element.style.height = '100%';
     element.style.position = 'relative';
+    element.style.top = '0';
+    element.style.left = '0';
     element.style.transform = 'scale(0, 0)';
     parent.appendChild(element);
   }
