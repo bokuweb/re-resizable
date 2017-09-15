@@ -59,8 +59,8 @@ export type HandleClassName = {
 }
 
 export type Size = {
-  width?: string | number;
-  height?: string | number;
+  width: string | number;
+  height: string | number;
 }
 
 type NumberSize = {
