@@ -233,6 +233,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     element.style.width = '100%';
     element.style.height = '100%';
     element.style.position = 'relative';
+    element.style.transform = 'scale(0, 0)';
     element.style.left = '-2147483647px';
     const parent = this.parentNode;
     if (!(parent instanceof HTMLElement)) return;
