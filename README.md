@@ -215,6 +215,10 @@ npm test
 
 ## Changelog
 
+#### v4.0.0-beta.0
+
+
+
 #### v3.0.0
 
 - Fix flowtype annotation.
