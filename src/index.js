@@ -71,18 +71,18 @@ type NumberSize = {
 export type ResizeCallback = (
   event: MouseEvent | TouchEvent,
   direction: Direction,
-  refToElement: React.ElementRef<'div'>,
+  elementRef: React.ElementRef<'div'>,
   delta: NumberSize,
 ) => void;
 
 export type ResizeStartCallback = (
   e: SyntheticMouseEvent<HTMLDivElement> | SyntheticTouchEvent<HTMLDivElement>,
   dir: Direction,
-  refToElement: React.ElementRef<'div'>,
+  elementRef: React.ElementRef<'div'>,
 ) => void;
 
 export type ResizableProps = {
-  style?: any;
+  style?: { [key: string]: string };
   className?: string;
   grid?: [number, number];
   bounds?: 'parent' | 'window' | HTMLElement;
@@ -97,7 +97,7 @@ export type ResizableProps = {
   handleClasses?: HandleClassName;
   handleWrapperStyle?: { [key: string]: string };
   handleWrapperClass?: string;
-  children?: React$Node;
+  children?: React.Node;
   onResizeStart?: ResizeStartCallback;
   onResize?: ResizeCallback;
   onResizeStop?: ResizeCallback;
@@ -343,7 +343,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
         const parentRect = parent.getBoundingClientRect();
         const parentLeft = parentRect.left;
         const parentTop = parentRect.top;
-        const { left, top } = (this.resizable: any).getBoundingClientRect();
+        const { left, top } = this.resizable.getBoundingClientRect();
         const boundWidth = parent.offsetWidth + (parentLeft - left);
         const boundHeight = parent.offsetHeight + (parentTop - top);
         maxWidth = maxWidth && maxWidth < boundWidth ? maxWidth : boundWidth;
@@ -351,7 +351,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
       }
     } else if (this.props.bounds === 'window') {
       if (typeof window !== 'undefined') {
-        const { left, top } = (this.resizable: any).getBoundingClientRect();
+        const { left, top } = this.resizable.getBoundingClientRect();
         const boundWidth = window.innerWidth - left;
         const boundHeight = window.innerHeight - top;
         maxWidth = maxWidth && maxWidth < boundWidth ? maxWidth : boundWidth;
@@ -361,7 +361,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
       const targetRect = this.props.bounds.getBoundingClientRect();
       const targetLeft = targetRect.left;
       const targetTop = targetRect.top;
-      const { left, top } = (this.resizable: any).getBoundingClientRect();
+      const { left, top } = this.resizable.getBoundingClientRect();
       if (!(this.props.bounds instanceof HTMLElement)) return;
       const boundWidth = this.props.bounds.offsetWidth + (targetLeft - left);
       const boundHeight = this.props.bounds.offsetHeight + (targetTop - top);
@@ -413,7 +413,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     });
 
     if (this.props.onResize) {
-      this.props.onResize(event, direction, (this.resizable: any), delta);
+      this.props.onResize(event, direction, this.resizable, delta);
     }
   }
 
@@ -425,7 +425,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
       height: this.size.height - original.height,
     };
     if (this.props.onResizeStop) {
-      this.props.onResizeStop(event, direction, (this.resizable: any), delta);
+      this.props.onResizeStop(event, direction, this.resizable, delta);
     }
     if (this.props.size) {
       this.setState(this.props.size);
