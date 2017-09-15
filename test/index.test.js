@@ -48,7 +48,7 @@ test.serial('should box width and height equal auto when size omitted', async t 
 });
 
 test.serial('should box width and height equal auto when set auto', async t => {
-  const resizable = TestUtils.renderIntoDocument(<Resizable defaultSize={{ width: 'auto', height: 'auto' }}/>);
+  const resizable = TestUtils.renderIntoDocument(<Resizable defaultSize={{ width: 'auto', height: 'auto' }} />);
   const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
   t.is(divs.length, 9);
   t.is(divs[0].style.width, 'auto');
@@ -615,4 +615,17 @@ test.serial('should clamped by parent height', async t => {
   t.true(onResize.getCall(0).args[0] instanceof MouseEvent);
   t.deepEqual(onResize.getCall(0).args[2].clientHeight, 200);
   t.deepEqual(onResize.getCall(0).args[3], { width: 0, height: 100 });
+});
+
+test.serial('should defaultSize ignored when size set', async t => {
+  const resizable = TestUtils.renderIntoDocument(
+    <Resizable
+      defaultSize={{ width: 100, height: 100 }}
+      size={{ width: 200, height: 300 }}
+    />);
+  const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
+  t.is(divs.length, 9);
+  t.is(divs[0].style.width, '200px');
+  t.is(divs[0].style.height, '300px');
+  t.is(divs[0].style.position, 'relative');
 });
