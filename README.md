@@ -235,7 +235,7 @@ npm test
 
 ## Changelog
 
-#### v4.0.0-beta.0
+#### v4.0.0
 
 - Remove `width` and `height`.
 - Add `defaultSize` and `size`,
