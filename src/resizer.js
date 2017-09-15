@@ -78,7 +78,7 @@ export type OnStartCallback = (
 export type Props = {
   direction: Direction;
   className?: string;
-  replaceStyles?: { [key: string]: string };
+  replaceStyles?: { [key: string]: string | number };
   onResizeStart: OnStartCallback;
 }
 

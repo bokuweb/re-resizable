@@ -437,9 +437,8 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     let width = 0;
     let height = 0;
     if (typeof window !== 'undefined') {
-      // const style = window.getComputedStyle(this.resizable, null);
       width = this.resizable.offsetWidth;
-      height = this.resizable.offsetHeight; // +style.getPropertyValue('height').replace('px', '');
+      height = this.resizable.offsetHeight;
     }
     return { width, height };
   }
