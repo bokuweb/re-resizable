@@ -235,7 +235,12 @@ npm test
 
 ## Changelog
 
-#### v4.0.0-beta.0
+#### v4.0.1
+
+- Fix using right click on resize #152
+- Update index.d.ts, Fixes #153
+
+#### v4.0.0
 
 - Remove `width` and `height`.
 - Add `defaultSize` and `size`,
