@@ -100,7 +100,7 @@ export default class Resizable extends React.Component<ResizableProps, Resizable
 
   resizable: HTMLElement;
 
-  get size(): Size;
+  size: Size;
 
   onTouchMove(event: React.TouchEvent<any>): void;
 
