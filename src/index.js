@@ -272,9 +272,8 @@ export default class Resizable extends React.Component<ResizableProps, State> {
       // When user click with right button the resize is stuck in resizing mode
       // until users clicks again, dont continue if right click is used.
       if (event.nativeEvent.which === 3) {
-        return
+        return;
       }
-
     } else if (event.nativeEvent instanceof TouchEvent) {
       clientX = event.nativeEvent.touches[0].clientX;
       clientY = event.nativeEvent.touches[0].clientY;
