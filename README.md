@@ -222,6 +222,16 @@ class YourComponent extends Component {
 }
 ```
 
+
+## Contribute
+
+If you have a feature request, please add it as an issue or make a pull request.
+
+If you have a bug to report, please reproduce the bug in [WebpackBin](
+https://www.webpackbin.com/bins/-Kvnrpd3GSG6-z0tpgH_) to help us easily isolate it.
+
+
+
 ## Test
 
 ``` sh
