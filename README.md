@@ -245,9 +245,13 @@ npm test
 
 ## Changelog
 
-#### v4.0.1
+#### v4.0.2
 
 - Fix using right click on resize #152
+- Add workaround when base Node not found.
+
+#### v4.0.1
+
 - Update index.d.ts, Fixes #153
 
 #### v4.0.0
