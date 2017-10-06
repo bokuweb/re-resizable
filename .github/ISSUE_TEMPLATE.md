@@ -6,10 +6,13 @@
 ### Overview of the problem
 
 <!-- UNCOMMENT THE APPROPRIATE LINES -->
+I'm using re-resizable **version** [x.x.x]   
+   
+<!-- Could you please provide reproduced project on webpackbin with latest version rnd? https://www.webpackbin.com/bins/-Kvnrpd3GSG6-z0tpgH_ -->
 
-<!-- I'm using react-resizable-box **version** [x.x.x] -->
-<!-- My **browser** is: -->
-<!-- I am sure this issue is **not a duplicate**? -->
+My **browser** is:   
+   
+I am sure this issue is **not a duplicate**?
 
 ### Description
 
@@ -17,11 +20,9 @@
 
 ### Steps to Reproduce
 
-<!--
 1. First Step
 2. Second Step
 3. and so on...
--->
 
 ### Expected behavior
 
