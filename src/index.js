@@ -120,7 +120,7 @@ type State = {
 const clamp = (n: number, min: number, max: number): number => Math.max(Math.min(n, max), min);
 const snap = (n: number, size: number): number => Math.round(n / size) * size;
 
-const endsWith = (str: string, searchStr: string): string =>
+const endsWith = (str: string, searchStr: string): boolean =>
   str.substr(str.length - searchStr.length, searchStr.length) === searchStr;
 
 const getStringSize = (n: number | string): string => {
