@@ -120,9 +120,12 @@ type State = {
 const clamp = (n: number, min: number, max: number): number => Math.max(Math.min(n, max), min);
 const snap = (n: number, size: number): number => Math.round(n / size) * size;
 
+const endsWith = (str: string, searchStr: string): boolean =>
+  str.substr(str.length - searchStr.length, searchStr.length) === searchStr;
+
 const getStringSize = (n: number | string): string => {
-  if (n.toString().endsWith('px')) return n.toString();
-  if (n.toString().endsWith('%')) return n.toString();
+  if (endsWith(n.toString(), 'px')) return n.toString();
+  if (endsWith(n.toString(), '%')) return n.toString();
   return `${n}px`;
 };
 
@@ -207,7 +210,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
 
   updateExtendsProps(props: ResizableProps) {
     this.extendsProps = Object.keys(props).reduce((acc, key) => {
-      if (definedProps.includes(key)) return acc;
+      if (definedProps.indexOf(key) !== -1) return acc;
       acc[key] = props[key];
       return acc;
     }, {});
@@ -303,19 +306,19 @@ export default class Resizable extends React.Component<ResizableProps, State> {
 
     // TODO: refactor
     const parentSize = this.getParentSize();
-    if (maxWidth && typeof maxWidth === 'string' && maxWidth.endsWith('%')) {
+    if (maxWidth && typeof maxWidth === 'string' && endsWith(maxWidth, '%')) {
       const ratio = Number(maxWidth.replace('%', '')) / 100;
       maxWidth = parentSize.width * ratio;
     }
-    if (maxHeight && typeof maxHeight === 'string' && maxHeight.endsWith('%')) {
+    if (maxHeight && typeof maxHeight === 'string' && endsWith(maxHeight, '%')) {
       const ratio = Number(maxHeight.replace('%', '')) / 100;
       maxHeight = parentSize.height * ratio;
     }
-    if (minWidth && typeof minWidth === 'string' && minWidth.endsWith('%')) {
+    if (minWidth && typeof minWidth === 'string' && endsWith(minWidth, '%')) {
       const ratio = Number(minWidth.replace('%', '')) / 100;
       minWidth = parentSize.width * ratio;
     }
-    if (minHeight && typeof minHeight === 'string' && minHeight.endsWith('%')) {
+    if (minHeight && typeof minHeight === 'string' && endsWith(minHeight, '%')) {
       const ratio = Number(minHeight.replace('%', '')) / 100;
       minHeight = parentSize.height * ratio;
     }
@@ -404,12 +407,12 @@ export default class Resizable extends React.Component<ResizableProps, State> {
       height: newHeight - original.height,
     };
 
-    if (width && typeof width === 'string' && width.endsWith('%')) {
+    if (width && typeof width === 'string' && endsWith(width, '%')) {
       const percent = (newWidth / parentSize.width) * 100;
       newWidth = `${percent}%`;
     }
 
-    if (height && typeof height === 'string' && height.endsWith('%')) {
+    if (height && typeof height === 'string' && endsWith(height, '%')) {
       const percent = (newHeight / parentSize.height) * 100;
       newHeight = `${percent}%`;
     }
@@ -454,8 +457,8 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     const { size } = this.props;
     const getSize = (key: 'width' | 'height'): string => {
       if (typeof this.state[key] === 'undefined' || this.state[key] === 'auto') return 'auto';
-      if (this.propsSize && this.propsSize[key] && this.propsSize[key].toString().endsWith('%')) {
-        if (this.state[key].toString().endsWith('%')) return this.state[key].toString();
+      if (this.propsSize && this.propsSize[key] && endsWith(this.propsSize[key].toString(), '%')) {
+        if (endsWith(this.state[key].toString(), '%')) return this.state[key].toString();
         const parentSize = this.getParentSize();
         const value = Number(this.state[key].toString().replace('px', ''));
         const percent = (value / parentSize[key]) * 100;
