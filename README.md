@@ -245,6 +245,10 @@ npm test
 
 ## Changelog
 
+#### v4.0.3
+
+- Use ES5-compatible prototype methods #160
+
 #### v4.0.2
 
 - Fix using right click on resize #152
