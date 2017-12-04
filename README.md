@@ -5,11 +5,11 @@
 <p align="center"><a href="https://circleci.com/gh/bokuweb/re-resizable/tree/master">
 <img src="https://circleci.com/gh/bokuweb/re-resizable/tree/master.svg?style=svg" alt="Build Status" /></a>
 <a href="https://www.npmjs.com/package/re-resizable">
-<img src="https://img.shields.io/npm/v/re-resizable.svg" alt="Build Status" /></a> 
+<img src="https://img.shields.io/npm/v/re-resizable.svg" alt="Build Status" /></a>
 <a href="https://www.npmjs.com/package/re-resizable">
-<img src="https://img.shields.io/npm/dm/re-resizable.svg" /></a> 
+<img src="https://img.shields.io/npm/dm/re-resizable.svg" /></a>
 <a href="https://greenkeeper.io/">
-<img src="https://badges.greenkeeper.io/bokuweb/re-resizable.svg" /></a> 
+<img src="https://badges.greenkeeper.io/bokuweb/re-resizable.svg" /></a>
 </p>
 
 ## Table of Contents
@@ -27,7 +27,7 @@
 ## Demo
 
 ![screenshot](https://github.com/bokuweb/re-resizable/blob/master/docs/screenshot.gif?raw=true)
-   
+
 ## Install
 
 ``` sh
@@ -70,17 +70,17 @@ $ npm install --save re-resizable
 #### `defaultSize?: { width: (number | string), height: (number | string) };`
 
 Specifies the `width` and `height` that the dragged item should start at.
-For example, you can set `300`, `'300px'`, `50%`.   
-If both `defaultSize` and `size` omitted, set `'auto'`.    
-    
+For example, you can set `300`, `'300px'`, `50%`.
+If both `defaultSize` and `size` omitted, set `'auto'`.
+
 `defaultSize` will be ignored when `size` set.
 
 #### `size?: { width: (number | string), height: (number | string) };`
 
-The `size` property is used to set the size of the component.   
-For example, you can set `300`, `'300px'`, `50%`.   
+The `size` property is used to set the size of the component.
+For example, you can set `300`, `'300px'`, `50%`.
 
-Use `size` if you need to control size state by yourself.    
+Use `size` if you need to control size state by yourself.
 
 #### `className?: string;`
 
@@ -89,7 +89,7 @@ The `className` property is used to set the custom `className` of a resizable co
 #### `style?: { [key: string]: string };`
 
 The `style` property is used to set the custom `style` of a resizable component.
-   
+
 #### `minWidth?: number | string;`
 
 The `minWidth` property is used to set the minimum width of a resizable component.
@@ -110,10 +110,25 @@ The `maxHeight` property is used to set the maximum height of a resizable compon
 
 The `grid` property is used to specify the increments that resizing should snap to. Defaults to `[1, 1]`.
 
-#### `lockAspectRatio?: boolean;`
+#### `lockAspectRatio?: boolean | number;`
 
 The `lockAspectRatio` property is used to lock aspect ratio.
+Set to `true` to lock the aspect ratio based on the initial size.
+Set to a numeric value to lock a specific aspect ratio (such as `16/9`).
+If set to numeric, make sure to set initial height/width to values with correct aspect ratio.
 If omitted, set `false`.
+
+#### `lockAspectRatioExtraWidth?: number;`
+
+The `lockAspectRatioExtraWidth` property enables a resizable component to maintain an aspect ratio plus extra width.
+For instance, a video could be displayed 16:9 with a 50px side bar.
+If omitted, set `0`.
+
+#### `lockAspectRatioExtraHeight?: number;`
+
+The `lockAspectRatioExtraHeight` property enables a resizable component to maintain an aspect ratio plus extra height.
+For instance, a video could be displayed 16:9 with a 50px header bar.
+If omitted, set `0`.
 
 #### `bounds?: ('window' | 'parent' | HTMLElement);`
 
@@ -144,7 +159,7 @@ The `enable` property is used to set the resizable permission of a resizable com
 
 The permission of `top`, `right`, `bottom`, `left`, `topRight`, `bottomRight`, `bottomLeft`, `topLeft` direction resizing.
 If omitted, all resizer are enabled.
-If you want to permit only right direction resizing, set `{ top:false, right:true, bottom:false, left:false, topRight:false, bottomRight:false, bottomLeft:false, topLeft:false }`. 
+If you want to permit only right direction resizing, set `{ top:false, right:true, bottom:false, left:false, topRight:false, bottomRight:false, bottomLeft:false, topLeft:false }`.
 
 #### `onResizeStart?: ResizeStartCallBack;`
 
@@ -205,11 +220,11 @@ Update component size.
 class YourComponent extends Component {
 
   ...
-  
+
   update() {
     this.resizable.updateSize({ width: 200, height: 300 });
   }
-  
+
   render() {
     return (
       <Resizable ref={c => { this.resizable = c; }}>
@@ -325,7 +340,7 @@ You can add extendsProps as follows.
 
 - Remove offset state.
 - Use `border-box`.
-- Fix boundary size. 
+- Fix boundary size.
 
 #### v2.0.1
 
@@ -431,7 +446,7 @@ You can add extendsProps as follows.
 #### v0.4.2
 
 - Support react v15
-- ESLint run when push  
+- ESLint run when push
 
 #### v0.4.1
 

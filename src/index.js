@@ -91,7 +91,9 @@ export type ResizableProps = {
   minHeight?: string | number;
   maxWidth?: string | number;
   maxHeight?: string | number;
-  lockAspectRatio?: boolean;
+  lockAspectRatio?: boolean | number;
+  lockAspectRatioExtraWidth?: number;
+  lockAspectRatioExtraHeight?: number;
   enable?: Enable;
   handleStyles?: HandleStyles;
   handleClasses?: HandleClassName;
@@ -134,6 +136,7 @@ let baseSizeId = 0;
 const definedProps = [
   'style', 'className', 'grid', 'bounds', 'size', 'defaultSize',
   'minWidth', 'minHeight', 'maxWidth', 'maxHeight', 'lockAspectRatio',
+  'lockAspectRatioExtraWidth', 'lockAspectRatioExtraHeight',
   'enable', 'handleStyles', 'handleClasses', 'handleWrapperStyle',
   'handleWrapperClass', 'children', 'onResizeStart', 'onResize', 'onResizeStop',
 ];
@@ -164,6 +167,8 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     style: {},
     grid: [1, 1],
     lockAspectRatio: false,
+    lockAspectRatioExtraWidth: 0,
+    lockAspectRatioExtraHeight: 0,
   }
 
   constructor(props: ResizableProps) {
@@ -301,7 +306,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     const clientX = event instanceof MouseEvent ? event.clientX : event.touches[0].clientX;
     const clientY = event instanceof MouseEvent ? event.clientY : event.touches[0].clientY;
     const { direction, original, width, height } = this.state;
-    const { lockAspectRatio } = this.props;
+    const { lockAspectRatio, lockAspectRatioExtraHeight, lockAspectRatioExtraWidth } = this.props;
     let { maxWidth, maxHeight, minWidth, minHeight } = this.props;
 
     // TODO: refactor
@@ -327,24 +332,24 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     minWidth = typeof minWidth === 'undefined' ? undefined : Number(minWidth);
     minHeight = typeof minHeight === 'undefined' ? undefined : Number(minHeight);
 
-    const ratio = original.height / original.width;
+    const ratio = typeof lockAspectRatio === 'number' ? lockAspectRatio : original.width / original.height;
     let newWidth = original.width;
     let newHeight = original.height;
     if (/right/i.test(direction)) {
       newWidth = original.width + (clientX - original.x);
-      if (lockAspectRatio) newHeight = newWidth * ratio;
+      if (lockAspectRatio) newHeight = ((newWidth - lockAspectRatioExtraWidth) / ratio) + lockAspectRatioExtraHeight;
     }
     if (/left/i.test(direction)) {
       newWidth = original.width - (clientX - original.x);
-      if (lockAspectRatio) newHeight = newWidth * ratio;
+      if (lockAspectRatio) newHeight = ((newWidth - lockAspectRatioExtraWidth) / ratio) + lockAspectRatioExtraHeight;
     }
     if (/bottom/i.test(direction)) {
       newHeight = original.height + (clientY - original.y);
-      if (lockAspectRatio) newWidth = newHeight / ratio;
+      if (lockAspectRatio) newWidth = ((newHeight - lockAspectRatioExtraHeight) * ratio) + lockAspectRatioExtraWidth;
     }
     if (/top/i.test(direction)) {
       newHeight = original.height - (clientY - original.y);
-      if (lockAspectRatio) newWidth = newHeight / ratio;
+      if (lockAspectRatio) newWidth = ((newHeight - lockAspectRatioExtraHeight) * ratio) + lockAspectRatioExtraWidth;
     }
 
     if (this.props.bounds === 'parent') {
@@ -385,10 +390,14 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     const computedMaxHeight = (typeof maxHeight === 'undefined' || maxHeight < 0) ? newHeight : maxHeight;
 
     if (lockAspectRatio) {
-      const lockedMinWidth = computedMinWidth > computedMinHeight / ratio ? computedMinWidth : computedMinHeight / ratio;
-      const lockedMaxWidth = computedMaxWidth < computedMaxHeight / ratio ? computedMaxWidth : computedMaxHeight / ratio;
-      const lockedMinHeight = computedMinHeight > computedMinWidth * ratio ? computedMinHeight : computedMinWidth * ratio;
-      const lockedMaxHeight = computedMaxHeight < computedMaxWidth * ratio ? computedMaxHeight : computedMaxWidth * ratio;
+      const extraMinHeight = ((computedMinHeight - lockAspectRatioExtraHeight) * ratio) + lockAspectRatioExtraWidth;
+      const extraMaxHeight = ((computedMaxHeight - lockAspectRatioExtraHeight) * ratio) + lockAspectRatioExtraWidth;
+      const extraMinWidth = ((computedMinWidth - lockAspectRatioExtraWidth) / ratio) + lockAspectRatioExtraHeight;
+      const extraMaxWidth = ((computedMaxWidth - lockAspectRatioExtraWidth) / ratio) + lockAspectRatioExtraHeight;
+      const lockedMinWidth = computedMinWidth > extraMinHeight ? computedMinWidth : extraMinHeight;
+      const lockedMaxWidth = computedMaxWidth < extraMaxHeight ? computedMaxWidth : extraMaxHeight;
+      const lockedMinHeight = computedMinHeight > extraMinWidth ? computedMinHeight : extraMinWidth;
+      const lockedMaxHeight = computedMaxHeight < extraMaxWidth ? computedMaxHeight : extraMaxWidth;
       newWidth = clamp(newWidth, lockedMinWidth, lockedMaxWidth);
       newHeight = clamp(newHeight, lockedMinHeight, lockedMaxHeight);
     } else {
