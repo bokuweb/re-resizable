@@ -38,7 +38,6 @@
     "url": "https://github.com/bokuweb/react-resizable-box/issues"
   },
   "homepage": "https://github.com/bokuweb/react-resizable-box",
-  "
   Dependencies": {
     "@storybook/addon-info": "^3.2.9",
     "@storybook/react": "^3.2.8",
