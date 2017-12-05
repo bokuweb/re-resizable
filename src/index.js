@@ -390,14 +390,14 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     const computedMaxHeight = (typeof maxHeight === 'undefined' || maxHeight < 0) ? newHeight : maxHeight;
 
     if (lockAspectRatio) {
-      const extraMinHeight = ((computedMinHeight - lockAspectRatioExtraHeight) * ratio) + lockAspectRatioExtraWidth;
-      const extraMaxHeight = ((computedMaxHeight - lockAspectRatioExtraHeight) * ratio) + lockAspectRatioExtraWidth;
-      const extraMinWidth = ((computedMinWidth - lockAspectRatioExtraWidth) / ratio) + lockAspectRatioExtraHeight;
-      const extraMaxWidth = ((computedMaxWidth - lockAspectRatioExtraWidth) / ratio) + lockAspectRatioExtraHeight;
-      const lockedMinWidth = computedMinWidth > extraMinHeight ? computedMinWidth : extraMinHeight;
-      const lockedMaxWidth = computedMaxWidth < extraMaxHeight ? computedMaxWidth : extraMaxHeight;
-      const lockedMinHeight = computedMinHeight > extraMinWidth ? computedMinHeight : extraMinWidth;
-      const lockedMaxHeight = computedMaxHeight < extraMaxWidth ? computedMaxHeight : extraMaxWidth;
+      const extraMinWidth = ((computedMinHeight - lockAspectRatioExtraHeight) * ratio) + lockAspectRatioExtraWidth;
+      const extraMaxWidth = ((computedMaxHeight - lockAspectRatioExtraHeight) * ratio) + lockAspectRatioExtraWidth;
+      const extraMinHeight = ((computedMinWidth - lockAspectRatioExtraWidth) / ratio) + lockAspectRatioExtraHeight;
+      const extraMaxHeight = ((computedMaxWidth - lockAspectRatioExtraWidth) / ratio) + lockAspectRatioExtraHeight;
+      const lockedMinWidth = Math.max(computedMinWidth, extraMinWidth);
+      const lockedMaxWidth = Math.min(computedMaxWidth, extraMaxWidth);
+      const lockedMinHeight = Math.max(computedMinHeight, extraMinHeight);
+      const lockedMaxHeight = Math.min(computedMaxHeight, extraMaxHeight);
       newWidth = clamp(newWidth, lockedMinWidth, lockedMaxWidth);
       newHeight = clamp(newHeight, lockedMinHeight, lockedMaxHeight);
     } else {
