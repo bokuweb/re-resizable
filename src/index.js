@@ -92,8 +92,8 @@ export type ResizableProps = {
   maxWidth?: string | number;
   maxHeight?: string | number;
   lockAspectRatio?: boolean | number;
-  lockAspectRatioExtraWidth?: number;
-  lockAspectRatioExtraHeight?: number;
+  lockAspectRatioExtraWidth: number;
+  lockAspectRatioExtraHeight: number;
   enable?: Enable;
   handleStyles?: HandleStyles;
   handleClasses?: HandleClassName;
