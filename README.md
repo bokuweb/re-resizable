@@ -260,6 +260,8 @@ npm test
 
 ## Changelog
 
+- Additional height and width with lockAspectRatio #163
+
 #### v4.0.3
 
 - Use ES5-compatible prototype methods #160
