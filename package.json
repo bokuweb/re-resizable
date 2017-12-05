@@ -19,9 +19,7 @@
     "build:prod:es5": "rollup -c scripts/prod.es5.js",
     "build:prod:umd": "rollup -c scripts/prod.umd.js",
     "build": "npm-run-all --parallel build:prod:*",
-    "dev": "rollup -c config/dev.js -w",
-    "browse": "browser-sync start --s --index 'html/index.html' --files 'html/**/*.html, build/**/*.js' --no-notify",
-    "start": "npm-run-all --parallel dev browse storybook",
+    "start": "npm-run-all --parallel storybook",
     "test": "NODE_ENV='test' avaron test --renderer",
     "test:ci": "npm run flow && npm run build",
     "flow-copy": "flow-copy-source -v src lib && cp lib/index.js.flow lib/index.es5.js.flow ",
@@ -40,7 +38,8 @@
     "url": "https://github.com/bokuweb/react-resizable-box/issues"
   },
   "homepage": "https://github.com/bokuweb/react-resizable-box",
-  "devDependencies": {
+  "
+  Dependencies": {
     "@storybook/addon-info": "^3.2.9",
     "@storybook/react": "^3.2.8",
     "avaron": "^0.0.12",
