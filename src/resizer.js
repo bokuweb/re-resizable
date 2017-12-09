@@ -5,6 +5,8 @@ import * as React from 'react';
 const styles = {
   base: {
     position: 'absolute',
+    userSelect: 'none',
+    MsUserSelect: 'none',
   },
   top: {
     width: '100%',
