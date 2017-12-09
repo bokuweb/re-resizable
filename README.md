@@ -260,6 +260,16 @@ npm test
 
 ## Changelog
 
+#### v4.1.2
+
+- Fixed a bug, Text select while resizing in IE11 #166
+
+#### v4.1.1
+
+- Fixed a bug, Element width id="__resizable0" breaks my layout #162
+
+#### v4.1.0
+
 - Additional height and width with lockAspectRatio #163
 
 #### v4.0.3
