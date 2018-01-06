@@ -1,6 +1,6 @@
 {
   "name": "re-resizable",
-  "version": "4.0.0-beta.2",
+  "version": "4.1.2",
   "description": "Resizable component for React.",
   "title": "re-resizable",
   "main": "./lib/index.es5.js",
@@ -19,9 +19,7 @@
     "build:prod:es5": "rollup -c scripts/prod.es5.js",
     "build:prod:umd": "rollup -c scripts/prod.umd.js",
     "build": "npm-run-all --parallel build:prod:*",
-    "dev": "rollup -c config/dev.js -w",
-    "browse": "browser-sync start --s --index 'html/index.html' --files 'html/**/*.html, build/**/*.js' --no-notify",
-    "start": "npm-run-all --parallel dev browse storybook",
+    "start": "npm-run-all --parallel storybook",
     "test": "NODE_ENV='test' avaron test --renderer",
     "test:ci": "npm run flow && npm run build",
     "flow-copy": "flow-copy-source -v src lib && cp lib/index.js.flow lib/index.es5.js.flow ",
@@ -44,7 +42,7 @@
     "@storybook/addon-info": "^3.2.9",
     "@storybook/react": "^3.2.8",
     "avaron": "^0.0.12",
-    "babel-eslint": "^7.2.3",
+    "babel-eslint": "^8.0.1",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-assign": "^6.22.0",
@@ -69,13 +67,13 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "rollup": "^0.50.0",
-    "rollup-plugin-babel": "3.0.2",
+    "rollup-plugin-babel": "3.0.3",
     "rollup-plugin-commonjs": "^8.2.0",
     "rollup-plugin-node-globals": "1.1.0",
     "rollup-plugin-node-resolve": "3.0.0",
     "rollup-plugin-replace": "^1.1.1",
     "rollup-watch": "4.3.1",
-    "sinon": "^3.2.1"
+    "sinon": "^4.0.0"
   },
   "typings": "./index.d.ts",
   "files": [

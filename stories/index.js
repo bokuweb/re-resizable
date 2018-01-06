@@ -23,6 +23,11 @@ import DefaultSizePercent from './default-size/percent-size';
 import SizeBasic from './size/basic';
 import SizePercent from './size/percent-size';
 
+import RatioBasic from './ratio/basic';
+import RatioFixed from './ratio/fixed';
+import RatioHeader from './ratio/header';
+import RatioSidebar from './ratio/sidebar';
+
 storiesOf('omit size', module)
   .add('auto.', () => <Auto />)
 
@@ -45,3 +50,9 @@ storiesOf('defaultSize', module)
 storiesOf('size', module)
   .add('basic.', () => <SizeBasic />)
   .add('percent size', () => <SizePercent />);
+
+storiesOf('lockAspectRatio', module)
+  .add('basic h:w is 2:1', () => <RatioBasic />)
+  .add('ratio is 16:9', () => <RatioFixed />)
+  .add('ratio is 16:9 with 50px header', () => <RatioHeader />)
+  .add('ratio is 16:9 with 50px header and sidebar', () => <RatioSidebar />);

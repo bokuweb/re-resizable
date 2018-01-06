@@ -91,7 +91,9 @@ export type ResizableProps = {
   minHeight?: string | number;
   maxWidth?: string | number;
   maxHeight?: string | number;
-  lockAspectRatio?: boolean;
+  lockAspectRatio?: boolean | number;
+  lockAspectRatioExtraWidth: number;
+  lockAspectRatioExtraHeight: number;
   enable?: Enable;
   handleStyles?: HandleStyles;
   handleClasses?: HandleClassName;
@@ -120,9 +122,12 @@ type State = {
 const clamp = (n: number, min: number, max: number): number => Math.max(Math.min(n, max), min);
 const snap = (n: number, size: number): number => Math.round(n / size) * size;
 
+const endsWith = (str: string, searchStr: string): boolean =>
+  str.substr(str.length - searchStr.length, searchStr.length) === searchStr;
+
 const getStringSize = (n: number | string): string => {
-  if (n.toString().endsWith('px')) return n.toString();
-  if (n.toString().endsWith('%')) return n.toString();
+  if (endsWith(n.toString(), 'px')) return n.toString();
+  if (endsWith(n.toString(), '%')) return n.toString();
   return `${n}px`;
 };
 
@@ -131,6 +136,7 @@ let baseSizeId = 0;
 const definedProps = [
   'style', 'className', 'grid', 'bounds', 'size', 'defaultSize',
   'minWidth', 'minHeight', 'maxWidth', 'maxHeight', 'lockAspectRatio',
+  'lockAspectRatioExtraWidth', 'lockAspectRatioExtraHeight',
   'enable', 'handleStyles', 'handleClasses', 'handleWrapperStyle',
   'handleWrapperClass', 'children', 'onResizeStart', 'onResize', 'onResizeStop',
 ];
@@ -161,6 +167,8 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     style: {},
     grid: [1, 1],
     lockAspectRatio: false,
+    lockAspectRatioExtraWidth: 0,
+    lockAspectRatioExtraHeight: 0,
   }
 
   constructor(props: ResizableProps) {
@@ -207,7 +215,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
 
   updateExtendsProps(props: ResizableProps) {
     this.extendsProps = Object.keys(props).reduce((acc, key) => {
-      if (definedProps.includes(key)) return acc;
+      if (definedProps.indexOf(key) !== -1) return acc;
       acc[key] = props[key];
       return acc;
     }, {});
@@ -235,6 +243,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     element.style.position = 'relative';
     element.style.transform = 'scale(0, 0)';
     element.style.left = '-2147483647px';
+    element.style.flex = '0';
     const parent = this.parentNode;
     if (!(parent instanceof HTMLElement)) return;
     parent.appendChild(element);
@@ -254,7 +263,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
       const parent = this.parentNode;
       const base = document.getElementById(this.baseSizeId);
       if (!base) return;
-      if (!(parent instanceof HTMLElement)) return;
+      if (!(parent instanceof HTMLElement) || !(base instanceof Node)) return;
       parent.removeChild(base);
     }
   }
@@ -268,6 +277,12 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     if (event.nativeEvent instanceof MouseEvent) {
       clientX = event.nativeEvent.clientX;
       clientY = event.nativeEvent.clientY;
+
+      // When user click with right button the resize is stuck in resizing mode
+      // until users clicks again, dont continue if right click is used.
+      if (event.nativeEvent.which === 3) {
+        return;
+      }
     } else if (event.nativeEvent instanceof TouchEvent) {
       clientX = event.nativeEvent.touches[0].clientX;
       clientY = event.nativeEvent.touches[0].clientY;
@@ -292,24 +307,24 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     const clientX = event instanceof MouseEvent ? event.clientX : event.touches[0].clientX;
     const clientY = event instanceof MouseEvent ? event.clientY : event.touches[0].clientY;
     const { direction, original, width, height } = this.state;
-    const { lockAspectRatio } = this.props;
+    const { lockAspectRatio, lockAspectRatioExtraHeight, lockAspectRatioExtraWidth } = this.props;
     let { maxWidth, maxHeight, minWidth, minHeight } = this.props;
 
     // TODO: refactor
     const parentSize = this.getParentSize();
-    if (maxWidth && typeof maxWidth === 'string' && maxWidth.endsWith('%')) {
+    if (maxWidth && typeof maxWidth === 'string' && endsWith(maxWidth, '%')) {
       const ratio = Number(maxWidth.replace('%', '')) / 100;
       maxWidth = parentSize.width * ratio;
     }
-    if (maxHeight && typeof maxHeight === 'string' && maxHeight.endsWith('%')) {
+    if (maxHeight && typeof maxHeight === 'string' && endsWith(maxHeight, '%')) {
       const ratio = Number(maxHeight.replace('%', '')) / 100;
       maxHeight = parentSize.height * ratio;
     }
-    if (minWidth && typeof minWidth === 'string' && minWidth.endsWith('%')) {
+    if (minWidth && typeof minWidth === 'string' && endsWith(minWidth, '%')) {
       const ratio = Number(minWidth.replace('%', '')) / 100;
       minWidth = parentSize.width * ratio;
     }
-    if (minHeight && typeof minHeight === 'string' && minHeight.endsWith('%')) {
+    if (minHeight && typeof minHeight === 'string' && endsWith(minHeight, '%')) {
       const ratio = Number(minHeight.replace('%', '')) / 100;
       minHeight = parentSize.height * ratio;
     }
@@ -318,24 +333,24 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     minWidth = typeof minWidth === 'undefined' ? undefined : Number(minWidth);
     minHeight = typeof minHeight === 'undefined' ? undefined : Number(minHeight);
 
-    const ratio = original.height / original.width;
+    const ratio = typeof lockAspectRatio === 'number' ? lockAspectRatio : original.width / original.height;
     let newWidth = original.width;
     let newHeight = original.height;
     if (/right/i.test(direction)) {
       newWidth = original.width + (clientX - original.x);
-      if (lockAspectRatio) newHeight = newWidth * ratio;
+      if (lockAspectRatio) newHeight = ((newWidth - lockAspectRatioExtraWidth) / ratio) + lockAspectRatioExtraHeight;
     }
     if (/left/i.test(direction)) {
       newWidth = original.width - (clientX - original.x);
-      if (lockAspectRatio) newHeight = newWidth * ratio;
+      if (lockAspectRatio) newHeight = ((newWidth - lockAspectRatioExtraWidth) / ratio) + lockAspectRatioExtraHeight;
     }
     if (/bottom/i.test(direction)) {
       newHeight = original.height + (clientY - original.y);
-      if (lockAspectRatio) newWidth = newHeight / ratio;
+      if (lockAspectRatio) newWidth = ((newHeight - lockAspectRatioExtraHeight) * ratio) + lockAspectRatioExtraWidth;
     }
     if (/top/i.test(direction)) {
       newHeight = original.height - (clientY - original.y);
-      if (lockAspectRatio) newWidth = newHeight / ratio;
+      if (lockAspectRatio) newWidth = ((newHeight - lockAspectRatioExtraHeight) * ratio) + lockAspectRatioExtraWidth;
     }
 
     if (this.props.bounds === 'parent') {
@@ -376,10 +391,14 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     const computedMaxHeight = (typeof maxHeight === 'undefined' || maxHeight < 0) ? newHeight : maxHeight;
 
     if (lockAspectRatio) {
-      const lockedMinWidth = computedMinWidth > computedMinHeight / ratio ? computedMinWidth : computedMinHeight / ratio;
-      const lockedMaxWidth = computedMaxWidth < computedMaxHeight / ratio ? computedMaxWidth : computedMaxHeight / ratio;
-      const lockedMinHeight = computedMinHeight > computedMinWidth * ratio ? computedMinHeight : computedMinWidth * ratio;
-      const lockedMaxHeight = computedMaxHeight < computedMaxWidth * ratio ? computedMaxHeight : computedMaxWidth * ratio;
+      const extraMinWidth = ((computedMinHeight - lockAspectRatioExtraHeight) * ratio) + lockAspectRatioExtraWidth;
+      const extraMaxWidth = ((computedMaxHeight - lockAspectRatioExtraHeight) * ratio) + lockAspectRatioExtraWidth;
+      const extraMinHeight = ((computedMinWidth - lockAspectRatioExtraWidth) / ratio) + lockAspectRatioExtraHeight;
+      const extraMaxHeight = ((computedMaxWidth - lockAspectRatioExtraWidth) / ratio) + lockAspectRatioExtraHeight;
+      const lockedMinWidth = Math.max(computedMinWidth, extraMinWidth);
+      const lockedMaxWidth = Math.min(computedMaxWidth, extraMaxWidth);
+      const lockedMinHeight = Math.max(computedMinHeight, extraMinHeight);
+      const lockedMaxHeight = Math.min(computedMaxHeight, extraMaxHeight);
       newWidth = clamp(newWidth, lockedMinWidth, lockedMaxWidth);
       newHeight = clamp(newHeight, lockedMinHeight, lockedMaxHeight);
     } else {
@@ -398,12 +417,12 @@ export default class Resizable extends React.Component<ResizableProps, State> {
       height: newHeight - original.height,
     };
 
-    if (width && typeof width === 'string' && width.endsWith('%')) {
+    if (width && typeof width === 'string' && endsWith(width, '%')) {
       const percent = (newWidth / parentSize.width) * 100;
       newWidth = `${percent}%`;
     }
 
-    if (height && typeof height === 'string' && height.endsWith('%')) {
+    if (height && typeof height === 'string' && endsWith(height, '%')) {
       const percent = (newHeight / parentSize.height) * 100;
       newHeight = `${percent}%`;
     }
@@ -448,8 +467,8 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     const { size } = this.props;
     const getSize = (key: 'width' | 'height'): string => {
       if (typeof this.state[key] === 'undefined' || this.state[key] === 'auto') return 'auto';
-      if (this.propsSize && this.propsSize[key] && this.propsSize[key].toString().endsWith('%')) {
-        if (this.state[key].toString().endsWith('%')) return this.state[key].toString();
+      if (this.propsSize && this.propsSize[key] && endsWith(this.propsSize[key].toString(), '%')) {
+        if (endsWith(this.state[key].toString(), '%')) return this.state[key].toString();
         const parentSize = this.getParentSize();
         const value = Number(this.state[key].toString().replace('px', ''));
         const percent = (value / parentSize[key]) * 100;

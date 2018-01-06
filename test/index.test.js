@@ -544,6 +544,86 @@ test.serial('should aspect ratio locked when resize to right', async t => {
   t.deepEqual(onResize.getCall(0).args[3], { width: 200, height: 200 });
 });
 
+test.serial('should aspect ratio locked with 1:1 ratio when resize to right', async t => {
+  const onResize = sinon.spy();
+  const onResizeStart = sinon.spy();
+  const onResizeStop = sinon.spy();
+  const resizable = ReactDOM.render(
+    <Resizable
+      defaultSize={{ width: 100, height: 100 }}
+      onResize={onResize}
+      onResizeStart={onResizeStart}
+      onResizeStop={onResizeStop}
+      lockAspectRatio={1/1}
+    />,
+    document.getElementById('content'),
+  );
+  const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
+  const node = ReactDOM.findDOMNode(divs[2]);
+  TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
+  mouseMove(200, 0);
+  mouseUp(200, 0);
+  t.is(onResizeStop.callCount, 1);
+  t.true(onResize.getCall(0).args[0] instanceof MouseEvent);
+  t.deepEqual(onResize.getCall(0).args[2].clientWidth, 300);
+  t.deepEqual(onResize.getCall(0).args[2].clientHeight, 300);
+  t.deepEqual(onResize.getCall(0).args[3], { width: 200, height: 200 });
+});
+
+test.serial('should aspect ratio locked with 2:1 ratio when resize to right', async t => {
+  const onResize = sinon.spy();
+  const onResizeStart = sinon.spy();
+  const onResizeStop = sinon.spy();
+  const resizable = ReactDOM.render(
+    <Resizable
+      defaultSize={{ width: 200, height: 100 }}
+      onResize={onResize}
+      onResizeStart={onResizeStart}
+      onResizeStop={onResizeStop}
+      lockAspectRatio={2/1}
+    />,
+    document.getElementById('content'),
+  );
+  const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
+  const node = ReactDOM.findDOMNode(divs[2]);
+  TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
+  mouseMove(200, 0);
+  mouseUp(200, 0);
+  t.is(onResizeStop.callCount, 1);
+  t.true(onResize.getCall(0).args[0] instanceof MouseEvent);
+  t.deepEqual(onResize.getCall(0).args[2].clientWidth, 400);
+  t.deepEqual(onResize.getCall(0).args[2].clientHeight, 200);
+  t.deepEqual(onResize.getCall(0).args[3], { width: 200, height: 100 });
+});
+
+test.serial('should aspect ratio locked with 2:1 ratio with extra width/height when resize to right', async t => {
+  const onResize = sinon.spy();
+  const onResizeStart = sinon.spy();
+  const onResizeStop = sinon.spy();
+  const resizable = ReactDOM.render(
+    <Resizable
+      defaultSize={{ width: 250, height: 150 }}
+      onResize={onResize}
+      onResizeStart={onResizeStart}
+      onResizeStop={onResizeStop}
+      lockAspectRatio={2/1}
+      lockAspectRatioExtraHeight={50}
+      lockAspectRatioExtraWidth={50}
+      />,
+    document.getElementById('content'),
+  );
+  const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
+  const node = ReactDOM.findDOMNode(divs[2]);
+  TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
+  mouseMove(200, 0);
+  mouseUp(200, 0);
+  t.is(onResizeStop.callCount, 1);
+  t.true(onResize.getCall(0).args[0] instanceof MouseEvent);
+  t.deepEqual(onResize.getCall(0).args[2].clientWidth, 450);
+  t.deepEqual(onResize.getCall(0).args[2].clientHeight, 250);
+  t.deepEqual(onResize.getCall(0).args[3], { width: 200, height: 100 });
+});
+
 test.serial('should aspect ratio locked when resize to bottom', async t => {
   const onResize = sinon.spy();
   const onResizeStart = sinon.spy();
@@ -568,6 +648,86 @@ test.serial('should aspect ratio locked when resize to bottom', async t => {
   t.deepEqual(onResize.getCall(0).args[2].clientWidth, 300);
   t.deepEqual(onResize.getCall(0).args[2].clientHeight, 300);
   t.deepEqual(onResize.getCall(0).args[3], { width: 200, height: 200 });
+});
+
+test.serial('should aspect ratio locked with 1:1 ratio when resize to bottom', async t => {
+  const onResize = sinon.spy();
+  const onResizeStart = sinon.spy();
+  const onResizeStop = sinon.spy();
+  const resizable = ReactDOM.render(
+    <Resizable
+      defaultSize={{ width: 100, height: 100 }}
+      onResize={onResize}
+      onResizeStart={onResizeStart}
+      onResizeStop={onResizeStop}
+      lockAspectRatio={1/1}
+    />,
+    document.getElementById('content'),
+  );
+  const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
+  const node = ReactDOM.findDOMNode(divs[3]);
+  TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
+  mouseMove(0, 200);
+  mouseUp(0, 200);
+  t.is(onResizeStop.callCount, 1);
+  t.true(onResize.getCall(0).args[0] instanceof MouseEvent);
+  t.deepEqual(onResize.getCall(0).args[2].clientWidth, 300);
+  t.deepEqual(onResize.getCall(0).args[2].clientHeight, 300);
+  t.deepEqual(onResize.getCall(0).args[3], { width: 200, height: 200 });
+});
+
+test.serial('should aspect ratio locked with 2:1 ratio when resize to bottom', async t => {
+  const onResize = sinon.spy();
+  const onResizeStart = sinon.spy();
+  const onResizeStop = sinon.spy();
+  const resizable = ReactDOM.render(
+    <Resizable
+      defaultSize={{ width: 200, height: 100 }}
+      onResize={onResize}
+      onResizeStart={onResizeStart}
+      onResizeStop={onResizeStop}
+      lockAspectRatio={2/1}
+    />,
+    document.getElementById('content'),
+  );
+  const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
+  const node = ReactDOM.findDOMNode(divs[3]);
+  TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
+  mouseMove(0, 200);
+  mouseUp(0, 200);
+  t.is(onResizeStop.callCount, 1);
+  t.true(onResize.getCall(0).args[0] instanceof MouseEvent);
+  t.deepEqual(onResize.getCall(0).args[2].clientWidth, 600);
+  t.deepEqual(onResize.getCall(0).args[2].clientHeight, 300);
+  t.deepEqual(onResize.getCall(0).args[3], { width: 400, height: 200 });
+});
+
+test.serial('should aspect ratio locked with 2:1 ratio with extra width/height when resize to bottom', async t => {
+  const onResize = sinon.spy();
+  const onResizeStart = sinon.spy();
+  const onResizeStop = sinon.spy();
+  const resizable = ReactDOM.render(
+    <Resizable
+      defaultSize={{ width: 250, height: 150 }}
+      onResize={onResize}
+      onResizeStart={onResizeStart}
+      onResizeStop={onResizeStop}
+      lockAspectRatio={2/1}
+      lockAspectRatioExtraHeight={50}
+      lockAspectRatioExtraWidth={50}
+    />,
+    document.getElementById('content'),
+  );
+  const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
+  const node = ReactDOM.findDOMNode(divs[3]);
+  TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
+  mouseMove(0, 200);
+  mouseUp(0, 200);
+  t.is(onResizeStop.callCount, 1);
+  t.true(onResize.getCall(0).args[0] instanceof MouseEvent);
+  t.deepEqual(onResize.getCall(0).args[2].clientWidth, 650);
+  t.deepEqual(onResize.getCall(0).args[2].clientHeight, 350);
+  t.deepEqual(onResize.getCall(0).args[3], { width: 400, height: 200 });
 });
 
 test.serial('should clamped by parent width', async t => {
