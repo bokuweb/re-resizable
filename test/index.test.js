@@ -789,3 +789,15 @@ test.serial('should defaultSize ignored when size set', async t => {
   t.is(divs[0].style.height, '300px');
   t.is(divs[0].style.position, 'relative');
 });
+
+test.serial('should render a handleComponent for right', async t => {
+  const CustomComponent = () => <div className={'customHandle-right'}/>
+  const resizable = TestUtils.renderIntoDocument(
+      <Resizable handleComponent={{right: CustomComponent}} />
+  );
+  const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
+  const node = ReactDOM.findDOMNode(divs[2]);
+  const handleNode = node.children[0]
+  t.is(node.childElementCount, 1);
+  t.is(handleNode.getAttribute('class'), 'customHandle-right');
+});

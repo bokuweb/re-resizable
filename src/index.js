@@ -68,6 +68,17 @@ type NumberSize = {
   height: number;
 }
 
+export type HandleComponent = {
+  top?: React.ElementType;
+  right?: React.ElementType;
+  bottom?: React.ElementType;
+  left?: React.ElementType;
+  topRight?: React.ElementType;
+  bottomRight?: React.ElementType;
+  bottomLeft?: React.ElementType;
+  topLeft?: React.ElementType;
+}
+
 export type ResizeCallback = (
   event: MouseEvent | TouchEvent,
   direction: Direction,
@@ -99,6 +110,7 @@ export type ResizableProps = {
   handleClasses?: HandleClassName;
   handleWrapperStyle?: Style;
   handleWrapperClass?: string;
+  handleComponent?: HandleComponent,
   children?: React.Node;
   onResizeStart?: ResizeStartCallback;
   onResize?: ResizeCallback;
@@ -490,7 +502,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
   }
 
   renderResizer(): React.Node {
-    const { enable, handleStyles, handleClasses, handleWrapperStyle, handleWrapperClass } = this.props;
+    const { enable, handleStyles, handleClasses, handleWrapperStyle, handleWrapperClass, handleComponent } = this.props;
     if (!enable) return null;
     const resizers = Object.keys(enable).map((dir: Direction): React$Node => {
       if (enable[dir] !== false) {
@@ -501,7 +513,10 @@ export default class Resizable extends React.Component<ResizableProps, State> {
             onResizeStart={this.onResizeStart}
             replaceStyles={handleStyles && handleStyles[dir]}
             className={handleClasses && handleClasses[dir]}
-          />
+          >{handleComponent && handleComponent[dir]
+              ? React.createElement(handleComponent[dir])
+              : null
+            }</Resizer>
         );
       }
       return null;

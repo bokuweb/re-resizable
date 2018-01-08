@@ -82,6 +82,7 @@ export type Props = {
   className?: string;
   replaceStyles?: { [key: string]: string | number };
   onResizeStart: OnStartCallback;
+  children: ?React.ChildrenArray<*>
 }
 
 export default (props: Props): React.Element<'div'> => {
@@ -99,6 +100,8 @@ export default (props: Props): React.Element<'div'> => {
       onTouchStart={(e: SyntheticTouchEvent<HTMLDivElement>) => {
         props.onResizeStart(e, props.direction);
       }}
-    />
+    >
+      {props.children}
+    </div>
   );
 };
