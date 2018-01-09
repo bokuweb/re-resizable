@@ -150,7 +150,7 @@ const definedProps = [
   'minWidth', 'minHeight', 'maxWidth', 'maxHeight', 'lockAspectRatio',
   'lockAspectRatioExtraWidth', 'lockAspectRatioExtraHeight',
   'enable', 'handleStyles', 'handleClasses', 'handleWrapperStyle',
-  'handleWrapperClass', 'children', 'onResizeStart', 'onResize', 'onResizeStop',
+  'handleWrapperClass', 'children', 'onResizeStart', 'onResize', 'onResizeStop', 'handleComponent',
 ];
 
 export default class Resizable extends React.Component<ResizableProps, State> {
