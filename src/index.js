@@ -524,10 +524,11 @@ export default class Resizable extends React.Component<ResizableProps, State> {
             onResizeStart={this.onResizeStart}
             replaceStyles={handleStyles && handleStyles[dir]}
             className={handleClasses && handleClasses[dir]}
-          >{handleComponent && handleComponent[dir]
-            ? React.createElement(handleComponent[dir])
-            : null
-            }</Resizer>
+          >
+            {handleComponent && handleComponent[dir]
+              ? React.createElement(handleComponent[dir])
+              : null}
+          </Resizer>
         );
       }
       return null;
