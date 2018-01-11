@@ -35,7 +35,6 @@ storiesOf('omit size', module)
 
 storiesOf('defaultSize', module)
   .add('basic.', () => <DefaultSizeBasic />)
-  .add('set auto as default if size omitted.', () => <DefaultSizeAuto />)
   .add('set auto only width.', () => <DefaultSizeAutoWidth />)
   .add('set auto only height.', () => <DefaultSizeAutoHeight />)
   .add('min width 100px.', () => <DefaultSizeMinWidth />)
