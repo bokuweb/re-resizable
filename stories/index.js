@@ -28,6 +28,8 @@ import RatioFixed from './ratio/fixed';
 import RatioHeader from './ratio/header';
 import RatioSidebar from './ratio/sidebar';
 
+import HandleComponentBottomRight from './handle-component/bottom-right';
+
 storiesOf('omit size', module)
   .add('auto.', () => <Auto />)
 
@@ -56,3 +58,6 @@ storiesOf('lockAspectRatio', module)
   .add('ratio is 16:9', () => <RatioFixed />)
   .add('ratio is 16:9 with 50px header', () => <RatioHeader />)
   .add('ratio is 16:9 with 50px header and sidebar', () => <RatioSidebar />);
+
+storiesOf('handleComponent', module)
+    .add('bottom right', () => <HandleComponentBottomRight />)

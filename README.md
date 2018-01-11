@@ -145,6 +145,10 @@ but other handle will still use the default styles.
 
 The `handleClasses` property is used to set the className of one or more resize handles.
 
+#### `handleComponent?: HandleComponent;`
+
+The `handleComponent` property is used to pass a React Component to be rendered as one or more resize handle. For example, this could be used to use an arrow icon as a handle..
+
 #### `handleWrapperStyle?: { [key: string]: string };`
 
 The `handleWrapperStyle` property is used to override the style of resize handles wrapper.
