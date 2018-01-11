@@ -264,6 +264,10 @@ npm test
 
 ## Changelog
 
+#### v4.2.0
+
+- Add a option for passing custom handle components #170
+
 #### v4.1.2
 
 - Fixed a bug, Text select while resizing in IE11 #166
