@@ -302,6 +302,17 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     if (this.props.onResizeStart) {
       this.props.onResizeStart(event, direction, (this.resizable: React.ElementRef<'div'>));
     }
+
+    // Fix #168
+    if (this.props.size) {
+      if ((typeof this.props.size.height !== 'undefined') && (this.props.size.height !== this.state.height)) {
+        this.setState({ height: this.props.size.height });
+      }
+      if ((typeof this.props.size.width !== 'undefined') && (this.props.size.width !== this.state.width)) {
+        this.setState({ width: this.props.size.width });
+      }
+    }
+
     this.setState({
       original: {
         x: clientX,
@@ -514,8 +525,8 @@ export default class Resizable extends React.Component<ResizableProps, State> {
             replaceStyles={handleStyles && handleStyles[dir]}
             className={handleClasses && handleClasses[dir]}
           >{handleComponent && handleComponent[dir]
-              ? React.createElement(handleComponent[dir])
-              : null
+            ? React.createElement(handleComponent[dir])
+            : null
             }</Resizer>
         );
       }
