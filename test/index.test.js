@@ -471,6 +471,29 @@ test.serial('should clamped by min width', async t => {
   t.deepEqual(onResize.getCall(0).args[3], { width: -50, height: 0 });
 });
 
+test.serial('should allow 0 as minWidth', async t => {
+  const onResize = sinon.spy();
+  const onResizeStart = sinon.spy();
+  const onResizeStop = sinon.spy();
+  const resizable = ReactDOM.render(
+    <Resizable
+      defaultSize={{ width: 100, height: 100 }}
+      minWidth={0}
+      onResize={onResize}
+      onResizeStart={onResizeStart}
+      onResizeStop={onResizeStop}
+    />,
+    document.getElementById('content'),
+  );
+  const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
+  const node = ReactDOM.findDOMNode(divs[6]);
+  TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
+  mouseMove(-100, 0);
+  t.true(onResize.getCall(0).args[0] instanceof MouseEvent);
+  t.deepEqual(onResize.getCall(0).args[2].clientWidth, 0);
+  t.deepEqual(onResize.getCall(0).args[3], { width: -100, height: 0 });
+});
+
 test.serial('should clamped by max height', async t => {
   const onResize = sinon.spy();
   const onResizeStart = sinon.spy();
@@ -516,6 +539,29 @@ test.serial('should clamped by min height', async t => {
   t.true(onResize.getCall(0).args[0] instanceof MouseEvent);
   t.deepEqual(onResize.getCall(0).args[2].clientHeight, 50);
   t.deepEqual(onResize.getCall(0).args[3], { width: 0, height: -50 });
+});
+
+test.serial('should allow 0 as minHeight', async t => {
+  const onResize = sinon.spy();
+  const onResizeStart = sinon.spy();
+  const onResizeStop = sinon.spy();
+  const resizable = ReactDOM.render(
+    <Resizable
+      defaultSize={{ width: 100, height: 100 }}
+      minHeight={0}
+      onResize={onResize}
+      onResizeStart={onResizeStart}
+      onResizeStop={onResizeStop}
+    />,
+    document.getElementById('content'),
+  );
+  const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
+  const node = ReactDOM.findDOMNode(divs[6]);
+  TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
+  mouseMove(0, -100);
+  t.true(onResize.getCall(0).args[0] instanceof MouseEvent);
+  t.deepEqual(onResize.getCall(0).args[2].clientHeight, 0);
+  t.deepEqual(onResize.getCall(0).args[3], { width: 0, height: -100 });
 });
 
 test.serial('should aspect ratio locked when resize to right', async t => {
