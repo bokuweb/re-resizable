@@ -264,6 +264,10 @@ npm test
 
 ## Changelog
 
+#### v4.3.0
+
+- Allow 0 as minWidth and minHeight #178
+
 #### v4.2.0
 
 - Add a option for passing custom handle components #170
