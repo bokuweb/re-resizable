@@ -264,6 +264,10 @@ npm test
 
 ## Changelog
 
+#### v4.3.1
+
+- Fixed a bug, `auto` overwritten by px value #179
+
 #### v4.3.0
 
 - Allow 0 as minWidth and minHeight #178
