@@ -280,6 +280,13 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     }
   }
 
+  calculateNewSize(newSize: number | string, kind: 'width' | 'height'): number | string {
+    const propsSize = this.propsSize && this.propsSize[kind];
+    return (this.state[kind] === 'auto' && this.state.original[kind] === newSize && (typeof propsSize === 'undefined' || propsSize === 'auto'))
+      ? 'auto'
+      : newSize;
+  }
+
   onResizeStart(
     event: SyntheticMouseEvent<HTMLDivElement> | SyntheticTouchEvent<HTMLDivElement>,
     direction: Direction,
@@ -451,8 +458,8 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     }
 
     this.setState({
-      width: width !== 'auto' || typeof this.props.width === 'undefined' ? newWidth : 'auto',
-      height: height !== 'auto' || typeof this.props.height === 'undefined' ? newHeight : 'auto',
+      width: this.calculateNewSize(newWidth, 'width'),
+      height: this.calculateNewSize(newHeight, 'height'),
     });
 
     if (this.props.onResize) {
