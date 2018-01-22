@@ -153,6 +153,7 @@ const definedProps = [
   'handleWrapperClass', 'children', 'onResizeStart', 'onResize', 'onResizeStop', 'handleComponent',
 ];
 
+const body = document.body;
 let resizeOverlay = null;
 
 const addResizeOverlay = (cursor: string) => {
@@ -169,11 +170,15 @@ const addResizeOverlay = (cursor: string) => {
     left: 0;
     bottom: 0;
     right: 0;`;
-  document.body.appendChild(resizeOverlay);
+  if (body){
+    body.appendChild(resizeOverlay);
+  }
 }
 
 const removeResizeOverlay = () => {
-  document.body.removeChild(resizeOverlay);
+  if (body && resizeOverlay){
+    body.removeChild(resizeOverlay);
+  }
   resizeOverlay = null;
 }
 
