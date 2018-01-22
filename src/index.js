@@ -153,6 +153,30 @@ const definedProps = [
   'handleWrapperClass', 'children', 'onResizeStart', 'onResize', 'onResizeStop', 'handleComponent',
 ];
 
+let resizeOverlay = null;
+
+const addResizeOverlay = (cursor: string) => {
+  resizeOverlay = document.createElement('div');
+  resizeOverlay.style.cssText = `
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0);
+    cursor: ${cursor || 'auto'};
+    opacity: 0;
+    position: fixed;
+    z-index: 9999,
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;`;
+  document.body.appendChild(resizeOverlay);
+}
+
+const removeResizeOverlay = () => {
+  document.body.removeChild(resizeOverlay);
+  resizeOverlay = null;
+}
+
 export default class Resizable extends React.Component<ResizableProps, State> {
   resizable: React.ElementRef<'div'>;
   onTouchMove: ResizeCallback;
@@ -330,7 +354,12 @@ export default class Resizable extends React.Component<ResizableProps, State> {
       isResizing: true,
       direction,
     });
+
+    const cursor = window.getComputedStyle(event.target).cursor;
+
+    addResizeOverlay(cursor);
   }
+
 
   onMouseMove(event: MouseEvent | TouchEvent) {
     if (!this.state.isResizing) return;
@@ -481,6 +510,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
       this.setState(this.props.size);
     }
     this.setState({ isResizing: false });
+    removeResizeOverlay();
   }
 
   get size(): NumberSize {
