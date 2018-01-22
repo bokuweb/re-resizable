@@ -170,17 +170,17 @@ const addResizeOverlay = (cursor: string) => {
     left: 0;
     bottom: 0;
     right: 0;`;
-  if (body){
+  if (body) {
     body.appendChild(resizeOverlay);
   }
-}
+};
 
 const removeResizeOverlay = () => {
-  if (body && resizeOverlay){
+  if (body && resizeOverlay) {
     body.removeChild(resizeOverlay);
   }
   resizeOverlay = null;
-}
+};
 
 export default class Resizable extends React.Component<ResizableProps, State> {
   resizable: React.ElementRef<'div'>;
