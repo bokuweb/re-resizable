@@ -165,7 +165,7 @@ const addResizeOverlay = (cursor: string) => {
     cursor: ${cursor || 'auto'};
     opacity: 0;
     position: fixed;
-    z-index: 9999,
+    z-index: 9999;
     top: 0;
     left: 0;
     bottom: 0;
