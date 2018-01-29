@@ -120,6 +120,7 @@ export type ResizableProps = {
 
 type State = {
   isResizing: boolean;
+  resizeCursor: string;
   direction: Direction;
   original: {
     x: number;
@@ -187,6 +188,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     super(props);
     this.state = {
       isResizing: false,
+      resizeCursor: 'auto',
       width: typeof (this.propsSize && this.propsSize.width) === 'undefined'
         ? 'auto'
         : ((this.propsSize && this.propsSize.width): any),
@@ -328,9 +330,11 @@ export default class Resizable extends React.Component<ResizableProps, State> {
         height: this.size.height,
       },
       isResizing: true,
+      resizeCursor: window.getComputedStyle(event.target).cursor,
       direction,
     });
   }
+
 
   onMouseMove(event: MouseEvent | TouchEvent) {
     if (!this.state.isResizing) return;
@@ -480,7 +484,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     if (this.props.size) {
       this.setState(this.props.size);
     }
-    this.setState({ isResizing: false });
+    this.setState({ isResizing: false, resizeCursor: 'auto' });
   }
 
   get size(): NumberSize {
@@ -570,6 +574,24 @@ export default class Resizable extends React.Component<ResizableProps, State> {
         className={this.props.className}
         {...this.extendsProps}
       >
+        {this.state.isResizing &&
+        <div
+          style={{
+            height: '100%',
+            width: '100%',
+            backgroundColor: 'rgba(0,0,0,0)',
+            cursor: `${this.state.resizeCursor || 'auto'}`,
+            opacity: '0',
+            position: 'fixed',
+            zIndex: '9999',
+            top: '0',
+            left: '0',
+            bottom: '0',
+            right: '0',
+          }}
+        />
+        }
+
         {this.props.children}
         {this.renderResizer()}
       </div>
