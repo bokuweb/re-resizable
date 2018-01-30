@@ -264,6 +264,10 @@ npm test
 
 ## Changelog
 
+#### v4.3.2
+
+- Fixed a bug, when resizing sometimes causes text-selection in some browser #182
+
 #### v4.3.1
 
 - Fixed a bug, `auto` overwritten by px value #179
