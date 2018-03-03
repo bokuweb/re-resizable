@@ -559,7 +559,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     const userSelect = this.state.isResizing ? userSelectNone : userSelectAuto;
     return (
       <div
-        ref={(c: React.ElementRef<'div'> | null) => { this.resizable = c; }}
+        ref={(c: React.ElementRef<'div'> | null) => { if (c) { this.resizable = c; }}}
         style={{
           position: 'relative',
           ...userSelect,
