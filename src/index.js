@@ -257,10 +257,22 @@ export default class Resizable extends React.Component<ResizableProps, State> {
   getParentSize(): { width: number, height: number } {
     const base = (document.getElementById(this.baseSizeId): any);
     if (!base) return { width: window.innerWidth, height: window.innerHeight };
-    return {
+    // INFO: To calculate parent width with flex layout
+    let wrapChanged = false;
+    const wrap = this.parentNode.style.flexWrap;
+    const minWidth = (base: HTMLDivElement).style.minWidth;
+    if (wrap !== 'wrap') {
+      wrapChanged = true;
+      this.parentNode.style.flexWrap = 'wrap';
+    }
+    (base: HTMLDivElement).style.minWidth = '100%';
+    const size = {
       width: (base: HTMLDivElement).offsetWidth,
       height: (base: HTMLDivElement).offsetHeight,
     };
+    if (wrapChanged) this.parentNode.style.flexWrap = wrap;
+    (base: HTMLDivElement).style.minWidth = minWidth;
+    return size;
   }
 
   componentDidMount() {
@@ -269,6 +281,9 @@ export default class Resizable extends React.Component<ResizableProps, State> {
       width: this.state.width || size.width,
       height: this.state.height || size.height,
     });
+    const parent = this.parentNode;
+    if (!(parent instanceof HTMLElement)) return;
+    if (parent.querySelector('.__resizable_parent')) return;
     const element = document.createElement('div');
     element.id = this.baseSizeId;
     element.style.width = '100%';
@@ -277,8 +292,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     element.style.transform = 'scale(0, 0)';
     element.style.left = '-2147483647px';
     element.style.flex = '0';
-    const parent = this.parentNode;
-    if (!(parent instanceof HTMLElement)) return;
+    element.classList ? element.classList.add('__resizable_parent') : element.className += ' __resizable_parent';
     parent.appendChild(element);
   }
 
