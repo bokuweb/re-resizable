@@ -9,11 +9,13 @@ export default {
     }),
     replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
   ],
-  sourcemap: true,
-  exports: 'named',
-  name: 're-resizable',
-  external: ['react'],
-  globals: {
-    react: 'React',
+  output: {
+    name: 're-resizable',
+    globals: {
+      react: 'React',
+    },
+    sourcemap: true,
+    exports: 'named',
   },
+  external: ['react'],
 };
