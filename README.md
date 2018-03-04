@@ -185,7 +185,7 @@ If you want to permit only right direction resizing, set `{ top:false, right:tru
 
 `ResizeStartCallBack` type is below.
 
-```
+```javascript
 type ResizeStartCallback = (
   e: SyntheticMouseEvent<HTMLDivElement> | SyntheticTouchEvent<HTMLDivElement>,
   dir: Direction,
@@ -201,7 +201,7 @@ Calls when resizable component resize start.
 
 `ResizeCallback` type is below.
 
-```
+```javascript
 type ResizeCallback = (
   event: MouseEvent | TouchEvent,
   direction: Direction,
@@ -216,7 +216,7 @@ Calls when resizable component resizing.
 
 `ResizeCallback` type is below.
 
-```
+```javascript
 type ResizeCallback = (
   event: MouseEvent | TouchEvent,
   direction: Direction,
@@ -236,7 +236,7 @@ Update component size.
 
 - for example
 
-``` js
+```javascript
 class YourComponent extends Component {
 
   ...
