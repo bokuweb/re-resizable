@@ -228,7 +228,8 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     this.onResizeStart = this.onResizeStart.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
-    this.baseSizeId = `__resizable${Resizable.baseSizeId++}`;
+    this.baseSizeId = `__resizable${Resizable.baseSizeId}`;
+    Resizable.baseSizeId += 1;
 
     if (typeof window !== 'undefined') {
       window.addEventListener('mouseup', this.onMouseUp);
@@ -292,7 +293,11 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     element.style.transform = 'scale(0, 0)';
     element.style.left = '-2147483647px';
     element.style.flex = '0';
-    element.classList ? element.classList.add('__resizable_parent') : element.className += ' __resizable_parent';
+    if (element.classList) {
+      element.classList.add('__resizable_parent');
+    } else {
+      element.className += ' __resizable_parent';
+    }
     parent.appendChild(element);
   }
 
