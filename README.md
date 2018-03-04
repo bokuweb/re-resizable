@@ -225,9 +225,9 @@ type ResizeCallback = (
 
 Calls when resizable component resize stop.
 
-## method
+## Instance API
 
-#### `updateSize(object size)`
+#### `updateSize(size: { width: number | string, height: number | string }): void`
 
 Update component size.
 `grid` ,`max/minWidth`, `max/minHeight` props is ignored, when this method called.
