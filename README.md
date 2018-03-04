@@ -27,15 +27,19 @@
 * [Changelog](#changelog)
 * [License](#license)
 
-## Demo
+## Screenshot
 
 ![screenshot](https://github.com/bokuweb/re-resizable/blob/master/docs/screenshot.gif?raw=true)
 
 ## Live Demo
 
+### Storybook
+
+[Storybook](http://bokuweb.github.io/re-resizable/)
+
 ### CodeSandbox
 
-![CodeSandbox](https://codesandbox.io/s/ll587k677z)
+[CodeSandbox](https://codesandbox.io/s/ll587k677z)
 
 ## Install
 
@@ -255,7 +259,7 @@ class YourComponent extends Component {
 
 If you have a feature request, please add it as an issue or make a pull request.
 
-If you have a bug to report, please reproduce the bug in ![CodeSandbox](https://codesandbox.io/s/ll587k677z) to help us easily isolate it.
+If you have a bug to report, please reproduce the bug in [CodeSandbox](https://codesandbox.io/s/ll587k677z) to help us easily isolate it.
 
 
 
