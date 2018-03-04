@@ -30,6 +30,9 @@ import RatioSidebar from './ratio/sidebar';
 
 import HandleComponentBottomRight from './handle-component/bottom-right';
 
+import MultipleVertical from './multiple/vertical';
+import MultipleHorizontal from './multiple/horizontal';
+
 storiesOf('omit size', module)
   .add('auto.', () => <Auto />)
 
@@ -59,4 +62,8 @@ storiesOf('lockAspectRatio', module)
   .add('ratio is 16:9 with 50px header and sidebar', () => <RatioSidebar />);
 
 storiesOf('handleComponent', module)
-    .add('bottom right', () => <HandleComponentBottomRight />)
+  .add('bottom right', () => <HandleComponentBottomRight />);
+
+storiesOf('multiple', module)
+  .add('vertical', () => <MultipleVertical />)
+  .add('horizontal (with flex layout)', () => <MultipleHorizontal />);
