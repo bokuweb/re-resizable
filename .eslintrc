@@ -25,6 +25,7 @@
       "never"
     ],
     "flowtype/use-flow-type": 1,
+    "prefer-destructuring": 0,
     "import/no-extraneous-dependencies": 0,
     "react/no-unused-prop-types": 0,
     "react/require-default-props": 0,

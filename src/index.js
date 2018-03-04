@@ -245,7 +245,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
   }
 
   componentDidMount() {
-    const size = this.size;
+    const { size } = this;
     this.setState({
       width: this.state.width || size.width,
       height: this.state.height || size.height,
