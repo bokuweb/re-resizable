@@ -8,7 +8,7 @@
 <!-- UNCOMMENT THE APPROPRIATE LINES -->
 I'm using re-resizable **version** [x.x.x]   
    
-<!-- Could you please provide reproduced project on webpackbin with latest version rnd? https://www.webpackbin.com/bins/-Kvnrpd3GSG6-z0tpgH_ -->
+<!-- Could you please provide reproduced project on webpackbin with latest version rnd? -->
 
 My **browser** is:   
    
@@ -23,6 +23,8 @@ I am sure this issue is **not a duplicate**?
 1. First Step
 2. Second Step
 3. and so on...
+
+https://codesandbox.io/s/ll587k677z
 
 ### Expected behavior
 
