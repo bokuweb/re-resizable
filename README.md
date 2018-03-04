@@ -279,6 +279,10 @@ npm test
 
 ## Changelog
 
+#### v4.41
+
+- fix: add guard to avoid error without parent
+
 #### v4.4.0
 
 - fix: bug behavior with flex layout
