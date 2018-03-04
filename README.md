@@ -14,19 +14,28 @@
 
 ## Table of Contents
 
-- [Demo](#Demo)
-- [Install](#install)
-- [Usage](#usage)
-- [Props](#props)
-- [Method](#method)
-- [Test](#test)
-- [Related](#related)
-- [Changelog](#changelog)
-- [License](#license)
+* [Screenshot](#Screenshot)
+* [Live Demo](#live-demo)
+  * [Storybook](#storybook)
+  * [CodeSandbox](#CodeSandbox)
+* [Install](#install)
+* [Usage](#usage)
+* [Props](#props)
+* [Method](#method)
+* [Test](#test)
+* [Related](#related)
+* [Changelog](#changelog)
+* [License](#license)
 
 ## Demo
 
 ![screenshot](https://github.com/bokuweb/re-resizable/blob/master/docs/screenshot.gif?raw=true)
+
+## Live Demo
+
+### CodeSandbox
+
+![CodeSandbox](https://codesandbox.io/s/ll587k677z)
 
 ## Install
 
@@ -246,8 +255,7 @@ class YourComponent extends Component {
 
 If you have a feature request, please add it as an issue or make a pull request.
 
-If you have a bug to report, please reproduce the bug in [WebpackBin](
-https://www.webpackbin.com/bins/-Kvnrpd3GSG6-z0tpgH_) to help us easily isolate it.
+If you have a bug to report, please reproduce the bug in ![CodeSandbox](https://codesandbox.io/s/ll587k677z) to help us easily isolate it.
 
 
 
