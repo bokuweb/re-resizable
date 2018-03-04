@@ -65,6 +65,8 @@ $ npm install --save re-resizable
 
 ### Example with `size`
 
+If you use `size` props, please manage state by yourself.
+
 ``` javascript
 <Resizable
   size={{ width: this.state.width, height: this.state.height }}
