@@ -78,12 +78,12 @@ export type OnStartCallback = (
 ) => void;
 
 export type Props = {
-  direction: Direction;
-  className?: string;
-  replaceStyles?: { [key: string]: string | number };
-  onResizeStart: OnStartCallback;
-  children: ?React.ChildrenArray<*>
-}
+  direction: Direction,
+  className?: string,
+  replaceStyles?: { [key: string]: string | number },
+  onResizeStart: OnStartCallback,
+  children: ?React.ChildrenArray<*>,
+};
 
 export default (props: Props): React.Element<'div'> => {
   return (
