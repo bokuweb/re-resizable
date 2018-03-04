@@ -144,8 +144,6 @@ const getStringSize = (n: number | string): string => {
   return `${n}px`;
 };
 
-let baseSizeId = 0;
-
 const definedProps = [
   'style',
   'className',
@@ -180,6 +178,8 @@ export default class Resizable extends React.Component<ResizableProps, State> {
   onResizeStart: OnStartCallback;
   baseSizeId: string;
   extendsProps: { [key: string]: any };
+
+  static baseSizeId = 0;
 
   static defaultProps = {
     onResizeStart: () => { },
@@ -228,8 +228,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     this.onResizeStart = this.onResizeStart.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
-    this.baseSizeId = `__resizable${baseSizeId}`;
-    baseSizeId += 1;
+    this.baseSizeId = `__resizable${Resizable.baseSizeId++}`;
 
     if (typeof window !== 'undefined') {
       window.addEventListener('mouseup', this.onMouseUp);
