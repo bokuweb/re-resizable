@@ -264,6 +264,14 @@ npm test
 
 ## Changelog
 
+#### v4.4.0
+
+- fix: bug behavior with flex layout
+- chore: refactor
+- chore: update deps
+- chore: update d.ts
+- chore: add some stories
+
 #### v4.3.2
 
 - Fixed a bug, when resizing sometimes causes text-selection in some browser #182
