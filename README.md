@@ -281,6 +281,10 @@ npm test
 
 ## Changelog
 
+#### v4.4.3
+
+- fix: fix type issues in index.d.ts.
+
 #### v4.4.2
 
 - fix: fixed bug where base could not be found
