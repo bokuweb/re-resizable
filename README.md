@@ -10,6 +10,8 @@
 <img src="https://img.shields.io/npm/dm/re-resizable.svg" /></a>
 <a href="https://greenkeeper.io/">
 <img src="https://badges.greenkeeper.io/bokuweb/re-resizable.svg" /></a>
+<a href="https://github.com/prettier/prettier">
+<img src="https://img.shields.io/badge/styled_with-prettier-ff69b4.svg" /></a>
 </p>
 
 ## Table of Contents
@@ -279,7 +281,11 @@ npm test
 
 ## Changelog
 
-#### v4.41
+#### v4.4.2
+
+- fix: fixed bug where base could not be found
+
+#### v4.4.1
 
 - fix: add guard to avoid error without parent
 
