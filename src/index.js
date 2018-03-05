@@ -170,6 +170,8 @@ const definedProps = [
   'handleComponent',
 ];
 
+const baseClassName = '__base__';
+
 export default class Resizable extends React.Component<ResizableProps, State> {
   resizable: React.ElementRef<'div'>;
   onTouchMove: ResizeCallback;
@@ -229,7 +231,6 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
     this.baseSizeId = `__resizable${Resizable.baseSizeId}`;
-    Resizable.baseSizeId += 1;
 
     if (typeof window !== 'undefined') {
       window.addEventListener('mouseup', this.onMouseUp);
@@ -284,7 +285,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     });
     const parent = this.parentNode;
     if (!(parent instanceof HTMLElement)) return;
-    if (parent.querySelector('.__resizable_parent')) return;
+    if (parent.querySelector(`.${baseClassName}`)) return;
     const element = document.createElement('div');
     element.id = this.baseSizeId;
     element.style.width = '100%';
@@ -294,11 +295,12 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     element.style.left = '-2147483647px';
     element.style.flex = '0';
     if (element.classList) {
-      element.classList.add('__resizable_parent');
+      element.classList.add(baseClassName);
     } else {
-      element.className += ' __resizable_parent';
+      element.className += baseClassName;
     }
     parent.appendChild(element);
+    Resizable.baseSizeId += 1;
   }
 
   componentWillReceiveProps(next: ResizableProps) {
