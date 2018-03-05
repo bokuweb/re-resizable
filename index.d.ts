@@ -38,27 +38,27 @@ export type CSSSize = {
 }
 
 export type HandleComponent = {
-  top?: ReactElement<any>,
-  right?: ReactElement<any>,
-  bottom?: ReactElement<any>,
-  left?: ReactElement<any>,
-  topRight?: ReactElement<any>,
-  bottomRight?: ReactElement<any>,
-  bottomLeft?: ReactElement<any>,
-  topLeft?: ReactElement<any>,
+  top?: React.ReactElement<any>,
+  right?: React.ReactElement<any>,
+  bottom?: React.ReactElement<any>,
+  left?: React.ReactElement<any>,
+  topRight?: React.ReactElement<any>,
+  bottomRight?: React.ReactElement<any>,
+  bottomLeft?: React.ReactElement<any>,
+  topLeft?: React.ReactElement<any>,
 };
 
 
 export type ResizeCallback = (
   event: MouseEvent | TouchEvent,
-  direction: ResizeDirection,
+  direction: ResizableDirection,
   elementRef: HTMLElement,
   delta: NumberSize,
 ) => void;
 
 export type ResizeStartCallback = (
   e: React.MouseEvent<any> | React.TouchEvent<any>,
-  dir: ResizeDirection,
+  dir: ResizableDirection,
   elementRef: HTMLElement,
   delta: NumberSize,
 ) => void;
@@ -66,7 +66,7 @@ export type ResizeStartCallback = (
 export interface ResizableProps {
   onResizeStart?: ResizeStartCallback,
   onResize?: ResizeCallback,
-  onResizeStop?: ResizeCallback,  
+  onResizeStop?: ResizeCallback,
   style?: React.CSSProperties;
   handleStyles?: {
     top?: React.CSSProperties,
@@ -106,7 +106,7 @@ export interface ResizableProps {
   size?: {
     width: string | number,
     height: string | number,
-  },  
+  },
   minWidth?: number | string,
   minHeight?: number | string,
   maxWidth?: number | string,
@@ -114,36 +114,15 @@ export interface ResizableProps {
   grid?: number[],
   bounds?: 'parent' | 'window' | HTMLElement,
   lockAspectRatio?: boolean,
-  lockAspectRatioExtraWidth: number,
-  lockAspectRatioExtraHeight: number,
+  lockAspectRatioExtraWidth?: number,
+  lockAspectRatioExtraHeight?: number,
   handleWrapperStyle?: {
     width: string | number,
     height: string | number,
   },
   handleWrapperClass?: string,
   handleComponent?: HandleComponent,
-  defaultSize?: {
-    width: string | number,
-    height: string | number,
-  }
-
-  onResizeStart?: ResizeStartCallback,
-  onResize?: ResizeCallback,
-  onResizeStop?: ResizeCallback,
-
-
 }
-
-export type HandleComponent = {
-  top?: React.ElementType,
-  right?: React.ElementType,
-  bottom?: React.ElementType,
-  left?: React.ElementType,
-  topRight?: React.ElementType,
-  bottomRight?: React.ElementType,
-  bottomLeft?: React.ElementType,
-  topLeft?: React.ElementType,
-};
 
 export default class Resizable extends React.Component<ResizableProps, ResizableState> {
 
