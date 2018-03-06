@@ -235,6 +235,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     if (typeof window !== 'undefined') {
       window.addEventListener('mouseup', this.onMouseUp);
       window.addEventListener('mousemove', this.onMouseMove);
+      window.addEventListener('mouseleave', this.onMouseUp);
       window.addEventListener('touchmove', this.onMouseMove);
       window.addEventListener('touchend', this.onMouseUp);
     }
@@ -312,6 +313,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     if (typeof window !== 'undefined') {
       window.removeEventListener('mouseup', this.onMouseUp);
       window.removeEventListener('mousemove', this.onMouseMove);
+      window.removeEventListener('mouseleave', this.onMouseUp);
       window.removeEventListener('touchmove', this.onMouseMove);
       window.removeEventListener('touchend', this.onMouseUp);
 
