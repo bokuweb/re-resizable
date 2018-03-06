@@ -170,7 +170,7 @@ const definedProps = [
   'handleComponent',
 ];
 
-const baseClassName = '__base__';
+const baseClassName = '__resizable_base__';
 
 export default class Resizable extends React.Component<ResizableProps, State> {
   resizable: React.ElementRef<'div'>;
@@ -230,7 +230,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     this.onResizeStart = this.onResizeStart.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
-    this.baseSizeId = `__resizable${Resizable.baseSizeId}`;
+    // // this.baseSizeId = `__resizable${Resizable.baseSizeId}`;
 
     if (typeof window !== 'undefined') {
       window.addEventListener('mouseup', this.onMouseUp);
@@ -257,7 +257,8 @@ export default class Resizable extends React.Component<ResizableProps, State> {
   }
 
   getParentSize(): { width: number, height: number } {
-    const base = (document.getElementById(this.baseSizeId): any);
+    const parent = this.parentNode;
+    const base = (parent.querySelector(`.${baseClassName}`): any);
     if (!base) return { width: window.innerWidth, height: window.innerHeight };
     // INFO: To calculate parent width with flex layout
     let wrapChanged = false;
@@ -287,7 +288,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     if (!(parent instanceof HTMLElement)) return;
     if (parent.querySelector(`.${baseClassName}`)) return;
     const element = document.createElement('div');
-    element.id = this.baseSizeId;
+    // element.id = this.baseSizeId;
     element.style.width = '100%';
     element.style.height = '100%';
     element.style.position = 'relative';
@@ -300,7 +301,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
       element.className += baseClassName;
     }
     parent.appendChild(element);
-    Resizable.baseSizeId += 1;
+    // Resizable.baseSizeId += 1;
   }
 
   componentWillReceiveProps(next: ResizableProps) {
