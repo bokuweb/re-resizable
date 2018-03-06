@@ -19,7 +19,7 @@
 * [Screenshot](#Screenshot)
 * [Live Demo](#live-demo)
   * [Storybook](#storybook)
-  * [CodeSandbox](#CodeSandbox)
+  * [CodeSandbox](#codesandbox)
 * [Install](#install)
 * [Usage](#usage)
 * [Props](#props)
