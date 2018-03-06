@@ -281,6 +281,11 @@ npm test
 
 ## Changelog
 
+#### v4.4.4
+
+- fix: base finder
+- fix: add mouse leave
+
 #### v4.4.3
 
 - fix: fix type issues in index.d.ts.
