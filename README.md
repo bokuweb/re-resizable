@@ -281,6 +281,11 @@ npm test
 
 ## Changelog
 
+
+#### v4.4.5
+
+- chore: upgrade flow-bin
+
 #### v4.4.4
 
 - fix: base finder
