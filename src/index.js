@@ -346,7 +346,8 @@ export default class Resizable extends React.Component<ResizableProps, State> {
 
       // When user click with right button the resize is stuck in resizing mode
       // until users clicks again, dont continue if right click is used.
-      if (event.nativeEvent.which === 3) {
+      // HACK: MouseEvent does not have `which` from flow-bin v0.68.
+      if ((event.nativeEvent: any).which === 3) {
         return;
       }
     } else if (event.nativeEvent instanceof TouchEvent) {
