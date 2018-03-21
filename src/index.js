@@ -178,10 +178,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
   onMouseMove: ResizeCallback;
   onMouseUp: ResizeCallback;
   onResizeStart: OnStartCallback;
-  baseSizeId: string;
   extendsProps: { [key: string]: any };
-
-  static baseSizeId = 0;
 
   static defaultProps = {
     onResizeStart: () => { },
@@ -267,12 +264,15 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     if (wrap !== 'wrap') {
       wrapChanged = true;
       this.parentNode.style.flexWrap = 'wrap';
+      // HACK: Use relative to get parent padding size
     }
+    (base: HTMLDivElement).style.position = 'relative';
     (base: HTMLDivElement).style.minWidth = '100%';
     const size = {
       width: (base: HTMLDivElement).offsetWidth,
       height: (base: HTMLDivElement).offsetHeight,
     };
+    (base: HTMLDivElement).style.position = 'absolute';
     if (wrapChanged) this.parentNode.style.flexWrap = wrap;
     (base: HTMLDivElement).style.minWidth = minWidth;
     return size;
@@ -313,9 +313,8 @@ export default class Resizable extends React.Component<ResizableProps, State> {
       window.removeEventListener('mouseleave', this.onMouseUp);
       window.removeEventListener('touchmove', this.onMouseMove);
       window.removeEventListener('touchend', this.onMouseUp);
-
       const parent = this.parentNode;
-      const base = document.getElementById(this.baseSizeId);
+      const base = (parent.querySelector(`.${baseClassName}`): any);
       if (!base || !parent) return;
       if (!(parent instanceof HTMLElement) || !(base instanceof Node)) return;
       parent.removeChild(base);
