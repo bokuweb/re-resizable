@@ -281,6 +281,9 @@ npm test
 
 ## Changelog
 
+#### v4.4.6
+
+- fix: use `relative` position when get base size
 
 #### v4.4.5
 
