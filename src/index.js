@@ -255,26 +255,26 @@ export default class Resizable extends React.Component<ResizableProps, State> {
 
   getParentSize(): { width: number, height: number } {
     const parent = this.parentNode;
-    const base = (parent.querySelector(`.${baseClassName}`): any);
+    const base = ((parent.querySelector(`.${baseClassName}`): any): HTMLDivElement);
     if (!base) return { width: window.innerWidth, height: window.innerHeight };
     // INFO: To calculate parent width with flex layout
     let wrapChanged = false;
     const wrap = this.parentNode.style.flexWrap;
-    const minWidth = (base: HTMLDivElement).style.minWidth;
+    const minWidth = base.style.minWidth;
     if (wrap !== 'wrap') {
       wrapChanged = true;
       this.parentNode.style.flexWrap = 'wrap';
       // HACK: Use relative to get parent padding size
     }
-    (base: HTMLDivElement).style.position = 'relative';
-    (base: HTMLDivElement).style.minWidth = '100%';
+    base.style.position = 'relative';
+    base.style.minWidth = '100%';
     const size = {
-      width: (base: HTMLDivElement).offsetWidth,
-      height: (base: HTMLDivElement).offsetHeight,
+      width: base.offsetWidth,
+      height: base.offsetHeight,
     };
-    (base: HTMLDivElement).style.position = 'absolute';
+    base.style.position = 'absolute';
     if (wrapChanged) this.parentNode.style.flexWrap = wrap;
-    (base: HTMLDivElement).style.minWidth = minWidth;
+    base.style.minWidth = minWidth;
     return size;
   }
 
@@ -555,8 +555,8 @@ export default class Resizable extends React.Component<ResizableProps, State> {
       }
       return getStringSize(this.state[key]);
     };
-    const width = size && size.width && !this.state.isResizing ? getStringSize(size.width) : getSize('width');
-    const height = size && size.height && !this.state.isResizing ? getStringSize(size.height) : getSize('height');
+    const width = size && typeof size.width !== 'undefined' && !this.state.isResizing ? getStringSize(size.width) : getSize('width');
+    const height = size && typeof size.height !== 'undefined' && !this.state.isResizing ? getStringSize(size.height) : getSize('height');
     return { width, height };
   }
 
