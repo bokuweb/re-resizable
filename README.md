@@ -281,6 +281,10 @@ npm test
 
 ## Changelog
 
+#### v4.4.7
+
+- fix: #218 size not updated when zero props pass 
+
 #### v4.4.6
 
 - fix: use `relative` position when get base size
