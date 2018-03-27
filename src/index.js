@@ -181,9 +181,9 @@ export default class Resizable extends React.Component<ResizableProps, State> {
   extendsProps: { [key: string]: any };
 
   static defaultProps = {
-    onResizeStart: () => { },
-    onResize: () => { },
-    onResizeStop: () => { },
+    onResizeStart: () => {},
+    onResize: () => {},
+    onResizeStop: () => {},
     enable: {
       top: true,
       right: true,
@@ -254,8 +254,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
   }
 
   getParentSize(): { width: number, height: number } {
-    const parent = this.parentNode;
-    const base = ((parent.querySelector(`.${baseClassName}`): any): HTMLDivElement);
+    const { base } = this;
     if (!base) return { width: window.innerWidth, height: window.innerHeight };
     // INFO: To calculate parent width with flex layout
     let wrapChanged = false;
@@ -286,7 +285,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     });
     const parent = this.parentNode;
     if (!(parent instanceof HTMLElement)) return;
-    if (parent.querySelector(`.${baseClassName}`)) return;
+    if (this.base) return;
     const element = document.createElement('div');
     element.style.width = '100%';
     element.style.height = '100%';
@@ -314,11 +313,22 @@ export default class Resizable extends React.Component<ResizableProps, State> {
       window.removeEventListener('touchmove', this.onMouseMove);
       window.removeEventListener('touchend', this.onMouseUp);
       const parent = this.parentNode;
-      const base = (parent.querySelector(`.${baseClassName}`): any);
+      const { base } = this;
       if (!base || !parent) return;
       if (!(parent instanceof HTMLElement) || !(base instanceof Node)) return;
       parent.removeChild(base);
     }
+  }
+
+  get base(): ?HTMLElement {
+    const parent = this.parentNode;
+    if (!parent) return undefined;
+    return [...parent.children].find((n: HTMLElement) => {
+      if (n instanceof HTMLElement) {
+        return n.classList.contains(baseClassName);
+      }
+      return undefined;
+    });
   }
 
   calculateNewSize(newSize: number | string, kind: 'width' | 'height'): number | string {
@@ -381,13 +391,9 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     if (!this.state.isResizing) return;
     const clientX = event instanceof MouseEvent ? event.clientX : event.touches[0].clientX;
     const clientY = event instanceof MouseEvent ? event.clientY : event.touches[0].clientY;
-    const {
-      direction, original, width, height,
-    } = this.state;
+    const { direction, original, width, height } = this.state;
     const { lockAspectRatio, lockAspectRatioExtraHeight, lockAspectRatioExtraWidth } = this.props;
-    let {
-      maxWidth, maxHeight, minWidth, minHeight,
-    } = this.props;
+    let { maxWidth, maxHeight, minWidth, minHeight } = this.props;
 
     // TODO: refactor
     const parentSize = this.getParentSize();
@@ -555,8 +561,14 @@ export default class Resizable extends React.Component<ResizableProps, State> {
       }
       return getStringSize(this.state[key]);
     };
-    const width = size && typeof size.width !== 'undefined' && !this.state.isResizing ? getStringSize(size.width) : getSize('width');
-    const height = size && typeof size.height !== 'undefined' && !this.state.isResizing ? getStringSize(size.height) : getSize('height');
+    const width =
+      size && typeof size.width !== 'undefined' && !this.state.isResizing
+        ? getStringSize(size.width)
+        : getSize('width');
+    const height =
+      size && typeof size.height !== 'undefined' && !this.state.isResizing
+        ? getStringSize(size.height)
+        : getSize('height');
     return { width, height };
   }
 
@@ -565,9 +577,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
   }
 
   renderResizer(): React.Node {
-    const {
-      enable, handleStyles, handleClasses, handleWrapperStyle, handleWrapperClass, handleComponent,
-    } = this.props;
+    const { enable, handleStyles, handleClasses, handleWrapperStyle, handleWrapperClass, handleComponent } = this.props;
     if (!enable) return null;
     const resizers = Object.keys(enable).map((dir: Direction): React$Node => {
       if (enable[dir] !== false) {
