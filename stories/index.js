@@ -33,6 +33,8 @@ import HandleComponentBottomRight from './handle-component/bottom-right';
 import MultipleVertical from './multiple/vertical';
 import MultipleHorizontal from './multiple/horizontal';
 
+import Nested from './nested/nested';
+
 storiesOf('omit size', module)
   .add('auto.', () => <Auto />)
 
@@ -67,3 +69,6 @@ storiesOf('handleComponent', module)
 storiesOf('multiple', module)
   .add('vertical', () => <MultipleVertical />)
   .add('horizontal (with flex layout)', () => <MultipleHorizontal />);
+
+storiesOf('nested', module)
+  .add('nested', () => <Nested />)
