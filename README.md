@@ -281,6 +281,10 @@ npm test
 
 ## Changelog
 
+#### v4.4.8
+
+- fix: Fixed behavior when nested #220
+
 #### v4.4.7
 
 - fix: #218 size not updated when zero props pass 
