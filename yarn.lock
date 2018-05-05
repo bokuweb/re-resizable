@@ -8027,9 +8027,9 @@ single-line-log@^1.1.2:
   dependencies:
     string-width "^1.0.1"
 
-sinon@5.0.2:
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/sinon/-/sinon-5.0.2.tgz#1d54bd6fa3d736053333f02e6e11def4fe7a2a9c"
+sinon@5.0.4:
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/sinon/-/sinon-5.0.4.tgz#84aa4a95ef0fcc36dc63caf60e61f2cf89ba4c00"
   dependencies:
     "@sinonjs/formatio" "^2.0.0"
     diff "^3.1.0"
