@@ -281,6 +281,10 @@ npm test
 
 ## Changelog
 
+#### v4.4.10
+
+- fix: Fixed `Array.from` error in IE11
+
 #### v4.4.8
 
 - fix: Fixed behavior when nested #220
