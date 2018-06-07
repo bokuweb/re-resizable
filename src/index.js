@@ -327,7 +327,9 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     for (let i = 0; i < children.length; i += 1) {
       const n = children[i];
       if (n instanceof HTMLElement) {
-        return n.classList.contains(baseClassName);
+        if (n.classList.contains(baseClassName)) {
+          return n;
+        }
       }
     }
     return undefined;
