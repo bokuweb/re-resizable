@@ -323,12 +323,14 @@ export default class Resizable extends React.Component<ResizableProps, State> {
   get base(): ?HTMLElement {
     const parent = this.parentNode;
     if (!parent) return undefined;
-    return [...parent.children].find((n: HTMLElement) => {
+    const children = [].slice.call(parent.children);
+    for (let i = 0; i < children.length; i += 1) {
+      const n = children[i];
       if (n instanceof HTMLElement) {
         return n.classList.contains(baseClassName);
       }
-      return undefined;
-    });
+    }
+    return undefined;
   }
 
   calculateNewSize(newSize: number | string, kind: 'width' | 'height'): number | string {
