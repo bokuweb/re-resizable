@@ -100,12 +100,12 @@ export interface ResizableProps {
   },
   className?: string,
   defaultSize?: {
-    width: string | number,
-    height: string | number,
+    width?: string | number,
+    height?: string | number,
   },
   size?: {
-    width: string | number,
-    height: string | number,
+    width?: string | number,
+    height?: string | number,
   },
   minWidth?: number | string,
   minHeight?: number | string,
