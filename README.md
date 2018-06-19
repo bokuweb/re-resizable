@@ -281,6 +281,10 @@ npm test
 
 ## Changelog
 
+#### v4.4.11
+
+- fix: Fixed `index.d.ts` to allow `HTMLDivElement` properties. #292
+
 #### v4.4.10
 
 - fix: Fixed `Array.from` error in IE11
