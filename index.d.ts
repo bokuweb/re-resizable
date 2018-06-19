@@ -63,7 +63,7 @@ export type ResizeStartCallback = (
   delta: NumberSize,
 ) => void;
 
-export interface ResizableProps {
+export interface ResizableProps extends React.HTMLAttributes<HTMLDivElement> {
   onResizeStart?: ResizeStartCallback,
   onResize?: ResizeCallback,
   onResizeStop?: ResizeCallback,
