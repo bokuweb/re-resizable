@@ -281,11 +281,17 @@ npm test
 
 ## Changelog
 
-#### v4.6.0
+#### v4.6.1
+
+- fix: Fixed `index.d.ts`, `HTMLElement` to `HTMLDivElement` and other.
+- fix: Fixed `index.d.ts` to allow number for aspectLatio.
+- fix: downgrade `rollup` version, because v0.61.0 break `re-resizable` build.
+
+#### v4.6.0 (unpublished)
 
 - fix: Fixed `index.d.ts`, `HTMLElement` to `HTMLDivElement` and other.
 
-#### v4.5.2
+#### v4.5.2 (unpublished)
 
 - fix: Fixed `index.d.ts` to allow number for aspectLatio.
 
