@@ -281,6 +281,10 @@ npm test
 
 ## Changelog
 
+#### v4.5.2
+
+- fix: Fixed `index.d.ts` to allow number for aspectLatio.
+
 #### v4.4.11
 
 - fix: Fixed `index.d.ts` to allow `HTMLDivElement` properties. #292
