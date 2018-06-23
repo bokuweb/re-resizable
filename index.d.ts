@@ -113,7 +113,7 @@ export interface ResizableProps extends React.HTMLAttributes<HTMLDivElement> {
   maxHeight?: number | string,
   grid?: number[],
   bounds?: 'parent' | 'window' | HTMLElement,
-  lockAspectRatio?: boolean,
+  lockAspectRatio?: boolean | number,
   lockAspectRatioExtraWidth?: number,
   lockAspectRatioExtraHeight?: number,
   handleWrapperStyle?: {
@@ -127,6 +127,7 @@ export interface ResizableProps extends React.HTMLAttributes<HTMLDivElement> {
 export default class Resizable extends React.Component<ResizableProps, ResizableState> {
 
   resizable: HTMLElement;
+  
 
   size: {
     width: number,
