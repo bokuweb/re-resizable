@@ -116,10 +116,7 @@ export interface ResizableProps extends React.HTMLAttributes<HTMLDivElement> {
   lockAspectRatio?: boolean | number,
   lockAspectRatioExtraWidth?: number,
   lockAspectRatioExtraHeight?: number,
-  handleWrapperStyle?: {
-    width: string | number,
-    height: string | number,
-  },
+  handleWrapperStyle?: React.CSSProperties,
   handleWrapperClass?: string,
   handleComponent?: HandleComponent,
 }
