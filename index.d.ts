@@ -1,8 +1,8 @@
-// Type definitions for re-resizable 4.4
+// Type definitions for re-resizable 4.6
 // Project: https://github.com/bokuweb/re-resizable
 // Definitions by: Kalle Ott <https://github.com/kaoDev>
 // Definitions: https://github.com/kaoDev/re-resizable
-// TypeScript Version: 2.2
+// TypeScript Version: 2.9.1
 
 import * as React from 'react';
 
@@ -38,28 +38,28 @@ export type CSSSize = {
 }
 
 export type HandleComponent = {
-  top?: React.ReactElement<any>,
-  right?: React.ReactElement<any>,
-  bottom?: React.ReactElement<any>,
-  left?: React.ReactElement<any>,
-  topRight?: React.ReactElement<any>,
-  bottomRight?: React.ReactElement<any>,
-  bottomLeft?: React.ReactElement<any>,
-  topLeft?: React.ReactElement<any>,
+  top?: React.ReactNode,
+  right?: React.ReactNode,
+  bottom?: React.ReactNode,
+  left?: React.ReactNode,
+  topRight?: React.ReactNode,
+  bottomRight?: React.ReactNode,
+  bottomLeft?: React.ReactNode,
+  topLeft?: React.ReactNode,
 };
 
 
 export type ResizeCallback = (
   event: MouseEvent | TouchEvent,
   direction: ResizableDirection,
-  elementRef: HTMLElement,
+  elementRef: HTMLDivElement,
   delta: NumberSize,
 ) => void;
 
 export type ResizeStartCallback = (
-  e: React.MouseEvent<any> | React.TouchEvent<any>,
+  e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
   dir: ResizableDirection,
-  elementRef: HTMLElement,
+  elementRef: HTMLDivElement,
   delta: NumberSize,
 ) => void;
 
