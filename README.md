@@ -281,6 +281,10 @@ npm test
 
 ## Changelog
 
+#### v4.7.1
+
+- fix: fix behavior when set auto
+
 #### v4.7.0
 
 - fix: fix behavior which is set percentage size and absolute position
