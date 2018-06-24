@@ -546,14 +546,17 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     let width = 0;
     let height = 0;
     if (typeof window !== 'undefined') {
-      // HACK: Set position `relative` to get parent size
+      const orgWidth = this.resizable.offsetWidth;
+      const orgHeight = this.resizable.offsetHeight;
+      // HACK: Set position `relative` to get parent size.
       //       This is because when re-resizable set `absolute`, I can not get base width correctly.
       const orgPosition = this.resizable.style.position;
       if (orgPosition !== 'relative') {
         this.resizable.style.position = 'relative';
       }
-      width = this.resizable.offsetWidth;
-      height = this.resizable.offsetHeight;
+      // INFO: Use original width or height if set auto.
+      width = this.resizable.style.width !== 'auto' ? this.resizable.offsetWidth : orgWidth;
+      height = this.resizable.style.height !== 'auto' ? this.resizable.offsetHeight : orgHeight;
       // Restore original position
       this.resizable.style.position = orgPosition;
     }
