@@ -281,6 +281,10 @@ npm test
 
 ## Changelog
 
+#### v4.7.0
+
+- fix: fix behavior which is set percentage size and absolute position
+
 #### v4.6.1
 
 - fix: Fixed `index.d.ts`, `HTMLElement` to `HTMLDivElement` and other.
