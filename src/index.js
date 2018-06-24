@@ -507,12 +507,12 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     };
 
     if (width && typeof width === 'string' && endsWith(width, '%')) {
-      const percent = newWidth / parentSize.width * 100;
+      const percent = (newWidth / parentSize.width) * 100;
       newWidth = `${percent}%`;
     }
 
     if (height && typeof height === 'string' && endsWith(height, '%')) {
-      const percent = newHeight / parentSize.height * 100;
+      const percent = (newHeight / parentSize.height) * 100;
       newHeight = `${percent}%`;
     }
 
@@ -546,8 +546,16 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     let width = 0;
     let height = 0;
     if (typeof window !== 'undefined') {
+      // HACK: Set position `relative` to get parent size
+      //       This is because when re-resizable set `absolute`, I can not get base width correctly.
+      const orgPosition = this.resizable.style.position;
+      if (orgPosition !== 'relative') {
+        this.resizable.style.position = 'relative';
+      }
       width = this.resizable.offsetWidth;
       height = this.resizable.offsetHeight;
+      // Restore original position
+      this.resizable.style.position = orgPosition;
     }
     return { width, height };
   }
@@ -560,7 +568,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
         if (endsWith(this.state[key].toString(), '%')) return this.state[key].toString();
         const parentSize = this.getParentSize();
         const value = Number(this.state[key].toString().replace('px', ''));
-        const percent = value / parentSize[key] * 100;
+        const percent = (value / parentSize[key]) * 100;
         return `${percent}%`;
       }
       return getStringSize(this.state[key]);
@@ -599,7 +607,6 @@ export default class Resizable extends React.Component<ResizableProps, State> {
       }
       return null;
     });
-
     // #93 Wrap the resize box in span (will not break 100% width/height)
     return (
       <span className={handleWrapperClass} style={handleWrapperStyle}>
