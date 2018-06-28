@@ -24,7 +24,7 @@
 * [Usage](#usage)
 * [Props](#props)
 * [Instance API](#instance-api)
-  * [updateSize(size: { width: number | string, height: number | string }): void](#updateSize-void)
+  * * 🚫 Depreacted　[updateSize(size: { width: number | string, height: number | string }): void](#updateSize-void)
 * [Test](#test)
 * [Related](#related)
 * [Changelog](#changelog)
@@ -231,7 +231,9 @@ Calls when resizable component resize stop.
 
 ## Instance API
 
-#### `updateSize(size: { width: number | string, height: number | string }): void`
+#### * 🚫 Depreacted　`updateSize(size: { width: number | string, height: number | string }): void`
+
+🚫 Depreacted　- Please use controlled state with `size`.
 
 Update component size.
 `grid` ,`max/minWidth`, `max/minHeight` props is ignored, when this method called.
