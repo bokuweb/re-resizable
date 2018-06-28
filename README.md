@@ -24,7 +24,7 @@
 * [Usage](#usage)
 * [Props](#props)
 * [Instance API](#instance-api)
-  * * 🚫 Depreacted　[updateSize(size: { width: number | string, height: number | string }): void](#updateSize-void)
+  * 🚫 Depreacted　[updateSize(size: { width: number | string, height: number | string }): void](#updateSize-void)
 * [Test](#test)
 * [Related](#related)
 * [Changelog](#changelog)
