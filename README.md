@@ -8,8 +8,8 @@
 <img src="https://img.shields.io/npm/v/re-resizable.svg" alt="Build Status" /></a>
 <a href="https://www.npmjs.com/package/re-resizable">
 <img src="https://img.shields.io/npm/dm/re-resizable.svg" /></a>
-<a href="https://greenkeeper.io/">
-<img src="https://badges.greenkeeper.io/bokuweb/re-resizable.svg" /></a>
+<a href="https://renovatebot.com/">
+<img src="https://img.shields.io/badge/renovate-enabled-brightgreen.svg" /></a>
 <a href="https://github.com/prettier/prettier">
 <img src="https://img.shields.io/badge/styled_with-prettier-ff69b4.svg" /></a>
 </p>
