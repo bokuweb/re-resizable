@@ -59,7 +59,7 @@
     "eslint-plugin-import": "2.13.0",
     "eslint-plugin-jsx-a11y": "6.1.0",
     "eslint-plugin-react": "7.10.0",
-    "flow-bin": "0.75.0",
+    "flow-bin": "0.76.0",
     "flow-copy-source": "2.0.1",
     "flow-typed": "2.4.0",
     "gh-pages": "1.2.0",
