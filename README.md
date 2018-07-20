@@ -190,8 +190,8 @@ If you want to permit only right direction resizing, set `{ top:false, right:tru
 ```javascript
 type ResizeStartCallback = (
   e: SyntheticMouseEvent<HTMLDivElement> | SyntheticTouchEvent<HTMLDivElement>,
-  dir: Direction,
-  refToElement: React.ElementRef<'div'>,
+  dir: ResizableDirection,
+  refToElement: HTMLDivElement,
 ) => void;
 ```
 
@@ -206,8 +206,8 @@ Calls when resizable component resize start.
 ```javascript
 type ResizeCallback = (
   event: MouseEvent | TouchEvent,
-  direction: Direction,
-  refToElement: React.ElementRef<'div'>,
+  direction: ResizableDirection,
+  refToElement: HTMLDivElement,
   delta: NumberSize,
 ) => void;
 ```
@@ -221,8 +221,8 @@ Calls when resizable component resizing.
 ```javascript
 type ResizeCallback = (
   event: MouseEvent | TouchEvent,
-  direction: Direction,
-  refToElement: React.ElementRef<'div'>,
+  direction: ResizableDirection,
+  refToElement: HTMLDivElement,
   delta: NumberSize,
 ) => void;
 ```
