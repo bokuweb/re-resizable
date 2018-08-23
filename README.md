@@ -286,6 +286,10 @@ npm test
 
 ## Changelog
 
+#### v4.8.0
+
+- added feature: absolute snap dimensions #337
+
 #### v4.7.1
 
 - fix: fix behavior when set auto
