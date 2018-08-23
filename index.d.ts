@@ -112,6 +112,10 @@ export interface ResizableProps extends React.HTMLAttributes<HTMLDivElement> {
   maxWidth?: number | string,
   maxHeight?: number | string,
   grid?: number[],
+  snap?: {
+    x?: number[],
+    y?: number[],
+  },
   bounds?: 'parent' | 'window' | HTMLElement,
   lockAspectRatio?: boolean | number,
   lockAspectRatioExtraWidth?: number,
