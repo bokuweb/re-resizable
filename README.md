@@ -128,6 +128,10 @@ The `maxHeight` property is used to set the maximum height of a resizable compon
 
 The `grid` property is used to specify the increments that resizing should snap to. Defaults to `[1, 1]`.
 
+#### `snap?: { x?: Array<number>, y?: Array<number> };`
+
+The `snap` property is used to specify absolute pixel values that resizing should snap to. `x` and `y` are both optional, allowing you to only include the axis you want to define. Defaults to `null`.
+
 #### `lockAspectRatio?: boolean | number;`
 
 The `lockAspectRatio` property is used to lock aspect ratio.
@@ -235,7 +239,7 @@ Calls when resizable component resize stop.
 
 Update component size.
 
-`grid` ,`max/minWidth`, `max/minHeight` props is ignored, when this method called.
+`grid`, `snap`, `max/minWidth`, `max/minHeight` props is ignored, when this method called.
 
 - for example
 
@@ -318,7 +322,7 @@ npm test
 
 #### v4.4.7
 
-- fix: #218 size not updated when zero props pass 
+- fix: #218 size not updated when zero props pass
 
 #### v4.4.6
 
