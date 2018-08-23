@@ -14,6 +14,7 @@ import DefaultSizeMaxHeight from './default-size/max-height';
 import DefaultSizeAutoWidth from './default-size/auto-width';
 import DefaultSizeAutoHeight from './default-size/auto-height';
 import DefaultSizeGrid from './default-size/grid';
+import DefaultSizeAbsoluteSnap from './default-size/absolute-snap';
 import DefaultSizeLockAspect from './default-size/lock-aspect';
 import DefaultSizeBoundsParent from './default-size/bounds-parent';
 import DefaultSizeMaxSizePercent from './default-size/max-size-percent';
@@ -47,6 +48,7 @@ storiesOf('defaultSize', module)
   .add('max width 400px.', () => <DefaultSizeMaxWidth />)
   .add('max height 400px.', () => <DefaultSizeMaxHeight />)
   .add('grid [10, 20].', () => <DefaultSizeGrid />)
+  .add('absolute snap {x y}.', () => <DefaultSizeAbsoluteSnap />)
   .add('lock aspect ratio w:h = 2:3', () => <DefaultSizeLockAspect />)
   .add('bounds parent', () => <DefaultSizeBoundsParent />)
   .add('max size percent', () => <DefaultSizeMaxSizePercent />)

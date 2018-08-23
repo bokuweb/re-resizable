@@ -96,6 +96,10 @@ export type ResizableProps = {
   style?: Style,
   className?: string,
   grid?: [number, number],
+  snap?: {
+    x?: Array<number>,
+    y?: Array<number>,
+  },
   bounds?: 'parent' | 'window' | HTMLElement,
   size?: Size,
   minWidth?: string | number,
@@ -135,6 +139,8 @@ type State = {
 const clamp = (n: number, min: number, max: number): number => Math.max(Math.min(n, max), min);
 const snap = (n: number, size: number): number => Math.round(n / size) * size;
 
+const findClosestSnap = (n: number, snapArray: Array<number>): number => snapArray.reduce((prev, curr) => (Math.abs(curr - n) < Math.abs(prev - n) ? curr : prev));
+
 const endsWith = (str: string, searchStr: string): boolean =>
   str.substr(str.length - searchStr.length, searchStr.length) === searchStr;
 
@@ -148,6 +154,7 @@ const definedProps = [
   'style',
   'className',
   'grid',
+  'snap',
   'bounds',
   'size',
   'defaultSize',
@@ -499,6 +506,13 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     }
     if (this.props.grid) {
       newHeight = snap(newHeight, this.props.grid[1]);
+    }
+
+    if (this.props.snap && this.props.snap.x) {
+      newWidth = findClosestSnap(newWidth, this.props.snap.x);
+    }
+    if (this.props.snap && this.props.snap.y) {
+      newHeight = findClosestSnap(newHeight, this.props.snap.y);
     }
 
     const delta = {

@@ -424,6 +424,30 @@ test.serial('should snapped by grid value', async t => {
   t.deepEqual(onResize.getCall(0).args[3], { width: 10, height: 10 });
 });
 
+test.serial('should snapped by absolute snap value', async t => {
+  const onResize = sinon.spy();
+  const onResizeStart = sinon.spy();
+  const onResizeStop = sinon.spy();
+  const resizable = ReactDOM.render(
+    <Resizable
+      defaultSize={{ width: 100, height: 100 }}
+      onResize={onResize}
+      onResizeStart={onResizeStart}
+      onResizeStop={onResizeStop}
+      snap={{ x: [20, 30], y: [100] }}
+    />,
+    document.getElementById('content'),
+  );
+  const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
+  const node = ReactDOM.findDOMNode(divs[6]);
+  TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
+  mouseMove(12, 12);
+  t.true(onResize.getCall(0).args[0] instanceof MouseEvent);
+  t.deepEqual(onResize.getCall(0).args[2].clientHeight, 100);
+  t.deepEqual(onResize.getCall(0).args[2].clientWidth, 30);
+  t.deepEqual(onResize.getCall(0).args[3], { width: -70, height: 0 });
+});
+
 test.serial('should clamped by max width', async t => {
   const onResize = sinon.spy();
   const onResizeStart = sinon.spy();
