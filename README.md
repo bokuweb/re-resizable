@@ -44,6 +44,7 @@
 
 [![Edit xp9p7272m4](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/xp9p7272m4)    
 [CodeSandbox](https://codesandbox.io/s/xp9p7272m4)
+[CodeSandbox(TypeScript)](https://codesandbox.io/s/1vwo2p4l64)
 
 ## Install
 
