@@ -38,6 +38,30 @@ test.serial('should box width and height equal 100px', async t => {
   t.is(divs[0].style.position, 'relative');
 });
 
+test.serial('should allow vh, vw relative units', async t => {
+  const resizable = TestUtils.renderIntoDocument(
+    <Resizable
+      defaultSize={{ width: '100vw', height: '100vh' }}
+    />);
+  const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
+  t.is(divs.length, 9);
+  t.is(divs[0].style.width, '100vw');
+  t.is(divs[0].style.height, '100vh');
+  t.is(divs[0].style.position, 'relative');
+});
+
+test.serial('should allow vmax, vmin relative units', async t => {
+  const resizable = TestUtils.renderIntoDocument(
+    <Resizable
+      defaultSize={{ width: '100vmax', height: '100vmin' }}
+    />);
+  const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
+  t.is(divs.length, 9);
+  t.is(divs[0].style.width, '100vmax');
+  t.is(divs[0].style.height, '100vmin');
+  t.is(divs[0].style.position, 'relative');
+});
+
 test.serial('should box width and height equal auto when size omitted', async t => {
   const resizable = TestUtils.renderIntoDocument(<Resizable />);
   const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');

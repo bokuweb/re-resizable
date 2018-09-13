@@ -20,6 +20,7 @@ import DefaultSizeBoundsParent from './default-size/bounds-parent';
 import DefaultSizeMaxSizePercent from './default-size/max-size-percent';
 import DefaultSizeMinSizePercent from './default-size/min-size-percent';
 import DefaultSizePercent from './default-size/percent-size';
+import DefaultSizeRelative from './default-size/relative-units';
 
 import SizeBasic from './size/basic';
 import SizePercent from './size/percent-size';
@@ -53,7 +54,8 @@ storiesOf('defaultSize', module)
   .add('bounds parent', () => <DefaultSizeBoundsParent />)
   .add('max size percent', () => <DefaultSizeMaxSizePercent />)
   .add('min size percent', () => <DefaultSizeMinSizePercent />)
-  .add('percent size', () => <DefaultSizePercent />);
+  .add('percent size', () => <DefaultSizePercent />)
+  .add('relative units', () => <DefaultSizeRelative />);
 
 storiesOf('size', module)
   .add('basic.', () => <SizeBasic />)
