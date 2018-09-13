@@ -147,6 +147,10 @@ const endsWith = (str: string, searchStr: string): boolean =>
 const getStringSize = (n: number | string): string => {
   if (endsWith(n.toString(), 'px')) return n.toString();
   if (endsWith(n.toString(), '%')) return n.toString();
+  if (endsWith(n.toString(), 'vh')) return n.toString();
+  if (endsWith(n.toString(), 'vw')) return n.toString();
+  if (endsWith(n.toString(), 'vmax')) return n.toString();
+  if (endsWith(n.toString(), 'vmin')) return n.toString();
   return `${n}px`;
 };
 
