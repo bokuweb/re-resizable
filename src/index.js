@@ -109,6 +109,7 @@ export type ResizableProps = {
   lockAspectRatio?: boolean | number,
   lockAspectRatioExtraWidth: number,
   lockAspectRatioExtraHeight: number,
+  lockAspectRatioWithModifierKey: boolean,
   enable?: Enable,
   handleStyles?: HandleStyles,
   handleClasses?: HandleClassName,
@@ -169,6 +170,7 @@ const definedProps = [
   'lockAspectRatio',
   'lockAspectRatioExtraWidth',
   'lockAspectRatioExtraHeight',
+  'lockAspectRatioWithModifierKey',
   'enable',
   'handleStyles',
   'handleClasses',
@@ -185,6 +187,8 @@ const baseClassName = '__resizable_base__';
 
 export default class Resizable extends React.Component<ResizableProps, State> {
   resizable: React.ElementRef<'div'>;
+  onKeyDown: Function;
+  onKeyUp: Function;
   onTouchMove: ResizeCallback;
   onMouseMove: ResizeCallback;
   onMouseUp: ResizeCallback;
@@ -210,6 +214,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     lockAspectRatio: false,
     lockAspectRatioExtraWidth: 0,
     lockAspectRatioExtraHeight: 0,
+    lockAspectRatioWithModifierKey: true,
   };
 
   constructor(props: ResizableProps) {
@@ -232,14 +237,19 @@ export default class Resizable extends React.Component<ResizableProps, State> {
         width: 0,
         height: 0,
       },
+      forceLockAspectRatio: false,
     };
 
     this.updateExtendsProps(props);
     this.onResizeStart = this.onResizeStart.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
+    this.onKeyUp = this.onKeyUp.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
 
     if (typeof window !== 'undefined') {
+      window.addEventListener('keydown', this.onKeyDown);
+      window.addEventListener('keyup', this.onKeyUp);
       window.addEventListener('mouseup', this.onMouseUp);
       window.addEventListener('mousemove', this.onMouseMove);
       window.addEventListener('mouseleave', this.onMouseUp);
@@ -318,6 +328,8 @@ export default class Resizable extends React.Component<ResizableProps, State> {
 
   componentWillUnmount() {
     if (typeof window !== 'undefined') {
+      window.removeEventListener('keydown', this.onKeyDown);
+      window.removeEventListener('keyup', this.onKeyUp);
       window.removeEventListener('mouseup', this.onMouseUp);
       window.removeEventListener('mousemove', this.onMouseMove);
       window.removeEventListener('mouseleave', this.onMouseUp);
@@ -402,6 +414,22 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     });
   }
 
+  onKeyDown(event: KeyboardEvent) {
+    if (this.props.lockAspectRatioWithModifierKey && event.keyCode === 16 && !this.state.forceLockAspectRatio) {
+      this.setState({
+        forceLockAspectRatio: true,
+      });
+    }
+  }
+
+  onKeyUp(event: KeyboardEvent) {
+    if (this.props.lockAspectRatioWithModifierKey && event.keyCode === 16 && this.state.forceLockAspectRatio) {
+      this.setState({
+        forceLockAspectRatio: false,
+      });
+    }
+  }
+
   onMouseMove(event: MouseEvent | TouchEvent) {
     if (!this.state.isResizing) return;
     const clientX = event instanceof MouseEvent ? event.clientX : event.touches[0].clientX;
@@ -433,24 +461,24 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     minWidth = typeof minWidth === 'undefined' ? undefined : Number(minWidth);
     minHeight = typeof minHeight === 'undefined' ? undefined : Number(minHeight);
 
-    const ratio = typeof lockAspectRatio === 'number' ? lockAspectRatio : original.width / original.height;
+    const ratio = (typeof lockAspectRatio === 'number' && !this.state.forceLockAspectRatio) ? lockAspectRatio : original.width / original.height;
     let newWidth = original.width;
     let newHeight = original.height;
     if (/right/i.test(direction)) {
       newWidth = original.width + (clientX - original.x);
-      if (lockAspectRatio) newHeight = (newWidth - lockAspectRatioExtraWidth) / ratio + lockAspectRatioExtraHeight;
+      if (lockAspectRatio || this.state.forceLockAspectRatio) newHeight = (newWidth - lockAspectRatioExtraWidth) / ratio + lockAspectRatioExtraHeight;
     }
     if (/left/i.test(direction)) {
       newWidth = original.width - (clientX - original.x);
-      if (lockAspectRatio) newHeight = (newWidth - lockAspectRatioExtraWidth) / ratio + lockAspectRatioExtraHeight;
+      if (lockAspectRatio || this.state.forceLockAspectRatio) newHeight = (newWidth - lockAspectRatioExtraWidth) / ratio + lockAspectRatioExtraHeight;
     }
     if (/bottom/i.test(direction)) {
       newHeight = original.height + (clientY - original.y);
-      if (lockAspectRatio) newWidth = (newHeight - lockAspectRatioExtraHeight) * ratio + lockAspectRatioExtraWidth;
+      if (lockAspectRatio || this.state.forceLockAspectRatio) newWidth = (newHeight - lockAspectRatioExtraHeight) * ratio + lockAspectRatioExtraWidth;
     }
     if (/top/i.test(direction)) {
       newHeight = original.height - (clientY - original.y);
-      if (lockAspectRatio) newWidth = (newHeight - lockAspectRatioExtraHeight) * ratio + lockAspectRatioExtraWidth;
+      if (lockAspectRatio || this.state.forceLockAspectRatio) newWidth = (newHeight - lockAspectRatioExtraHeight) * ratio + lockAspectRatioExtraWidth;
     }
 
     if (this.props.bounds === 'parent') {
