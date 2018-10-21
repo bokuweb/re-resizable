@@ -290,6 +290,10 @@ npm test
 
 ## Changelog
 
+#### v4.9.1
+
+- Fix flow type #364
+
 #### v4.8.1
 
 - added snap to `index.d.ts`.
