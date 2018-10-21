@@ -186,8 +186,8 @@ const baseClassName = '__resizable_base__';
 export default class Resizable extends React.Component<ResizableProps, State> {
   resizable: React.ElementRef<'div'>;
   onTouchMove: ResizeCallback;
-  onMouseMove: ResizeCallback;
-  onMouseUp: ResizeCallback;
+  onMouseMove: (event: MouseEvent | TouchEvent) => void;
+  onMouseUp: (event: MouseEvent | TouchEvent) => void;
   onResizeStart: OnStartCallback;
   extendsProps: { [key: string]: any };
 
