@@ -748,17 +748,17 @@ async-each@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/async-each/-/async-each-1.0.1.tgz#19d386a1d9edc6e7c1c85d388aedbcc56d33602d"
 
-async@2.6.1:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/async/-/async-2.6.1.tgz#b245a23ca71930044ec53fa46aa00a3e87c6a610"
-  dependencies:
-    lodash "^4.17.10"
-
 async@^2.1.2, async@^2.1.4:
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/async/-/async-2.1.4.tgz#2d2160c7788032e4dd6cbe2502f1f9a2c8f6cde4"
   dependencies:
     lodash "^4.14.0"
+
+async@^2.6.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/async/-/async-2.6.1.tgz#b245a23ca71930044ec53fa46aa00a3e87c6a610"
+  dependencies:
+    lodash "^4.17.10"
 
 asynckit@^0.4.0:
   version "0.4.0"
@@ -2616,13 +2616,17 @@ commander@2.14.x, commander@~2.14.1:
   version "2.14.1"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.14.1.tgz#2235123e37af8ca3c65df45b026dbd357b01b9aa"
 
-commander@2.15.1, commander@^2.15.0:
-  version "2.15.1"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-2.15.1.tgz#df46e867d0fc2aec66a34662b406a9ccafff5b0f"
-
 commander@^2.11.0:
   version "2.16.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.16.0.tgz#f16390593996ceb4f3eeb020b31d78528f7f8a50"
+
+commander@^2.15.0:
+  version "2.15.1"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.15.1.tgz#df46e867d0fc2aec66a34662b406a9ccafff5b0f"
+
+commander@^2.18.0:
+  version "2.19.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.19.0.tgz#f6198aa84e5b83c46054b94ddedbfed5ee9ff12a"
 
 commander@^2.9.0:
   version "2.9.0"
@@ -3357,6 +3361,10 @@ elliptic@^6.0.0:
     inherits "^2.0.1"
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.0"
+
+email-addresses@^3.0.1:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/email-addresses/-/email-addresses-3.0.2.tgz#a31280d19baf86669840a0aa45be1d7f6e7df315"
 
 emoji-regex@^6.5.1:
   version "6.5.1"
@@ -4402,16 +4410,17 @@ getpass@^0.1.1:
   dependencies:
     assert-plus "^1.0.0"
 
-gh-pages@1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/gh-pages/-/gh-pages-1.2.0.tgz#1acb92801078f7c038a167f447221d1496ccfbee"
+gh-pages@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/gh-pages/-/gh-pages-2.0.1.tgz#aefe47a43b8d9d2aa3130576b33fe95641e29a2f"
   dependencies:
-    async "2.6.1"
-    commander "2.15.1"
+    async "^2.6.1"
+    commander "^2.18.0"
+    email-addresses "^3.0.1"
     filenamify-url "^1.0.0"
-    fs-extra "^5.0.0"
+    fs-extra "^7.0.0"
     globby "^6.1.0"
-    graceful-fs "4.1.11"
+    graceful-fs "^4.1.11"
     rimraf "^2.6.2"
 
 glamor@^2.20.40:
@@ -4567,7 +4576,7 @@ got@^7.1.0:
     url-parse-lax "^1.0.0"
     url-to-options "^1.0.1"
 
-graceful-fs@4.1.11, graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.1.9:
+graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.1.9:
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
 
