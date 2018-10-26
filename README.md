@@ -290,6 +290,10 @@ npm test
 
 ## Changelog
 
+#### v4.9.2
+
+- Adjust initial left position of element to 0 for safari fix. #374
+
 #### v4.9.1
 
 - Fix flow type #364
