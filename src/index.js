@@ -302,7 +302,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     element.style.height = '100%';
     element.style.position = 'absolute';
     element.style.transform = 'scale(0, 0)';
-    element.style.left = '-2147483647px';
+    element.style.left = '0';
     element.style.flex = '0';
     if (element.classList) {
       element.classList.add(baseClassName);
