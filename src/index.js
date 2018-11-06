@@ -145,6 +145,7 @@ const endsWith = (str: string, searchStr: string): boolean =>
   str.substr(str.length - searchStr.length, searchStr.length) === searchStr;
 
 const getStringSize = (n: number | string): string => {
+  if (n.toString() === 'auto') return n.toString();
   if (endsWith(n.toString(), 'px')) return n.toString();
   if (endsWith(n.toString(), '%')) return n.toString();
   if (endsWith(n.toString(), 'vh')) return n.toString();
