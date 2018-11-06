@@ -290,6 +290,10 @@ npm test
 
 ## Changelog
 
+#### v4.9.3
+
+- Fix auto having "px" appended #382
+
 #### v4.9.2
 
 - Adjust initial left position of element to 0 for safari fix. #374
