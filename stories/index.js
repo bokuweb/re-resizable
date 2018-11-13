@@ -37,6 +37,8 @@ import MultipleHorizontal from './multiple/horizontal';
 
 import Nested from './nested/nested';
 
+import Scaled from './scaled/scaled';
+
 storiesOf('omit size', module)
   .add('auto.', () => <Auto />)
 
@@ -76,3 +78,6 @@ storiesOf('multiple', module)
 
 storiesOf('nested', module)
   .add('nested', () => <Nested />)
+
+storiesOf('scaled', module)
+  .add('scaled', () => <Scaled />)
