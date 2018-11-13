@@ -120,7 +120,7 @@ export type ResizableProps = {
   onResize?: ResizeCallback,
   onResizeStop?: ResizeCallback,
   defaultSize?: Size,
-  scale?: number
+  scale: number
 };
 
 type State = {
@@ -181,6 +181,7 @@ const definedProps = [
   'onResize',
   'onResizeStop',
   'handleComponent',
+  'scale',
 ];
 
 const baseClassName = '__resizable_base__';
@@ -212,6 +213,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     lockAspectRatio: false,
     lockAspectRatioExtraWidth: 0,
     lockAspectRatioExtraHeight: 0,
+    scale: 1,
   };
 
   constructor(props: ResizableProps) {
