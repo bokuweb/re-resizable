@@ -23,21 +23,18 @@ export default class Size extends React.Component {
 
   render() {
     return (
-      <div style={{ transform: 'scale(0.5)' }}>
-        <Resizable
-          scale={0.5}
-          style={style}
-          size={this.state}
-          onResizeStop={(e, direction, ref, d) => {
-            this.setState({
-              width: this.state.width + d.width,
-              height: this.state.height + d.height,
-            });
-          }}
-        >
-          001
-       </Resizable>
-      </div>
+      <Resizable
+        style={style}
+        size={this.state}
+        onResizeStop={(e, direction, ref, d) => {
+          this.setState({
+            width: this.state.width + d.width,
+            height: this.state.height + d.height,
+          });
+        }}
+      >
+        001
+     </Resizable >
     )
   }
 }
