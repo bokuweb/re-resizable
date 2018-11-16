@@ -207,6 +207,10 @@ Calls when resizable component resize start.
 
 #### `onResize?: ResizeCallback;`
 
+#### `scale?: number`;
+
+The `scale` property is used in the scenario where the resizable element is a descendent of an element using css scaling (e.g. - `transform: scale(0.5)`).
+
 ### Basic
 
 `ResizeCallback` type is below.
