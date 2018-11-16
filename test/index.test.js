@@ -895,3 +895,27 @@ test.serial('should render a handleComponent for right', async t => {
   t.is(node.childElementCount, 1);
   t.is(handleNode.getAttribute('class'), 'customHandle-right');
 });
+
+test.serial('should adjust resizing for specified scale', async t => {
+  const onResize = sinon.spy();
+  const resizable = ReactDOM.render(
+    <Resizable
+      defaultSize={{ width: 100, height: 100 }}
+      onResize={onResize}
+      style={{ padding: '40px' }}
+      scale={0.5}
+    />,
+    document.getElementById('content'),
+  );
+  const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div');
+  const node = ReactDOM.findDOMNode(divs[6]);
+  TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
+  mouseMove(200, 220);
+  TestUtils.Simulate.mouseUp(node);
+  t.is(onResize.callCount, 1);
+  t.true(onResize.getCall(0).args[0] instanceof MouseEvent);
+  t.is(onResize.getCall(0).args[1], 'bottomRight');
+  t.deepEqual(onResize.getCall(0).args[2].clientWidth, 500);
+  t.deepEqual(onResize.getCall(0).args[2].clientHeight, 540);
+  t.deepEqual(onResize.getCall(0).args[3], { width: 400, height: 440 });
+});
