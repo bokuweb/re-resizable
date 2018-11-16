@@ -120,7 +120,7 @@ export type ResizableProps = {
   onResize?: ResizeCallback,
   onResizeStop?: ResizeCallback,
   defaultSize?: Size,
-  scale: number
+  scale?: number
 };
 
 type State = {
@@ -411,7 +411,8 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     const clientX = event instanceof MouseEvent ? event.clientX : event.touches[0].clientX;
     const clientY = event instanceof MouseEvent ? event.clientY : event.touches[0].clientY;
     const { direction, original, width, height } = this.state;
-    const { lockAspectRatio, lockAspectRatioExtraHeight, lockAspectRatioExtraWidth, scale } = this.props;
+    const { lockAspectRatio, lockAspectRatioExtraHeight, lockAspectRatioExtraWidth } = this.props;
+    const scale = this.props.scale || 1;
     let { maxWidth, maxHeight, minWidth, minHeight } = this.props;
 
     // TODO: refactor

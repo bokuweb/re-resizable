@@ -294,6 +294,10 @@ npm test
 
 ## Changelog
 
+#### v4.10.0
+
+- Add scale props #388
+
 #### v4.9.3
 
 - Fix auto having "px" appended #382

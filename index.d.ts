@@ -123,6 +123,7 @@ export interface ResizableProps extends React.HTMLAttributes<HTMLDivElement> {
   handleWrapperStyle?: React.CSSProperties,
   handleWrapperClass?: string,
   handleComponent?: HandleComponent,
+  scale?: number
 }
 
 export default class Resizable extends React.Component<ResizableProps, ResizableState> {
