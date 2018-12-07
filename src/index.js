@@ -120,7 +120,8 @@ export type ResizableProps = {
   onResize?: ResizeCallback,
   onResizeStop?: ResizeCallback,
   defaultSize?: Size,
-  scale?: number
+  scale?: number,
+  movementRatio?: number,
 };
 
 type State = {
@@ -182,6 +183,7 @@ const definedProps = [
   'onResizeStop',
   'handleComponent',
   'scale',
+  'movementRatio',
 ];
 
 const baseClassName = '__resizable_base__';
@@ -214,6 +216,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     lockAspectRatioExtraWidth: 0,
     lockAspectRatioExtraHeight: 0,
     scale: 1,
+    movementRatio: 1,
   };
 
   constructor(props: ResizableProps) {
@@ -413,7 +416,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     const { direction, original, width, height } = this.state;
     const { lockAspectRatio, lockAspectRatioExtraHeight, lockAspectRatioExtraWidth } = this.props;
     const scale = this.props.scale || 1;
-    let { maxWidth, maxHeight, minWidth, minHeight } = this.props;
+    let { maxWidth, maxHeight, minWidth, minHeight, movementRatio } = this.props;
 
     // TODO: refactor
     const parentSize = this.getParentSize();
@@ -442,19 +445,19 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     let newWidth = original.width;
     let newHeight = original.height;
     if (/right/i.test(direction)) {
-      newWidth = original.width + ((clientX - original.x) / scale);
+      newWidth = original.width + (((clientX - original.x) * movementRatio) / scale);
       if (lockAspectRatio) newHeight = (newWidth - lockAspectRatioExtraWidth) / ratio + lockAspectRatioExtraHeight;
     }
     if (/left/i.test(direction)) {
-      newWidth = original.width - ((clientX - original.x) / scale);
+      newWidth = original.width - (((clientX - original.x) * movementRatio) / scale);
       if (lockAspectRatio) newHeight = (newWidth - lockAspectRatioExtraWidth) / ratio + lockAspectRatioExtraHeight;
     }
     if (/bottom/i.test(direction)) {
-      newHeight = original.height + ((clientY - original.y) / scale);
+      newHeight = original.height + (((clientY - original.y) * movementRatio) / scale);
       if (lockAspectRatio) newWidth = (newHeight - lockAspectRatioExtraHeight) * ratio + lockAspectRatioExtraWidth;
     }
     if (/top/i.test(direction)) {
-      newHeight = original.height - ((clientY - original.y) / scale);
+      newHeight = original.height - (((clientY - original.y) * movementRatio) / scale);
       if (lockAspectRatio) newWidth = (newHeight - lockAspectRatioExtraHeight) * ratio + lockAspectRatioExtraWidth;
     }
 
