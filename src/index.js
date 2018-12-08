@@ -416,7 +416,8 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     const { direction, original, width, height } = this.state;
     const { lockAspectRatio, lockAspectRatioExtraHeight, lockAspectRatioExtraWidth } = this.props;
     const scale = this.props.scale || 1;
-    let { maxWidth, maxHeight, minWidth, minHeight, movementRatio } = this.props;
+    let { maxWidth, maxHeight, minWidth, minHeight } = this.props;
+    const movementRatio = this.props.movementRatio || 1;
 
     // TODO: refactor
     const parentSize = this.getParentSize();
