@@ -39,8 +39,8 @@ import Nested from './nested/nested';
 
 import Scaled from './scaled/scaled';
 
-import MovementRatioSingle from './movement-ratio/single';
-import MovementRatioDouble from './movement-ratio/double';
+import ResizeRatioSingle from './resize-ratio/single';
+import ResizeRatioDouble from './resize-ratio/double';
 
 storiesOf('omit size', module)
   .add('auto.', () => <Auto />)
@@ -85,6 +85,6 @@ storiesOf('nested', module)
 storiesOf('scaled', module)
   .add('scaled', () => <Scaled />)
 
-storiesOf('Movement', module)
-  .add('single ratio', () => <MovementRatioSingle />)
-  .add('double ratio', () => <MovementRatioDouble />)
+storiesOf('resize ratio', module)
+  .add('single ratio', () => <ResizeRatioSingle />)
+  .add('double ratio', () => <ResizeRatioDouble />)

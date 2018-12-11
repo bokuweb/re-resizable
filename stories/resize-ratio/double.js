@@ -21,7 +21,7 @@ export default () => (
   <div style={container}>
     <Resizable
       style={style}
-      movementRatio={2}
+      resizeRatio={2}
       defaultSize={{
         width: 200,
         height: 200,

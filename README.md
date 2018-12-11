@@ -136,6 +136,10 @@ The `grid` property is used to specify the increments that resizing should snap 
 
 The `snap` property is used to specify absolute pixel values that resizing should snap to. `x` and `y` are both optional, allowing you to only include the axis you want to define. Defaults to `null`.
 
+#### `resizeRatio?: number | string;`
+
+The `resizeRatio` property is used to set the number of pixels the resizable component scales by compared to the number of pixels the mouse/touch moves. Defaults to `1` (for a 1:1 ratio). The number set is the left side of the ratio, `2` will give a 2:1 ratio.
+
 #### `lockAspectRatio?: boolean | number;`
 
 The `lockAspectRatio` property is used to lock aspect ratio.
