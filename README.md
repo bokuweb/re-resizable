@@ -298,6 +298,10 @@ npm test
 
 ## Changelog
 
+#### v4.11.0
+
+- Add resizeRatio props.
+
 #### v4.10.0
 
 - Add scale props #388
