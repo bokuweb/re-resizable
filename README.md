@@ -18,19 +18,18 @@
 
 ## Table of Contents
 
-* [Screenshot](#Screenshot)
-* [Live Demo](#live-demo)
-  * [Storybook](#storybook)
-  * [CodeSandbox](#codesandbox)
-* [Install](#install)
-* [Usage](#usage)
-* [Props](#props)
-* [Instance API](#instance-api)
-  * [updateSize(size: { width: number | string, height: number | string }): void](#updateSize-void)
-* [Test](#test)
-* [Related](#related)
-* [Changelog](#changelog)
-* [License](#license)
+- [Screenshot](#Screenshot)
+_ [Live Demo](#live-demo)
+  - [Storybook](#storybook)
+  - [CodeSandbox](#codesandbox)
+- [Install](#install)
+- [Usage](#usage)
+- [Props](#props)
+- [Instance API](#instance-api)
+  - [updateSize(size: { width: number | string, height: number | string }): void](#updateSize-void)
+- [Test](#test)
+- [Related](#related)
+- [Changelog](#changelog)
 
 ## Screenshot
 
@@ -44,13 +43,13 @@
 
 ### CodeSandbox
 
-[![Edit xp9p7272m4](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/xp9p7272m4)    
-[CodeSandbox](https://codesandbox.io/s/xp9p7272m4)    
+[![Edit xp9p7272m4](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/xp9p7272m4)  
+[CodeSandbox](https://codesandbox.io/s/xp9p7272m4)  
 [CodeSandbox(TypeScript)](https://codesandbox.io/s/1vwo2p4l64)
 
 ## Install
 
-``` sh
+```sh
 $ npm install --save re-resizable
 ```
 
@@ -58,7 +57,7 @@ $ npm install --save re-resizable
 
 ### Example with `defaultSize`
 
-``` javascript
+```javascript
 <Resizable
   defaultSize={{
     width:320,
@@ -73,7 +72,7 @@ $ npm install --save re-resizable
 
 If you use `size` props, please manage state by yourself.
 
-``` javascript
+```javascript
 <Resizable
   size={{ width: this.state.width, height: this.state.height }}
   onResizeStop={(e, direction, ref, d) => {
@@ -258,7 +257,7 @@ Update component size.
 ```javascript
 class YourComponent extends Component {
 
-  ...
+  // ...
 
   update() {
     this.resizable.updateSize({ width: 200, height: 300 });
@@ -272,18 +271,15 @@ class YourComponent extends Component {
     );
   }
 
-  ...
+  // ...
 }
 ```
-
 
 ## Contribute
 
 If you have a feature request, please add it as an issue or make a pull request.
 
 If you have a bug to report, please reproduce the bug in [CodeSandbox](https://codesandbox.io/s/ll587k677z) to help us easily isolate it.
-
-
 
 ## Test
 
@@ -620,16 +616,3 @@ You can add extendsProps as follows.
 #### v0.4.0
 
 - Support `'px'` and `'%'` for width and height props.
-
-
-## License
-
-The MIT License (MIT)
-
-Copyright (c) 2018 bokuweb
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
