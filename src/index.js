@@ -321,6 +321,13 @@ export default class Resizable extends React.Component<ResizableProps, State> {
 
   componentWillReceiveProps(next: ResizableProps) {
     this.updateExtendsProps(next);
+
+    const prevSize = this.props.size;
+    if (next.size && (typeof prevSize === 'undefined' ||
+        next.size.width !== prevSize.width ||
+        next.size.height !== prevSize.height)) {
+        this.setState(next.size);
+    }
   }
 
   componentWillUnmount() {
