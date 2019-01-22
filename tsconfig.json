@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "esNext",
+    "lib": ["es5", "es2015", "dom"],
+    "jsx": "react",
+    "noEmit": true /* Do not emit outputs. */,
+    "strict": true,
+    "moduleResolution": "node" /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */,
+    "allowSyntheticDefaultImports": true /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */,
+    "plugins": [
+      {
+        "name": "typescript-styled-plugin"
+      }
+    ]
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}

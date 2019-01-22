@@ -1,161 +1,187 @@
-/* @flow */
-
 import * as React from 'react';
-import Resizer from './resizer';
+import { Resizer, Direction } from './resizer';
+import memoize from 'fast-memoize';
 
-import type { Direction, OnStartCallback } from './resizer';
-
-const userSelectNone = {
-  userSelect: 'none',
-  MozUserSelect: 'none',
-  WebkitUserSelect: 'none',
-  MsUserSelect: 'none',
-};
-
-const userSelectAuto = {
-  userSelect: 'auto',
-  MozUserSelect: 'auto',
-  WebkitUserSelect: 'auto',
-  MsUserSelect: 'auto',
+const DEFAULT_SIZE = {
+  width: 'auto',
+  height: 'auto',
 };
 
 export type ResizeDirection = Direction;
 
-export type Style = {
-  [key: string]: string | number,
-};
-
 export type Enable = {
-  top?: boolean,
-  right?: boolean,
-  bottom?: boolean,
-  left?: boolean,
-  topRight?: boolean,
-  bottomRight?: boolean,
-  bottomLeft?: boolean,
-  topLeft?: boolean,
+  top?: boolean;
+  right?: boolean;
+  bottom?: boolean;
+  left?: boolean;
+  topRight?: boolean;
+  bottomRight?: boolean;
+  bottomLeft?: boolean;
+  topLeft?: boolean;
 };
 
 export type HandleStyles = {
-  top?: Style,
-  right?: Style,
-  bottom?: Style,
-  left?: Style,
-  topRight?: Style,
-  bottomRight?: Style,
-  bottomLeft?: Style,
-  topLeft?: Style,
+  top?: React.CSSProperties;
+  right?: React.CSSProperties;
+  bottom?: React.CSSProperties;
+  left?: React.CSSProperties;
+  topRight?: React.CSSProperties;
+  bottomRight?: React.CSSProperties;
+  bottomLeft?: React.CSSProperties;
+  topLeft?: React.CSSProperties;
 };
 
 export type HandleClassName = {
-  top?: string,
-  right?: string,
-  bottom?: string,
-  left?: string,
-  topRight?: string,
-  bottomRight?: string,
-  bottomLeft?: string,
-  topLeft?: string,
+  top?: string;
+  right?: string;
+  bottom?: string;
+  left?: string;
+  topRight?: string;
+  bottomRight?: string;
+  bottomLeft?: string;
+  topLeft?: string;
 };
 
 export type Size = {
-  width: string | number,
-  height: string | number,
+  width: string | number;
+  height: string | number;
 };
 
 type NumberSize = {
-  width: number,
-  height: number,
+  width: number;
+  height: number;
 };
 
-export type HandleComponent = {
-  top?: React.ElementType,
-  right?: React.ElementType,
-  bottom?: React.ElementType,
-  left?: React.ElementType,
-  topRight?: React.ElementType,
-  bottomRight?: React.ElementType,
-  bottomLeft?: React.ElementType,
-  topLeft?: React.ElementType,
-};
+export interface HandleComponent {
+  top?: React.ReactElement<any>;
+  right?: React.ReactElement<any>;
+  bottom?: React.ReactElement<any>;
+  left?: React.ReactElement<any>;
+  topRight?: React.ReactElement<any>;
+  bottomRight?: React.ReactElement<any>;
+  bottomLeft?: React.ReactElement<any>;
+  topLeft?: React.ReactElement<any>;
+}
 
 export type ResizeCallback = (
   event: MouseEvent | TouchEvent,
   direction: Direction,
-  elementRef: React.ElementRef<'div'>,
+  elementRef: HTMLDivElement,
   delta: NumberSize,
 ) => void;
 
 export type ResizeStartCallback = (
-  e: SyntheticMouseEvent<HTMLDivElement> | SyntheticTouchEvent<HTMLDivElement>,
+  e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
   dir: Direction,
-  elementRef: React.ElementRef<'div'>,
+  elementRef: HTMLDivElement,
 ) => void;
 
-export type ResizableProps = {
-  style?: Style,
-  className?: string,
-  grid?: [number, number],
+export interface ResizableProps {
+  style?: React.CSSProperties;
+  className?: string;
+  grid?: [number, number];
   snap?: {
-    x?: Array<number>,
-    y?: Array<number>,
-  },
-  bounds?: 'parent' | 'window' | HTMLElement,
-  size?: Size,
-  minWidth?: string | number,
-  minHeight?: string | number,
-  maxWidth?: string | number,
-  maxHeight?: string | number,
-  lockAspectRatio?: boolean | number,
-  lockAspectRatioExtraWidth: number,
-  lockAspectRatioExtraHeight: number,
-  enable?: Enable,
-  handleStyles?: HandleStyles,
-  handleClasses?: HandleClassName,
-  handleWrapperStyle?: Style,
-  handleWrapperClass?: string,
-  handleComponent?: HandleComponent,
-  children?: React.Node,
-  onResizeStart?: ResizeStartCallback,
-  onResize?: ResizeCallback,
-  onResizeStop?: ResizeCallback,
-  defaultSize?: Size,
-  scale?: number,
-  resizeRatio?: number,
-};
+    x?: Array<number>;
+    y?: Array<number>;
+  };
+  bounds?: 'parent' | 'window' | HTMLElement;
+  size?: Size;
+  minWidth?: string | number;
+  minHeight?: string | number;
+  maxWidth?: string | number;
+  maxHeight?: string | number;
+  lockAspectRatio?: boolean | number;
+  lockAspectRatioExtraWidth: number;
+  lockAspectRatioExtraHeight: number;
+  enable?: Enable;
+  handleStyles?: HandleStyles;
+  handleClasses?: HandleClassName;
+  handleWrapperStyle?: React.CSSProperties;
+  handleWrapperClass?: string;
+  handleComponent?: HandleComponent;
+  children?: React.ReactNode;
+  onResizeStart?: ResizeStartCallback;
+  onResize?: ResizeCallback;
+  onResizeStop?: ResizeCallback;
+  defaultSize?: Size;
+  scale?: number;
+  resizeRatio?: number;
+}
 
 type State = {
-  isResizing: boolean,
-  resizeCursor: string,
-  direction: Direction,
+  isResizing: boolean;
+  resizeCursor: string;
+  direction: Direction;
   original: {
-    x: number,
-    y: number,
-    width: number,
-    height: number,
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  };
+  width: number | string;
+  height: number | string;
+};
+
+const clamp = memoize((n: number, min: number, max: number): number => Math.max(Math.min(n, max), min));
+const snap = memoize((n: number, size: number): number => Math.round(n / size) * size);
+
+const findClosestSnap = memoize(
+  (n: number, snapArray: Array<number>): number =>
+    snapArray.reduce((prev, curr) => (Math.abs(curr - n) < Math.abs(prev - n) ? curr : prev)),
+);
+
+const endsWith = memoize(
+  (str: string, searchStr: string): boolean =>
+    str.substr(str.length - searchStr.length, searchStr.length) === searchStr,
+);
+
+const getStringSize = memoize(
+  (n: number | string): string => {
+    if (n.toString() === 'auto') return n.toString();
+    if (endsWith(n.toString(), 'px')) return n.toString();
+    if (endsWith(n.toString(), '%')) return n.toString();
+    if (endsWith(n.toString(), 'vh')) return n.toString();
+    if (endsWith(n.toString(), 'vw')) return n.toString();
+    if (endsWith(n.toString(), 'vmax')) return n.toString();
+    if (endsWith(n.toString(), 'vmin')) return n.toString();
+    return `${n}px`;
   },
-  width: number | string,
-  height: number | string,
-};
+);
 
-const clamp = (n: number, min: number, max: number): number => Math.max(Math.min(n, max), min);
-const snap = (n: number, size: number): number => Math.round(n / size) * size;
+const createNumberMax = memoize(
+  (
+    parentSize: { width: number; height: number },
+    maxWidth?: string | number,
+    maxHeight?: string | number,
+    minWidth?: string | number,
+    minHeight?: string | number,
+  ) => {
+    if (maxWidth && typeof maxWidth === 'string' && endsWith(maxWidth, '%')) {
+      const ratio = Number(maxWidth.replace('%', '')) / 100;
+      maxWidth = parentSize.width * ratio;
+    }
+    if (maxHeight && typeof maxHeight === 'string' && endsWith(maxHeight, '%')) {
+      const ratio = Number(maxHeight.replace('%', '')) / 100;
+      maxHeight = parentSize.height * ratio;
+    }
+    if (minWidth && typeof minWidth === 'string' && endsWith(minWidth, '%')) {
+      const ratio = Number(minWidth.replace('%', '')) / 100;
+      minWidth = parentSize.width * ratio;
+    }
+    if (minHeight && typeof minHeight === 'string' && endsWith(minHeight, '%')) {
+      const ratio = Number(minHeight.replace('%', '')) / 100;
+      minHeight = parentSize.height * ratio;
+    }
+    return {
+      maxWidth: typeof maxWidth === 'undefined' ? undefined : Number(maxWidth),
+      maxHeight: typeof maxHeight === 'undefined' ? undefined : Number(maxHeight),
+      minWidth: typeof minWidth === 'undefined' ? undefined : Number(minWidth),
+      minHeight: typeof minHeight === 'undefined' ? undefined : Number(minHeight),
+    };
+  },
+);
 
-const findClosestSnap = (n: number, snapArray: Array<number>): number => snapArray.reduce((prev, curr) => (Math.abs(curr - n) < Math.abs(prev - n) ? curr : prev));
 
-const endsWith = (str: string, searchStr: string): boolean =>
-  str.substr(str.length - searchStr.length, searchStr.length) === searchStr;
-
-const getStringSize = (n: number | string): string => {
-  if (n.toString() === 'auto') return n.toString();
-  if (endsWith(n.toString(), 'px')) return n.toString();
-  if (endsWith(n.toString(), '%')) return n.toString();
-  if (endsWith(n.toString(), 'vh')) return n.toString();
-  if (endsWith(n.toString(), 'vw')) return n.toString();
-  if (endsWith(n.toString(), 'vmax')) return n.toString();
-  if (endsWith(n.toString(), 'vmin')) return n.toString();
-  return `${n}px`;
-};
 
 const definedProps = [
   'style',
@@ -186,15 +212,12 @@ const definedProps = [
   'resizeRatio',
 ];
 
+// HACK: This class is used to calculate % size.
 const baseClassName = '__resizable_base__';
 
-export default class Resizable extends React.Component<ResizableProps, State> {
-  resizable: React.ElementRef<'div'>;
-  onTouchMove: ResizeCallback;
-  onMouseMove: (event: MouseEvent | TouchEvent) => void;
-  onMouseUp: (event: MouseEvent | TouchEvent) => void;
-  onResizeStart: OnStartCallback;
-  extendsProps: { [key: string]: any };
+export class Resizable extends React.Component<ResizableProps, State> {
+  resizable: HTMLDivElement | null = null;
+  extendsProps: { [key: string]: React.HTMLProps<'div'> } = {};
 
   static defaultProps = {
     onResizeStart: () => {},
@@ -227,11 +250,11 @@ export default class Resizable extends React.Component<ResizableProps, State> {
       width:
         typeof (this.propsSize && this.propsSize.width) === 'undefined'
           ? 'auto'
-          : (this.propsSize && this.propsSize.width: any),
+          : this.propsSize && this.propsSize.width,
       height:
         typeof (this.propsSize && this.propsSize.height) === 'undefined'
           ? 'auto'
-          : (this.propsSize && this.propsSize.height: any),
+          : this.propsSize && this.propsSize.height,
       direction: 'right',
       original: {
         x: 0,
@@ -255,25 +278,29 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     }
   }
 
-  get parentNode(): HTMLElement {
-    return ((this.resizable: any).parentNode: any);
+  get parentNode(): HTMLElement | null {
+    if (!this.resizable) return null;
+    return this.resizable.parentNode as HTMLElement;
   }
 
-  get propsSize(): ?Size {
-    return this.props.size || this.props.defaultSize;
+  get propsSize(): Size {
+    return this.props.size || this.props.defaultSize || DEFAULT_SIZE;
   }
 
   updateExtendsProps(props: ResizableProps) {
-    this.extendsProps = Object.keys(props).reduce((acc, key) => {
-      if (definedProps.indexOf(key) !== -1) return acc;
-      acc[key] = props[key];
-      return acc;
-    }, {});
+    this.extendsProps = Object.keys(props).reduce(
+      (acc, key) => {
+        if (definedProps.indexOf(key) !== -1) return acc;
+        acc[key] = props[key as keyof ResizableProps];
+        return acc;
+      },
+      {} as { [key: string]: any },
+    );
   }
 
-  getParentSize(): { width: number, height: number } {
+  getParentSize(): { width: number; height: number } {
     const { base } = this;
-    if (!base) return { width: window.innerWidth, height: window.innerHeight };
+    if (!base || !this.parentNode) return { width: window.innerWidth, height: window.innerHeight };
     // INFO: To calculate parent width with flex layout
     let wrapChanged = false;
     const wrap = this.parentNode.style.flexWrap;
@@ -338,10 +365,10 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     }
   }
 
-  get base(): ?HTMLElement {
+  get base(): HTMLElement | undefined {
     const parent = this.parentNode;
     if (!parent) return undefined;
-    const children = [].slice.call(parent.children);
+    const children = [].slice.call(parent.children) as Node[];
     for (let i = 0; i < children.length; i += 1) {
       const n = children[i];
       if (n instanceof HTMLElement) {
@@ -362,10 +389,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
       : newSize;
   }
 
-  onResizeStart(
-    event: SyntheticMouseEvent<HTMLDivElement> | SyntheticTouchEvent<HTMLDivElement>,
-    direction: Direction,
-  ) {
+  onResizeStart(event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>, direction: Direction) {
     let clientX = 0;
     let clientY = 0;
     if (event.nativeEvent instanceof MouseEvent) {
@@ -375,7 +399,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
       // When user click with right button the resize is stuck in resizing mode
       // until users clicks again, dont continue if right click is used.
       // HACK: MouseEvent does not have `which` from flow-bin v0.68.
-      if ((event.nativeEvent: any).which === 3) {
+      if (event.nativeEvent.which === 3) {
         return;
       }
     } else if (event.nativeEvent instanceof TouchEvent) {
@@ -383,7 +407,9 @@ export default class Resizable extends React.Component<ResizableProps, State> {
       clientY = event.nativeEvent.touches[0].clientY;
     }
     if (this.props.onResizeStart) {
-      this.props.onResizeStart(event, direction, (this.resizable: React.ElementRef<'div'>));
+      if (this.resizable) {
+        this.props.onResizeStart(event, direction, this.resizable);
+      }
     }
 
     // Fix #168
@@ -404,61 +430,45 @@ export default class Resizable extends React.Component<ResizableProps, State> {
         height: this.size.height,
       },
       isResizing: true,
-      resizeCursor: window.getComputedStyle(event.target).cursor,
+      resizeCursor: window.getComputedStyle(event.target as HTMLElement).cursor || 'auto',
       direction,
     });
   }
 
   onMouseMove(event: MouseEvent | TouchEvent) {
-    if (!this.state.isResizing) return;
+    if (!this.state.isResizing || !this.resizable) return;
+    let { maxWidth, maxHeight, minWidth, minHeight } = this.props;
     const clientX = event instanceof MouseEvent ? event.clientX : event.touches[0].clientX;
     const clientY = event instanceof MouseEvent ? event.clientY : event.touches[0].clientY;
     const { direction, original, width, height } = this.state;
     const { lockAspectRatio, lockAspectRatioExtraHeight, lockAspectRatioExtraWidth } = this.props;
     const scale = this.props.scale || 1;
-    let { maxWidth, maxHeight, minWidth, minHeight } = this.props;
     const resizeRatio = this.props.resizeRatio || 1;
-
-    // TODO: refactor
     const parentSize = this.getParentSize();
-    if (maxWidth && typeof maxWidth === 'string' && endsWith(maxWidth, '%')) {
-      const ratio = Number(maxWidth.replace('%', '')) / 100;
-      maxWidth = parentSize.width * ratio;
-    }
-    if (maxHeight && typeof maxHeight === 'string' && endsWith(maxHeight, '%')) {
-      const ratio = Number(maxHeight.replace('%', '')) / 100;
-      maxHeight = parentSize.height * ratio;
-    }
-    if (minWidth && typeof minWidth === 'string' && endsWith(minWidth, '%')) {
-      const ratio = Number(minWidth.replace('%', '')) / 100;
-      minWidth = parentSize.width * ratio;
-    }
-    if (minHeight && typeof minHeight === 'string' && endsWith(minHeight, '%')) {
-      const ratio = Number(minHeight.replace('%', '')) / 100;
-      minHeight = parentSize.height * ratio;
-    }
-    maxWidth = typeof maxWidth === 'undefined' ? undefined : Number(maxWidth);
-    maxHeight = typeof maxHeight === 'undefined' ? undefined : Number(maxHeight);
-    minWidth = typeof minWidth === 'undefined' ? undefined : Number(minWidth);
-    minHeight = typeof minHeight === 'undefined' ? undefined : Number(minHeight);
+    const max = createNumberMax(parentSize, maxWidth, maxHeight, minWidth, minHeight);
+
+    maxWidth = max.maxWidth;
+    maxHeight = max.maxHeight;
+    minWidth = max.minWidth;
+    minHeight = max.minHeight;
 
     const ratio = typeof lockAspectRatio === 'number' ? lockAspectRatio : original.width / original.height;
-    let newWidth = original.width;
-    let newHeight = original.height;
+    let newWidth: number | string = original.width;
+    let newHeight: number | string = original.height;
     if (/right/i.test(direction)) {
-      newWidth = original.width + (((clientX - original.x) * resizeRatio) / scale);
+      newWidth = original.width + ((clientX - original.x) * resizeRatio) / scale;
       if (lockAspectRatio) newHeight = (newWidth - lockAspectRatioExtraWidth) / ratio + lockAspectRatioExtraHeight;
     }
     if (/left/i.test(direction)) {
-      newWidth = original.width - (((clientX - original.x) * resizeRatio) / scale);
+      newWidth = original.width - ((clientX - original.x) * resizeRatio) / scale;
       if (lockAspectRatio) newHeight = (newWidth - lockAspectRatioExtraWidth) / ratio + lockAspectRatioExtraHeight;
     }
     if (/bottom/i.test(direction)) {
-      newHeight = original.height + (((clientY - original.y) * resizeRatio) / scale);
+      newHeight = original.height + ((clientY - original.y) * resizeRatio) / scale;
       if (lockAspectRatio) newWidth = (newHeight - lockAspectRatioExtraHeight) * ratio + lockAspectRatioExtraWidth;
     }
     if (/top/i.test(direction)) {
-      newHeight = original.height - (((clientY - original.y) * resizeRatio) / scale);
+      newHeight = original.height - ((clientY - original.y) * resizeRatio) / scale;
       if (lockAspectRatio) newWidth = (newHeight - lockAspectRatioExtraHeight) * ratio + lockAspectRatioExtraWidth;
     }
 
@@ -514,10 +524,9 @@ export default class Resizable extends React.Component<ResizableProps, State> {
       newWidth = clamp(newWidth, computedMinWidth, computedMaxWidth);
       newHeight = clamp(newHeight, computedMinHeight, computedMaxHeight);
     }
+
     if (this.props.grid) {
       newWidth = snap(newWidth, this.props.grid[0]);
-    }
-    if (this.props.grid) {
       newHeight = snap(newHeight, this.props.grid[1]);
     }
 
@@ -555,7 +564,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
 
   onMouseUp(event: MouseEvent | TouchEvent) {
     const { isResizing, direction, original } = this.state;
-    if (!isResizing) return;
+    if (!isResizing || !this.resizable) return;
     const delta = {
       width: this.size.width - original.width,
       height: this.size.height - original.height,
@@ -572,7 +581,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
   get size(): NumberSize {
     let width = 0;
     let height = 0;
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && this.resizable) {
       const orgWidth = this.resizable.offsetWidth;
       const orgHeight = this.resizable.offsetHeight;
       // HACK: Set position `relative` to get parent size.
@@ -590,7 +599,7 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     return { width, height };
   }
 
-  get sizeStyle(): { width: string, height: string } {
+  get sizeStyle(): { width: string; height: string } {
     const { size } = this.props;
     const getSize = (key: 'width' | 'height'): string => {
       if (typeof this.state[key] === 'undefined' || this.state[key] === 'auto') return 'auto';
@@ -618,20 +627,20 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     this.setState({ width: size.width, height: size.height });
   }
 
-  renderResizer(): React.Node {
+  renderResizer() {
     const { enable, handleStyles, handleClasses, handleWrapperStyle, handleWrapperClass, handleComponent } = this.props;
     if (!enable) return null;
-    const resizers = Object.keys(enable).map((dir: Direction): React$Node => {
-      if (enable[dir] !== false) {
+    const resizers = Object.keys(enable).map(dir => {
+      if (enable[dir as Direction] !== false) {
         return (
           <Resizer
             key={dir}
-            direction={dir}
+            direction={dir as Direction}
             onResizeStart={this.onResizeStart}
-            replaceStyles={handleStyles && handleStyles[dir]}
-            className={handleClasses && handleClasses[dir]}
+            replaceStyles={handleStyles && handleStyles[dir as Direction]}
+            className={handleClasses && handleClasses[dir as Direction]}
           >
-            {handleComponent && handleComponent[dir] ? React.createElement(handleComponent[dir]) : null}
+            {handleComponent && handleComponent[dir as Direction] ? handleComponent[dir as Direction] : null}
           </Resizer>
         );
       }
@@ -645,18 +654,17 @@ export default class Resizable extends React.Component<ResizableProps, State> {
     );
   }
 
-  render(): React.Node {
-    const userSelect = this.state.isResizing ? userSelectNone : userSelectAuto;
+  render() {
     return (
       <div
-        ref={(c: React.ElementRef<'div'> | null) => {
+        ref={c => {
           if (c) {
             this.resizable = c;
           }
         }}
         style={{
           position: 'relative',
-          ...userSelect,
+          userSelect: this.state.isResizing ? 'none' : 'auto',
           ...this.props.style,
           ...this.sizeStyle,
           maxWidth: this.props.maxWidth,
@@ -675,9 +683,9 @@ export default class Resizable extends React.Component<ResizableProps, State> {
               width: '100%',
               backgroundColor: 'rgba(0,0,0,0)',
               cursor: `${this.state.resizeCursor || 'auto'}`,
-              opacity: '0',
+              opacity: 0,
               position: 'fixed',
-              zIndex: '9999',
+              zIndex: 9999,
               top: '0',
               left: '0',
               bottom: '0',
