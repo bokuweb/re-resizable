@@ -14,7 +14,7 @@ jobs:
       - checkout
       - run:
           name: Install dependencies
-          command: yarn
+          command: yarn install --pure-lockfile
       - run:
           name: Lint
           command: yarn run lint && yarn run flow
@@ -30,7 +30,7 @@ jobs:
       - checkout
       - run:
           name: Install dependencies
-          command: yarn
+          command: yarn install --pure-lockfile
       - add-ssh-keys:
           fingerprints:
             - "45:1a:73:5c:53:97:cc:7d:ef:b0:75:48:93:9f:08:31"          
