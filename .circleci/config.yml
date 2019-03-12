@@ -17,7 +17,10 @@ jobs:
           command: yarn install --pure-lockfile
       - run:
           name: Lint
-          command: yarn run lint && yarn run flow
+          command: yarn run lint
+      - run:
+          name: Tsc
+          command: yarn run tsc          
       - run:
           name: Test
           command: |
