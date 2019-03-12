@@ -1,13 +1,6 @@
-/* @flow */
-
 import * as React from 'react';
 
-const styles = {
-  base: {
-    position: 'absolute',
-    userSelect: 'none',
-    MsUserSelect: 'none',
-  },
+const styles: { [key: string]: React.CSSProperties } = {
   top: {
     width: '100%',
     height: '10px',
@@ -73,35 +66,36 @@ const styles = {
 export type Direction = 'top' | 'right' | 'bottom' | 'left' | 'topRight' | 'bottomRight' | 'bottomLeft' | 'topLeft';
 
 export type OnStartCallback = (
-  e: SyntheticMouseEvent<HTMLDivElement> | SyntheticTouchEvent<HTMLDivElement>,
+  e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
   dir: Direction,
 ) => void;
 
-export type Props = {
-  direction: Direction,
-  className?: string,
-  replaceStyles?: { [key: string]: string | number },
-  onResizeStart: OnStartCallback,
-  children: ?React.ChildrenArray<*>,
-};
+export interface Props {
+  direction: Direction;
+  className?: string;
+  replaceStyles?: React.CSSProperties;
+  onResizeStart: OnStartCallback;
+  children: React.ReactNode;
+}
 
-export default (props: Props): React.Element<'div'> => {
+export function Resizer(props: Props) {
   return (
     <div
-      className={props.className}
+      className={props.className || ''}
       style={{
-        ...styles.base,
+        position: 'absolute',
+        userSelect: 'none',
         ...styles[props.direction],
         ...(props.replaceStyles || {}),
       }}
-      onMouseDown={(e: SyntheticMouseEvent<HTMLDivElement>) => {
+      onMouseDown={(e: React.MouseEvent<HTMLDivElement>) => {
         props.onResizeStart(e, props.direction);
       }}
-      onTouchStart={(e: SyntheticTouchEvent<HTMLDivElement>) => {
+      onTouchStart={(e: React.TouchEvent<HTMLDivElement>) => {
         props.onResizeStart(e, props.direction);
       }}
     >
       {props.children}
     </div>
   );
-};
+}

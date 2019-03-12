@@ -1,8 +1,8 @@
 
 defaults: &defaults
-  working_directory: ~/react-resizable-box
+  working_directory: ~/re-resizable
   docker:
-    - image: quramy/node-nightmare:latest@sha256:e527e87f8dc37634b953594ff3fe1302068e67129dcffca51ebfa786507c379a
+    - image: bokuweb/node-go-with-browser:latest
       environment:
         DISPLAY: ":99"
 
@@ -14,10 +14,13 @@ jobs:
       - checkout
       - run:
           name: Install dependencies
-          command: yarn
+          command: yarn install --pure-lockfile
       - run:
           name: Lint
-          command: yarn run lint && yarn run flow
+          command: yarn run lint
+      - run:
+          name: Tsc
+          command: yarn run tsc          
       - run:
           name: Test
           command: |
@@ -30,7 +33,7 @@ jobs:
       - checkout
       - run:
           name: Install dependencies
-          command: yarn
+          command: yarn install --pure-lockfile
       - add-ssh-keys:
           fingerprints:
             - "45:1a:73:5c:53:97:cc:7d:ef:b0:75:48:93:9f:08:31"          

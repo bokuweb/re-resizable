@@ -2,3 +2,4 @@ node_modules/
 example/dist/
 lib/
 npm-debug.log
+.rpt2_cache
