@@ -785,4 +785,3 @@ export class Resizable extends React.Component<ResizableProps, State> {
   }
 }
 
-export default Resizable;

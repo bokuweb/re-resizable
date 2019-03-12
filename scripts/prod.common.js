@@ -1,21 +1,23 @@
-import babel from 'rollup-plugin-babel';
 import replace from 'rollup-plugin-replace';
+import typescript from 'rollup-plugin-typescript2';
 
 export default {
-  input: 'src/index.js',
+  input: 'src/index.tsx',
   plugins: [
-    babel({
-      plugins: ['external-helpers'],
+    typescript({
+      tsconfig: 'tsconfig.json',
+      exclude: ['stories'],
     }),
     replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
   ],
   output: {
+    sourcemap: true,
+    exports: 'named',
     name: 're-resizable',
     globals: {
       react: 'React',
+      memoize: 'fast-memoize'
     },
-    sourcemap: true,
-    exports: 'named',
   },
-  external: ['react'],
+  external: ['react', 'fast-memoize'],
 };
