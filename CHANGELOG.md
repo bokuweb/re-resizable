@@ -28,6 +28,7 @@
   
   - Use typeScript instead of flowtype in [#413]
   - Improve some perf.
+  - Support `vw` and `vh`. Please see [story](https://bokuweb.github.io/re-resizable/?selectedKind=vw%20vh&selectedStory=vw&full=0&addons=1&stories=1&panelRight=0).
 
   ### :zap: Breaking changes
   
