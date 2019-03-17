@@ -28,7 +28,7 @@
   
   - Use typeScript instead of flowtype in [#413]
 
-  ### :thunder: Breaking changes
+  ### :zap: Breaking changes
   
   - Support only named import. Please import like following.
   
