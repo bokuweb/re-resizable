@@ -27,6 +27,7 @@
   ### :nail_care: Enhancement
   
   - Use typeScript instead of flowtype in [#413]
+  - Improve some perf.
 
   ### :zap: Breaking changes
   
