@@ -1,6 +1,6 @@
 # Changelog
 
-## [[Unreleased]](https://github.com/bokuweb/re-resizable/compare/v4.11.0...master)
+## [[Unreleased]](https://github.com/bokuweb/re-resizable/compare/v5.0.0-beta.0...master)
 <details>
   <summary>
     Changes that have landed in master but are not yet released.
@@ -21,6 +21,25 @@
   ### :house: Internal
   - Update `react` & `react-dom` to `v16.7.0` ([#395](https://github.com/bokuweb/re-resizable/pull/395))
 </details>
+
+## [5.0.0-beta.0 (2019-03-17)](https://github.com/bokuweb/re-resizable/compare/v4.11.0...v5.0.0-beta.0)
+
+  ### :nail_care: Enhancement
+  
+  - Use typeScript instead of flowtype in [#413]
+
+  ### :thunder: Breaking changes
+  
+  - Support only named import. Please import like following.
+  
+  ```
+  import { Resizable } from 're-resizable';
+  ```
+  
+  ### :memo: Documentation
+  
+  - Extract LICENSE from README file ([@MichaelDeBoey](https://github.com/MichaelDeBoey) in [#397](https://github.com/bokuweb/re-resizable/pull/397))
+  - Extract CHANGELOG from README file ([@MichaelDeBoey](https://github.com/MichaelDeBoey) in [#397](https://github.com/bokuweb/re-resizable/pull/397))
 
 ## [4.11.0 (2018-12-14)](https://github.com/bokuweb/re-resizable/compare/v4.10.0...v4.11.0)
 
