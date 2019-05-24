@@ -656,8 +656,8 @@ export class Resizable extends React.Component<ResizableProps, State> {
       return;
     }
     let { maxWidth, maxHeight, minWidth, minHeight } = this.props;
-    const clientX = event instanceof MouseEvent ? event.clientX : event.touches[0].clientX;
-    const clientY = event instanceof MouseEvent ? event.clientY : event.touches[0].clientY;
+    const clientX = event.type === 'mousemove' ? event.clientX : event.touches[0].clientX;
+    const clientY = event.type === 'mousemove' ? event.clientY : event.touches[0].clientY;
     const { direction, original, width, height } = this.state;
     const parentSize = this.getParentSize();
     const max = calculateNewMax(parentSize, maxWidth, maxHeight, minWidth, minHeight);
