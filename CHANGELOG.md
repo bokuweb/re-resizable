@@ -6,55 +6,55 @@
     Changes that have landed in master but are not yet released.
     Click to see more.
   </summary>
-  
-  ### :rocket: New Feature
+</details>
 
-  ### :bug: Bug Fix
+### :rocket: New Feature
 
-  ### :nail_care: Enhancement
+### :bug: Bug Fix
+
+### :nail_care: Enhancement
   
-  ### :memo: Documentation
+### :memo: Documentation
   
-  ### :house: Internal
+### :house: Internal
 
 ## [5.0.0 (2019-06-05)](https://github.com/bokuweb/re-resizable/compare/v5.0.0-beta.0...v5.0.0)
 
-  ### :nail_care: Enhancement
+### :nail_care: Enhancement
   
-  - Add `snapGap` property #446
+- Add `snapGap` property #446
  
-  ### :memo: Documentation
+### :memo: Documentation
   
-  - Please see also 5.0.0-beta.0 change.
+- Please see also 5.0.0-beta.0 change.
   
-  ### :house: Internal
+### :house: Internal
     
-  - Upgrade some deps.
+- Upgrade some deps.
 
 ## [5.0.0-beta.0 (2019-03-17)](https://github.com/bokuweb/re-resizable/compare/v4.11.0...v5.0.0-beta.0)
 
-  ### :nail_care: Enhancement
+### :nail_care: Enhancement
   
-  - Use typeScript instead of flowtype in [#413]
-  - Improve some perf.
-  - Support `vw` and `vh`. Please see [story](https://bokuweb.github.io/re-resizable/?selectedKind=vw%20vh&selectedStory=vw&full=0&addons=1&stories=1&panelRight=0).
+- Use typeScript instead of flowtype in [#413]
+- Improve some perf.
+- Support `vw` and `vh`. Please see [story](https://bokuweb.github.io/re-resizable/?selectedKind=vw%20vh&selectedStory=vw&full=0&addons=1&stories=1&panelRight=0).
 
-  ### :zap: Breaking changes
+### :zap: Breaking changes
   
-  - Support only named import. Please import like following.
+- Support only named import. Please import like following.
   
-  ```
-  import { Resizable } from 're-resizable';
-  ```
+```
+import { Resizable } from 're-resizable';
+```
   
-  ### :memo: Documentation
+### :memo: Documentation
   
-  - Extract LICENSE from README file ([@MichaelDeBoey](https://github.com/MichaelDeBoey) in [#397](https://github.com/bokuweb/re-resizable/pull/397))
-  - Extract CHANGELOG from README file ([@MichaelDeBoey](https://github.com/MichaelDeBoey) in [#397](https://github.com/bokuweb/re-resizable/pull/397))
+- Extract LICENSE from README file ([@MichaelDeBoey](https://github.com/MichaelDeBoey) in [#397](https://github.com/bokuweb/re-resizable/pull/397))
+- Extract CHANGELOG from README file ([@MichaelDeBoey](https://github.com/MichaelDeBoey) in [#397](https://github.com/bokuweb/re-resizable/pull/397))
   
-  ### :house: Internal
-  - Update `react` & `react-dom` to `v16.7.0` ([#395](https://github.com/bokuweb/re-resizable/pull/395))
-</details>
+### :house: Internal
+- Update `react` & `react-dom` to `v16.7.0` ([#395](https://github.com/bokuweb/re-resizable/pull/395))
 
 
 ## [4.11.0 (2018-12-14)](https://github.com/bokuweb/re-resizable/compare/v4.10.0...v4.11.0)
