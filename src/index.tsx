@@ -84,6 +84,7 @@ export interface ResizableProps {
     x?: number[];
     y?: number[];
   };
+  snapGap: number;
   bounds?: 'parent' | 'window' | HTMLElement;
   size?: Size;
   minWidth?: string | number;
@@ -129,8 +130,15 @@ const hasDirection = memoize(
 );
 
 const findClosestSnap = memoize(
-  (n: number, snapArray: number[]): number =>
-    snapArray.reduce((prev, curr) => (Math.abs(curr - n) < Math.abs(prev - n) ? curr : prev)),
+  (n: number, snapArray: number[], snapGap: number = 0): number => {
+    const closestGapIndex = snapArray.reduce(
+      (prev, curr, index) => (Math.abs(curr - n) < Math.abs(snapArray[prev] - n) ? index : prev),
+      0,
+    );
+    const gap = Math.abs(snapArray[closestGapIndex] - n);
+
+    return snapGap === 0 || gap < snapGap ? snapArray[closestGapIndex] : n;
+  },
 );
 
 const endsWith = memoize(
@@ -333,6 +341,7 @@ export class Resizable extends React.Component<ResizableProps, State> {
     lockAspectRatioExtraHeight: 0,
     scale: 1,
     resizeRatio: 1,
+    snapGap: 0,
   };
   public ratio = 1;
   public resizable: HTMLDivElement | null = null;
@@ -684,15 +693,21 @@ export class Resizable extends React.Component<ResizableProps, State> {
     newHeight = newSize.newHeight;
 
     if (this.props.grid) {
-      newWidth = snap(newWidth, this.props.grid[0]);
-      newHeight = snap(newHeight, this.props.grid[1]);
+      const newGridWidth = snap(newWidth, this.props.grid[0]);
+      const newGridHeight = snap(newHeight, this.props.grid[1]);
+      newWidth =
+        this.props.snapGap === 0 || Math.abs(newGridWidth - newWidth) <= this.props.snapGap ? newGridWidth : newWidth;
+      newHeight =
+        this.props.snapGap === 0 || Math.abs(newGridHeight - newHeight) <= this.props.snapGap
+          ? newGridHeight
+          : newHeight;
     }
 
     if (this.props.snap && this.props.snap.x) {
-      newWidth = findClosestSnap(newWidth, this.props.snap.x);
+      newWidth = findClosestSnap(newWidth, this.props.snap.x, this.props.snapGap);
     }
     if (this.props.snap && this.props.snap.y) {
-      newHeight = findClosestSnap(newHeight, this.props.snap.y);
+      newHeight = findClosestSnap(newHeight, this.props.snap.y, this.props.snapGap);
     }
 
     const delta = {

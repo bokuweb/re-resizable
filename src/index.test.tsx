@@ -519,6 +519,38 @@ test.serial('should snapped by absolute snap value', async t => {
   t.deepEqual(onResize.getCall(0).args[3], { width: -70, height: 0 });
 });
 
+test.serial('should only snap if the gap is small enough', async t => {
+  const onResize = sinon.spy();
+  const onResizeStart = sinon.spy();
+  const onResizeStop = sinon.spy();
+  const resizable = ReactDOM.render<ResizableProps, Resizable>(
+    <Resizable
+      defaultSize={{ width: 40, height: 40 }}
+      onResize={onResize}
+      onResizeStart={onResizeStart}
+      onResizeStop={onResizeStop}
+      grid={[40, 40]}
+      snapGap={10}
+    />,
+    document.getElementById('content'),
+  );
+  if (!resizable || resizable instanceof Element) return t.fail();
+  const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div') as HTMLDivElement[];
+  const node = ReactDOM.findDOMNode(divs[6]);
+  if (!node || !(node instanceof HTMLDivElement)) return t.fail();
+  TestUtils.Simulate.mouseDown(node, { clientX: 40, clientY: 40 });
+  mouseMove(15, 15);
+  t.true(onResize.getCall(0).args[0] instanceof MouseEvent);
+  t.deepEqual(onResize.getCall(0).args[2].clientHeight, 55);
+  t.deepEqual(onResize.getCall(0).args[2].clientWidth, 55);
+  t.deepEqual(onResize.getCall(0).args[3], { width: 15, height: 15 });
+
+  mouseMove(35, 35);
+  t.deepEqual(onResize.getCall(1).args[2].clientHeight, 80);
+  t.deepEqual(onResize.getCall(1).args[2].clientWidth, 80);
+  t.deepEqual(onResize.getCall(1).args[3], { width: 40, height: 40 });
+});
+
 test.serial('should clamped by max width', async t => {
   const onResize = sinon.spy();
   const onResizeStart = sinon.spy();
