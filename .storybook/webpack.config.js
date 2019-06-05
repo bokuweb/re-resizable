@@ -1,12 +1,12 @@
-const path = require("path");
+const path = require('path');
 
-module.exports = (baseConfig, env, defaultConfig) => {
-  defaultConfig.module.rules.push({
+module.exports = async ({ config, mode }) => {
+  config.module.rules.push({
     test: /.*\.(ts|tsx|js|jsx)$/,
-    loader: require.resolve("babel-loader")
+    loader: require.resolve('babel-loader'),
   });
 
-  defaultConfig.resolve.extensions.push(".ts", ".tsx");
+  config.resolve.extensions.push('.ts', '.tsx', '.js', '.jsx');
 
-  return defaultConfig;
+  return config;
 };

@@ -234,6 +234,7 @@ const definedProps = [
   'handleComponent',
   'scale',
   'resizeRatio',
+  'snapGap',
 ];
 
 // HACK: This class is used to calculate % size.
