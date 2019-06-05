@@ -19,7 +19,7 @@
 ## Table of Contents
 
 - [Screenshot](#Screenshot)
-_ [Live Demo](#live-demo)
+- [Live Demo](#live-demo)
   - [Storybook](#storybook)
   - [CodeSandbox](#codesandbox)
 - [Install](#install)
