@@ -20,13 +20,11 @@
 
 ## [5.0.0 (2019-06-05)](https://github.com/bokuweb/re-resizable/compare/v5.0.0-beta.0...v5.0.0)
 
+Please see also 5.0.0-beta.0 change.
+
 ### :nail_care: Enhancement
   
 - Add `snapGap` property #446
- 
-### :memo: Documentation
-  
-- Please see also 5.0.0-beta.0 change.
   
 ### :house: Internal
     
