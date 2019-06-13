@@ -31,6 +31,7 @@
       "allow-pascal-case",
       "allow-leading-underscore"
     ],
+    "member-access": false,
     "import-name": false,
     "ordered-imports": false,
     "interface-name": false,
