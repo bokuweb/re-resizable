@@ -52,7 +52,7 @@
     "@types/node": "12.0.8",
     "@types/react": "16.8.7",
     "@types/react-dom": "16.8.4",
-    "@types/sinon": "7.0.12",
+    "@types/sinon": "7.0.13",
     "avaron": "0.2.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "10.0.1",
