@@ -74,7 +74,7 @@ export type ResizeStartCallback = (
   e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
   dir: Direction,
   elementRef: HTMLDivElement,
-) => void;
+) => void | boolean;
 
 export interface ResizableProps {
   style?: React.CSSProperties;
@@ -631,7 +631,10 @@ export class Resizable extends React.Component<ResizableProps, State> {
     }
     if (this.props.onResizeStart) {
       if (this.resizable) {
-        this.props.onResizeStart(event, direction, this.resizable);
+        const startResize = this.props.onResizeStart(event, direction, this.resizable);
+        if (startResize === false) {
+          return;
+        }
       }
     }
 
