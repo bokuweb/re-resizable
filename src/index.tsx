@@ -244,7 +244,7 @@ interface NewSize {
   newHeight: number | string;
   newWidth: number | string;
 }
-export class Resizable extends React.Component<ResizableProps, State> {
+export class Resizable extends React.PureComponent<ResizableProps, State> {
   get parentNode(): HTMLElement | null {
     if (!this.resizable) {
       return null;
