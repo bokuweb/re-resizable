@@ -10,6 +10,7 @@ before_install:
   - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
 
 install:
+  - sudo apt -y install libgconf2-4
   - yarn install --pure-lockfile
 
 script:
