@@ -244,7 +244,7 @@ interface NewSize {
   newHeight: number | string;
   newWidth: number | string;
 }
-export class Resizable extends React.Component<ResizableProps, State> {
+export class Resizable extends React.PureComponent<ResizableProps, State> {
   get parentNode(): HTMLElement | null {
     if (!this.resizable) {
       return null;
@@ -346,7 +346,6 @@ export class Resizable extends React.Component<ResizableProps, State> {
   };
   public ratio = 1;
   public resizable: HTMLDivElement | null = null;
-  public extendsProps: { [key: string]: React.HTMLProps<'div'> } = {};
   // For parent boundary
   public parentLeft = 0;
   public parentTop = 0;
@@ -379,7 +378,6 @@ export class Resizable extends React.Component<ResizableProps, State> {
       },
     };
 
-    this.updateExtendsProps(props);
     this.onResizeStart = this.onResizeStart.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
@@ -391,19 +389,6 @@ export class Resizable extends React.Component<ResizableProps, State> {
       window.addEventListener('touchmove', this.onMouseMove);
       window.addEventListener('touchend', this.onMouseUp);
     }
-  }
-
-  public updateExtendsProps(props: ResizableProps) {
-    this.extendsProps = Object.keys(props).reduce(
-      (acc, key) => {
-        if (definedProps.indexOf(key) !== -1) {
-          return acc;
-        }
-        acc[key] = props[key as keyof ResizableProps];
-        return acc;
-      },
-      {} as { [key: string]: any },
-    );
   }
 
   public getParentSize(): { width: number; height: number } {
@@ -458,10 +443,6 @@ export class Resizable extends React.Component<ResizableProps, State> {
       element.className += baseClassName;
     }
     parent.appendChild(element);
-  }
-
-  public componentWillReceiveProps(next: ResizableProps) {
-    this.updateExtendsProps(next);
   }
 
   public componentWillUnmount() {
@@ -808,6 +789,16 @@ export class Resizable extends React.Component<ResizableProps, State> {
   }
 
   public render() {
+    const extendsProps = Object.keys(this.props).reduce(
+      (acc, key) => {
+        if (definedProps.indexOf(key) !== -1) {
+          return acc;
+        }
+        acc[key] = this.props[key as keyof ResizableProps];
+        return acc;
+      },
+      {} as { [key: string]: any },
+    );
     return (
       <div
         ref={c => {
@@ -827,7 +818,7 @@ export class Resizable extends React.Component<ResizableProps, State> {
           boxSizing: 'border-box',
         }}
         className={this.props.className}
-        {...this.extendsProps}
+        {...extendsProps}
       >
         {this.state.isResizing && (
           <div
