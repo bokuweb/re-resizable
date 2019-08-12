@@ -18,6 +18,18 @@
   
 ### :house: Internal
 
+
+## [6.0.0 (2019-08-12)](https://github.com/bokuweb/re-resizable/compare/v5.0.0...v6.0.0)
+
+### :nail_care: Enhancement
+
+- Fix deprecated componentWillRecieveProps lifecycle method usage #504
+- Feature request: Allow early exiting for onResizeStart #494
+
+### :zap: Breaking changes
+  
+- use `PureComponent`
+  
 ## [5.0.0 (2019-06-05)](https://github.com/bokuweb/re-resizable/compare/v5.0.0-beta.0...v5.0.0)
 
 Please see also 5.0.0-beta.0 change.
