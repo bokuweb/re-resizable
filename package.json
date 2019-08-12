@@ -49,7 +49,7 @@
     "@storybook/addon-info": "5.1.9",
     "@storybook/addon-options": "5.1.9",
     "@storybook/react": "5.1.9",
-    "@types/node": "12.6.8",
+    "@types/node": "12.6.9",
     "@types/react": "16.8.7",
     "@types/react-dom": "16.8.4",
     "@types/sinon": "7.0.13",
