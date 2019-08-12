@@ -290,6 +290,24 @@ test.serial('Should only bottomRight is resizable and call onResizeStart when mo
   t.is(onResizeStart.getCall(0).args[1], 'bottomRight');
 });
 
+test.serial('Should not begin resize when onResizeStart returns false', async t => {
+  const onResizeStart = () => { return false; };
+  const onResize = sinon.spy();
+  const resizable = TestUtils.renderIntoDocument<ResizableProps, Resizable>(
+    <Resizable
+      onResizeStart={onResizeStart}
+      onResize={onResize}
+    />,
+  );
+  if (!resizable || resizable instanceof Element) return t.fail();
+  const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div') as HTMLDivElement[];
+  const previousState = resizable.state.isResizing;
+  TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(divs[1]) as Element);
+  mouseMove(200, 220);
+  t.is(onResize.callCount, 0);
+  t.is(resizable.state.isResizing, previousState);
+});
+
 test.serial('should call onResize with expected args when resize direction right', async t => {
   const onResize = sinon.spy();
   const onResizeStart = sinon.spy();
