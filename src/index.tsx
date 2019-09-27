@@ -174,6 +174,22 @@ const getStringSize = memoize(
   },
 );
 
+const getPixelSize = (size: undefined | string | number, parentSize: number) => {
+  if (size && typeof size === 'string') {
+    if (endsWith(size, '%')) {
+      const ratio = Number(size.replace('%', '')) / 100;
+      return parentSize * ratio;
+    } else if (endsWith(size, 'vw')) {
+      const ratio = Number(size.replace('vw', '')) / 100;
+      return window.innerWidth * ratio;
+    } else if (endsWith(size, 'vh')) {
+      const ratio = Number(size.replace('vh', '')) / 100;
+      return window.innerHeight * ratio;
+    }
+  }
+  return size;
+};
+
 const calculateNewMax = memoize(
   (
     parentSize: { width: number; height: number },
@@ -182,22 +198,10 @@ const calculateNewMax = memoize(
     minWidth?: string | number,
     minHeight?: string | number,
   ) => {
-    if (maxWidth && typeof maxWidth === 'string' && endsWith(maxWidth, '%')) {
-      const ratio = Number(maxWidth.replace('%', '')) / 100;
-      maxWidth = parentSize.width * ratio;
-    }
-    if (maxHeight && typeof maxHeight === 'string' && endsWith(maxHeight, '%')) {
-      const ratio = Number(maxHeight.replace('%', '')) / 100;
-      maxHeight = parentSize.height * ratio;
-    }
-    if (minWidth && typeof minWidth === 'string' && endsWith(minWidth, '%')) {
-      const ratio = Number(minWidth.replace('%', '')) / 100;
-      minWidth = parentSize.width * ratio;
-    }
-    if (minHeight && typeof minHeight === 'string' && endsWith(minHeight, '%')) {
-      const ratio = Number(minHeight.replace('%', '')) / 100;
-      minHeight = parentSize.height * ratio;
-    }
+    maxWidth = getPixelSize(maxWidth, parentSize.width);
+    maxHeight = getPixelSize(maxHeight, parentSize.height);
+    minWidth = getPixelSize(minWidth, parentSize.width);
+    minHeight = getPixelSize(minHeight, parentSize.height);
     return {
       maxWidth: typeof maxWidth === 'undefined' ? undefined : Number(maxWidth),
       maxHeight: typeof maxHeight === 'undefined' ? undefined : Number(maxHeight),
