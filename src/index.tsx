@@ -415,7 +415,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
   }
 
   public componentDidUpdate() {
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       if (this.state.isResizing) {
         this.bindEvents();
       } else {
