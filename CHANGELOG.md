@@ -1,13 +1,15 @@
 # Changelog
 
+<!-- 
 ## [[Unreleased]](https://github.com/bokuweb/re-resizable/compare/v5.0.0-beta.0...master)
 <details>
   <summary>
     Changes that have landed in master but are not yet released.
     Click to see more.
   </summary>
-</details>
+</details> -->
 
+<!--
 ### :rocket: New Feature
 
 ### :bug: Bug Fix
@@ -17,7 +19,14 @@
 ### :memo: Documentation
   
 ### :house: Internal
+-->
 
+## [6.1.0 (2019-09-28)](https://github.com/bokuweb/re-resizable/compare/v6.0.0...v6.1.0)
+
+### :nail_care: Enhancement
+
+- Improve perf #529  
+- Support `vh` and `vw` for max size #526
 
 ## [6.0.0 (2019-08-12)](https://github.com/bokuweb/re-resizable/compare/v5.0.0...v6.0.0)
 
