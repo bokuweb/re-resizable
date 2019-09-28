@@ -385,14 +385,6 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     this.onResizeStart = this.onResizeStart.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
-
-    if (typeof window !== 'undefined') {
-      window.addEventListener('mouseup', this.onMouseUp);
-      window.addEventListener('mousemove', this.onMouseMove);
-      window.addEventListener('mouseleave', this.onMouseUp);
-      window.addEventListener('touchmove', this.onMouseMove);
-      window.addEventListener('touchend', this.onMouseUp);
-    }
   }
 
   public getParentSize(): { width: number; height: number } {
@@ -420,6 +412,26 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     }
     this.base.style.minWidth = minWidth;
     return size;
+  }
+
+  public bindEvents() {
+    if (typeof window !== 'undefined') {
+      window.addEventListener('mouseup', this.onMouseUp);
+      window.addEventListener('mousemove', this.onMouseMove);
+      window.addEventListener('mouseleave', this.onMouseUp);
+      window.addEventListener('touchmove', this.onMouseMove);
+      window.addEventListener('touchend', this.onMouseUp);
+    }
+  }
+
+  public unbindEvents() {
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('mouseup', this.onMouseUp);
+      window.removeEventListener('mousemove', this.onMouseMove);
+      window.removeEventListener('mouseleave', this.onMouseUp);
+      window.removeEventListener('touchmove', this.onMouseMove);
+      window.removeEventListener('touchend', this.onMouseUp);
+    }
   }
 
   public componentDidMount() {
@@ -451,11 +463,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
 
   public componentWillUnmount() {
     if (typeof window !== 'undefined') {
-      window.removeEventListener('mouseup', this.onMouseUp);
-      window.removeEventListener('mousemove', this.onMouseMove);
-      window.removeEventListener('mouseleave', this.onMouseUp);
-      window.removeEventListener('touchmove', this.onMouseMove);
-      window.removeEventListener('touchend', this.onMouseUp);
+      this.unbindEvents();
       const parent = this.parentNode;
       if (!this.base || !parent) {
         return;
@@ -639,7 +647,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
 
     // For boundary
     this.setBoundingClientRect();
-
+    this.bindEvents();
     this.setState({
       original: {
         x: clientX,
@@ -756,6 +764,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     if (this.props.size) {
       this.setState(this.props.size);
     }
+    this.unbindEvents();
     this.setState({ isResizing: false, resizeCursor: 'auto' });
   }
 
