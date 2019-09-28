@@ -425,19 +425,19 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
   }
 
   public bindEvents() {
-    window.addEventListener("mouseup", this.onMouseUp);
-    window.addEventListener("mousemove", this.onMouseMove);
-    window.addEventListener("mouseleave", this.onMouseUp);
-    window.addEventListener("touchmove", this.onMouseMove);
-    window.addEventListener("touchend", this.onMouseUp);
+    window.addEventListener('mouseup', this.onMouseUp);
+    window.addEventListener('mousemove', this.onMouseMove);
+    window.addEventListener('mouseleave', this.onMouseUp);
+    window.addEventListener('touchmove', this.onMouseMove);
+    window.addEventListener('touchend', this.onMouseUp);
   }
 
   public unbindEvents() {
-    window.removeEventListener("mouseup", this.onMouseUp);
-    window.removeEventListener("mousemove", this.onMouseMove);
-    window.removeEventListener("mouseleave", this.onMouseUp);
-    window.removeEventListener("touchmove", this.onMouseMove);
-    window.removeEventListener("touchend", this.onMouseUp);
+    window.removeEventListener('mouseup', this.onMouseUp);
+    window.removeEventListener('mousemove', this.onMouseMove);
+    window.removeEventListener('mouseleave', this.onMouseUp);
+    window.removeEventListener('touchmove', this.onMouseMove);
+    window.removeEventListener('touchend', this.onMouseUp);
   }
 
   public componentDidMount() {
