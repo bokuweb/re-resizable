@@ -21,6 +21,12 @@
 ### :house: Internal
 -->
 
+## [6.1.1 (2019-11-30)](https://github.com/bokuweb/re-resizable/compare/v6.1.0...v6.1.1)
+
+### :bug: Bug Fix
+
+- Fixed a bug, `Handle loses mouse as edge gets further away from other side #537`
+
 ## [6.1.0 (2019-09-28)](https://github.com/bokuweb/re-resizable/compare/v6.0.0...v6.1.0)
 
 ### :nail_care: Enhancement
