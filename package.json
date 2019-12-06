@@ -82,7 +82,7 @@
     "rollup-plugin-typescript2": "0.22.1",
     "rollup-watch": "4.3.1",
     "sinon": "7.5.0",
-    "tslint": "5.18.0",
+    "tslint": "5.20.1",
     "tslint-config-google": "1.0.1",
     "tslint-config-prettier": "1.18.0",
     "tslint-plugin-prettier": "2.0.1",
