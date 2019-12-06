@@ -37,10 +37,10 @@
   },
   "homepage": "https://github.com/bokuweb/react-resizable-box",
   "devDependencies": {
-    "@babel/cli": "7.7.4",
-    "@babel/core": "7.7.4",
+    "@babel/cli": "7.7.5",
+    "@babel/core": "7.7.5",
     "@babel/plugin-proposal-class-properties": "7.7.4",
-    "@babel/plugin-transform-modules-commonjs": "7.7.4",
+    "@babel/plugin-transform-modules-commonjs": "7.7.5",
     "@babel/preset-react": "7.7.4",
     "@babel/preset-typescript": "7.7.4",
     "@babel/traverse": "7.7.4",
