@@ -22,6 +22,8 @@
     "test": "cross-env NODE_ENV='test' tsc && avaron lib/index.test.js --renderer",
     "test:ci": "npm run flow && npm run build",
     "prepublish": "npm run build",
+    "format": "prettier --write '**/*.{tsx,ts}'",
+    "format:ci": "prettier '**/*.{tsx,ts}'",
     "storybook": "start-storybook -p 6066",
     "build-storybook": "build-storybook",
     "deploy": "npm run build-storybook && gh-pages -d storybook-static"

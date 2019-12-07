@@ -125,54 +125,50 @@ interface State {
 
 const clamp = memoize((n: number, min: number, max: number): number => Math.max(Math.min(n, max), min));
 const snap = memoize((n: number, size: number): number => Math.round(n / size) * size);
-const hasDirection = memoize(
-  (dir: 'top' | 'right' | 'bottom' | 'left', target: string): boolean => new RegExp(dir, 'i').test(target),
+const hasDirection = memoize((dir: 'top' | 'right' | 'bottom' | 'left', target: string): boolean =>
+  new RegExp(dir, 'i').test(target),
 );
 
-const findClosestSnap = memoize(
-  (n: number, snapArray: number[], snapGap: number = 0): number => {
-    const closestGapIndex = snapArray.reduce(
-      (prev, curr, index) => (Math.abs(curr - n) < Math.abs(snapArray[prev] - n) ? index : prev),
-      0,
-    );
-    const gap = Math.abs(snapArray[closestGapIndex] - n);
+const findClosestSnap = memoize((n: number, snapArray: number[], snapGap: number = 0): number => {
+  const closestGapIndex = snapArray.reduce(
+    (prev, curr, index) => (Math.abs(curr - n) < Math.abs(snapArray[prev] - n) ? index : prev),
+    0,
+  );
+  const gap = Math.abs(snapArray[closestGapIndex] - n);
 
-    return snapGap === 0 || gap < snapGap ? snapArray[closestGapIndex] : n;
-  },
-);
+  return snapGap === 0 || gap < snapGap ? snapArray[closestGapIndex] : n;
+});
 
 const endsWith = memoize(
   (str: string, searchStr: string): boolean =>
     str.substr(str.length - searchStr.length, searchStr.length) === searchStr,
 );
 
-const getStringSize = memoize(
-  (n: number | string): string => {
-    n = n.toString();
-    if (n === 'auto') {
-      return n;
-    }
-    if (endsWith(n, 'px')) {
-      return n;
-    }
-    if (endsWith(n, '%')) {
-      return n;
-    }
-    if (endsWith(n, 'vh')) {
-      return n;
-    }
-    if (endsWith(n, 'vw')) {
-      return n;
-    }
-    if (endsWith(n, 'vmax')) {
-      return n;
-    }
-    if (endsWith(n, 'vmin')) {
-      return n;
-    }
-    return `${n}px`;
-  },
-);
+const getStringSize = memoize((n: number | string): string => {
+  n = n.toString();
+  if (n === 'auto') {
+    return n;
+  }
+  if (endsWith(n, 'px')) {
+    return n;
+  }
+  if (endsWith(n, '%')) {
+    return n;
+  }
+  if (endsWith(n, 'vh')) {
+    return n;
+  }
+  if (endsWith(n, 'vw')) {
+    return n;
+  }
+  if (endsWith(n, 'vmax')) {
+    return n;
+  }
+  if (endsWith(n, 'vmin')) {
+    return n;
+  }
+  return `${n}px`;
+});
 
 const getPixelSize = (size: undefined | string | number, parentSize: number) => {
   if (size && typeof size === 'string') {
@@ -802,16 +798,13 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
   }
 
   public render() {
-    const extendsProps = Object.keys(this.props).reduce(
-      (acc, key) => {
-        if (definedProps.indexOf(key) !== -1) {
-          return acc;
-        }
-        acc[key] = this.props[key as keyof ResizableProps];
+    const extendsProps = Object.keys(this.props).reduce((acc, key) => {
+      if (definedProps.indexOf(key) !== -1) {
         return acc;
-      },
-      {} as { [key: string]: any },
-    );
+      }
+      acc[key] = this.props[key as keyof ResizableProps];
+      return acc;
+    }, {} as { [key: string]: any });
     return (
       <div
         ref={c => {
