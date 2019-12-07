@@ -291,13 +291,12 @@ test.serial('Should only bottomRight is resizable and call onResizeStart when mo
 });
 
 test.serial('Should not begin resize when onResizeStart returns false', async t => {
-  const onResizeStart = () => { return false; };
+  const onResizeStart = () => {
+    return false;
+  };
   const onResize = sinon.spy();
   const resizable = TestUtils.renderIntoDocument<ResizableProps, Resizable>(
-    <Resizable
-      onResizeStart={onResizeStart}
-      onResize={onResize}
-    />,
+    <Resizable onResizeStart={onResizeStart} onResize={onResize} />,
   );
   if (!resizable || resizable instanceof Element) return t.fail();
   const divs = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'div') as HTMLDivElement[];
