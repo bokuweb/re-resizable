@@ -643,6 +643,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
 
     // For boundary
     this.setBoundingClientRect();
+    console.log(this.size.width);
     this.bindEvents();
     this.setState({
       original: {
@@ -675,6 +676,8 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
 
     // Calculate new size
     let { newHeight, newWidth }: NewSize = this.calculateNewSizeFromDirection(clientX, clientY);
+
+    console.log(newWidth, 'newWidth');
 
     // Calculate max size from boundary settings
     const boundaryMax = this.calculateNewMaxFromBoundary(maxWidth, maxHeight);
@@ -709,6 +712,19 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       height: newHeight - original.height,
     };
 
+    if (this.resizable) {
+      console.log(window.getComputedStyle(this.resizable).flexGrow);
+      if (window.getComputedStyle(this.resizable).flexGrow) {
+        const w = this.resizable.style.width;
+        this.resizable.style.width = '0';
+        const w2 = this.resizable.offsetWidth;
+        console.log(w2);
+        console.log(this.resizable.scrollWidth);
+        this.resizable.style.width = w;
+        newWidth = newWidth - w2 + 10;
+      }
+    }
+
     if (width && typeof width === 'string') {
       if (endsWith(width, '%')) {
         const percent = (newWidth / parentSize.width) * 100;
@@ -739,6 +755,8 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       width: this.createSizeForCssProperty(newWidth, 'width'),
       height: this.createSizeForCssProperty(newHeight, 'height'),
     });
+
+    console.log(this.createSizeForCssProperty(newWidth, 'width'), 'newWidth2');
 
     if (this.props.onResize) {
       this.props.onResize(event, direction, this.resizable, delta);
@@ -805,6 +823,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       acc[key] = this.props[key as keyof ResizableProps];
       return acc;
     }, {} as { [key: string]: any });
+
     return (
       <div
         ref={c => {
