@@ -51,7 +51,7 @@
     "@storybook/addon-info": "5.2.8",
     "@storybook/addon-options": "5.2.8",
     "@storybook/react": "5.2.8",
-    "@types/node": "12.12.25",
+    "@types/node": "12.12.26",
     "@types/react": "16.8.7",
     "@types/react-dom": "16.8.5",
     "@types/sinon": "7.5.1",
