@@ -78,24 +78,30 @@ export interface Props {
   children: React.ReactNode;
 }
 
-export function Resizer(props: Props) {
-  return (
-    <div
-      className={props.className || ''}
-      style={{
-        position: 'absolute',
-        userSelect: 'none',
-        ...styles[props.direction],
-        ...(props.replaceStyles || {}),
-      }}
-      onMouseDown={(e: React.MouseEvent<HTMLDivElement>) => {
-        props.onResizeStart(e, props.direction);
-      }}
-      onTouchStart={(e: React.TouchEvent<HTMLDivElement>) => {
-        props.onResizeStart(e, props.direction);
-      }}
-    >
-      {props.children}
-    </div>
-  );
+export class Resizer extends React.PureComponent<Props> {
+  onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    this.props.onResizeStart(e, this.props.direction);
+  };
+
+  onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    this.props.onResizeStart(e, this.props.direction);
+  };
+
+  render() {
+    return (
+      <div
+        className={this.props.className || ''}
+        style={{
+          position: 'absolute',
+          userSelect: 'none',
+          ...styles[this.props.direction],
+          ...(this.props.replaceStyles || {}),
+        }}
+        onMouseDown={this.onMouseDown}
+        onTouchStart={this.onTouchStart}
+      >
+        {this.props.children}
+      </div>
+    );
+  }
 }
