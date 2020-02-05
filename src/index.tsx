@@ -122,6 +122,7 @@ interface State {
   height: number | string;
 
   backgroundStyle: React.CSSProperties;
+  flexBasis?: string | number;
 }
 
 const clamp = memoize((n: number, min: number, max: number): number => Math.max(Math.min(n, max), min));
@@ -246,6 +247,8 @@ interface NewSize {
   newWidth: number | string;
 }
 export class Resizable extends React.PureComponent<ResizableProps, State> {
+  flexDir?: 'row' | 'column';
+
   get parentNode(): HTMLElement | null {
     if (!this.resizable) {
       return null;
@@ -322,7 +325,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     return { width, height };
   }
 
-  static defaultProps = {
+  public static defaultProps = {
     onResizeStart: () => {},
     onResize: () => {},
     onResizeStop: () => {},
@@ -444,9 +447,14 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
   }
 
   componentDidMount() {
+    if (!this.resizable) {
+      return;
+    }
+    const computedStyle = window.getComputedStyle(this.resizable);
     this.setState({
       width: this.state.width || this.size.width,
       height: this.state.height || this.size.height,
+      flexBasis: computedStyle.flexBasis !== 'auto' ? computedStyle.flexBasis : undefined,
     });
     const parent = this.parentNode;
     if (!(parent instanceof HTMLElement)) {
@@ -612,6 +620,9 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
   }
 
   onResizeStart(event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>, direction: Direction) {
+    if (!this.resizable) {
+      return;
+    }
     let clientX = 0;
     let clientY = 0;
     if (event.nativeEvent instanceof MouseEvent) {
@@ -651,10 +662,20 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     this.ratio =
       typeof this.props.lockAspectRatio === 'number' ? this.props.lockAspectRatio : this.size.width / this.size.height;
 
+    let flexBasis;
+    const computedStyle = window.getComputedStyle(this.resizable);
+    if (computedStyle.flexBasis !== 'auto') {
+      const parent = this.parentNode;
+      if (parent) {
+        const dir = window.getComputedStyle(parent).flexDirection;
+        this.flexDir = dir.startsWith('row') ? 'row' : 'column';
+        flexBasis = computedStyle.flexBasis;
+      }
+    }
     // For boundary
     this.setBoundingClientRect();
     this.bindEvents();
-    this.setState({
+    const state = {
       original: {
         x: clientX,
         y: clientY,
@@ -667,7 +688,10 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
         cursor: window.getComputedStyle(event.target as HTMLElement).cursor || 'auto',
       },
       direction,
-    });
+      flexBasis,
+    };
+
+    this.setState(state);
   }
 
   onMouseMove(event: MouseEvent | TouchEvent) {
@@ -748,10 +772,18 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       }
     }
 
-    this.setState({
+    const newState: { width: string | number; height: string | number; flexBasis?: string | number } = {
       width: this.createSizeForCssProperty(newWidth, 'width'),
       height: this.createSizeForCssProperty(newHeight, 'height'),
-    });
+    };
+
+    if (this.flexDir === 'row') {
+      newState.flexBasis = newState.width;
+    } else if (this.flexDir === 'column') {
+      newState.flexBasis = newState.height;
+    }
+
+    this.setState(newState);
 
     if (this.props.onResize) {
       this.props.onResize(event, direction, this.resizable, delta);
@@ -827,24 +859,26 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       acc[key] = this.props[key as keyof ResizableProps];
       return acc;
     }, {} as { [key: string]: any });
+
+    const style: React.CSSProperties = {
+      position: 'relative',
+      userSelect: this.state.isResizing ? 'none' : 'auto',
+      ...this.props.style,
+      ...this.sizeStyle,
+      maxWidth: this.props.maxWidth,
+      maxHeight: this.props.maxHeight,
+      minWidth: this.props.minWidth,
+      minHeight: this.props.minHeight,
+      boxSizing: 'border-box',
+      flexShrink: 0,
+    };
+
+    if (this.state.flexBasis) {
+      style.flexBasis = this.state.flexBasis;
+    }
+
     return (
-      <div
-        ref={this.ref}
-        style={{
-          position: 'relative',
-          userSelect: this.state.isResizing ? 'none' : 'auto',
-          ...this.props.style,
-          ...this.sizeStyle,
-          maxWidth: this.props.maxWidth,
-          maxHeight: this.props.maxHeight,
-          minWidth: this.props.minWidth,
-          minHeight: this.props.minHeight,
-          boxSizing: 'border-box',
-          flexShrink: 0,
-        }}
-        className={this.props.className}
-        {...extendsProps}
-      >
+      <div ref={this.ref} style={style} className={this.props.className} {...extendsProps}>
         {this.state.isResizing && <div style={this.state.backgroundStyle} />}
         {this.props.children}
         {this.renderResizer()}

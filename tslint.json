@@ -42,7 +42,8 @@
     "no-implicit-dependencies": [true, "dev"],
     "no-submodule-imports": false,
     "no-unused-expression": [true, "allow-fast-null-checks"],
-    "no-object-literal-type-assertion": false
+    "no-object-literal-type-assertion": false,
+    "member-ordering": false
 },
   "jsRules": {}
 }
