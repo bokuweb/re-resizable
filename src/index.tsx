@@ -392,6 +392,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
         bottom: '0',
         right: '0',
       },
+      flexBasis: undefined,
     };
 
     this.onResizeStart = this.onResizeStart.bind(this);
