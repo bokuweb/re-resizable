@@ -172,17 +172,22 @@ const getStringSize = memoize((n: number | string): string => {
   return `${n}px`;
 });
 
-const getPixelSize = (size: undefined | string | number, parentSize: number) => {
+const getPixelSize = (
+  size: undefined | string | number,
+  parentSize: number,
+  innerWidth: number,
+  innerHeight: number,
+) => {
   if (size && typeof size === 'string') {
     if (endsWith(size, '%')) {
       const ratio = Number(size.replace('%', '')) / 100;
       return parentSize * ratio;
     } else if (endsWith(size, 'vw')) {
       const ratio = Number(size.replace('vw', '')) / 100;
-      return window.innerWidth * ratio;
+      return innerWidth * ratio;
     } else if (endsWith(size, 'vh')) {
       const ratio = Number(size.replace('vh', '')) / 100;
-      return window.innerHeight * ratio;
+      return innerHeight * ratio;
     }
   }
   return size;
@@ -191,15 +196,17 @@ const getPixelSize = (size: undefined | string | number, parentSize: number) => 
 const calculateNewMax = memoize(
   (
     parentSize: { width: number; height: number },
+    innerWidth: number,
+    innerHeight: number,
     maxWidth?: string | number,
     maxHeight?: string | number,
     minWidth?: string | number,
     minHeight?: string | number,
   ) => {
-    maxWidth = getPixelSize(maxWidth, parentSize.width);
-    maxHeight = getPixelSize(maxHeight, parentSize.height);
-    minWidth = getPixelSize(minWidth, parentSize.width);
-    minHeight = getPixelSize(minHeight, parentSize.height);
+    maxWidth = getPixelSize(maxWidth, parentSize.width, innerWidth, innerHeight);
+    maxHeight = getPixelSize(maxHeight, parentSize.height, innerWidth, innerHeight);
+    minWidth = getPixelSize(minWidth, parentSize.width, innerWidth, innerHeight);
+    minHeight = getPixelSize(minHeight, parentSize.height, innerWidth, innerHeight);
     return {
       maxWidth: typeof maxWidth === 'undefined' ? undefined : Number(maxWidth),
       maxHeight: typeof maxHeight === 'undefined' ? undefined : Number(maxHeight),
@@ -256,6 +263,16 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     return this.resizable.parentNode as HTMLElement;
   }
 
+  get window(): Window | null {
+    if (!this.resizable) {
+      return null;
+    }
+    if (!this.resizable.ownerDocument) {
+      return null;
+    }
+    return this.resizable.ownerDocument.defaultView as Window;
+  }
+
   get propsSize(): Size {
     return this.props.size || this.props.defaultSize || DEFAULT_SIZE;
   }
@@ -279,7 +296,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
   get size(): NumberSize {
     let width = 0;
     let height = 0;
-    if (typeof window !== 'undefined' && this.resizable) {
+    if (this.resizable && this.window) {
       const orgWidth = this.resizable.offsetWidth;
       const orgHeight = this.resizable.offsetHeight;
       // HACK: Set position `relative` to get parent size.
@@ -401,7 +418,10 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
 
   getParentSize(): { width: number; height: number } {
     if (!this.base || !this.parentNode) {
-      return { width: window.innerWidth, height: window.innerHeight };
+      if (!this.window) {
+        return { width: 0, height: 0 };
+      }
+      return { width: this.window.innerWidth, height: this.window.innerHeight };
     }
     // INFO: To calculate parent width with flex layout
     let wrapChanged = false;
@@ -427,30 +447,30 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
   }
 
   bindEvents() {
-    if (typeof window !== 'undefined') {
-      window.addEventListener('mouseup', this.onMouseUp);
-      window.addEventListener('mousemove', this.onMouseMove);
-      window.addEventListener('mouseleave', this.onMouseUp);
-      window.addEventListener('touchmove', this.onMouseMove);
-      window.addEventListener('touchend', this.onMouseUp);
+    if (this.window) {
+      this.window.addEventListener('mouseup', this.onMouseUp);
+      this.window.addEventListener('mousemove', this.onMouseMove);
+      this.window.addEventListener('mouseleave', this.onMouseUp);
+      this.window.addEventListener('touchmove', this.onMouseMove);
+      this.window.addEventListener('touchend', this.onMouseUp);
     }
   }
 
   unbindEvents() {
-    if (typeof window !== 'undefined') {
-      window.removeEventListener('mouseup', this.onMouseUp);
-      window.removeEventListener('mousemove', this.onMouseMove);
-      window.removeEventListener('mouseleave', this.onMouseUp);
-      window.removeEventListener('touchmove', this.onMouseMove);
-      window.removeEventListener('touchend', this.onMouseUp);
+    if (this.window) {
+      this.window.removeEventListener('mouseup', this.onMouseUp);
+      this.window.removeEventListener('mousemove', this.onMouseMove);
+      this.window.removeEventListener('mouseleave', this.onMouseUp);
+      this.window.removeEventListener('touchmove', this.onMouseMove);
+      this.window.removeEventListener('touchend', this.onMouseUp);
     }
   }
 
   componentDidMount() {
-    if (!this.resizable) {
+    if (!this.resizable || !this.window) {
       return;
     }
-    const computedStyle = window.getComputedStyle(this.resizable);
+    const computedStyle = this.window.getComputedStyle(this.resizable);
     this.setState({
       width: this.state.width || this.size.width,
       height: this.state.height || this.size.height,
@@ -463,7 +483,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     if (this.base) {
       return;
     }
-    const element = document.createElement('div');
+    const element = this.window.document.createElement('div');
     element.style.width = '100%';
     element.style.height = '100%';
     element.style.position = 'absolute';
@@ -479,7 +499,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
   }
 
   componentWillUnmount() {
-    if (typeof window !== 'undefined') {
+    if (this.window) {
       this.unbindEvents();
       const parent = this.parentNode;
       if (!this.base || !parent) {
@@ -511,9 +531,9 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
         maxHeight = maxHeight && maxHeight < boundHeight ? maxHeight : boundHeight;
       }
     } else if (this.props.bounds === 'window') {
-      if (typeof window !== 'undefined') {
-        const boundWidth = window.innerWidth - this.resizableLeft;
-        const boundHeight = window.innerHeight - this.resizableTop;
+      if (this.window) {
+        const boundWidth = this.window.innerWidth - this.resizableLeft;
+        const boundHeight = this.window.innerHeight - this.resizableTop;
         maxWidth = maxWidth && maxWidth < boundWidth ? maxWidth : boundWidth;
         maxHeight = maxHeight && maxHeight < boundHeight ? maxHeight : boundHeight;
       }
@@ -620,7 +640,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
   }
 
   onResizeStart(event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>, direction: Direction) {
-    if (!this.resizable) {
+    if (!this.resizable || !this.window) {
       return;
     }
     let clientX = 0;
@@ -663,11 +683,11 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       typeof this.props.lockAspectRatio === 'number' ? this.props.lockAspectRatio : this.size.width / this.size.height;
 
     let flexBasis;
-    const computedStyle = window.getComputedStyle(this.resizable);
+    const computedStyle = this.window.getComputedStyle(this.resizable);
     if (computedStyle.flexBasis !== 'auto') {
       const parent = this.parentNode;
       if (parent) {
-        const dir = window.getComputedStyle(parent).flexDirection;
+        const dir = this.window.getComputedStyle(parent).flexDirection;
         this.flexDir = dir.startsWith('row') ? 'row' : 'column';
         flexBasis = computedStyle.flexBasis;
       }
@@ -685,7 +705,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       isResizing: true,
       backgroundStyle: {
         ...this.state.backgroundStyle,
-        cursor: window.getComputedStyle(event.target as HTMLElement).cursor || 'auto',
+        cursor: this.window.getComputedStyle(event.target as HTMLElement).cursor || 'auto',
       },
       direction,
       flexBasis,
@@ -695,7 +715,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
   }
 
   onMouseMove(event: MouseEvent | TouchEvent) {
-    if (!this.state.isResizing || !this.resizable) {
+    if (!this.state.isResizing || !this.resizable || !this.window) {
       return;
     }
     let { maxWidth, maxHeight, minWidth, minHeight } = this.props;
@@ -703,7 +723,15 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     const clientY = event instanceof MouseEvent ? event.clientY : event.touches[0].clientY;
     const { direction, original, width, height } = this.state;
     const parentSize = this.getParentSize();
-    const max = calculateNewMax(parentSize, maxWidth, maxHeight, minWidth, minHeight);
+    const max = calculateNewMax(
+      parentSize,
+      this.window.innerWidth,
+      this.window.innerHeight,
+      maxWidth,
+      maxHeight,
+      minWidth,
+      minHeight,
+    );
 
     maxWidth = max.maxWidth;
     maxHeight = max.maxHeight;
@@ -751,10 +779,10 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
         const percent = (newWidth / parentSize.width) * 100;
         newWidth = `${percent}%`;
       } else if (endsWith(width, 'vw')) {
-        const vw = (newWidth / window.innerWidth) * 100;
+        const vw = (newWidth / this.window.innerWidth) * 100;
         newWidth = `${vw}vw`;
       } else if (endsWith(width, 'vh')) {
-        const vh = (newWidth / window.innerHeight) * 100;
+        const vh = (newWidth / this.window.innerHeight) * 100;
         newWidth = `${vh}vh`;
       }
     }
@@ -764,10 +792,10 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
         const percent = (newHeight / parentSize.height) * 100;
         newHeight = `${percent}%`;
       } else if (endsWith(height, 'vw')) {
-        const vw = (newHeight / window.innerWidth) * 100;
+        const vw = (newHeight / this.window.innerWidth) * 100;
         newHeight = `${vw}vw`;
       } else if (endsWith(height, 'vh')) {
-        const vh = (newHeight / window.innerHeight) * 100;
+        const vh = (newHeight / this.window.innerHeight) * 100;
         newHeight = `${vh}vh`;
       }
     }
