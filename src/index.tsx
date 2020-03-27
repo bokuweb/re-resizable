@@ -249,6 +249,13 @@ const definedProps = [
 // HACK: This class is used to calculate % size.
 const baseClassName = '__resizable_base__';
 
+declare global {
+  interface Window {
+    MouseEvent: typeof MouseEvent;
+    TouchEvent: typeof TouchEvent;
+  }
+}
+
 interface NewSize {
   newHeight: number | string;
   newWidth: number | string;
@@ -282,12 +289,10 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     if (!parent) {
       return undefined;
     }
-    const children = [].slice.call(parent.children) as Node[];
+    const children = [].slice.call(parent.children) as HTMLElement[];
     for (const n of children) {
-      if (n instanceof HTMLElement) {
-        if (n.classList.contains(baseClassName)) {
-          return n;
-        }
+      if (n.classList.contains(baseClassName)) {
+        return n;
       }
     }
     return undefined;
@@ -477,7 +482,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       flexBasis: computedStyle.flexBasis !== 'auto' ? computedStyle.flexBasis : undefined,
     });
     const parent = this.parentNode;
-    if (!(parent instanceof HTMLElement)) {
+    if (!parent) {
       return;
     }
     if (this.base) {
@@ -505,7 +510,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       if (!this.base || !parent) {
         return;
       }
-      if (!(parent instanceof HTMLElement) || !(this.base instanceof Node)) {
+      if (!parent || !this.base) {
         return;
       }
       parent.removeChild(this.base);
@@ -524,7 +529,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
   calculateNewMaxFromBoundary(maxWidth?: number, maxHeight?: number) {
     if (this.props.bounds === 'parent') {
       const parent = this.parentNode;
-      if (parent instanceof HTMLElement) {
+      if (parent) {
         const boundWidth = parent.offsetWidth + (this.parentLeft - this.resizableLeft);
         const boundHeight = parent.offsetHeight + (this.parentTop - this.resizableTop);
         maxWidth = maxWidth && maxWidth < boundWidth ? maxWidth : boundWidth;
@@ -537,7 +542,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
         maxWidth = maxWidth && maxWidth < boundWidth ? maxWidth : boundWidth;
         maxHeight = maxHeight && maxHeight < boundHeight ? maxHeight : boundHeight;
       }
-    } else if (this.props.bounds instanceof HTMLElement) {
+    } else if (this.props.bounds) {
       const boundWidth = this.props.bounds.offsetWidth + (this.targetLeft - this.resizableLeft);
       const boundHeight = this.props.bounds.offsetHeight + (this.targetTop - this.resizableTop);
       maxWidth = maxWidth && maxWidth < boundWidth ? maxWidth : boundWidth;
@@ -617,7 +622,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     // For parent boundary
     if (this.props.bounds === 'parent') {
       const parent = this.parentNode;
-      if (parent instanceof HTMLElement) {
+      if (parent) {
         const parentRect = parent.getBoundingClientRect();
         this.parentLeft = parentRect.left;
         this.parentTop = parentRect.top;
@@ -625,7 +630,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     }
 
     // For target(html element) boundary
-    if (this.props.bounds instanceof HTMLElement) {
+    if (this.props.bounds && typeof this.props.bounds !== 'string') {
       const targetRect = this.props.bounds.getBoundingClientRect();
       this.targetLeft = targetRect.left;
       this.targetTop = targetRect.top;
@@ -645,7 +650,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     }
     let clientX = 0;
     let clientY = 0;
-    if (event.nativeEvent instanceof MouseEvent) {
+    if (event.nativeEvent instanceof this.window.MouseEvent) {
       clientX = event.nativeEvent.clientX;
       clientY = event.nativeEvent.clientY;
 
@@ -655,7 +660,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       if (event.nativeEvent.which === 3) {
         return;
       }
-    } else if (event.nativeEvent instanceof TouchEvent) {
+    } else if (event.nativeEvent instanceof this.window.TouchEvent) {
       clientX = event.nativeEvent.touches[0].clientX;
       clientY = event.nativeEvent.touches[0].clientY;
     }
@@ -719,8 +724,8 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       return;
     }
     let { maxWidth, maxHeight, minWidth, minHeight } = this.props;
-    const clientX = event instanceof MouseEvent ? event.clientX : event.touches[0].clientX;
-    const clientY = event instanceof MouseEvent ? event.clientY : event.touches[0].clientY;
+    const clientX = event instanceof this.window.MouseEvent ? event.clientX : event.touches[0].clientX;
+    const clientY = event instanceof this.window.MouseEvent ? event.clientY : event.touches[0].clientY;
     const { direction, original, width, height } = this.state;
     const parentSize = this.getParentSize();
     const max = calculateNewMax(
