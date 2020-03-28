@@ -21,7 +21,7 @@
 ### :house: Internal
 -->
 
-## [6.3.0 (2020-03-28)](https://github.com/bokuweb/re-resizable/compare/v6.2.0...v6.3.0)
+## [6.3.1 (2020-03-28)](https://github.com/bokuweb/re-resizable/compare/v6.2.0...v6.3.1)
 
 ### :nail_care: Enhancement
 
@@ -32,8 +32,7 @@
 
 ### :bug: Bug Fix
 
-- Fixed a behavior with flex width.
-
+- Fixed a bug, resizing does not work when flex-basis set.
 
 ## [6.1.1 (2019-11-30)](https://github.com/bokuweb/re-resizable/compare/v6.1.0...v6.1.1)
 
