@@ -21,6 +21,13 @@
 ### :house: Internal
 -->
 
+## [6.3.2 (2020-03-28)](https://github.com/bokuweb/re-resizable/compare/v6.3.1...v6.3.2)
+
+### :nail_care: Enhancement
+
+- Avoid a useless re-render #587
+
+
 ## [6.3.1 (2020-03-28)](https://github.com/bokuweb/re-resizable/compare/v6.2.0...v6.3.1)
 
 ### :nail_care: Enhancement
