@@ -77,7 +77,7 @@ export type ResizeStartCallback = (
 ) => void | boolean;
 
 export interface ResizableProps {
-  as: any;
+  as: string | React.ComponentType<any>;
   style?: React.CSSProperties;
   className?: string;
   grid?: [number, number];
