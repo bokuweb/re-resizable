@@ -66,17 +66,18 @@ export interface HandleComponent {
 export type ResizeCallback = (
   event: MouseEvent | TouchEvent,
   direction: Direction,
-  elementRef: HTMLDivElement,
+  elementRef: HTMLElement,
   delta: NumberSize,
 ) => void;
 
 export type ResizeStartCallback = (
-  e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
+  e: React.MouseEvent<HTMLElement> | React.TouchEvent<HTMLElement>,
   dir: Direction,
-  elementRef: HTMLDivElement,
+  elementRef: HTMLElement,
 ) => void | boolean;
 
 export interface ResizableProps {
+  as: string | React.ComponentType<any>;
   style?: React.CSSProperties;
   className?: string;
   grid?: [number, number];
@@ -217,6 +218,7 @@ const calculateNewMax = memoize(
 );
 
 const definedProps = [
+  'as',
   'style',
   'className',
   'grid',
@@ -348,6 +350,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
   }
 
   public static defaultProps = {
+    as: 'div',
     onResizeStart: () => {},
     onResize: () => {},
     onResizeStop: () => {},
@@ -371,7 +374,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     snapGap: 0,
   };
   ratio = 1;
-  resizable: HTMLDivElement | null = null;
+  resizable: HTMLElement | null = null;
   // For parent boundary
   parentLeft = 0;
   parentTop = 0;
@@ -645,7 +648,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     }
   }
 
-  onResizeStart(event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>, direction: Direction) {
+  onResizeStart(event: React.MouseEvent<HTMLElement> | React.TouchEvent<HTMLElement>, direction: Direction) {
     if (!this.resizable || !this.window) {
       return;
     }
@@ -879,7 +882,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     );
   }
 
-  ref = (c: HTMLDivElement | null) => {
+  ref = (c: HTMLElement | null) => {
     if (c) {
       this.resizable = c;
     }
@@ -911,12 +914,14 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       style.flexBasis = this.state.flexBasis;
     }
 
+    const Wrapper = this.props.as;
+
     return (
-      <div ref={this.ref} style={style} className={this.props.className} {...extendsProps}>
+      <Wrapper ref={this.ref} style={style} className={this.props.className} {...extendsProps}>
         {this.state.isResizing && <div style={this.state.backgroundStyle} />}
         {this.props.children}
         {this.renderResizer()}
-      </div>
+      </Wrapper>
     );
   }
 }
