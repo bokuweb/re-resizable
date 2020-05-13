@@ -110,6 +110,15 @@ test.serial('Should custom class name be applied to box', async t => {
   t.is(divs[0].className, 'custom-class-name');
 });
 
+test.serial('Should use a custom wrapper element', async t => {
+  const resizable = TestUtils.renderIntoDocument<Element>(<Resizable as="header" />);
+  if (!resizable || resizable instanceof Element) {
+    return t.fail();
+  }
+  const headers = TestUtils.scryRenderedDOMComponentsWithTag(resizable, 'header');
+  t.is(headers.length, 1);
+});
+
 test.serial('Should custom class name be applied to resizer', async t => {
   const resizable = TestUtils.renderIntoDocument<Element>(
     <Resizable handleClasses={{ right: 'right-handle-class' }} />,
