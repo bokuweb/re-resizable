@@ -222,6 +222,10 @@ Calls when resizable component resize start.
 
 The `scale` property is used in the scenario where the resizable element is a descendent of an element using css scaling (e.g. - `transform: scale(0.5)`).
 
+#### `as?: string | React.ComponentType`;
+
+By default the `Resizable` component will render a `div` as a wrapper. The `as` property is used to change the element used.
+
 ### Basic
 
 `ResizeCallback` type is below.

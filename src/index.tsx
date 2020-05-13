@@ -77,6 +77,7 @@ export type ResizeStartCallback = (
 ) => void | boolean;
 
 export interface ResizableProps {
+  as: any;
   style?: React.CSSProperties;
   className?: string;
   grid?: [number, number];
@@ -217,6 +218,7 @@ const calculateNewMax = memoize(
 );
 
 const definedProps = [
+  'as',
   'style',
   'className',
   'grid',
@@ -348,6 +350,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
   }
 
   public static defaultProps = {
+    as: 'div',
     onResizeStart: () => {},
     onResize: () => {},
     onResizeStop: () => {},
@@ -911,12 +914,14 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       style.flexBasis = this.state.flexBasis;
     }
 
+    const Wrapper = this.props.as;
+
     return (
-      <div ref={this.ref} style={style} className={this.props.className} {...extendsProps}>
+      <Wrapper ref={this.ref} style={style} className={this.props.className} {...extendsProps}>
         {this.state.isResizing && <div style={this.state.backgroundStyle} />}
         {this.props.children}
         {this.renderResizer()}
-      </div>
+      </Wrapper>
     );
   }
 }
