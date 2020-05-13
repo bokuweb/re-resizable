@@ -21,6 +21,12 @@
 ### :house: Internal
 -->
 
+## [6.4.0 (2020-05-14)](https://github.com/bokuweb/re-resizable/compare/v6.3.2...v6.4.0)
+
+### :nail_care: Enhancement
+
+- Support the "as" prop to change the wrapper #614
+
 ## [6.3.2 (2020-03-28)](https://github.com/bokuweb/re-resizable/compare/v6.3.1...v6.3.2)
 
 ### :nail_care: Enhancement
