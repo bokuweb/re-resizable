@@ -88,7 +88,7 @@
     "tslint-config-google": "1.0.1",
     "tslint-config-prettier": "1.18.0",
     "tslint-plugin-prettier": "2.3.0",
-    "typescript": "3.8.3"
+    "typescript": "3.9.2"
   },
   "typings": "./lib/index.d.ts",
   "types": "./lib/index.d.ts",
