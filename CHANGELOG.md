@@ -21,6 +21,13 @@
 ### :house: Internal
 -->
 
+
+## [6.5.0 (2020-06-17)](https://github.com/bokuweb/re-resizable/compare/v6.4.0...v6.5.0)
+
+### :bug: Bug Fix
+
+- Fix ES Module Output #634
+
 ## [6.4.0 (2020-05-14)](https://github.com/bokuweb/re-resizable/compare/v6.3.2...v6.4.0)
 
 ### :nail_care: Enhancement
