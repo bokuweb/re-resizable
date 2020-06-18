@@ -19,7 +19,7 @@
     "build:prod:es5": "rollup -c scripts/prod.es5.js",
     "build": "npm-run-all --serial build:prod:* && tsc",
     "start": "npm-run-all --parallel storybook",
-    "test": "cross-env NODE_ENV='test' tsc && avaron lib/index.test.js --renderer",
+    "test": "cross-env NODE_ENV='test' tsc -p tsconfig.test.json && avaron lib/index.test.js --renderer",
     "test:ci": "npm run flow && npm run build",
     "prepublish": "npm run build",
     "format": "prettier --write '**/*.{tsx,ts}'",
