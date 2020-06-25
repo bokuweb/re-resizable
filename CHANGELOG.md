@@ -22,6 +22,13 @@
 -->
 
 
+
+## [6.5.1 (2020-06-25)](https://github.com/bokuweb/re-resizable/compare/v6.5.0...v6.5.1)
+
+### :bug: Bug Fix
+
+- Make `as` optional
+
 ## [6.5.0 (2020-06-17)](https://github.com/bokuweb/re-resizable/compare/v6.4.0...v6.5.0)
 
 ### :bug: Bug Fix
