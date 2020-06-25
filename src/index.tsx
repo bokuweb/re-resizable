@@ -77,7 +77,7 @@ export type ResizeStartCallback = (
 ) => void | boolean;
 
 export interface ResizableProps {
-  as: string | React.ComponentType<any>;
+  as?: string | React.ComponentType<any>;
   style?: React.CSSProperties;
   className?: string;
   grid?: [number, number];
@@ -914,7 +914,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       style.flexBasis = this.state.flexBasis;
     }
 
-    const Wrapper = this.props.as;
+    const Wrapper = this.props.as ?? 'div';
 
     return (
       <Wrapper ref={this.ref} style={style} className={this.props.className} {...extendsProps}>
