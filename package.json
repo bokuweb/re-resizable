@@ -104,6 +104,6 @@
     "fixture": "./test/fixture.html"
   },
   "dependencies": {
-    "fast-memoize": "^2.5.1"
+    "fast-memoize": "^2.5.2"
   }
 }
