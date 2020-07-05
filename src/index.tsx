@@ -473,7 +473,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       this.window.removeEventListener('mouseup', this.onMouseUp);
       this.window.removeEventListener('mousemove', this.onMouseMove);
       this.window.removeEventListener('mouseleave', this.onMouseUp);
-      this.window.removeEventListener('touchmove', this.onMouseMove);
+      this.window.removeEventListener('touchmove', this.onMouseMove, true);
       this.window.removeEventListener('touchend', this.onMouseUp);
     }
   }
