@@ -21,7 +21,11 @@
 ### :house: Internal
 -->
 
+## [6.5.2 (2020-06-26)](https://github.com/bokuweb/re-resizable/compare/v6.5.1...v6.5.2)
 
+### :bug: Bug Fix
+
+- Fixes #522 - Resize without page scrolling on mobile
 
 ## [6.5.1 (2020-06-25)](https://github.com/bokuweb/re-resizable/compare/v6.5.0...v6.5.1)
 
