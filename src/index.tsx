@@ -460,7 +460,10 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       this.window.addEventListener('mouseup', this.onMouseUp);
       this.window.addEventListener('mousemove', this.onMouseMove);
       this.window.addEventListener('mouseleave', this.onMouseUp);
-      this.window.addEventListener('touchmove', this.onMouseMove);
+      this.window.addEventListener('touchmove', this.onMouseMove, {
+        capture: true,
+        passive: false,
+      });
       this.window.addEventListener('touchend', this.onMouseUp);
     }
   }
@@ -470,7 +473,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       this.window.removeEventListener('mouseup', this.onMouseUp);
       this.window.removeEventListener('mousemove', this.onMouseMove);
       this.window.removeEventListener('mouseleave', this.onMouseUp);
-      this.window.removeEventListener('touchmove', this.onMouseMove);
+      this.window.removeEventListener('touchmove', this.onMouseMove, true);
       this.window.removeEventListener('touchend', this.onMouseUp);
     }
   }
@@ -726,6 +729,14 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
   onMouseMove(event: MouseEvent | TouchEvent) {
     if (!this.state.isResizing || !this.resizable || !this.window) {
       return;
+    }
+    if (event instanceof TouchEvent) {
+      try {
+        event.preventDefault();
+        event.stopPropagation();
+      } catch (e) {
+        // Ignore on fail
+      }
     }
     let { maxWidth, maxHeight, minWidth, minHeight } = this.props;
     const clientX = event instanceof this.window.MouseEvent ? event.clientX : event.touches[0].clientX;
