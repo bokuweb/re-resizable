@@ -730,7 +730,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     if (!this.state.isResizing || !this.resizable || !this.window) {
       return;
     }
-    if (event instanceof TouchEvent) {
+    if (event instanceof this.window.TouchEvent) {
       try {
         event.preventDefault();
         event.stopPropagation();
