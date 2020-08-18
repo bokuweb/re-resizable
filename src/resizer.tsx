@@ -99,6 +99,7 @@ export class Resizer extends React.PureComponent<Props> {
         }}
         onMouseDown={this.onMouseDown}
         onTouchStart={this.onTouchStart}
+        contentEditable={false}
       >
         {this.props.children}
       </div>
