@@ -22,6 +22,7 @@
     "test": "cross-env NODE_ENV='test' tsc -p tsconfig.test.json && avaron lib/index.test.js --renderer",
     "test:ci": "npm run flow && npm run build",
     "prepublish": "npm run build",
+    "prepare": "npm run build",
     "format": "prettier --write '**/*.{tsx,ts}'",
     "format:ci": "prettier '**/*.{tsx,ts}'",
     "storybook": "start-storybook -p 6066",
