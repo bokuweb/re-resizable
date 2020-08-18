@@ -887,7 +887,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     });
     // #93 Wrap the resize box in span (will not break 100% width/height)
     return (
-      <span className={handleWrapperClass} style={handleWrapperStyle}>
+      <span contentEditable={false} className={handleWrapperClass} style={handleWrapperStyle}>
         {resizers}
       </span>
     );
@@ -928,7 +928,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     const Wrapper = this.props.as ?? 'div';
 
     return (
-      <Wrapper ref={this.ref} style={style} className={this.props.className} {...extendsProps}>
+      <Wrapper contentEditable={false} ref={this.ref} style={style} className={this.props.className} {...extendsProps}>
         {this.state.isResizing && <div style={this.state.backgroundStyle} />}
         {this.props.children}
         {this.renderResizer()}
