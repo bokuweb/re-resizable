@@ -131,6 +131,8 @@ const snap = memoize((n: number, size: number): number => Math.round(n / size) *
 const hasDirection = memoize((dir: 'top' | 'right' | 'bottom' | 'left', target: string): boolean =>
   new RegExp(dir, 'i').test(target),
 );
+
+// INFO: In case of window is a Proxy and does not porxy Events correctly, use isTouchEvent & isMouseEvent to distinguish event type instead of `instanceof`.
 const isTouchEvent = (event: MouseEvent | TouchEvent): event is TouchEvent => {
   return Boolean((event as TouchEvent).touches && (event as TouchEvent).touches.length) 
 }
