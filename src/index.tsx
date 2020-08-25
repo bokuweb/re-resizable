@@ -134,11 +134,15 @@ const hasDirection = memoize((dir: 'top' | 'right' | 'bottom' | 'left', target: 
 
 // INFO: In case of window is a Proxy and does not porxy Events correctly, use isTouchEvent & isMouseEvent to distinguish event type instead of `instanceof`.
 const isTouchEvent = (event: MouseEvent | TouchEvent): event is TouchEvent => {
-  return Boolean((event as TouchEvent).touches && (event as TouchEvent).touches.length) 
-}
+  return Boolean((event as TouchEvent).touches && (event as TouchEvent).touches.length);
+};
+
 const isMouseEvent = (event: MouseEvent | TouchEvent): event is MouseEvent => {
-  return Boolean(((event as MouseEvent).clientX || (event as MouseEvent).clientX === 0) && ((event as MouseEvent).clientY || (event as MouseEvent).clientY === 0))
-}
+  return Boolean(
+    ((event as MouseEvent).clientX || (event as MouseEvent).clientX === 0) &&
+      ((event as MouseEvent).clientY || (event as MouseEvent).clientY === 0),
+  );
+};
 
 const findClosestSnap = memoize((n: number, snapArray: number[], snapGap: number = 0): number => {
   const closestGapIndex = snapArray.reduce(
@@ -665,11 +669,9 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     }
     let clientX = 0;
     let clientY = 0;
-    if (event.nativeEvent) {
-      if (isMouseEvent(event.nativeEvent)) {
-        clientX = event.nativeEvent.clientX;
-        clientY = event.nativeEvent.clientY;
-      }
+    if (event.nativeEvent && isMouseEvent(event.nativeEvent)) {
+      clientX = event.nativeEvent.clientX;
+      clientY = event.nativeEvent.clientY;
       // When user click with right button the resize is stuck in resizing mode
       // until users clicks again, dont continue if right click is used.
       // HACK: MouseEvent does not have `which` from flow-bin v0.68.
