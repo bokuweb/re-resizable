@@ -25,7 +25,13 @@
 
 ### :nail_care: Enhancement
 
-fix: instanceof check fails when window is a proxy (#659)
+- fix: instanceof check fails when window is a proxy (#659)
+
+## [6.5.4 (2020-07-13)](https://github.com/bokuweb/re-resizable/compare/v6.5.2...v6.5.4)
+
+### :bug: Bug Fix
+
+- Fixed a bug, when touched in mobile some execption throwed.
 
 ## [6.5.2 (2020-06-26)](https://github.com/bokuweb/re-resizable/compare/v6.5.1...v6.5.2)
 
