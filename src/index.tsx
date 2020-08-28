@@ -936,7 +936,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       style.flexBasis = this.state.flexBasis;
     }
 
-    const Wrapper = this.props.as ?? 'div';
+    const Wrapper = this.props.as || 'div';
 
     return (
       <Wrapper ref={this.ref} style={style} className={this.props.className} {...extendsProps}>
