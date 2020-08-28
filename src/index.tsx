@@ -132,6 +132,18 @@ const hasDirection = memoize((dir: 'top' | 'right' | 'bottom' | 'left', target: 
   new RegExp(dir, 'i').test(target),
 );
 
+// INFO: In case of window is a Proxy and does not porxy Events correctly, use isTouchEvent & isMouseEvent to distinguish event type instead of `instanceof`.
+const isTouchEvent = (event: MouseEvent | TouchEvent): event is TouchEvent => {
+  return Boolean((event as TouchEvent).touches && (event as TouchEvent).touches.length);
+};
+
+const isMouseEvent = (event: MouseEvent | TouchEvent): event is MouseEvent => {
+  return Boolean(
+    ((event as MouseEvent).clientX || (event as MouseEvent).clientX === 0) &&
+      ((event as MouseEvent).clientY || (event as MouseEvent).clientY === 0),
+  );
+};
+
 const findClosestSnap = memoize((n: number, snapArray: number[], snapGap: number = 0): number => {
   const closestGapIndex = snapArray.reduce(
     (prev, curr, index) => (Math.abs(curr - n) < Math.abs(snapArray[prev] - n) ? index : prev),
@@ -657,19 +669,18 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     }
     let clientX = 0;
     let clientY = 0;
-    if (event.nativeEvent instanceof this.window.MouseEvent) {
+    if (event.nativeEvent && isMouseEvent(event.nativeEvent)) {
       clientX = event.nativeEvent.clientX;
       clientY = event.nativeEvent.clientY;
-
       // When user click with right button the resize is stuck in resizing mode
       // until users clicks again, dont continue if right click is used.
       // HACK: MouseEvent does not have `which` from flow-bin v0.68.
       if (event.nativeEvent.which === 3) {
         return;
       }
-    } else if (event.nativeEvent instanceof this.window.TouchEvent) {
-      clientX = event.nativeEvent.touches[0].clientX;
-      clientY = event.nativeEvent.touches[0].clientY;
+    } else if (event.nativeEvent && isTouchEvent(event.nativeEvent)) {
+      clientX = (event.nativeEvent as TouchEvent).touches[0].clientX;
+      clientY = (event.nativeEvent as TouchEvent).touches[0].clientY;
     }
     if (this.props.onResizeStart) {
       if (this.resizable) {
@@ -730,7 +741,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     if (!this.state.isResizing || !this.resizable || !this.window) {
       return;
     }
-    if (this.window.TouchEvent && event instanceof this.window.TouchEvent) {
+    if (this.window.TouchEvent && isTouchEvent(event)) {
       try {
         event.preventDefault();
         event.stopPropagation();
@@ -739,8 +750,8 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       }
     }
     let { maxWidth, maxHeight, minWidth, minHeight } = this.props;
-    const clientX = event instanceof this.window.MouseEvent ? event.clientX : event.touches[0].clientX;
-    const clientY = event instanceof this.window.MouseEvent ? event.clientY : event.touches[0].clientY;
+    const clientX = isTouchEvent(event) ? event.touches[0].clientX : event.clientX;
+    const clientY = isTouchEvent(event) ? event.touches[0].clientY : event.clientY;
     const { direction, original, width, height } = this.state;
     const parentSize = this.getParentSize();
     const max = calculateNewMax(
