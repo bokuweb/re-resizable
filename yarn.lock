@@ -2728,10 +2728,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-11.11.1.tgz#9ee55ffce20f72e141863b0036a6e51c6fc09a1f"
   integrity sha512-2azXFP9n4aA2QNLkKm/F9pzKxgYj1SMawZ5Eh9iC21RH3XNcFsivLVU2NhpMgQm7YobSByvIol4c42ZFusXFHQ==
 
-"@types/node@12.12.57":
-  version "12.12.57"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.57.tgz#fa7bab1f5e5adc99df92d824ef75c3bbca929a22"
-  integrity sha512-Dg4fab0IP6ZtdJOkwTaMaOJA3PWw7bR6cUYh+nxkYe4+ZogiLBKhaEr9sHqVkCtREVLw92g3Fl1bt8++dHKavw==
+"@types/node@12.12.58":
+  version "12.12.58"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.58.tgz#46dae9b2b9ee5992818c8f7cee01ff4ce03ab44c"
+  integrity sha512-Be46CNIHWAagEfINOjmriSxuv7IVcqbGe+sDSg2SYCEz/0CRBy7LRASGfRbD8KZkqoePU73Wsx3UvOSFcq/9hA==
 
 "@types/node@^8.0.24":
   version "8.10.43"
