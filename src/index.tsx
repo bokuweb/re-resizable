@@ -47,7 +47,7 @@ export interface Size {
   height: string | number;
 }
 
-interface NumberSize {
+export interface NumberSize {
   width: number;
   height: number;
 }
