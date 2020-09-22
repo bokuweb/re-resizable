@@ -21,6 +21,12 @@
 ### :house: Internal
 -->
 
+## [6.6.1 (2020-09-22)](https://github.com/bokuweb/re-resizable/compare/v6.6.0...v6.6.1)
+
+### :bug: Bug Fix
+
+- Fixed a bug, resize is not work when set `xxxpx` to max/min width/height
+
 ## [6.6.0 (2020-09-22)](https://github.com/bokuweb/re-resizable/compare/v6.5.5...v6.6.0)
 
 ### :bug: Bug Fix
