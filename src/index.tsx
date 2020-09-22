@@ -192,13 +192,18 @@ const getPixelSize = (
   innerHeight: number,
 ) => {
   if (size && typeof size === 'string') {
+    if (endsWith(size, 'px')) {
+      return Number(size.replace('px', ''));
+    }
     if (endsWith(size, '%')) {
       const ratio = Number(size.replace('%', '')) / 100;
       return parentSize * ratio;
-    } else if (endsWith(size, 'vw')) {
+    }
+    if (endsWith(size, 'vw')) {
       const ratio = Number(size.replace('vw', '')) / 100;
       return innerWidth * ratio;
-    } else if (endsWith(size, 'vh')) {
+    }
+    if (endsWith(size, 'vh')) {
       const ratio = Number(size.replace('vh', '')) / 100;
       return innerHeight * ratio;
     }
