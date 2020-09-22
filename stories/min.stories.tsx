@@ -3,7 +3,7 @@ import { Resizable } from '../src';
 import { storiesOf } from '@storybook/react';
 import { style } from './style';
 
-storiesOf('max', module)
+storiesOf('min', module)
   .add('height', () => (
     <Resizable
       style={style}
@@ -11,7 +11,7 @@ storiesOf('max', module)
         width: 200,
         height: 200,
       }}
-      maxHeight="400px"
+      minHeight="200px"
     >
       001
     </Resizable>
@@ -23,7 +23,7 @@ storiesOf('max', module)
         width: 200,
         height: 200,
       }}
-      maxWidth="400px"
+      minWidth="200px"
     >
       001
     </Resizable>
@@ -35,8 +35,8 @@ storiesOf('max', module)
         width: 200,
         height: 200,
       }}
-      maxWidth="30%"
-      maxHeight="50%"
+      minWidth="30%"
+      minHeight="50%"
     >
       001
     </Resizable>
