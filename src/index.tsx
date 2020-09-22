@@ -298,20 +298,6 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     return this.props.size || this.props.defaultSize || DEFAULT_SIZE;
   }
 
-  get base(): HTMLElement | undefined {
-    const parent = this.parentNode;
-    if (!parent) {
-      return undefined;
-    }
-    const children = [].slice.call(parent.children) as HTMLElement[];
-    for (const n of children) {
-      if (n.classList.contains(baseClassName)) {
-        return n;
-      }
-    }
-    return undefined;
-  }
-
   get size(): NumberSize {
     let width = 0;
     let height = 0;
@@ -438,32 +424,34 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
   }
 
   getParentSize(): { width: number; height: number } {
-    if (!this.base || !this.parentNode) {
+    if (!this.parentNode) {
       if (!this.window) {
         return { width: 0, height: 0 };
       }
       return { width: this.window.innerWidth, height: this.window.innerHeight };
     }
+    const base = this.appendBase();
+    if (!base) {
+      return { width: 0, height: 0 };
+    }
     // INFO: To calculate parent width with flex layout
     let wrapChanged = false;
     const wrap = this.parentNode.style.flexWrap;
-    const minWidth = this.base.style.minWidth;
     if (wrap !== 'wrap') {
       wrapChanged = true;
       this.parentNode.style.flexWrap = 'wrap';
       // HACK: Use relative to get parent padding size
     }
-    this.base.style.position = 'relative';
-    this.base.style.minWidth = '100%';
+    base.style.position = 'relative';
+    base.style.minWidth = '100%';
     const size = {
-      width: this.base.offsetWidth,
-      height: this.base.offsetHeight,
+      width: base.offsetWidth,
+      height: base.offsetHeight,
     };
-    this.base.style.position = 'absolute';
     if (wrapChanged) {
       this.parentNode.style.flexWrap = wrap;
     }
-    this.base.style.minWidth = minWidth;
+    this.removeBase(base);
     return size;
   }
 
@@ -500,12 +488,15 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       height: this.state.height || this.size.height,
       flexBasis: computedStyle.flexBasis !== 'auto' ? computedStyle.flexBasis : undefined,
     });
+  }
+
+  appendBase = () => {
+    if (!this.resizable || !this.window) {
+      return null;
+    }
     const parent = this.parentNode;
     if (!parent) {
-      return;
-    }
-    if (this.base) {
-      return;
+      return null;
     }
     const element = this.window.document.createElement('div');
     element.style.width = '100%';
@@ -520,19 +511,20 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       element.className += baseClassName;
     }
     parent.appendChild(element);
-  }
+    return element;
+  };
+
+  removeBase = (base: HTMLElement) => {
+    const parent = this.parentNode;
+    if (!parent) {
+      return;
+    }
+    parent.removeChild(base);
+  };
 
   componentWillUnmount() {
     if (this.window) {
       this.unbindEvents();
-      const parent = this.parentNode;
-      if (!this.base || !parent) {
-        return;
-      }
-      if (!parent || !this.base) {
-        return;
-      }
-      parent.removeChild(this.base);
     }
   }
 
