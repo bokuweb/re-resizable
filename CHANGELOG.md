@@ -21,6 +21,16 @@
 ### :house: Internal
 -->
 
+## [6.6.0 (2020-09-22)](https://github.com/bokuweb/re-resizable/compare/v6.5.5...v6.6.0)
+
+### :bug: Bug Fix
+
+- Fixed a bug, a base element is removed even though there are other resizable components. (#667)
+
+### :nail_care: Enhancement
+
+- Expose `NumberSize`.
+
 ## [6.5.5 (2020-08-28)](https://github.com/bokuweb/re-resizable/compare/v6.5.4...v6.5.5)
 
 ### :nail_care: Enhancement
