@@ -50,7 +50,7 @@
     "@emotion/core": "10.0.35",
     "@storybook/addon-info": "5.3.21",
     "@storybook/addon-options": "5.3.21",
-    "@storybook/react": "6.0.25",
+    "@storybook/react": "6.0.26",
     "@types/node": "12.12.62",
     "@types/react": "16.8.7",
     "@types/react-dom": "16.9.8",
