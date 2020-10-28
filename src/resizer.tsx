@@ -88,6 +88,14 @@ export class Resizer extends React.PureComponent<Props> {
   };
 
   render() {
+    const definedProps = ['direction', 'className', 'replaceStyles', 'onResizeStart', 'children'];
+    const extendsProps = Object.keys(this.props).reduce((acc, key) => {
+      if (definedProps.indexOf(key) !== -1) {
+        return acc;
+      }
+      acc[key] = this.props[key as keyof Props];
+      return acc;
+    }, {} as { [key: string]: any });
     return (
       <div
         className={this.props.className || ''}
@@ -99,6 +107,7 @@ export class Resizer extends React.PureComponent<Props> {
         }}
         onMouseDown={this.onMouseDown}
         onTouchStart={this.onTouchStart}
+        {...extendsProps}
       >
         {this.props.children}
       </div>

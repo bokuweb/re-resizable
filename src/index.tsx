@@ -502,6 +502,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     element.style.transform = 'scale(0, 0)';
     element.style.left = '0';
     element.style.flex = '0';
+    element.setAttribute('contentEditable', 'false');
     if (element.classList) {
       element.classList.add(baseClassName);
     } else {
@@ -864,7 +865,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     this.setState({ width: size.width, height: size.height });
   }
 
-  renderResizer() {
+  renderResizer(extendsProps: { [key: string]: any }) {
     const { enable, handleStyles, handleClasses, handleWrapperStyle, handleWrapperClass, handleComponent } = this.props;
     if (!enable) {
       return null;
@@ -874,6 +875,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
         return (
           <Resizer
             key={dir}
+            {...extendsProps}
             direction={dir as Direction}
             onResizeStart={this.onResizeStart}
             replaceStyles={handleStyles && handleStyles[dir as Direction]}
@@ -887,7 +889,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     });
     // #93 Wrap the resize box in span (will not break 100% width/height)
     return (
-      <span className={handleWrapperClass} style={handleWrapperStyle}>
+      <span className={handleWrapperClass} style={handleWrapperStyle} {...extendsProps}>
         {resizers}
       </span>
     );
@@ -925,13 +927,13 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       style.flexBasis = this.state.flexBasis;
     }
 
-    const Wrapper = this.props.as ?? 'div';
+    const Wrapper = this.props.as || 'div';
 
     return (
       <Wrapper ref={this.ref} style={style} className={this.props.className} {...extendsProps}>
-        {this.state.isResizing && <div style={this.state.backgroundStyle} />}
+        {this.state.isResizing && <div style={this.state.backgroundStyle} {...extendsProps} />}
         {this.props.children}
-        {this.renderResizer()}
+        {this.renderResizer(extendsProps)}
       </Wrapper>
     );
   }
