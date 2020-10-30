@@ -171,6 +171,15 @@ If omitted, set `0`.
 
 Specifies resize boundaries.
 
+#### `boundsByDirection?: boolean;`
+
+By default max dimensions based on left and top element position.
+Width grow to right side, height grow to bottom side.
+Set `true` for detect max dimensions by direction.
+For example: enable `boundsByDirection` when resizable component stick on right side of screen and you want resize by left handler;
+
+`false` by default.
+
 #### `handleStyles?: HandleStyles;`
 
 The `handleStyles` property is used to override the style of one or more resize handles.

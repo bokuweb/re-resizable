@@ -87,6 +87,7 @@ export interface ResizableProps {
   };
   snapGap?: number;
   bounds?: 'parent' | 'window' | HTMLElement;
+  boundsByDirection?: boolean;
   size?: Size;
   minWidth?: string | number;
   minHeight?: string | number;
@@ -241,6 +242,7 @@ const definedProps = [
   'grid',
   'snap',
   'bounds',
+  'boundsByDirection',
   'size',
   'defaultSize',
   'minWidth',
@@ -383,7 +385,9 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
   parentTop = 0;
   // For boundary
   resizableLeft = 0;
+  resizableRight = 0;
   resizableTop = 0;
+  resizableBottom = 0;
   // For target boundary
   targetLeft = 0;
   targetTop = 0;
@@ -543,25 +547,41 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
   }
 
   calculateNewMaxFromBoundary(maxWidth?: number, maxHeight?: number) {
+    const { boundsByDirection } = this.props;
+    const { direction } = this.state;
+    const widthByDirection = boundsByDirection && hasDirection('left', direction);
+    const heightByDirection = boundsByDirection && hasDirection('top', direction);
+    let boundWidth;
+    let boundHeight;
     if (this.props.bounds === 'parent') {
       const parent = this.parentNode;
       if (parent) {
-        const boundWidth = parent.offsetWidth + (this.parentLeft - this.resizableLeft);
-        const boundHeight = parent.offsetHeight + (this.parentTop - this.resizableTop);
-        maxWidth = maxWidth && maxWidth < boundWidth ? maxWidth : boundWidth;
-        maxHeight = maxHeight && maxHeight < boundHeight ? maxHeight : boundHeight;
+        boundWidth = widthByDirection
+          ? this.resizableRight - this.parentLeft
+          : parent.offsetWidth + (this.parentLeft - this.resizableLeft);
+        boundHeight = heightByDirection
+          ? this.resizableBottom - this.parentTop
+          : parent.offsetHeight + (this.parentTop - this.resizableTop);
       }
     } else if (this.props.bounds === 'window') {
       if (this.window) {
-        const boundWidth = this.window.innerWidth - this.resizableLeft;
-        const boundHeight = this.window.innerHeight - this.resizableTop;
-        maxWidth = maxWidth && maxWidth < boundWidth ? maxWidth : boundWidth;
-        maxHeight = maxHeight && maxHeight < boundHeight ? maxHeight : boundHeight;
+        boundWidth = widthByDirection
+          ? this.resizableRight : this.window.innerWidth - this.resizableLeft;
+        boundHeight = heightByDirection
+          ? this.resizableBottom : this.window.innerHeight - this.resizableTop;
       }
     } else if (this.props.bounds) {
-      const boundWidth = this.props.bounds.offsetWidth + (this.targetLeft - this.resizableLeft);
-      const boundHeight = this.props.bounds.offsetHeight + (this.targetTop - this.resizableTop);
+      boundWidth = widthByDirection
+        ? this.resizableRight - this.targetLeft
+        : this.props.bounds.offsetWidth + (this.targetLeft - this.resizableLeft);
+      boundHeight = heightByDirection
+        ? this.resizableBottom - this.targetTop
+        : this.props.bounds.offsetHeight + (this.targetTop - this.resizableTop);
+    }
+    if (boundWidth && Number.isFinite(boundWidth)) {
       maxWidth = maxWidth && maxWidth < boundWidth ? maxWidth : boundWidth;
+    }
+    if (boundHeight && Number.isFinite(boundHeight)) {
       maxHeight = maxHeight && maxHeight < boundHeight ? maxHeight : boundHeight;
     }
     return { maxWidth, maxHeight };
@@ -654,9 +674,11 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
 
     // For boundary
     if (this.resizable) {
-      const { left, top } = this.resizable.getBoundingClientRect();
+      const { left, top, right, bottom } = this.resizable.getBoundingClientRect();
       this.resizableLeft = left;
+      this.resizableRight = right;
       this.resizableTop = top;
+      this.resizableBottom = bottom;
     }
   }
 
