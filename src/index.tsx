@@ -565,10 +565,8 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       }
     } else if (this.props.bounds === 'window') {
       if (this.window) {
-        boundWidth = widthByDirection
-          ? this.resizableRight : this.window.innerWidth - this.resizableLeft;
-        boundHeight = heightByDirection
-          ? this.resizableBottom : this.window.innerHeight - this.resizableTop;
+        boundWidth = widthByDirection ? this.resizableRight : this.window.innerWidth - this.resizableLeft;
+        boundHeight = heightByDirection ? this.resizableBottom : this.window.innerHeight - this.resizableTop;
       }
     } else if (this.props.bounds) {
       boundWidth = widthByDirection
