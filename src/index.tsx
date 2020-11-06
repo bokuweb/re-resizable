@@ -915,9 +915,9 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     });
     // #93 Wrap the resize box in span (will not break 100% width/height)
     return (
-      <span className={handleWrapperClass} style={handleWrapperStyle}>
+      <div className={handleWrapperClass} style={handleWrapperStyle}>
         {resizers}
-      </span>
+      </div>
     );
   }
 
