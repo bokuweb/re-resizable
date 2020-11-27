@@ -54,7 +54,7 @@
     "@types/node": "12.12.70",
     "@types/react": "16.8.7",
     "@types/react-dom": "16.9.9",
-    "@types/sinon": "9.0.8",
+    "@types/sinon": "9.0.9",
     "avaron": "0.2.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "10.1.0",
