@@ -53,7 +53,7 @@
     "@storybook/react": "6.0.28",
     "@types/node": "12.12.70",
     "@types/react": "16.8.7",
-    "@types/react-dom": "16.9.9",
+    "@types/react-dom": "16.9.11",
     "@types/sinon": "9.0.10",
     "avaron": "0.2.0",
     "babel-core": "7.0.0-bridge.0",
