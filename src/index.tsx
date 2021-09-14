@@ -689,12 +689,6 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     if (event.nativeEvent && isMouseEvent(event.nativeEvent)) {
       clientX = event.nativeEvent.clientX;
       clientY = event.nativeEvent.clientY;
-      // When user click with right button the resize is stuck in resizing mode
-      // until users clicks again, dont continue if right click is used.
-      // HACK: MouseEvent does not have `which` from flow-bin v0.68.
-      if (event.nativeEvent.which === 3) {
-        return;
-      }
     } else if (event.nativeEvent && isTouchEvent(event.nativeEvent)) {
       clientX = (event.nativeEvent as TouchEvent).touches[0].clientX;
       clientY = (event.nativeEvent as TouchEvent).touches[0].clientY;
