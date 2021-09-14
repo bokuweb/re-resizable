@@ -21,11 +21,17 @@
 ### :house: Internal
 -->
 
-## [6.9.1 (2021-09-14)](https://github.com/bokuweb/re-resizable/compare/v6.6.1...v6.9.1)
+## [6.9.1 (2021-09-14)](https://github.com/bokuweb/re-resizable/compare/v6.8.0...v6.9.1)
 
 ### :nail_care: Enhancement
 
 - Fixed a issue, using CTRL when resizing doesn't work #747
+
+## [6.8.0 (2021-11-05)](https://github.com/bokuweb/re-resizable/compare/v6.6.1...v6.8.0)
+
+### :nail_care: Enhancement
+
+- Feature: boundsByDirection #689
 
 ## [6.6.1 (2020-09-22)](https://github.com/bokuweb/re-resizable/compare/v6.6.0...v6.6.1)
 
