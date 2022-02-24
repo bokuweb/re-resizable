@@ -786,6 +786,13 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     // Calculate max size from boundary settings
     const boundaryMax = this.calculateNewMaxFromBoundary(maxWidth, maxHeight);
 
+    if (this.props.snap && this.props.snap.x) {
+      newWidth = findClosestSnap(newWidth, this.props.snap.x, this.props.snapGap);
+    }
+    if (this.props.snap && this.props.snap.y) {
+      newHeight = findClosestSnap(newHeight, this.props.snap.y, this.props.snapGap);
+    }
+
     // Calculate new size from aspect ratio
     const newSize = this.calculateNewSizeFromAspectRatio(
       newWidth,
@@ -802,13 +809,6 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       const gap = this.props.snapGap || 0;
       newWidth = gap === 0 || Math.abs(newGridWidth - newWidth) <= gap ? newGridWidth : newWidth;
       newHeight = gap === 0 || Math.abs(newGridHeight - newHeight) <= gap ? newGridHeight : newHeight;
-    }
-
-    if (this.props.snap && this.props.snap.x) {
-      newWidth = findClosestSnap(newWidth, this.props.snap.x, this.props.snapGap);
-    }
-    if (this.props.snap && this.props.snap.y) {
-      newHeight = findClosestSnap(newHeight, this.props.snap.y, this.props.snapGap);
     }
 
     const delta = {
