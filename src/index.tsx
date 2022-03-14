@@ -453,6 +453,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     }
     base.style.position = 'relative';
     base.style.minWidth = '100%';
+    base.style.minHeight = '100%';
     const size = {
       width: base.offsetWidth,
       height: base.offsetHeight,
@@ -513,7 +514,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     element.style.position = 'absolute';
     element.style.transform = 'scale(0, 0)';
     element.style.left = '0';
-    element.style.flex = '0';
+    element.style.flex = '0 0 100%';
     if (element.classList) {
       element.classList.add(baseClassName);
     } else {
