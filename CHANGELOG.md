@@ -21,6 +21,10 @@
 ### :house: Internal
 -->
 
+## [6.9.3 (2022-03-14)](https://github.com/bokuweb/re-resizable/compare/v6.9.2...v6.9.3)
+
+### :bug: Bug Fix: Fixed a bug, calculate parent height even when the parent is a flex container [#765](https://github.com/bokuweb/re-resizable/pull/765)
+
 ## [6.9.2 (2022-02-24)](https://github.com/bokuweb/re-resizable/compare/v6.9.1...v6.9.2)
 
 ### :bug: Bug Fix: Fixed a bug, `lockAspectRatio` is not work when `snap` is set. [#759](https://github.com/bokuweb/re-resizable/pull/759)
