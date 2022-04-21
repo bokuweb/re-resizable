@@ -21,6 +21,14 @@
 ### :house: Internal
 -->
 
+## [6.9.8 (2022-04-22)](https://github.com/bokuweb/re-resizable/compare/v6.9.8...v6.9.6)
+
+### 💅 use `flushSync` in mouseMove.
+
+## [6.9.6 (2022-04-22)](https://github.com/bokuweb/re-resizable/compare/v6.9.5...v6.9.6)
+
+### 💅 add peerdeps.
+
 ## [6.9.5 (2022-03-14)](https://github.com/bokuweb/re-resizable/compare/v6.9.2...v6.9.3)
 
 ### :bug: Bug Fix: Fixed a bug, calculate parent height even when the parent is a flex container [#765](https://github.com/bokuweb/re-resizable/pull/765)
