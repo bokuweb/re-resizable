@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { flushSync } from 'react-dom';
+
 import { Resizer, Direction } from './resizer';
 import memoize from 'fast-memoize';
 
@@ -854,7 +856,10 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       newState.flexBasis = newState.height;
     }
 
-    this.setState(newState);
+    // For v18, update state sync
+    flushSync(() => {
+      this.setState(newState);
+    });
 
     if (this.props.onResize) {
       this.props.onResize(event, direction, this.resizable, delta);
@@ -892,7 +897,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     if (!enable) {
       return null;
     }
-    const resizers = Object.keys(enable).map(dir => {
+    const resizers = Object.keys(enable).map((dir) => {
       if (enable[dir as Direction] !== false) {
         return (
           <Resizer
