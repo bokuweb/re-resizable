@@ -1,6 +1,6 @@
 {
   "name": "re-resizable",
-  "version": "6.9.7",
+  "version": "6.9.8",
   "description": "Resizable component for React.",
   "title": "re-resizable",
   "main": "./lib/index.es5.js",
