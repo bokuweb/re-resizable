@@ -21,13 +21,24 @@
 ### :house: Internal
 -->
 
+## [6.9.9 (2022-04-26)](https://github.com/bokuweb/re-resizable/compare/v6.9.9...v6.9.8)
+
+### :nail_care: Enhancement
+
+- use native `endsWith`.
+- remove `fast-memoize`.
+
 ## [6.9.8 (2022-04-22)](https://github.com/bokuweb/re-resizable/compare/v6.9.8...v6.9.6)
 
-### 💅 use `flushSync` in mouseMove.
+### :nail_care: Enhancement
+
+- use `flushSync` in mouseMove.
 
 ## [6.9.6 (2022-04-22)](https://github.com/bokuweb/re-resizable/compare/v6.9.5...v6.9.6)
 
-### 💅 add peerdeps.
+### :nail_care: Enhancement
+
+- add `react` and `react-dom` to peer deps.
 
 ## [6.9.5 (2022-03-14)](https://github.com/bokuweb/re-resizable/compare/v6.9.2...v6.9.3)
 

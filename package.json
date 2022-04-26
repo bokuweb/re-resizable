@@ -1,6 +1,6 @@
 {
   "name": "re-resizable",
-  "version": "6.9.8",
+  "version": "6.9.9",
   "description": "Resizable component for React.",
   "title": "re-resizable",
   "main": "./lib/index.es5.js",
@@ -101,8 +101,7 @@
     ],
     "fixture": "./test/fixture.html"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "peerDependencies": {
     "react": "^16.13.1 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.13.1 || ^17.0.0 || ^18.0.0"
