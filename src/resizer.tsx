@@ -1,67 +1,71 @@
 import * as React from 'react';
 
+const rowSizeBase = {
+  width: '100%',
+  height: '10px',
+  top: '0px',
+  left: '0px',
+  cursor: 'row-resize',
+} as const;
+
+const colSizeBase = {
+  width: '10px',
+  height: '100%',
+  top: '0px',
+  left: '0px',
+  cursor: 'col-resize',
+} as const;
+
+const edgeBase = {
+  width: '20px',
+  height: '20px',
+  position: 'absolute',
+} as const;
+
 const styles: { [key: string]: React.CSSProperties } = {
   top: {
-    width: '100%',
-    height: '10px',
+    ...rowSizeBase,
     top: '-5px',
-    left: '0px',
-    cursor: 'row-resize',
   },
   right: {
-    width: '10px',
-    height: '100%',
-    top: '0px',
+    ...colSizeBase,
+    left: undefined,
     right: '-5px',
-    cursor: 'col-resize',
   },
   bottom: {
-    width: '100%',
-    height: '10px',
+    ...rowSizeBase,
+    top: undefined,
     bottom: '-5px',
-    left: '0px',
-    cursor: 'row-resize',
   },
   left: {
-    width: '10px',
-    height: '100%',
-    top: '0px',
+    ...colSizeBase,
     left: '-5px',
-    cursor: 'col-resize',
   },
   topRight: {
-    width: '20px',
-    height: '20px',
-    position: 'absolute',
+    ...edgeBase,
     right: '-10px',
     top: '-10px',
     cursor: 'ne-resize',
   },
   bottomRight: {
-    width: '20px',
-    height: '20px',
-    position: 'absolute',
+    ...edgeBase,
     right: '-10px',
     bottom: '-10px',
     cursor: 'se-resize',
   },
   bottomLeft: {
-    width: '20px',
-    height: '20px',
-    position: 'absolute',
+    ...edgeBase,
     left: '-10px',
     bottom: '-10px',
     cursor: 'sw-resize',
   },
   topLeft: {
-    width: '20px',
-    height: '20px',
-    position: 'absolute',
+    ...edgeBase,
     left: '-10px',
     top: '-10px',
     cursor: 'nw-resize',
   },
-};
+} as const;
 
 export type Direction = 'top' | 'right' | 'bottom' | 'left' | 'topRight' | 'bottomRight' | 'bottomLeft' | 'topLeft';
 

@@ -2,7 +2,6 @@ import * as React from 'react';
 import { flushSync } from 'react-dom';
 
 import { Resizer, Direction } from './resizer';
-import memoize from 'fast-memoize';
 
 const DEFAULT_SIZE = {
   width: 'auto',
@@ -129,11 +128,10 @@ interface State {
   flexBasis?: string | number;
 }
 
-const clamp = memoize((n: number, min: number, max: number): number => Math.max(Math.min(n, max), min));
-const snap = memoize((n: number, size: number): number => Math.round(n / size) * size);
-const hasDirection = memoize((dir: 'top' | 'right' | 'bottom' | 'left', target: string): boolean =>
-  new RegExp(dir, 'i').test(target),
-);
+const clamp = (n: number, min: number, max: number): number => Math.max(Math.min(n, max), min);
+const snap = (n: number, size: number): number => Math.round(n / size) * size;
+const hasDirection = (dir: 'top' | 'right' | 'bottom' | 'left', target: string): boolean =>
+  new RegExp(dir, 'i').test(target);
 
 // INFO: In case of window is a Proxy and does not porxy Events correctly, use isTouchEvent & isMouseEvent to distinguish event type instead of `instanceof`.
 const isTouchEvent = (event: MouseEvent | TouchEvent): event is TouchEvent => {
@@ -147,7 +145,7 @@ const isMouseEvent = (event: MouseEvent | TouchEvent): event is MouseEvent => {
   );
 };
 
-const findClosestSnap = memoize((n: number, snapArray: number[], snapGap: number = 0): number => {
+const findClosestSnap = (n: number, snapArray: number[], snapGap: number = 0): number => {
   const closestGapIndex = snapArray.reduce(
     (prev, curr, index) => (Math.abs(curr - n) < Math.abs(snapArray[prev] - n) ? index : prev),
     0,
@@ -155,38 +153,33 @@ const findClosestSnap = memoize((n: number, snapArray: number[], snapGap: number
   const gap = Math.abs(snapArray[closestGapIndex] - n);
 
   return snapGap === 0 || gap < snapGap ? snapArray[closestGapIndex] : n;
-});
+};
 
-const endsWith = memoize(
-  (str: string, searchStr: string): boolean =>
-    str.substr(str.length - searchStr.length, searchStr.length) === searchStr,
-);
-
-const getStringSize = memoize((n: number | string): string => {
+const getStringSize = (n: number | string): string => {
   n = n.toString();
   if (n === 'auto') {
     return n;
   }
-  if (endsWith(n, 'px')) {
+  if (n.endsWith('px')) {
     return n;
   }
-  if (endsWith(n, '%')) {
+  if (n.endsWith('%')) {
     return n;
   }
-  if (endsWith(n, 'vh')) {
+  if (n.endsWith('vh')) {
     return n;
   }
-  if (endsWith(n, 'vw')) {
+  if (n.endsWith('vw')) {
     return n;
   }
-  if (endsWith(n, 'vmax')) {
+  if (n.endsWith('vmax')) {
     return n;
   }
-  if (endsWith(n, 'vmin')) {
+  if (n.endsWith('vmin')) {
     return n;
   }
   return `${n}px`;
-});
+};
 
 const getPixelSize = (
   size: undefined | string | number,
@@ -195,18 +188,18 @@ const getPixelSize = (
   innerHeight: number,
 ) => {
   if (size && typeof size === 'string') {
-    if (endsWith(size, 'px')) {
+    if (size.endsWith('px')) {
       return Number(size.replace('px', ''));
     }
-    if (endsWith(size, '%')) {
+    if (size.endsWith('%')) {
       const ratio = Number(size.replace('%', '')) / 100;
       return parentSize * ratio;
     }
-    if (endsWith(size, 'vw')) {
+    if (size.endsWith('vw')) {
       const ratio = Number(size.replace('vw', '')) / 100;
       return innerWidth * ratio;
     }
-    if (endsWith(size, 'vh')) {
+    if (size.endsWith('vh')) {
       const ratio = Number(size.replace('vh', '')) / 100;
       return innerHeight * ratio;
     }
@@ -214,28 +207,26 @@ const getPixelSize = (
   return size;
 };
 
-const calculateNewMax = memoize(
-  (
-    parentSize: { width: number; height: number },
-    innerWidth: number,
-    innerHeight: number,
-    maxWidth?: string | number,
-    maxHeight?: string | number,
-    minWidth?: string | number,
-    minHeight?: string | number,
-  ) => {
-    maxWidth = getPixelSize(maxWidth, parentSize.width, innerWidth, innerHeight);
-    maxHeight = getPixelSize(maxHeight, parentSize.height, innerWidth, innerHeight);
-    minWidth = getPixelSize(minWidth, parentSize.width, innerWidth, innerHeight);
-    minHeight = getPixelSize(minHeight, parentSize.height, innerWidth, innerHeight);
-    return {
-      maxWidth: typeof maxWidth === 'undefined' ? undefined : Number(maxWidth),
-      maxHeight: typeof maxHeight === 'undefined' ? undefined : Number(maxHeight),
-      minWidth: typeof minWidth === 'undefined' ? undefined : Number(minWidth),
-      minHeight: typeof minHeight === 'undefined' ? undefined : Number(minHeight),
-    };
-  },
-);
+const calculateNewMax = (
+  parentSize: { width: number; height: number },
+  innerWidth: number,
+  innerHeight: number,
+  maxWidth?: string | number,
+  maxHeight?: string | number,
+  minWidth?: string | number,
+  minHeight?: string | number,
+) => {
+  maxWidth = getPixelSize(maxWidth, parentSize.width, innerWidth, innerHeight);
+  maxHeight = getPixelSize(maxHeight, parentSize.height, innerWidth, innerHeight);
+  minWidth = getPixelSize(minWidth, parentSize.width, innerWidth, innerHeight);
+  minHeight = getPixelSize(minHeight, parentSize.height, innerWidth, innerHeight);
+  return {
+    maxWidth: typeof maxWidth === 'undefined' ? undefined : Number(maxWidth),
+    maxHeight: typeof maxHeight === 'undefined' ? undefined : Number(maxHeight),
+    minWidth: typeof minWidth === 'undefined' ? undefined : Number(minWidth),
+    minHeight: typeof minHeight === 'undefined' ? undefined : Number(minHeight),
+  };
+};
 
 const definedProps = [
   'as',
@@ -334,8 +325,8 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       if (typeof this.state[key] === 'undefined' || this.state[key] === 'auto') {
         return 'auto';
       }
-      if (this.propsSize && this.propsSize[key] && endsWith(this.propsSize[key].toString(), '%')) {
-        if (endsWith(this.state[key].toString(), '%')) {
+      if (this.propsSize && this.propsSize[key] && this.propsSize[key].toString().endsWith('%')) {
+        if (this.state[key].toString().endsWith('%')) {
           return this.state[key].toString();
         }
         const parentSize = this.getParentSize();
@@ -820,26 +811,26 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     };
 
     if (width && typeof width === 'string') {
-      if (endsWith(width, '%')) {
+      if (width.endsWith('%')) {
         const percent = (newWidth / parentSize.width) * 100;
         newWidth = `${percent}%`;
-      } else if (endsWith(width, 'vw')) {
+      } else if (width.endsWith('vw')) {
         const vw = (newWidth / this.window.innerWidth) * 100;
         newWidth = `${vw}vw`;
-      } else if (endsWith(width, 'vh')) {
+      } else if (width.endsWith('vh')) {
         const vh = (newWidth / this.window.innerHeight) * 100;
         newWidth = `${vh}vh`;
       }
     }
 
     if (height && typeof height === 'string') {
-      if (endsWith(height, '%')) {
+      if (height.endsWith('%')) {
         const percent = (newHeight / parentSize.height) * 100;
         newHeight = `${percent}%`;
-      } else if (endsWith(height, 'vw')) {
+      } else if (height.endsWith('vw')) {
         const vw = (newHeight / this.window.innerWidth) * 100;
         newHeight = `${vw}vw`;
-      } else if (endsWith(height, 'vh')) {
+      } else if (height.endsWith('vh')) {
         const vh = (newHeight / this.window.innerHeight) * 100;
         newHeight = `${vh}vh`;
       }
@@ -897,7 +888,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     if (!enable) {
       return null;
     }
-    const resizers = Object.keys(enable).map((dir) => {
+    const resizers = Object.keys(enable).map(dir => {
       if (enable[dir as Direction] !== false) {
         return (
           <Resizer
