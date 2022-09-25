@@ -73,7 +73,7 @@
     "gh-pages": "3.1.0",
     "npm-run-all": "4.1.5",
     "prettier": "1.19.1",
-    "rollup": "1.32.1",
+    "rollup": "2.79.1",
     "rollup-plugin-babel": "4.4.0",
     "rollup-plugin-commonjs": "10.1.0",
     "rollup-plugin-node-globals": "1.4.0",
