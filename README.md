@@ -58,10 +58,12 @@ $ npm install --save re-resizable
 ### Example with `defaultSize`
 
 ```javascript
+import { Resizable } from 're-resizable';
+
 <Resizable
   defaultSize={{
-    width:320,
-    height:200,
+    width: 320,
+    height: 200,
   }}
 >
   Sample with default size
@@ -73,6 +75,8 @@ $ npm install --save re-resizable
 If you use `size` props, please manage state by yourself.
 
 ```javascript
+import { Resizable } from 're-resizable';
+
 <Resizable
   size={{ width: this.state.width, height: this.state.height }}
   onResizeStop={(e, direction, ref, d) => {
