@@ -25,7 +25,7 @@
 
 ### :nail_care: Enhancement
 
-- improve `enable` type..
+- improve `enable` type.
 
 ## [6.9.9 (2022-04-26)](https://github.com/bokuweb/re-resizable/compare/v6.9.9...v6.9.8)
 
