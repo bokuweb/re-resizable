@@ -97,7 +97,7 @@ export interface ResizableProps {
   lockAspectRatio?: boolean | number;
   lockAspectRatioExtraWidth?: number;
   lockAspectRatioExtraHeight?: number;
-  enable?: Enable;
+  enable?: Enable | false;
   handleStyles?: HandleStyles;
   handleClasses?: HandleClassName;
   handleWrapperStyle?: React.CSSProperties;

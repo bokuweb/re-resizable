@@ -207,7 +207,7 @@ The `handleWrapperStyle` property is used to override the style of resize handle
 
 The `handleWrapperClass` property is used to override the className of resize handles wrapper.
 
-#### `enable?: ?Enable;`
+#### `enable?: ?Enable | false;`
 
 The `enable` property is used to set the resizable permission of a resizable component.
 
