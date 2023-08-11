@@ -90,6 +90,33 @@ import { Resizable } from 're-resizable';
 </Resizable>
 ```
 
+### Example with `localStorage`
+
+```javascript
+import { useState, useEffect } from "react";
+import { Resizable } from 're-resizable';
+
+export default function MyComponent() {
+    const [width, setWidth] = useState(localStorage.getItem("componentWidth") || 250);
+
+    useEffect(() => {
+        localStorage.setItem("componentWidth", width);
+    }, [width]);
+
+    return (
+        <Resizable
+            defaultSize={{ width: width }}
+            onResizeStop={(e, direction, ref, d) => {
+                setWidth(ref.offsetWidth);
+            }}
+          }}
+        >
+          Sample with size
+        </Resizable>
+    );
+}
+```
+
 ## Props
 
 #### `defaultSize?: { width: (number | string), height: (number | string) };`
