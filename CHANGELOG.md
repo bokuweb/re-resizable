@@ -21,7 +21,7 @@
 ### :house: Internal
 -->
 
-## [6.9.10 (2023-08-10)](https://github.com/bokuweb/re-resizable/compare/v6.9.10...v6.9.9)
+## [6.9.11 (2023-08-10)](https://github.com/bokuweb/re-resizable/compare/v6.9.11...v6.9.9)
 
 ### :nail_care: Enhancement
 
