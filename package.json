@@ -54,7 +54,7 @@
     "@types/node": "12.12.70",
     "@types/react": "16.8.7",
     "@types/react-dom": "17.0.9",
-    "@types/sinon": "9.0.10",
+    "@types/sinon": "10.0.20",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "10.1.0",
     "babel-loader": "8.1.0",
