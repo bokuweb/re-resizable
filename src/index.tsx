@@ -44,8 +44,8 @@ export interface HandleClassName {
 }
 
 export interface Size {
-  width: string | number;
-  height: string | number;
+  width?: string | number;
+  height?: string | number;
 }
 
 export interface NumberSize {
@@ -325,7 +325,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       if (typeof this.state[key] === 'undefined' || this.state[key] === 'auto') {
         return 'auto';
       }
-      if (this.propsSize && this.propsSize[key] && this.propsSize[key].toString().endsWith('%')) {
+      if (this.propsSize && this.propsSize[key] && this.propsSize[key]?.toString().endsWith('%')) {
         if (this.state[key].toString().endsWith('%')) {
           return this.state[key].toString();
         }
@@ -389,14 +389,8 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     super(props);
     this.state = {
       isResizing: false,
-      width:
-        typeof (this.propsSize && this.propsSize.width) === 'undefined'
-          ? 'auto'
-          : this.propsSize && this.propsSize.width,
-      height:
-        typeof (this.propsSize && this.propsSize.height) === 'undefined'
-          ? 'auto'
-          : this.propsSize && this.propsSize.height,
+      width:  this.propsSize?.width ?? 'auto',
+      height: this.propsSize?.height ?? 'auto',
       direction: 'right',
       original: {
         x: 0,
@@ -870,7 +864,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       this.props.onResizeStop(event, direction, this.resizable, delta);
     }
     if (this.props.size) {
-      this.setState(this.props.size);
+      this.setState({ width: this.props.size.width ?? 'auto', height: this.props.size.height ?? 'auto' });
     }
     this.unbindEvents();
     this.setState({
@@ -880,7 +874,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
   }
 
   updateSize(size: Size) {
-    this.setState({ width: size.width, height: size.height });
+    this.setState({ width: size.width ?? 'auto', height: size.height ?? 'auto' });
   }
 
   renderResizer() {
