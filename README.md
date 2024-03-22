@@ -147,7 +147,7 @@ The `snap` property is used to specify absolute pixel values that resizing shoul
 
 The `snapGap` property is used to specify the minimum gap required in order to move to the next snapping target. Defaults to `0` which means that snap targets are always used.
 
-#### `resizeRatio?: number | [number, number] | string;`
+#### `resizeRatio?: number | [number, number];`
 
 The `resizeRatio` property is used to set the number of pixels the resizable component scales by compared to the number of pixels the mouse/touch moves. Defaults to `1` (for a 1:1 ratio). The number set is the left side of the ratio, `2` will give a 2:1 ratio.
 
