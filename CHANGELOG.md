@@ -21,7 +21,7 @@
 ### :house: Internal
 -->
 
-## [6.9.12 (2024-04-21)](https://github.com/bokuweb/re-resizable/compare/v6.9.12...v6.9.11)
+## [6.9.13 (2024-04-21)](https://github.com/bokuweb/re-resizable/compare/v6.9.13...v6.9.11)
 
 ### :bug: Bug Fix
 

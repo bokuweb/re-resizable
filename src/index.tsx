@@ -809,7 +809,6 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       heightChangedWithGrid = h !== newHeight;
       newWidth = w;
       newHeight = h;
-
     }
 
     const delta = {
