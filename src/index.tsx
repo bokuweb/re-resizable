@@ -851,13 +851,18 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
 
     const widthChanged = this.state.width !== newState.width;
     const heightChanged = this.state.height !== newState.height;
-    // For v18, update state sync
-    flushSync(() => {
-      this.setState(newState);
-    });
+    const flexBaseChanged = this.state.flexBasis !== newState.flexBasis;
+    const changed = widthChanged || heightChanged || flexBaseChanged;
+
+    if (changed) {
+      // For v18, update state sync
+      flushSync(() => {
+        this.setState(newState);
+      });
+    }
 
     if (this.props.onResize) {
-      if (widthChanged || heightChanged) {
+      if (changed) {
         this.props.onResize(event, direction, this.resizable, delta);
       }
     }
