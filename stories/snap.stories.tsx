@@ -8,14 +8,25 @@ storiesOf('snapping', module)
     <Resizable
       style={style}
       snap={{ x: [100, 300, 450], y: [100, 300, 450] }}
-      snapGap={20}
+      snapGap={100}
       defaultSize={{ width: 50, height: 50 }}
+      onResize={a => {
+        console.log(a);
+      }}
     >
       001
     </Resizable>
   ))
   .add('grid', () => (
-    <Resizable style={style} grid={[100, 100]} snapGap={20} defaultSize={{ width: 50, height: 50 }}>
+    <Resizable
+      style={style}
+      grid={[100, 100]}
+      snapGap={20}
+      defaultSize={{ width: 50, height: 50 }}
+      onResize={a => {
+        console.log(a);
+      }}
+    >
       001
     </Resizable>
   ));

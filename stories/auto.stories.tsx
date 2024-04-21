@@ -4,7 +4,11 @@ import { storiesOf } from '@storybook/react';
 import { style } from './style';
 
 storiesOf('auto', module)
-  .add('default', () => <Resizable style={style}>001</Resizable>)
+  .add('default', () => (
+    <Resizable style={style} onResize={e => console.log(e)}>
+      001
+    </Resizable>
+  ))
   .add('height', () => (
     <Resizable
       style={style}
