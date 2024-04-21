@@ -803,10 +803,13 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       const newGridWidth = snap(newWidth, this.props.grid[0]);
       const newGridHeight = snap(newHeight, this.props.grid[1]);
       const gap = this.props.snapGap || 0;
-      widthChangedWithGrid = gap === 0 || Math.abs(newGridWidth - newWidth) <= gap;
-      heightChangedWithGrid = gap === 0 || Math.abs(newGridHeight - newHeight) <= gap;
-      newWidth = widthChangedWithGrid ? newGridWidth : newWidth;
-      newHeight = heightChangedWithGrid ? newGridHeight : newHeight;
+      const w = gap === 0 || Math.abs(newGridWidth - newWidth) <= gap ? newGridWidth : newWidth;
+      const h = gap === 0 || Math.abs(newGridHeight - newHeight) <= gap ? newGridHeight : newHeight;
+      widthChangedWithGrid = w !== newWidth;
+      heightChangedWithGrid = h !== newHeight;
+      newWidth = w;
+      newHeight = h;
+
     }
 
     const delta = {
