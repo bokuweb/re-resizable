@@ -797,16 +797,12 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     newWidth = newSize.newWidth;
     newHeight = newSize.newHeight;
 
-    let widthChangedWithGrid = false;
-    let heightChangedWithGrid = false;
     if (this.props.grid) {
       const newGridWidth = snap(newWidth, this.props.grid[0]);
       const newGridHeight = snap(newHeight, this.props.grid[1]);
       const gap = this.props.snapGap || 0;
       const w = gap === 0 || Math.abs(newGridWidth - newWidth) <= gap ? newGridWidth : newWidth;
       const h = gap === 0 || Math.abs(newGridHeight - newHeight) <= gap ? newGridHeight : newHeight;
-      widthChangedWithGrid = w !== newWidth;
-      heightChangedWithGrid = h !== newHeight;
       newWidth = w;
       newHeight = h;
     }
@@ -853,16 +849,20 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       newState.flexBasis = newState.height;
     }
 
-    // For v18, update state sync
-    flushSync(() => {
-      this.setState(newState);
-    });
+    const widthChanged = this.state.width !== newState.width;
+    const heightChanged = this.state.height !== newState.height;
+    const flexBaseChanged = this.state.flexBasis !== newState.flexBasis;
+    const changed = widthChanged || heightChanged || flexBaseChanged;
+
+    if (changed) {
+      // For v18, update state sync
+      flushSync(() => {
+        this.setState(newState);
+      });
+    }
 
     if (this.props.onResize) {
-      if (!this.props.grid) {
-        this.props.onResize(event, direction, this.resizable, delta);
-        // fix #783
-      } else if (widthChangedWithGrid || heightChangedWithGrid) {
+      if (changed) {
         this.props.onResize(event, direction, this.resizable, delta);
       }
     }
