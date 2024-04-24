@@ -237,6 +237,7 @@ const normalizeToPair = <T,>(val: T | [T, T]): [T, T] => (Array.isArray(val) ? v
 
 const definedProps = [
   'as',
+  'ref',
   'style',
   'className',
   'grid',
