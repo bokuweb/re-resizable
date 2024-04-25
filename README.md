@@ -70,6 +70,20 @@ import { Resizable } from 're-resizable';
 </Resizable>
 ```
 
+If you only want to set the width, you can do so by providing just the width property. 
+The height property will automatically be set to auto, which means it will adjust 100% of its parent's height:
+
+```javascript
+import { Resizable } from 're-resizable';
+
+<Resizable
+  defaultSize={{
+    width: 320
+  }}
+>
+  Sample with default size
+</Resizable>
+```
 ### Example with `size`
 
 If you use `size` props, please manage state by yourself.
@@ -92,7 +106,7 @@ import { Resizable } from 're-resizable';
 
 ## Props
 
-#### `defaultSize?: { width: (number | string), height: (number | string) };`
+#### `defaultSize?: { width?: (number | string), height?: (number | string) };`
 
 Specifies the `width` and `height` that the dragged item should start at.
 For example, you can set `300`, `'300px'`, `50%`.
@@ -100,7 +114,7 @@ If both `defaultSize` and `size` omitted, set `'auto'`.
 
 `defaultSize` will be ignored when `size` set.
 
-#### `size?: { width: (number | string), height: (number | string) };`
+#### `size?: { width?: (number | string), height?: (number | string) };`
 
 The `size` property is used to set the size of the component.
 For example, you can set `300`, `'300px'`, `50%`.
