@@ -19,14 +19,15 @@
     "build:prod:es5": "rollup -c scripts/prod.es5.js",
     "build": "npm-run-all --serial build:prod:* && tsc",
     "start": "npm-run-all --parallel storybook",
-    "test": "cross-env NODE_ENV='test' tsc -p tsconfig.test.json && avaron lib/index.test.js --renderer",
+    "test": "npm run test-ct",
     "test:ci": "npm run flow && npm run build",
     "prepublish": "npm run build",
     "format": "prettier --write '**/*.{tsx,ts}'",
     "format:ci": "prettier '**/*.{tsx,ts}'",
     "storybook": "start-storybook -p 6066",
     "build-storybook": "build-storybook",
-    "deploy": "npm run build-storybook && gh-pages -d storybook-static"
+    "deploy": "npm run build-storybook && gh-pages -d storybook-static",
+    "test-ct": "playwright test -c playwright-ct.config.ts"
   },
   "repository": {
     "type": "git",
@@ -48,6 +49,7 @@
     "@babel/traverse": "7.11.5",
     "@babel/types": "7.11.5",
     "@emotion/core": "10.0.35",
+    "@playwright/experimental-ct-react": "^1.43.1",
     "@storybook/addon-info": "5.3.21",
     "@storybook/addon-options": "5.3.21",
     "@storybook/react": "6.0.28",
@@ -72,6 +74,8 @@
     "gh-pages": "3.1.0",
     "npm-run-all": "4.1.5",
     "prettier": "1.19.1",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
     "rollup": "1.32.1",
     "rollup-plugin-babel": "4.4.0",
     "rollup-plugin-commonjs": "10.1.0",
@@ -92,15 +96,6 @@
   "files": [
     "lib"
   ],
-  "avaron": {
-    "babel": "inherit",
-    "require": [
-      "babel-polyfill",
-      "babel-register"
-    ],
-    "fixture": "./test/fixture.html"
-  },
-  "dependencies": {},
   "peerDependencies": {
     "react": "^16.13.1 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.13.1 || ^17.0.0 || ^18.0.0"

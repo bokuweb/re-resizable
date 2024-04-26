@@ -3,3 +3,7 @@ example/dist/
 lib/
 npm-debug.log
 .rpt2_cache
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
