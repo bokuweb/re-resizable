@@ -29,14 +29,17 @@ const fail = (m: string = 'unknown reason') => {
 
 test.use({ viewport: { width: 500, height: 500 } });
 
-test('should box width and height equal 100px', async ({ mount }) => {
+test('should box width and height equal 100px', async ({ mount, page }) => {
   const resizable = await mount(<Resizable defaultSize={{ width: 100, height: 100 }} />);
-  expect(await resizable.innerHTML()).toBe(
-    '<div><div class="" style="position: absolute; user-select: none; width: 100%; height: 10px; top: -5px; left: 0px; cursor: row-resize;"></div><div class="" style="position: absolute; user-select: none; width: 10px; height: 100%; top: 0px; cursor: col-resize; right: -5px;"></div><div class="" style="position: absolute; user-select: none; width: 100%; height: 10px; left: 0px; cursor: row-resize; bottom: -5px;"></div><div class="" style="position: absolute; user-select: none; width: 10px; height: 100%; top: 0px; left: -5px; cursor: col-resize;"></div><div class="" style="position: absolute; user-select: none; width: 20px; height: 20px; right: -10px; top: -10px; cursor: ne-resize;"></div><div class="" style="position: absolute; user-select: none; width: 20px; height: 20px; right: -10px; bottom: -10px; cursor: se-resize;"></div><div class="" style="position: absolute; user-select: none; width: 20px; height: 20px; left: -10px; bottom: -10px; cursor: sw-resize;"></div><div class="" style="position: absolute; user-select: none; width: 20px; height: 20px; left: -10px; top: -10px; cursor: nw-resize;"></div></div>',
-  );
-  // expect(divs[0].style.width, '100px');
-  // expect(divs[0].style.height, '100px');
-  // expect(divs[0].style.position, 'relative');
+  const divs = await resizable.locator('div');
+  const width = await resizable.evaluate(node => node.style.width);
+  const height = await resizable.evaluate(node => node.style.height);
+  const position = await resizable.evaluate(node => node.style.position);
+
+  expect(await divs.count()).toBe(9);
+  expect(width).toBe('100px');
+  expect(height).toBe('100px');
+  expect(position).toBe('relative');
 });
 
 /*
