@@ -39,6 +39,9 @@ jobs:
       - uses: actions/setup-node@master
         with:
           node-version: 20
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
       - name: test
