@@ -230,8 +230,8 @@ const calculateNewMax = (
 
 /**
  * transform T | [T, T] to [T, T]
- * @param val 
- * @returns 
+ * @param val
+ * @returns
  */
 const normalizeToPair = <T,>(val: T | [T, T]): [T, T] => (Array.isArray(val) ? val : [val, val]);
 
@@ -397,7 +397,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     super(props);
     this.state = {
       isResizing: false,
-      width:  this.propsSize?.width ?? 'auto',
+      width: this.propsSize?.width ?? 'auto',
       height: this.propsSize?.height ?? 'auto',
       direction: 'right',
       original: {
