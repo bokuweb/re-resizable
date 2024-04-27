@@ -45,5 +45,5 @@ jobs:
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
       - name: test
-        run: pnpm test
+        run: npm exec playwright install && pnpm test
           

@@ -233,6 +233,7 @@ const calculateNewMax = (
  * @param val
  * @returns
  */
+// tslint:disable-next-line
 const normalizeToPair = <T,>(val: T | [T, T]): [T, T] => (Array.isArray(val) ? val : [val, val]);
 
 const definedProps = [
