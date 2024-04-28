@@ -31,7 +31,7 @@ test.use({ viewport: { width: 500, height: 500 } });
 
 test('should box width and height equal 100px', async ({ mount }) => {
   const resizable = await mount(<Resizable defaultSize={{ width: 100, height: 100 }} />);
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   const width = await resizable.evaluate(node => node.style.width);
   const height = await resizable.evaluate(node => node.style.height);
   const position = await resizable.evaluate(node => node.style.position);
@@ -45,7 +45,7 @@ test('should box width and height equal 100px', async ({ mount }) => {
 test('should allow vh, vw relative units', async ({ mount }) => {
   const resizable = await mount(<Resizable defaultSize={{ width: '100vw', height: '100vh' }} />);
 
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   const width = await resizable.evaluate(node => node.style.width);
   const height = await resizable.evaluate(node => node.style.height);
   const position = await resizable.evaluate(node => node.style.position);
@@ -59,7 +59,7 @@ test('should allow vh, vw relative units', async ({ mount }) => {
 test('should allow vmax, vmin relative units', async ({ mount }) => {
   const resizable = await mount(<Resizable defaultSize={{ width: '100vmax', height: '100vmin' }} />);
 
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   const width = await resizable.evaluate(node => node.style.width);
   const height = await resizable.evaluate(node => node.style.height);
   const position = await resizable.evaluate(node => node.style.position);
@@ -72,7 +72,7 @@ test('should allow vmax, vmin relative units', async ({ mount }) => {
 
 test('should box width and height equal auto when size omitted', async ({ mount }) => {
   const resizable = await mount(<Resizable />);
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   expect(await divs.count()).toBe(9);
   expect(await resizable.evaluate(node => node.style.width)).toBe('auto');
   expect(await resizable.evaluate(node => node.style.height)).toBe('auto');
@@ -81,7 +81,7 @@ test('should box width and height equal auto when size omitted', async ({ mount 
 
 test('should box width and height equal auto when set auto', async ({ mount }) => {
   const resizable = await mount(<Resizable defaultSize={{ width: 'auto', height: 'auto' }} />);
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   expect(await divs.count()).toBe(9);
   expect(await resizable.evaluate(node => node.style.width)).toBe('auto');
   expect(await resizable.evaluate(node => node.style.height)).toBe('auto');
@@ -90,7 +90,7 @@ test('should box width and height equal auto when set auto', async ({ mount }) =
 
 test('Should style is applied to box', async ({ mount }) => {
   const resizable = await mount(<Resizable style={{ position: 'absolute' }} />);
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   expect(await divs.count()).toBe(9);
   expect(await resizable.evaluate(node => node.style.position)).toBe('absolute');
 });
@@ -98,7 +98,7 @@ test('Should style is applied to box', async ({ mount }) => {
 test('Should custom class name be applied to box', async ({ mount }) => {
   const resizable = await mount(<Resizable className={'custom-class-name'} />);
 
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   expect(await divs.count()).toBe(9);
   expect(await resizable.evaluate(node => node.className)).toBe('custom-class-name');
 });
@@ -117,7 +117,7 @@ test('Should custom class name be applied to resizer', async ({ mount }) => {
 test('Should create custom span that wraps resizable divs ', async ({ mount }) => {
   const resizable = await mount(<Resizable handleWrapperClass="wrapper-class" />);
 
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
 
   expect(await (await divs.all())[0].evaluate(node => node.className)).toBe('wrapper-class');
 });
@@ -138,14 +138,14 @@ test('Should not render resizer when enable props all false', async ({ mount }) 
     />,
   );
 
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   expect(await divs.count()).toBe(1);
 });
 
 test('Should disable all resizer', async ({ mount }) => {
   const resizable = await mount(<Resizable enable={false} />);
 
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   expect(await divs.count()).toBe(0);
 });
 
@@ -164,7 +164,7 @@ test('Should render one resizer when one enable props set true', async ({ mount 
       }}
     />,
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   expect(await divs.count()).toBe(2);
 });
 
@@ -183,7 +183,7 @@ test('Should render two resizer when two enable props set true', async ({ mount 
       }}
     />,
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   expect(await divs.count()).toBe(3);
 });
 
@@ -202,7 +202,7 @@ test('Should render three resizer when three enable props set true', async ({ mo
       }}
     />,
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   expect(await divs.count()).toBe(4);
 });
 
@@ -225,7 +225,7 @@ test('Should only right is resizable and call onResizeStart when mousedown', asy
       }}
     />,
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   t.is(divs.length, 3);
   TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(divs[2]) as Element);
   t.is(onResizeStart.callCount, 1);
@@ -249,7 +249,7 @@ test('Should only bottom is resizable and call onResizeStart when mousedown', as
       }}
     />,
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   t.is(divs.length, 3);
   TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(divs[2]) as Element);
   t.is(onResizeStart.callCount, 1);
@@ -273,7 +273,7 @@ test('Should only bottomRight is resizable and call onResizeStart when mousedown
       }}
     />,
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   t.is(divs.length, 3);
   TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(divs[2]) as Element);
   t.is(onResizeStart.callCount, 1);
@@ -288,7 +288,7 @@ test('Should not begin resize when onResizeStart returns false', async ({ mount 
   const resizable = TestUtils.renderIntoDocument<ResizableProps, Resizable>(
     <Resizable onResizeStart={onResizeStart} onResize={onResize} />,
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   const previousState = resizable.state.isResizing;
   TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(divs[2]) as Element);
   mouseMove(200, 220);
@@ -308,7 +308,7 @@ test('should call onResize with expected args when resize direction right', asyn
     />,
     document.getElementById('content'),
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   const node = ReactDOM.findDOMNode(divs[3]);
   if (!node || !(node instanceof HTMLDivElement)) return fail();
   TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
@@ -334,7 +334,7 @@ test('should call onResize with expected args when resize direction bottom', asy
     />,
     document.getElementById('content'),
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   const node = ReactDOM.findDOMNode(divs[4]);
   if (!node || !(node instanceof HTMLDivElement)) return fail();
   TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
@@ -360,7 +360,7 @@ test('should call onResize with expected args when resize direction bottomRight'
     />,
     document.getElementById('content'),
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   const node = ReactDOM.findDOMNode(divs[7]);
   if (!node || !(node instanceof HTMLDivElement)) return fail();
   TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
@@ -388,7 +388,7 @@ test('should call onResizeStop when resize stop direction right', async ({ mount
     />,
     document.getElementById('content'),
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   const node = ReactDOM.findDOMNode(divs[3]);
   if (!node || !(node instanceof HTMLDivElement)) return fail();
   TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
@@ -416,7 +416,7 @@ test('should call onResizeStop when resize stop direction bottom', async ({ moun
     />,
     document.getElementById('content'),
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   const node = ReactDOM.findDOMNode(divs[4]);
   if (!node || !(node instanceof HTMLDivElement)) return fail();
   TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
@@ -444,7 +444,7 @@ test('should call onResizeStop when resize stop direction bottomRight', async ({
     />,
     document.getElementById('content'),
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   const node = ReactDOM.findDOMNode(divs[7]);
   if (!node || !(node instanceof HTMLDivElement)) return fail();
   TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
@@ -481,7 +481,7 @@ test('should snapped by grid value', async ({ mount })=> {
     />,
     document.getElementById('content'),
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   const node = ReactDOM.findDOMNode(divs[7]);
   if (!node || !(node instanceof HTMLDivElement)) return fail();
   TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
@@ -506,7 +506,7 @@ test('should snapped by absolute snap value', async ({ mount })=> {
     />,
     document.getElementById('content'),
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   const node = ReactDOM.findDOMNode(divs[7]);
   if (!node || !(node instanceof HTMLDivElement)) return fail();
   TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
@@ -532,7 +532,7 @@ test('should only snap if the gap is small enough', async ({ mount })=> {
     />,
     document.getElementById('content'),
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   const node = ReactDOM.findDOMNode(divs[7]);
   if (!node || !(node instanceof HTMLDivElement)) return fail();
   TestUtils.Simulate.mouseDown(node, { clientX: 40, clientY: 40 });
@@ -562,7 +562,7 @@ test('should clamped by max width', async ({ mount })=> {
     />,
     document.getElementById('content'),
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   const node = ReactDOM.findDOMNode(divs[7]);
   if (!node || !(node instanceof HTMLDivElement)) return fail();
   TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
@@ -586,7 +586,7 @@ test('should clamped by min width', async ({ mount })=> {
     />,
     document.getElementById('content'),
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   const node = ReactDOM.findDOMNode(divs[7]);
   if (!node || !(node instanceof HTMLDivElement)) return fail();
   TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
@@ -610,7 +610,7 @@ test('should allow 0 as minWidth', async ({ mount })=> {
     />,
     document.getElementById('content'),
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   const node = ReactDOM.findDOMNode(divs[7]);
   if (!node || !(node instanceof HTMLDivElement)) return fail();
   TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
@@ -634,7 +634,7 @@ test('should clamped by max height', async ({ mount })=> {
     />,
     document.getElementById('content'),
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   const node = ReactDOM.findDOMNode(divs[7]);
   if (!node || !(node instanceof HTMLDivElement)) return fail();
   TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
@@ -658,7 +658,7 @@ test('should clamped by min height', async ({ mount })=> {
     />,
     document.getElementById('content'),
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   const node = ReactDOM.findDOMNode(divs[7]);
   if (!node || !(node instanceof HTMLDivElement)) return fail();
   TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
@@ -682,7 +682,7 @@ test('should allow 0 as minHeight', async ({ mount })=> {
     />,
     document.getElementById('content'),
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   const node = ReactDOM.findDOMNode(divs[7]);
   if (!node || !(node instanceof HTMLDivElement)) return fail();
   TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
@@ -706,7 +706,7 @@ test('should aspect ratio locked when resize to right', async ({ mount })=> {
     />,
     document.getElementById('content'),
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   const node = ReactDOM.findDOMNode(divs[3]);
   if (!node || !(node instanceof HTMLDivElement)) return fail();
   TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
@@ -733,7 +733,7 @@ test('should aspect ratio locked with 1:1 ratio when resize to right', async ({ 
     />,
     document.getElementById('content'),
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   const node = ReactDOM.findDOMNode(divs[3]);
   if (!node || !(node instanceof HTMLDivElement)) return fail();
   TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
@@ -760,7 +760,7 @@ test('should aspect ratio locked with 2:1 ratio when resize to right', async ({ 
     />,
     document.getElementById('content'),
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   const node = ReactDOM.findDOMNode(divs[3]);
   if (!node || !(node instanceof HTMLDivElement)) return fail();
   TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
@@ -789,7 +789,7 @@ test('should aspect ratio locked with 2:1 ratio with extra width/height when res
     />,
     document.getElementById('content'),
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   const node = ReactDOM.findDOMNode(divs[3]);
   if (!node || !(node instanceof HTMLDivElement)) return fail();
   TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
@@ -816,7 +816,7 @@ test('should aspect ratio locked when resize to bottom', async ({ mount })=> {
     />,
     document.getElementById('content'),
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   const node = ReactDOM.findDOMNode(divs[4]);
   if (!node || !(node instanceof HTMLDivElement)) return fail();
   TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
@@ -843,7 +843,7 @@ test('should aspect ratio locked with 1:1 ratio when resize to bottom', async ({
     />,
     document.getElementById('content'),
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   const node = ReactDOM.findDOMNode(divs[4]);
   if (!node || !(node instanceof HTMLDivElement)) return fail();
   TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
@@ -870,7 +870,7 @@ test('should aspect ratio locked with 2:1 ratio when resize to bottom', async ({
     />,
     document.getElementById('content'),
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   const node = ReactDOM.findDOMNode(divs[4]);
   if (!node || !(node instanceof HTMLDivElement)) return fail();
   TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
@@ -899,7 +899,7 @@ test('should aspect ratio locked with 2:1 ratio with extra width/height when res
     />,
     document.getElementById('content'),
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   const node = ReactDOM.findDOMNode(divs[4]);
   if (!node || !(node instanceof HTMLDivElement)) return fail();
   TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
@@ -926,7 +926,7 @@ test('should clamped by parent width', async ({ mount })=> {
     />,
     document.getElementById('content'),
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   const node = ReactDOM.findDOMNode(divs[7]);
   if (!node || !(node instanceof HTMLDivElement)) return fail();
   TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
@@ -950,7 +950,7 @@ test('should clamped by parent height', async ({ mount })=> {
     />,
     document.getElementById('content'),
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   const node = ReactDOM.findDOMNode(divs[7]);
   if (!node || !(node instanceof HTMLDivElement)) return fail();
   TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
@@ -964,7 +964,7 @@ test('should defaultSize ignored when size set', async ({ mount })=> {
   const resizable = await mount(
     <Resizable defaultSize={{ width: 100, height: 100 }} size={{ width: 200, height: 300 }} />,
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   expect(await divs.count()).toBe(9);
   expect(await resizable.evaluate(node => node.style.width)).toBe('200px');
   expect(await resizable.evaluate(node => node.style.height)).toBe('300px');
@@ -974,7 +974,7 @@ test('should defaultSize ignored when size set', async ({ mount })=> {
 test('should render a handleComponent for right', async ({ mount })=> {
   const CustomComponent = <div className={'customHandle-right'} />;
   const resizable = await mount(<Resizable handleComponent={{ right: CustomComponent }} />);
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   const node = ReactDOM.findDOMNode(divs[3]);
   if (!node || !(node instanceof HTMLDivElement)) return fail();
   const handleNode = node.children[0];
@@ -988,7 +988,7 @@ test('should adjust resizing for specified scale', async ({ mount })=> {
     <Resizable defaultSize={{ width: 100, height: 100 }} onResize={onResize} style={{ padding: '40px' }} scale={0.5} />,
     document.getElementById('content'),
   );
-  const divs = await resizable.locator('div');
+  const divs = resizable.locator('div');
   const node = ReactDOM.findDOMNode(divs[7]);
   if (!node || !(node instanceof HTMLDivElement)) return fail();
   TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
