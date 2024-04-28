@@ -111,20 +111,18 @@ test('Should use a custom wrapper element', async ({ mount }) => {
 
 test('Should custom class name be applied to resizer', async ({ mount }) => {
   const resizable = await mount(<Resizable handleClasses={{ right: 'right-handle-class' }} />);
-
   expect(await resizable.evaluate(node => node.querySelector('.right-handle-class'))).toBeTruthy();
 });
 
-/*
-test('Should create custom span that wraps resizable divs ', async ({ mount })=> {
+test('Should create custom span that wraps resizable divs ', async ({ mount }) => {
   const resizable = await mount(<Resizable handleWrapperClass="wrapper-class" />);
-  
-  c const divs = await resizable.locator('div');
-  const node = ReactDOM.findDOMNode(divs[1]) as Element;
-  t.is(node.getAttribute('class'), 'wrapper-class');
+
+  const divs = await resizable.locator('div');
+
+  expect(await (await divs.all())[0].evaluate(node => node.className)).toBe('wrapper-class');
 });
 
-test('Should not render resizer when enable props all false', async ({ mount })=> {
+test('Should not render resizer when enable props all false', async ({ mount }) => {
   const resizable = await mount(
     <Resizable
       enable={{
@@ -139,12 +137,19 @@ test('Should not render resizer when enable props all false', async ({ mount })=
       }}
     />,
   );
-  
-  c const divs = await resizable.locator('div');
-  t.is(divs.length, 2);
+
+  const divs = await resizable.locator('div');
+  expect(await divs.count()).toBe(1);
 });
 
-test('Should render one resizer when one enable props set true', async ({ mount })=> {
+test('Should disable all resizer', async ({ mount }) => {
+  const resizable = await mount(<Resizable enable={false} />);
+
+  const divs = await resizable.locator('div');
+  expect(await divs.count()).toBe(0);
+});
+
+test('Should render one resizer when one enable props set true', async ({ mount }) => {
   const resizable = await mount(
     <Resizable
       enable={{
@@ -159,12 +164,11 @@ test('Should render one resizer when one enable props set true', async ({ mount 
       }}
     />,
   );
-  if (!resizable || resizable instanceof Element) return fail();
-  c const divs = await resizable.locator('div');
-  t.is(divs.length, 3);
+  const divs = await resizable.locator('div');
+  expect(await divs.count()).toBe(2);
 });
 
-test('Should render two resizer when two enable props set true', async ({ mount })=> {
+test('Should render two resizer when two enable props set true', async ({ mount }) => {
   const resizable = await mount(
     <Resizable
       enable={{
@@ -179,12 +183,11 @@ test('Should render two resizer when two enable props set true', async ({ mount 
       }}
     />,
   );
-  if (!resizable || resizable instanceof Element) return fail();
-  c const divs = await resizable.locator('div');
-  t.is(divs.length, 4);
+  const divs = await resizable.locator('div');
+  expect(await divs.count()).toBe(3);
 });
 
-test('Should render three resizer when three enable props set true', async ({ mount })=> {
+test('Should render three resizer when three enable props set true', async ({ mount }) => {
   const resizable = await mount(
     <Resizable
       enable={{
@@ -199,10 +202,11 @@ test('Should render three resizer when three enable props set true', async ({ mo
       }}
     />,
   );
-  if (!resizable || resizable instanceof Element) return fail();
-  c const divs = await resizable.locator('div');
-  t.is(divs.length, 5);
+  const divs = await resizable.locator('div');
+  expect(await divs.count()).toBe(4);
 });
+
+/*
 
 test('Should only right is resizable and call onResizeStart when mousedown', async ({ mount })=> {
   const onResizeStart = sinon.spy();
