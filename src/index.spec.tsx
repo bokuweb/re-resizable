@@ -1,13 +1,7 @@
 import { test, expect } from '@playwright/experimental-ct-react';
 import React from 'react';
+import { spy } from 'sinon';
 import { Resizable } from '.';
-
-const mouseMove = (x: number, y: number) => {
-  const event = document.createEvent('MouseEvents');
-  event.initMouseEvent('mousemove', true, true, window, 0, 0, 0, x, y, false, false, false, false, 0, null);
-  document.dispatchEvent(event);
-  return event;
-};
 
 const mouseUp = (x: number, y: number) => {
   const event = document.createEvent('MouseEvents');
@@ -206,10 +200,8 @@ test('Should render three resizer when three enable props set true', async ({ mo
   expect(await divs.count()).toBe(4);
 });
 
-/*
-
-test('Should only right is resizable and call onResizeStart when mousedown', async ({ mount })=> {
-  const onResizeStart = sinon.spy();
+test('Should only right is resizable and call onResizeStart when mousedown', async ({ mount }) => {
+  const onResizeStart = spy();
   const resizable = await mount(
     <Resizable
       onResizeStart={onResizeStart}
@@ -226,14 +218,14 @@ test('Should only right is resizable and call onResizeStart when mousedown', asy
     />,
   );
   const divs = resizable.locator('div');
-  t.is(divs.length, 3);
-  TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(divs[2]) as Element);
-  t.is(onResizeStart.callCount, 1);
-  t.is(onResizeStart.getCall(0).args[1], 'right');
+  expect(await divs.count()).toBe(2);
+  await (await divs.all())[1].dispatchEvent('mousedown');
+  expect(onResizeStart.callCount).toBe(1);
+  expect(onResizeStart.getCall(0).args[1]).toBe('right');
 });
 
-test('Should only bottom is resizable and call onResizeStart when mousedown', async ({ mount })=> {
-  const onResizeStart = sinon.spy();
+test('Should only bottom is resizable and call onResizeStart when mousedown', async ({ mount }) => {
+  const onResizeStart = spy();
   const resizable = await mount(
     <Resizable
       onResizeStart={onResizeStart}
@@ -250,14 +242,14 @@ test('Should only bottom is resizable and call onResizeStart when mousedown', as
     />,
   );
   const divs = resizable.locator('div');
-  t.is(divs.length, 3);
-  TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(divs[2]) as Element);
-  t.is(onResizeStart.callCount, 1);
-  t.is(onResizeStart.getCall(0).args[1], 'bottom');
+  expect(await divs.count()).toBe(2);
+  await (await divs.all())[1].dispatchEvent('mousedown');
+  expect(onResizeStart.callCount).toBe(1);
+  expect(onResizeStart.getCall(0).args[1]).toBe('bottom');
 });
 
-test('Should only bottomRight is resizable and call onResizeStart when mousedown', async ({ mount })=> {
-  const onResizeStart = sinon.spy();
+test('Should only bottomRight is resizable and call onResizeStart when mousedown', async ({ mount }) => {
+  const onResizeStart = spy();
   const resizable = await mount(
     <Resizable
       onResizeStart={onResizeStart}
@@ -274,57 +266,46 @@ test('Should only bottomRight is resizable and call onResizeStart when mousedown
     />,
   );
   const divs = resizable.locator('div');
-  t.is(divs.length, 3);
-  TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(divs[2]) as Element);
-  t.is(onResizeStart.callCount, 1);
-  t.is(onResizeStart.getCall(0).args[1], 'bottomRight');
+  expect(await divs.count()).toBe(2);
+  await (await divs.all())[1].dispatchEvent('mousedown');
+  expect(onResizeStart.callCount).toBe(1);
+  expect(onResizeStart.getCall(0).args[1]).toBe('bottomRight');
 });
 
-test('Should not begin resize when onResizeStart returns false', async ({ mount })=> {
+test('Should not begin resize when onResizeStart returns false', async ({ mount, page }) => {
   const onResizeStart = () => {
     return false;
   };
-  const onResize = sinon.spy();
-  const resizable = TestUtils.renderIntoDocument<ResizableProps, Resizable>(
-    <Resizable onResizeStart={onResizeStart} onResize={onResize} />,
-  );
+  const onResize = spy();
+  const resizable = await mount(<Resizable onResizeStart={onResizeStart} onResize={onResize} />);
   const divs = resizable.locator('div');
-  const previousState = resizable.state.isResizing;
-  TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(divs[2]) as Element);
-  mouseMove(200, 220);
-  t.is(onResize.callCount, 0);
-  t.is(resizable.state.isResizing, previousState);
+  await (await divs.all())[1].dispatchEvent('mousedown');
+  await page.mouse.move(100, 200);
+  expect(onResize.callCount).toBe(0);
 });
 
-test('should call onResize with expected args when resize direction right', async ({ mount })=> {
-  const onResize = sinon.spy();
-  const onResizeStart = sinon.spy();
-  const resizable = ReactDOM.render<ResizableProps, Resizable>(
-    <Resizable
-      defaultSize={{ width: 100, height: 100 }}
-      onResize={onResize}
-      onResizeStart={onResizeStart}
-      style={{ padding: '40px' }}
-    />,
-    document.getElementById('content'),
-  );
-  const divs = resizable.locator('div');
-  const node = ReactDOM.findDOMNode(divs[3]);
-  if (!node || !(node instanceof HTMLDivElement)) return fail();
-  TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
-  mouseMove(200, 220);
-  TestUtils.Simulate.mouseUp(node);
-  t.is(onResize.callCount, 1);
-  t.true(onResize.getCall(0).args[0] instanceof Event);
-  t.is(onResize.getCall(0).args[1], 'right');
-  t.deepEqual(onResize.getCall(0).args[2].clientWidth, 300);
-  t.deepEqual(onResize.getCall(0).args[2].clientHeight, 100);
-  t.deepEqual(onResize.getCall(0).args[3], { width: 200, height: 0 });
-});
+// test('should call onResize with expected args when resize direction right', async ({ mount, page }) => {
+//   const onResize = spy();
+//   const resizable = await mount(
+//     <Resizable defaultSize={{ width: 100, height: 100 }} onResize={onResize} style={{ padding: '40px' }} />,
+//   );
+//   const divs = resizable.locator('div');
+//   const node = (await divs.all())[2];
+//   node.dispatchEvent('mousedown');
+//   await page.mouse.move(200, 220);
+//   await page.mouse.up();
+//   expect(onResize.callCount).toBe(1);
+//   expect(onResize.getCall(0).args[1]).toBe('right');
+//   expect(onResize.getCall(0).args[2].clientWidth).toBe(300);
+//   console.log(onResize.getCall(0).args[2])
+//   // t.deepEqual(onResize.getCall(0).args[2].clientHeight, 100);
+//   // t.deepEqual(onResize.getCall(0).args[3], { width: 200, height: 0 });
+// });
 
+/*
 test('should call onResize with expected args when resize direction bottom', async ({ mount })=> {
-  const onResize = sinon.spy();
-  const onResizeStart = sinon.spy();
+  const onResize = spy();
+  const onResizeStart = spy();
   const resizable = ReactDOM.render<ResizableProps, Resizable>(
     <Resizable
       defaultSize={{ width: 100, height: 100 }}
@@ -349,8 +330,8 @@ test('should call onResize with expected args when resize direction bottom', asy
 });
 
 test('should call onResize with expected args when resize direction bottomRight', async ({ mount })=> {
-  const onResize = sinon.spy();
-  const onResizeStart = sinon.spy();
+  const onResize = spy();
+  const onResizeStart = spy();
   const resizable = ReactDOM.render<ResizableProps, Resizable>(
     <Resizable
       defaultSize={{ width: 100, height: 100 }}
@@ -375,9 +356,9 @@ test('should call onResize with expected args when resize direction bottomRight'
 });
 
 test('should call onResizeStop when resize stop direction right', async ({ mount })=> {
-  const onResize = sinon.spy();
-  const onResizeStart = sinon.spy();
-  const onResizeStop = sinon.spy();
+  const onResize = spy();
+  const onResizeStart = spy();
+  const onResizeStop = spy();
   const resizable = ReactDOM.render<ResizableProps, Resizable>(
     <Resizable
       defaultSize={{ width: 100, height: 100 }}
@@ -403,9 +384,9 @@ test('should call onResizeStop when resize stop direction right', async ({ mount
 });
 
 test('should call onResizeStop when resize stop direction bottom', async ({ mount })=> {
-  const onResize = sinon.spy();
-  const onResizeStart = sinon.spy();
-  const onResizeStop = sinon.spy();
+  const onResize = spy();
+  const onResizeStart = spy();
+  const onResizeStop = spy();
   const resizable = ReactDOM.render<ResizableProps, Resizable>(
     <Resizable
       defaultSize={{ width: 100, height: 100 }}
@@ -431,9 +412,9 @@ test('should call onResizeStop when resize stop direction bottom', async ({ moun
 });
 
 test('should call onResizeStop when resize stop direction bottomRight', async ({ mount })=> {
-  const onResize = sinon.spy();
-  const onResizeStart = sinon.spy();
-  const onResizeStop = sinon.spy();
+  const onResize = spy();
+  const onResizeStart = spy();
+  const onResizeStop = spy();
   const resizable = ReactDOM.render<ResizableProps, Resizable>(
     <Resizable
       defaultSize={{ width: 100, height: 100 }}
@@ -468,9 +449,9 @@ test('should component size updated when updateSize method called', async ({ mou
 });
 
 test('should snapped by grid value', async ({ mount })=> {
-  const onResize = sinon.spy();
-  const onResizeStart = sinon.spy();
-  const onResizeStop = sinon.spy();
+  const onResize = spy();
+  const onResizeStart = spy();
+  const onResizeStop = spy();
   const resizable = ReactDOM.render<ResizableProps, Resizable>(
     <Resizable
       defaultSize={{ width: 100, height: 100 }}
@@ -493,9 +474,9 @@ test('should snapped by grid value', async ({ mount })=> {
 });
 
 test('should snapped by absolute snap value', async ({ mount })=> {
-  const onResize = sinon.spy();
-  const onResizeStart = sinon.spy();
-  const onResizeStop = sinon.spy();
+  const onResize = spy();
+  const onResizeStart = spy();
+  const onResizeStop = spy();
   const resizable = ReactDOM.render<ResizableProps, Resizable>(
     <Resizable
       defaultSize={{ width: 100, height: 100 }}
@@ -518,9 +499,9 @@ test('should snapped by absolute snap value', async ({ mount })=> {
 });
 
 test('should only snap if the gap is small enough', async ({ mount })=> {
-  const onResize = sinon.spy();
-  const onResizeStart = sinon.spy();
-  const onResizeStop = sinon.spy();
+  const onResize = spy();
+  const onResizeStart = spy();
+  const onResizeStop = spy();
   const resizable = ReactDOM.render<ResizableProps, Resizable>(
     <Resizable
       defaultSize={{ width: 40, height: 40 }}
@@ -549,9 +530,9 @@ test('should only snap if the gap is small enough', async ({ mount })=> {
 });
 
 test('should clamped by max width', async ({ mount })=> {
-  const onResize = sinon.spy();
-  const onResizeStart = sinon.spy();
-  const onResizeStop = sinon.spy();
+  const onResize = spy();
+  const onResizeStart = spy();
+  const onResizeStop = spy();
   const resizable = ReactDOM.render<ResizableProps, Resizable>(
     <Resizable
       defaultSize={{ width: 100, height: 100 }}
@@ -573,9 +554,9 @@ test('should clamped by max width', async ({ mount })=> {
 });
 
 test('should clamped by min width', async ({ mount })=> {
-  const onResize = sinon.spy();
-  const onResizeStart = sinon.spy();
-  const onResizeStop = sinon.spy();
+  const onResize = spy();
+  const onResizeStart = spy();
+  const onResizeStop = spy();
   const resizable = ReactDOM.render<ResizableProps, Resizable>(
     <Resizable
       defaultSize={{ width: 100, height: 100 }}
@@ -597,9 +578,9 @@ test('should clamped by min width', async ({ mount })=> {
 });
 
 test('should allow 0 as minWidth', async ({ mount })=> {
-  const onResize = sinon.spy();
-  const onResizeStart = sinon.spy();
-  const onResizeStop = sinon.spy();
+  const onResize = spy();
+  const onResizeStart = spy();
+  const onResizeStop = spy();
   const resizable = ReactDOM.render<ResizableProps, Resizable>(
     <Resizable
       defaultSize={{ width: 100, height: 100 }}
@@ -621,9 +602,9 @@ test('should allow 0 as minWidth', async ({ mount })=> {
 });
 
 test('should clamped by max height', async ({ mount })=> {
-  const onResize = sinon.spy();
-  const onResizeStart = sinon.spy();
-  const onResizeStop = sinon.spy();
+  const onResize = spy();
+  const onResizeStart = spy();
+  const onResizeStop = spy();
   const resizable = ReactDOM.render<ResizableProps, Resizable>(
     <Resizable
       defaultSize={{ width: 100, height: 100 }}
@@ -645,9 +626,9 @@ test('should clamped by max height', async ({ mount })=> {
 });
 
 test('should clamped by min height', async ({ mount })=> {
-  const onResize = sinon.spy();
-  const onResizeStart = sinon.spy();
-  const onResizeStop = sinon.spy();
+  const onResize = spy();
+  const onResizeStart = spy();
+  const onResizeStop = spy();
   const resizable = ReactDOM.render<ResizableProps, Resizable>(
     <Resizable
       defaultSize={{ width: 100, height: 100 }}
@@ -669,9 +650,9 @@ test('should clamped by min height', async ({ mount })=> {
 });
 
 test('should allow 0 as minHeight', async ({ mount })=> {
-  const onResize = sinon.spy();
-  const onResizeStart = sinon.spy();
-  const onResizeStop = sinon.spy();
+  const onResize = spy();
+  const onResizeStart = spy();
+  const onResizeStop = spy();
   const resizable = ReactDOM.render<ResizableProps, Resizable>(
     <Resizable
       defaultSize={{ width: 100, height: 100 }}
@@ -693,9 +674,9 @@ test('should allow 0 as minHeight', async ({ mount })=> {
 });
 
 test('should aspect ratio locked when resize to right', async ({ mount })=> {
-  const onResize = sinon.spy();
-  const onResizeStart = sinon.spy();
-  const onResizeStop = sinon.spy();
+  const onResize = spy();
+  const onResizeStart = spy();
+  const onResizeStop = spy();
   const resizable = ReactDOM.render<ResizableProps, Resizable>(
     <Resizable
       defaultSize={{ width: 100, height: 100 }}
@@ -720,9 +701,9 @@ test('should aspect ratio locked when resize to right', async ({ mount })=> {
 });
 
 test('should aspect ratio locked with 1:1 ratio when resize to right', async ({ mount })=> {
-  const onResize = sinon.spy();
-  const onResizeStart = sinon.spy();
-  const onResizeStop = sinon.spy();
+  const onResize = spy();
+  const onResizeStart = spy();
+  const onResizeStop = spy();
   const resizable = ReactDOM.render<ResizableProps, Resizable>(
     <Resizable
       defaultSize={{ width: 100, height: 100 }}
@@ -747,9 +728,9 @@ test('should aspect ratio locked with 1:1 ratio when resize to right', async ({ 
 });
 
 test('should aspect ratio locked with 2:1 ratio when resize to right', async ({ mount })=> {
-  const onResize = sinon.spy();
-  const onResizeStart = sinon.spy();
-  const onResizeStop = sinon.spy();
+  const onResize = spy();
+  const onResizeStart = spy();
+  const onResizeStop = spy();
   const resizable = ReactDOM.render<ResizableProps, Resizable>(
     <Resizable
       defaultSize={{ width: 200, height: 100 }}
@@ -774,9 +755,9 @@ test('should aspect ratio locked with 2:1 ratio when resize to right', async ({ 
 });
 
 test('should aspect ratio locked with 2:1 ratio with extra width/height when resize to right', async ({ mount })=> {
-  const onResize = sinon.spy();
-  const onResizeStart = sinon.spy();
-  const onResizeStop = sinon.spy();
+  const onResize = spy();
+  const onResizeStart = spy();
+  const onResizeStop = spy();
   const resizable = ReactDOM.render<ResizableProps, Resizable>(
     <Resizable
       defaultSize={{ width: 250, height: 150 }}
@@ -803,9 +784,9 @@ test('should aspect ratio locked with 2:1 ratio with extra width/height when res
 });
 
 test('should aspect ratio locked when resize to bottom', async ({ mount })=> {
-  const onResize = sinon.spy();
-  const onResizeStart = sinon.spy();
-  const onResizeStop = sinon.spy();
+  const onResize = spy();
+  const onResizeStart = spy();
+  const onResizeStop = spy();
   const resizable = ReactDOM.render<ResizableProps, Resizable>(
     <Resizable
       defaultSize={{ width: 100, height: 100 }}
@@ -830,9 +811,9 @@ test('should aspect ratio locked when resize to bottom', async ({ mount })=> {
 });
 
 test('should aspect ratio locked with 1:1 ratio when resize to bottom', async ({ mount })=> {
-  const onResize = sinon.spy();
-  const onResizeStart = sinon.spy();
-  const onResizeStop = sinon.spy();
+  const onResize = spy();
+  const onResizeStart = spy();
+  const onResizeStop = spy();
   const resizable = ReactDOM.render<ResizableProps, Resizable>(
     <Resizable
       defaultSize={{ width: 100, height: 100 }}
@@ -857,9 +838,9 @@ test('should aspect ratio locked with 1:1 ratio when resize to bottom', async ({
 });
 
 test('should aspect ratio locked with 2:1 ratio when resize to bottom', async ({ mount })=> {
-  const onResize = sinon.spy();
-  const onResizeStart = sinon.spy();
-  const onResizeStop = sinon.spy();
+  const onResize = spy();
+  const onResizeStart = spy();
+  const onResizeStop = spy();
   const resizable = ReactDOM.render<ResizableProps, Resizable>(
     <Resizable
       defaultSize={{ width: 200, height: 100 }}
@@ -884,9 +865,9 @@ test('should aspect ratio locked with 2:1 ratio when resize to bottom', async ({
 });
 
 test('should aspect ratio locked with 2:1 ratio with extra width/height when resize to bottom', async ({ mount })=> {
-  const onResize = sinon.spy();
-  const onResizeStart = sinon.spy();
-  const onResizeStop = sinon.spy();
+  const onResize = spy();
+  const onResizeStart = spy();
+  const onResizeStop = spy();
   const resizable = ReactDOM.render<ResizableProps, Resizable>(
     <Resizable
       defaultSize={{ width: 250, height: 150 }}
@@ -913,9 +894,9 @@ test('should aspect ratio locked with 2:1 ratio with extra width/height when res
 });
 
 test('should clamped by parent width', async ({ mount })=> {
-  const onResize = sinon.spy();
-  const onResizeStart = sinon.spy();
-  const onResizeStop = sinon.spy();
+  const onResize = spy();
+  const onResizeStart = spy();
+  const onResizeStop = spy();
   const resizable = ReactDOM.render<ResizableProps, Resizable>(
     <Resizable
       defaultSize={{ width: 100, height: 100 }}
@@ -937,9 +918,9 @@ test('should clamped by parent width', async ({ mount })=> {
 });
 
 test('should clamped by parent height', async ({ mount })=> {
-  const onResize = sinon.spy();
-  const onResizeStart = sinon.spy();
-  const onResizeStop = sinon.spy();
+  const onResize = spy();
+  const onResizeStart = spy();
+  const onResizeStop = spy();
   const resizable = ReactDOM.render<ResizableProps, Resizable>(
     <Resizable
       defaultSize={{ width: 100, height: 100 }}
@@ -983,7 +964,7 @@ test('should render a handleComponent for right', async ({ mount })=> {
 });
 
 test('should adjust resizing for specified scale', async ({ mount })=> {
-  const onResize = sinon.spy();
+  const onResize = spy();
   const resizable = ReactDOM.render<ResizableProps, Resizable>(
     <Resizable defaultSize={{ width: 100, height: 100 }} onResize={onResize} style={{ padding: '40px' }} scale={0.5} />,
     document.getElementById('content'),
