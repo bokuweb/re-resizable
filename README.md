@@ -3,8 +3,6 @@
 <p align="center">📏 A resizable component for React.</p>
 
 <p align="center"><img src="https://github.com/bokuweb/re-resizable/workflows/Continuous%20Integration/badge.svg" alt="Build Status" />
-<a href="https://www.npmjs.com/package/react-rnd">
-<img src="https://img.shields.io/npm/v/react-rnd.svg" alt="Build Status" /></a>
 <a href="https://www.npmjs.com/package/re-resizable">
 <img src="https://img.shields.io/npm/v/re-resizable.svg" alt="Build Status" /></a>
 <a href="https://www.npmjs.com/package/re-resizable">
