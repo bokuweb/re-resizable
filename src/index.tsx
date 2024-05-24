@@ -655,25 +655,25 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       const parent = this.parentNode;
       if (parent) {
         const parentRect = parent.getBoundingClientRect();
-        this.parentLeft = parentRect.left;
-        this.parentTop = parentRect.top;
+        this.parentLeft = parentRect.left * (1 / this.props.scale);
+        this.parentTop = parentRect.top * (1 / this.props.scale);
       }
     }
 
     // For target(html element) boundary
     if (this.props.bounds && typeof this.props.bounds !== 'string') {
       const targetRect = this.props.bounds.getBoundingClientRect();
-      this.targetLeft = targetRect.left;
-      this.targetTop = targetRect.top;
+      this.targetLeft = targetRect.left * (1 / this.props.scale);
+      this.targetTop = targetRect.top * (1 / this.props.scale);
     }
 
     // For boundary
     if (this.resizable) {
       const { left, top, right, bottom } = this.resizable.getBoundingClientRect();
-      this.resizableLeft = left;
-      this.resizableRight = right;
-      this.resizableTop = top;
-      this.resizableBottom = bottom;
+      this.resizableLeft = left * (1 / this.props.scale);
+      this.resizableRight = right * (1 / this.props.scale);
+      this.resizableTop = top * (1 / this.props.scale);
+      this.resizableBottom = bottom * (1 / this.props.scale);
     }
   }
 
