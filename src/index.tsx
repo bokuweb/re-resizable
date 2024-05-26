@@ -926,12 +926,6 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     );
   }
 
-  ref = (c: HTMLElement | null) => {
-    if (c) {
-      this.resizable = c;
-    }
-  };
-
   render() {
     const extendsProps = Object.keys(this.props).reduce((acc, key) => {
       if (definedProps.indexOf(key) !== -1) {
@@ -961,7 +955,18 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     const Wrapper = this.props.as || 'div';
 
     return (
-      <Wrapper ref={this.ref} style={style} className={this.props.className} {...extendsProps}>
+      <Wrapper
+        style={style}
+        className={this.props.className}
+        {...extendsProps}
+        // `ref` is after `extendsProps` to ensure this one wins over a version
+        // passed in
+        ref={(c: HTMLElement | null) => {
+          if (c) {
+            this.resizable = c;
+          }
+        }}
+      >
         {this.state.isResizing && <div style={this.state.backgroundStyle} />}
         {this.props.children}
         {this.renderResizer()}
