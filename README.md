@@ -150,6 +150,11 @@ The `maxHeight` property is used to set the maximum height of a resizable compon
 
 The `grid` property is used to specify the increments that resizing should snap to. Defaults to `[1, 1]`.
 
+#### `gridGap?: [number, number];`
+
+The `gridGap` property is used to specify any gaps between your grid cells that should be accounted for when resizing. Defaults to `[0, 0]`.
+The value provided for each axis will always add the grid gap amount times grid cells spanned minus one.
+
 #### `snap?: { x?: Array<number>, y?: Array<number> };`
 
 The `snap` property is used to specify absolute pixel values that resizing should snap to. `x` and `y` are both optional, allowing you to only include the axis you want to define. Defaults to `null`.
