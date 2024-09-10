@@ -21,6 +21,19 @@
 ### :house: Internal
 -->
 
+## [6.9.18 (2024-09-10)](https://github.com/bokuweb/re-resizable/compare/6.9.16...6.9.18)
+
+### :nail_care: Enhancement
+
+- added grid gap prop to support adding any gaps to width/height. Fixes #822
+
+### :bug: Bug Fix
+
+- fix-boundary-scale: adds scaling to boundary Fixes #820
+
+## [6.9.17 (2024-05-25)]
+
+- Define callback refs inline to work with latest versions of Next.js / React #819
 
 ## [6.9.16 (2024-04-25)](https://github.com/bokuweb/re-resizable/compare/v6.9.16...v6.9.14)
 
