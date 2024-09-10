@@ -82,6 +82,7 @@ export interface ResizableProps {
   style?: React.CSSProperties;
   className?: string;
   grid?: [number, number];
+  gridGap?: [number, number];
   snap?: {
     x?: number[];
     y?: number[];
@@ -129,7 +130,11 @@ interface State {
 }
 
 const clamp = (n: number, min: number, max: number): number => Math.max(Math.min(n, max), min);
-const snap = (n: number, size: number): number => Math.round(n / size) * size;
+const snap = (n: number, size: number, gridGap: number): number => {
+  const v = Math.round(n / size);
+
+  return v * size + gridGap * (v - 1);
+};
 const hasDirection = (dir: 'top' | 'right' | 'bottom' | 'left', target: string): boolean =>
   new RegExp(dir, 'i').test(target);
 
@@ -242,6 +247,7 @@ const definedProps = [
   'style',
   'className',
   'grid',
+  'gridGap',
   'snap',
   'bounds',
   'boundsByDirection',
@@ -373,6 +379,7 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     },
     style: {},
     grid: [1, 1],
+    gridGap: [0, 0],
     lockAspectRatio: false,
     lockAspectRatioExtraWidth: 0,
     lockAspectRatioExtraHeight: 0,
@@ -803,8 +810,8 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     newHeight = newSize.newHeight;
 
     if (this.props.grid) {
-      const newGridWidth = snap(newWidth, this.props.grid[0]);
-      const newGridHeight = snap(newHeight, this.props.grid[1]);
+      const newGridWidth = snap(newWidth, this.props.grid[0], this.props.gridGap ? this.props.gridGap[0] : 0);
+      const newGridHeight = snap(newHeight, this.props.grid[1], this.props.gridGap ? this.props.gridGap[1] : 0);
       const gap = this.props.snapGap || 0;
       const w = gap === 0 || Math.abs(newGridWidth - newWidth) <= gap ? newGridWidth : newWidth;
       const h = gap === 0 || Math.abs(newGridHeight - newHeight) <= gap ? newGridHeight : newHeight;
