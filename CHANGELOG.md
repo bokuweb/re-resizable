@@ -21,6 +21,12 @@
 ### :house: Internal
 -->
 
+## [6.10.0 (2024-09-22)](https://github.com/bokuweb/re-resizable/compare/6.9.18...6.10.0)
+
+### :nail_care: Enhancement
+
+- Match focus order to visual order #827
+
 ## [6.9.18 (2024-09-10)](https://github.com/bokuweb/re-resizable/compare/6.9.16...6.9.18)
 
 ### :nail_care: Enhancement
