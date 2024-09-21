@@ -906,27 +906,29 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
     this.setState({ width: size.width ?? 'auto', height: size.height ?? 'auto' });
   }
 
-  renderResizer() {
+  renderResizer(directions: Direction[]) {
     const { enable, handleStyles, handleClasses, handleWrapperStyle, handleWrapperClass, handleComponent } = this.props;
     if (!enable) {
       return null;
     }
-    const resizers = Object.keys(enable).map(dir => {
-      if (enable[dir as Direction] !== false) {
-        return (
-          <Resizer
-            key={dir}
-            direction={dir as Direction}
-            onResizeStart={this.onResizeStart}
-            replaceStyles={handleStyles && handleStyles[dir as Direction]}
-            className={handleClasses && handleClasses[dir as Direction]}
-          >
-            {handleComponent && handleComponent[dir as Direction] ? handleComponent[dir as Direction] : null}
-          </Resizer>
-        );
-      }
-      return null;
-    });
+    const resizers = directions
+      .filter(dir => enable[dir] !== false)
+      .map(dir => {
+        if (enable[dir as Direction] !== false) {
+          return (
+            <Resizer
+              key={dir}
+              direction={dir as Direction}
+              onResizeStart={this.onResizeStart}
+              replaceStyles={handleStyles && handleStyles[dir as Direction]}
+              className={handleClasses && handleClasses[dir as Direction]}
+            >
+              {handleComponent && handleComponent[dir as Direction] ? handleComponent[dir as Direction] : null}
+            </Resizer>
+          );
+        }
+        return null;
+      });
     // #93 Wrap the resize box in span (will not break 100% width/height)
     return (
       <div className={handleWrapperClass} style={handleWrapperStyle}>
@@ -977,8 +979,9 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
         }}
       >
         {this.state.isResizing && <div style={this.state.backgroundStyle} />}
+        {this.renderResizer(['topLeft', 'top', 'topRight', 'left'])}
         {this.props.children}
-        {this.renderResizer()}
+        {this.renderResizer(['right', 'bottomLeft', 'bottom', 'bottomRight'])}
       </Wrapper>
     );
   }
