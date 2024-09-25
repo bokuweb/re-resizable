@@ -37,7 +37,7 @@ devDependencies:
     version: 10.0.35(react@18.3.0)
   '@playwright/experimental-ct-react':
     specifier: ^1.43.1
-    version: 1.43.1(@types/node@12.12.70)(vite@5.2.10)
+    version: 1.43.1(@types/node@12.20.55)(vite@5.2.10)
   '@storybook/addon-info':
     specifier: 5.3.21
     version: 5.3.21(@types/react@16.8.7)(react-dom@18.3.0)(react@18.3.0)(regenerator-runtime@0.14.1)
@@ -48,8 +48,8 @@ devDependencies:
     specifier: 6.0.28
     version: 6.0.28(@babel/core@7.11.6)(@types/react@16.8.7)(eslint@9.1.1)(react-dom@18.3.0)(react@18.3.0)(typescript@4.0.5)
   '@types/node':
-    specifier: 12.12.70
-    version: 12.12.70
+    specifier: 12.20.55
+    version: 12.20.55
   '@types/react':
     specifier: 16.8.7
     version: 16.8.7
@@ -3174,6 +3174,7 @@ packages:
   /@humanwhocodes/config-array@0.13.0:
     resolution: {integrity: sha512-DZLEEqFWQFiyK6h5YIeynKx7JlvCYWL0cImfSRXZ9l4Sg2efkFGTuFf6vzXjK1cq6IYkU+Eg/JizXw+TD2vRNw==}
     engines: {node: '>=10.10.0'}
+    deprecated: Use @eslint/config-array instead
     dependencies:
       '@humanwhocodes/object-schema': 2.0.3
       debug: 4.3.4
@@ -3189,6 +3190,7 @@ packages:
 
   /@humanwhocodes/object-schema@2.0.3:
     resolution: {integrity: sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==}
+    deprecated: Use @eslint/object-schema instead
     dev: true
 
   /@humanwhocodes/retry@0.2.3:
@@ -3328,14 +3330,14 @@ packages:
       rimraf: 3.0.2
     dev: true
 
-  /@playwright/experimental-ct-core@1.43.1(@types/node@12.12.70):
+  /@playwright/experimental-ct-core@1.43.1(@types/node@12.20.55):
     resolution: {integrity: sha512-4llE4A8fgqRsIHIAO4FVcolxzkvhJ60462C8MBERUEmEa4K/X34NiEIi2mhQTcfWp4iBlf9JPspiun3FDv/yig==}
     engines: {node: '>=16'}
     hasBin: true
     dependencies:
       playwright: 1.43.1
       playwright-core: 1.43.1
-      vite: 5.2.10(@types/node@12.12.70)
+      vite: 5.2.10(@types/node@12.20.55)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -3346,12 +3348,12 @@ packages:
       - terser
     dev: true
 
-  /@playwright/experimental-ct-react@1.43.1(@types/node@12.12.70)(vite@5.2.10):
+  /@playwright/experimental-ct-react@1.43.1(@types/node@12.20.55)(vite@5.2.10):
     resolution: {integrity: sha512-DZ09HBBa0iLxINHjlFbn/qZdpcSAgCFLSRvLDfrCFapT7umvPWg0T/ngleiEpuleSm0ZQpDKiE6GQF4TtqxRNA==}
     engines: {node: '>=16'}
     hasBin: true
     dependencies:
-      '@playwright/experimental-ct-core': 1.43.1(@types/node@12.12.70)
+      '@playwright/experimental-ct-core': 1.43.1(@types/node@12.20.55)
       '@vitejs/plugin-react': 4.2.1(vite@5.2.10)
     transitivePeerDependencies:
       - '@types/node'
@@ -4505,7 +4507,7 @@ packages:
     resolution: {integrity: sha512-IO+MJPVhoqz+28h1qLAcBEH2+xHMK6MTyHJc7MTnnYb6wsoLR29POVGJ7LycmVXIqyy/4/2ShP5sUwTXuOwb/w==}
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 12.12.70
+      '@types/node': 12.20.55
     dev: true
 
   /@types/html-minifier-terser@5.1.2:
@@ -4543,12 +4545,12 @@ packages:
   /@types/node-fetch@2.6.11:
     resolution: {integrity: sha512-24xFj9R5+rfQJLRyM56qh+wnVSYhyXC2tkoBndtY0U+vubqNsYXGjufB2nn8Q6gt0LrARwL6UBtMCSVCwl4B1g==}
     dependencies:
-      '@types/node': 12.12.70
+      '@types/node': 12.20.55
       form-data: 4.0.0
     dev: true
 
-  /@types/node@12.12.70:
-    resolution: {integrity: sha512-i5y7HTbvhonZQE+GnUM2rz1Bi8QkzxdQmEv1LKOv4nWyaQk/gdeiTApuQR3PDJHX7WomAbpx2wlWSEpxXGZ/UQ==}
+  /@types/node@12.20.55:
+    resolution: {integrity: sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==}
     dev: true
 
   /@types/normalize-package-data@2.4.4:
@@ -4558,7 +4560,7 @@ packages:
   /@types/npmlog@4.1.6:
     resolution: {integrity: sha512-0l3z16vnlJGl2Mi/rgJFrdwfLZ4jfNYgE6ZShEpjqhHuGTqdEzNles03NpYHwUMVYZa+Tj46UxKIEpE78lQ3DQ==}
     dependencies:
-      '@types/node': 12.12.70
+      '@types/node': 12.20.55
     dev: true
 
   /@types/overlayscrollbars@1.12.5:
@@ -4628,7 +4630,7 @@ packages:
   /@types/resolve@0.0.8:
     resolution: {integrity: sha512-auApPaJf3NPfe18hSoJkp8EbZzer2ISk7o8mCC3M9he/a04+gbMF97NkpD2S8riMGvm4BMRI59/SZQSaLTKpsQ==}
     dependencies:
-      '@types/node': 12.12.70
+      '@types/node': 12.20.55
     dev: true
 
   /@types/sinon@9.0.10:
@@ -4662,7 +4664,7 @@ packages:
   /@types/webpack-sources@3.2.3:
     resolution: {integrity: sha512-4nZOdMwSPHZ4pTEZzSp0AsTM4K7Qmu40UKW4tJDiOVs20UzYF9l+qUe4s0ftfN0pin06n+5cWWDJXH+sbhAiDw==}
     dependencies:
-      '@types/node': 12.12.70
+      '@types/node': 12.20.55
       '@types/source-list-map': 0.1.6
       source-map: 0.7.4
     dev: true
@@ -4670,7 +4672,7 @@ packages:
   /@types/webpack@4.41.38:
     resolution: {integrity: sha512-oOW7E931XJU1mVfCnxCVgv8GLFL768pDO5u2Gzk82i8yTIgX6i7cntyZOkZYb/JtYM8252SN9bQp9tgkVDSsRw==}
     dependencies:
-      '@types/node': 12.12.70
+      '@types/node': 12.20.55
       '@types/tapable': 1.0.12
       '@types/uglify-js': 3.17.5
       '@types/webpack-sources': 3.2.3
@@ -4689,7 +4691,7 @@ packages:
       '@babel/plugin-transform-react-jsx-source': 7.24.1(@babel/core@7.24.4)
       '@types/babel__core': 7.20.5
       react-refresh: 0.14.1
-      vite: 5.2.10(@types/node@12.12.70)
+      vite: 5.2.10(@types/node@12.20.55)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -8615,6 +8617,7 @@ packages:
   /fill-range@7.0.1:
     resolution: {integrity: sha512-qOo9F+dMUmC2Lcb4BbVvnKJxTPjCm+RRpe4gDuGrzkL7mEVl/djYSu2OdQ2Pa302N4oqkSg9ir6jaLWJ2USVpQ==}
     engines: {node: '>=8'}
+    requiresBuild: true
     dependencies:
       to-regex-range: 5.0.1
     dev: true
@@ -8882,7 +8885,7 @@ packages:
     resolution: {integrity: sha512-oWb1Z6mkHIskLzEJ/XWX0srkpkTQ7vaopMQkyaEIoq0fmtFVxOthb8cCxeT+p3ynTdkk/RZwbgG4brR5BeWECw==}
     engines: {node: '>= 4.0'}
     os: [darwin]
-    deprecated: The v1 package contains DANGEROUS / INSECURE binaries. Upgrade to safe fsevents v2
+    deprecated: Upgrade to fsevents v2 to mitigate potential security issues
     requiresBuild: true
     dependencies:
       bindings: 1.5.0
@@ -9838,6 +9841,7 @@ packages:
   /is-number@7.0.0:
     resolution: {integrity: sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==}
     engines: {node: '>=0.12.0'}
+    requiresBuild: true
     dev: true
 
   /is-path-inside@3.0.3:
@@ -10039,7 +10043,7 @@ packages:
     resolution: {integrity: sha512-KWYVV1c4i+jbMpaBC+U++4Va0cp8OisU185o73T1vo99hqi7w8tSJfUXYswwqqrjzwxa6KpRK54WhPvwf5w6PQ==}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 12.12.70
+      '@types/node': 12.20.55
       merge-stream: 2.0.0
       supports-color: 7.2.0
     dev: true
@@ -10048,7 +10052,7 @@ packages:
     resolution: {integrity: sha512-7vuh85V5cdDofPyxn58nrPjBktZo0u9x1g8WtjQol+jZDaE+fhN+cIvTj11GndBnMnyfrUOG1sZQxCdjKh+DKg==}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 12.12.70
+      '@types/node': 12.20.55
       merge-stream: 2.0.0
       supports-color: 8.1.1
     dev: true
@@ -12621,7 +12625,7 @@ packages:
     hasBin: true
     dependencies:
       '@types/estree': 1.0.5
-      '@types/node': 12.12.70
+      '@types/node': 12.20.55
       acorn: 7.4.1
     dev: true
 
@@ -13655,6 +13659,7 @@ packages:
   /to-regex-range@5.0.1:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
     engines: {node: '>=8.0'}
+    requiresBuild: true
     dependencies:
       is-number: 7.0.0
     dev: true
@@ -14201,7 +14206,7 @@ packages:
     engines: {node: '>= 0.8'}
     dev: true
 
-  /vite@5.2.10(@types/node@12.12.70):
+  /vite@5.2.10(@types/node@12.20.55):
     resolution: {integrity: sha512-PAzgUZbP7msvQvqdSD+ErD5qGnSFiGOoWmV5yAKUEI0kdhjbH6nMWVyZQC/hSc4aXwc0oJ9aEdIiF9Oje0JFCw==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -14229,7 +14234,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      '@types/node': 12.12.70
+      '@types/node': 12.20.55
       esbuild: 0.20.2
       postcss: 8.4.38
       rollup: 4.16.4
