@@ -38,6 +38,9 @@ devDependencies:
   '@playwright/experimental-ct-react':
     specifier: ^1.43.1
     version: 1.43.1(@types/node@12.12.70)(vite@5.2.10)
+  '@rollup/plugin-babel':
+    specifier: 5.0.0
+    version: 5.0.0(@babel/core@7.11.6)(rollup@1.32.1)
   '@storybook/addon-info':
     specifier: 5.3.21
     version: 5.3.21(@types/react@16.8.7)(react-dom@18.3.0)(react@18.3.0)(regenerator-runtime@0.14.1)
@@ -119,9 +122,6 @@ devDependencies:
   rollup:
     specifier: 1.32.1
     version: 1.32.1
-  rollup-plugin-babel:
-    specifier: 4.4.0
-    version: 4.4.0(@babel/core@7.11.6)(rollup@1.32.1)
   rollup-plugin-commonjs:
     specifier: 10.1.0
     version: 10.1.0(rollup@1.32.1)
@@ -3174,6 +3174,7 @@ packages:
   /@humanwhocodes/config-array@0.13.0:
     resolution: {integrity: sha512-DZLEEqFWQFiyK6h5YIeynKx7JlvCYWL0cImfSRXZ9l4Sg2efkFGTuFf6vzXjK1cq6IYkU+Eg/JizXw+TD2vRNw==}
     engines: {node: '>=10.10.0'}
+    deprecated: Use @eslint/config-array instead
     dependencies:
       '@humanwhocodes/object-schema': 2.0.3
       debug: 4.3.4
@@ -3189,6 +3190,7 @@ packages:
 
   /@humanwhocodes/object-schema@2.0.3:
     resolution: {integrity: sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==}
+    deprecated: Use @eslint/object-schema instead
     dev: true
 
   /@humanwhocodes/retry@0.2.3:
@@ -3405,6 +3407,19 @@ packages:
       react: 18.3.0
       react-dom: 18.3.0(react@18.3.0)
       react-lifecycles-compat: 3.0.4
+    dev: true
+
+  /@rollup/plugin-babel@5.0.0(@babel/core@7.11.6)(rollup@1.32.1):
+    resolution: {integrity: sha512-YpVnwdUeVj/fDFN75Y3CAzJTMYNcqbH05SJs551wqj+BSwLT9pS3dqJrVDPYl3eH4OrI8ueiEseX5VgUn+0HLA==}
+    engines: {node: '>= 10.0.0'}
+    peerDependencies:
+      '@babel/core': ^7.0.0
+      rollup: ^1.20.0||^2.0.0
+    dependencies:
+      '@babel/core': 7.11.6
+      '@babel/helper-module-imports': 7.24.3
+      '@rollup/pluginutils': 3.1.0(rollup@1.32.1)
+      rollup: 1.32.1
     dev: true
 
   /@rollup/pluginutils@3.1.0(rollup@1.32.1):
@@ -8882,7 +8897,7 @@ packages:
     resolution: {integrity: sha512-oWb1Z6mkHIskLzEJ/XWX0srkpkTQ7vaopMQkyaEIoq0fmtFVxOthb8cCxeT+p3ynTdkk/RZwbgG4brR5BeWECw==}
     engines: {node: '>= 4.0'}
     os: [darwin]
-    deprecated: The v1 package contains DANGEROUS / INSECURE binaries. Upgrade to safe fsevents v2
+    deprecated: Upgrade to fsevents v2 to mitigate potential security issues
     requiresBuild: true
     dependencies:
       bindings: 1.5.0
@@ -12522,19 +12537,6 @@ packages:
     dependencies:
       hash-base: 3.1.0
       inherits: 2.0.4
-    dev: true
-
-  /rollup-plugin-babel@4.4.0(@babel/core@7.11.6)(rollup@1.32.1):
-    resolution: {integrity: sha512-Lek/TYp1+7g7I+uMfJnnSJ7YWoD58ajo6Oarhlex7lvUce+RCKRuGRSgztDO3/MF/PuGKmUL5iTHKf208UNszw==}
-    deprecated: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-babel.
-    peerDependencies:
-      '@babel/core': 7 || ^7.0.0-rc.2
-      rollup: '>=0.60.0 <3'
-    dependencies:
-      '@babel/core': 7.11.6
-      '@babel/helper-module-imports': 7.24.3
-      rollup: 1.32.1
-      rollup-pluginutils: 2.8.2
     dev: true
 
   /rollup-plugin-commonjs@10.1.0(rollup@1.32.1):
