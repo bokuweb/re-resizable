@@ -21,6 +21,12 @@
 ### :house: Internal
 -->
 
+## [6.10.1 (2024-11-06)](https://github.com/bokuweb/re-resizable/compare/6.10.0...6.10.1)
+
+### :bug: Bug Fix
+
+- Revert #827 because regression
+
 ## [6.10.0 (2024-09-22)](https://github.com/bokuweb/re-resizable/compare/6.9.18...6.10.0)
 
 ### :nail_care: Enhancement
