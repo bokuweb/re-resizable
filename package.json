@@ -1,6 +1,6 @@
 {
   "name": "re-resizable",
-  "version": "6.10.1",
+  "version": "6.10.2",
   "description": "Resizable component for React.",
   "title": "re-resizable",
   "main": "./lib/index.es5.js",
@@ -75,8 +75,8 @@
     "npm-run-all2": "5.0.0",
     "playwright-core": "^1.43.1",
     "prettier": "1.19.1",
-    "react": "^18.3.0",
-    "react-dom": "^18.3.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "rollup": "1.32.1",
     "rollup-plugin-babel": "4.4.0",
     "rollup-plugin-commonjs": "10.1.0",
@@ -98,7 +98,7 @@
     "lib"
   ],
   "peerDependencies": {
-    "react": "^16.13.1 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.13.1 || ^17.0.0 || ^18.0.0"
+    "react": "^16.13.1 || ^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^16.13.1 || ^17.0.0 || ^18.0.0 || ^19.0.0"
   }
 }
