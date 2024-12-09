@@ -49,7 +49,7 @@ importers:
         version: 5.3.21(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(regenerator-runtime@0.14.1)
       '@storybook/react':
         specifier: 6.0.28
-        version: 6.0.28(@babel/core@7.11.6)(@types/react@16.8.7)(encoding@0.1.13)(eslint@9.1.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@4.0.5)
+        version: 6.0.28(@babel/core@7.11.6)(@types/react@16.8.7)(encoding@0.1.13)(eslint@9.1.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@4.9.5)
       '@types/node':
         specifier: 12.12.70
         version: 12.12.70
@@ -139,7 +139,7 @@ importers:
         version: 2.2.0
       rollup-plugin-typescript2:
         specifier: 0.27.3
-        version: 0.27.3(rollup@1.32.1)(typescript@4.0.5)
+        version: 0.27.3(rollup@1.32.1)(typescript@4.9.5)
       rollup-watch:
         specifier: 4.3.1
         version: 4.3.1
@@ -148,7 +148,7 @@ importers:
         version: 9.0.3
       tslint:
         specifier: 6.1.3
-        version: 6.1.3(typescript@4.0.5)
+        version: 6.1.3(typescript@4.9.5)
       tslint-config-google:
         specifier: 1.0.1
         version: 1.0.1
@@ -157,10 +157,10 @@ importers:
         version: 1.18.0
       tslint-plugin-prettier:
         specifier: 2.3.0
-        version: 2.3.0(prettier@1.19.1)(tslint@6.1.3(typescript@4.0.5))
+        version: 2.3.0(prettier@1.19.1)(tslint@6.1.3(typescript@4.9.5))
       typescript:
-        specifier: 4.0.5
-        version: 4.0.5
+        specifier: 4.9.5
+        version: 4.9.5
 
 packages:
 
@@ -1852,6 +1852,7 @@ packages:
 
   are-we-there-yet@1.1.7:
     resolution: {integrity: sha512-nxwy40TuMiUGqMyRHgCSWZ9FM4VAoRP4xUYSTv5ImRog+h9yISPbVH7H8fASCIzYn9wlEv4zvFL7uKDMCFQm3g==}
+    deprecated: This package is no longer supported.
 
   argparse@1.0.10:
     resolution: {integrity: sha512-o5Roy6tNG4SL/FOkCAN6RzjiakZS25RLYFrcMttJqbdd8BWrnA+fGz57iN5Pb06pvBGvl5gQ0B48dJlslXvoTg==}
@@ -2703,6 +2704,7 @@ packages:
 
   copy-concurrently@1.0.5:
     resolution: {integrity: sha512-f2domd9fsVDFtaFcbaRZuYXwtdmnzqbADSwhSWYxYB/Q8zsdUUFMXVRwXGDMWmbEzAn1kdRrtI1T/KTFOL4X2A==}
+    deprecated: This package is no longer supported.
 
   copy-descriptor@0.1.1:
     resolution: {integrity: sha512-XgZ0pFcakEUlbwQEVNg3+QAis1FyTL3Qel9FYy8pSkQqoG3PNoT0bOCQtOXcOkur21r2Eq2kI+IE+gsmAEVlYw==}
@@ -3501,6 +3503,7 @@ packages:
 
   fs-write-stream-atomic@1.0.10:
     resolution: {integrity: sha512-gehEzmPn2nAwr39eay+x3X34Ra+M2QlVUTLhkXPjWdeO8RF9kszk116avgBJM3ZyNHgHXBNx+VmPaFC36k0PzA==}
+    deprecated: This package is no longer supported.
 
   fs.realpath@1.0.0:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
@@ -3537,6 +3540,7 @@ packages:
 
   gauge@2.7.4:
     resolution: {integrity: sha512-14x4kjc6lkD3ltw589k0NrPD6cCNTD6CWoVUNpB85+DrtONoZn+Rug6xZU5RvSC4+TZPxA5AnBibQYAvZn41Hg==}
+    deprecated: This package is no longer supported.
 
   gensync@1.0.0-beta.2:
     resolution: {integrity: sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==}
@@ -3592,6 +3596,7 @@ packages:
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
+    deprecated: Glob versions prior to v9 are no longer supported
 
   global-modules@2.0.0:
     resolution: {integrity: sha512-NGbfmJBp9x8IxyJSd1P+otYK8vonoJactOogrVfFRIAEY1ukil8RSKDz2Yo7wh1oihl51l/r6W4epkeKJHqL8A==}
@@ -3827,6 +3832,7 @@ packages:
 
   inflight@1.0.6:
     resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
+    deprecated: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
 
   inherits@2.0.3:
     resolution: {integrity: sha512-x00IRNXNy63jwGkJmzPigoySHbaqpNuzKbBOmzK+g2OdZpQ9w+sxCN+VSB3ja7IAge2OP2qpfxTjeNcyjmW1uw==}
@@ -4524,6 +4530,7 @@ packages:
 
   move-concurrently@1.0.1:
     resolution: {integrity: sha512-hdrFxZOycD/g6A6SoI2bB5NA/5NEqD0569+S47WZhPvm46sD50ZHdYaFmnua5lndde9rCHGjmfK7Z8BuCt/PcQ==}
+    deprecated: This package is no longer supported.
 
   ms@2.0.0:
     resolution: {integrity: sha512-Tpp60P6IUJDTuOq/5Z8cdskzJujfwqfOTkrwIwj7IRISpnkJnT6SyJ4PCPnGMoFjC9ddhal5KVIYtAt97ix05A==}
@@ -4621,6 +4628,7 @@ packages:
 
   npmlog@4.1.2:
     resolution: {integrity: sha512-2uUqazuKlTaSI/dC8AzicUck7+IrEaOnN/e0jd3Xtt1KcGpwx30v50mL7oPyr/h9bL3E4aZccVwpwP+5W9Vjkg==}
+    deprecated: This package is no longer supported.
 
   nth-check@1.0.2:
     resolution: {integrity: sha512-WeBOdju8SnzPN5vTUJYxYUxLeXpCaVP5i5e0LF8fg7WORF2Wd7wFX/pk0tYZk7s8T+J7VLy0Da6J1+wCT0AtHg==}
@@ -5053,6 +5061,10 @@ packages:
   q@1.5.1:
     resolution: {integrity: sha512-kV/CThkXo6xyFEZUugw/+pIOywXcDbFYgSct5cT3gqlbkBE1SJdwy6UQoZvodiWF/ckQLZyDE/Bu1M6gVu5lVw==}
     engines: {node: '>=0.6.0', teleport: '>=0.2.0'}
+    deprecated: |-
+      You or someone you depend on is using Q, the JavaScript Promise library that gave JavaScript developers strong feelings about promises. They can almost certainly migrate to the native JavaScript promise now. Thank you literally everyone for joining me in this bet against the odds. Be excellent to each other.
+
+      (For a CapTP with native promises, see @endo/eventual-send and @endo/captp)
 
   qs@6.11.0:
     resolution: {integrity: sha512-MvjoMCJwEarSbUYk5O+nmoSzSutSsTwF85zcHPQ9OrlFoZOYIjaqBAJIqIXjptyD5vThxGq52Xu/MaJzRkIk4Q==}
@@ -5405,10 +5417,12 @@ packages:
 
   rimraf@2.7.1:
     resolution: {integrity: sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==}
+    deprecated: Rimraf versions prior to v4 are no longer supported
     hasBin: true
 
   rimraf@3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
+    deprecated: Rimraf versions prior to v4 are no longer supported
     hasBin: true
 
   ripemd160@2.0.2:
@@ -6064,8 +6078,8 @@ packages:
   typedarray@0.0.6:
     resolution: {integrity: sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==}
 
-  typescript@4.0.5:
-    resolution: {integrity: sha512-ywmr/VrTVCmNTJ6iV2LwIrfG1P+lv6luD8sUJs+2eI9NLGigaN+nUQc13iHqisq7bra9lnmUSYqbJvegraBOPQ==}
+  typescript@4.9.5:
+    resolution: {integrity: sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==}
     engines: {node: '>=4.2.0'}
     hasBin: true
 
@@ -8015,10 +8029,10 @@ snapshots:
 
   '@emotion/sheet@0.9.4': {}
 
-  '@emotion/styled-base@10.3.0(@emotion/core@10.0.35(react@16.14.0))(react@16.14.0)':
+  '@emotion/styled-base@10.3.0(@emotion/core@10.0.35(react@19.0.0))(react@16.14.0)':
     dependencies:
       '@babel/runtime': 7.24.4
-      '@emotion/core': 10.0.35(react@16.14.0)
+      '@emotion/core': 10.0.35(react@19.0.0)
       '@emotion/is-prop-valid': 0.8.8
       '@emotion/serialize': 0.11.16
       '@emotion/utils': 0.11.3
@@ -8033,10 +8047,10 @@ snapshots:
       '@emotion/utils': 0.11.3
       react: 19.0.0
 
-  '@emotion/styled@10.3.0(@emotion/core@10.0.35(react@16.14.0))(react@16.14.0)':
+  '@emotion/styled@10.3.0(@emotion/core@10.0.35(react@19.0.0))(react@16.14.0)':
     dependencies:
-      '@emotion/core': 10.0.35(react@16.14.0)
-      '@emotion/styled-base': 10.3.0(@emotion/core@10.0.35(react@16.14.0))(react@16.14.0)
+      '@emotion/core': 10.0.35(react@19.0.0)
+      '@emotion/styled-base': 10.3.0(@emotion/core@10.0.35(react@19.0.0))(react@16.14.0)
       babel-plugin-emotion: 10.2.2
       react: 16.14.0
 
@@ -8657,7 +8671,7 @@ snapshots:
     dependencies:
       core-js: 3.37.0
 
-  '@storybook/core@6.0.28(@babel/core@7.11.6)(@types/react@16.8.7)(encoding@0.1.13)(eslint@9.1.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@4.0.5)':
+  '@storybook/core@6.0.28(@babel/core@7.11.6)(@types/react@16.8.7)(encoding@0.1.13)(eslint@9.1.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@4.9.5)':
     dependencies:
       '@babel/core': 7.11.6
       '@babel/plugin-proposal-class-properties': 7.10.4(@babel/core@7.11.6)
@@ -8720,7 +8734,7 @@ snapshots:
       file-loader: 6.2.0(webpack@4.47.0)
       file-system-cache: 1.1.0
       find-up: 4.1.0
-      fork-ts-checker-webpack-plugin: 4.1.6(eslint@9.1.1)(typescript@4.0.5)(webpack@4.47.0)
+      fork-ts-checker-webpack-plugin: 4.1.6(eslint@9.1.1)(typescript@4.9.5)(webpack@4.47.0)
       fs-extra: 9.1.0
       glob: 7.2.3
       glob-base: 0.3.0
@@ -8735,14 +8749,14 @@ snapshots:
       micromatch: 4.0.5
       node-fetch: 2.7.0(encoding@0.1.13)
       pkg-dir: 4.2.0
-      pnp-webpack-plugin: 1.6.4(typescript@4.0.5)
+      pnp-webpack-plugin: 1.6.4(typescript@4.9.5)
       postcss-flexbugs-fixes: 4.2.1
       postcss-loader: 3.0.0
       pretty-hrtime: 1.0.3
       qs: 6.12.1
       raw-loader: 4.0.2(webpack@4.47.0)
       react: 19.0.0
-      react-dev-utils: 10.2.1(eslint@9.1.1)(typescript@4.0.5)(webpack@4.47.0)
+      react-dev-utils: 10.2.1(eslint@9.1.1)(typescript@4.9.5)(webpack@4.47.0)
       react-dom: 19.0.0(react@19.0.0)
       regenerator-runtime: 0.13.11
       resolve-from: 5.0.0
@@ -8782,13 +8796,13 @@ snapshots:
       npmlog: 4.1.2
       pretty-hrtime: 1.0.3
 
-  '@storybook/react@6.0.28(@babel/core@7.11.6)(@types/react@16.8.7)(encoding@0.1.13)(eslint@9.1.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@4.0.5)':
+  '@storybook/react@6.0.28(@babel/core@7.11.6)(@types/react@16.8.7)(encoding@0.1.13)(eslint@9.1.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@4.9.5)':
     dependencies:
       '@babel/core': 7.11.6
       '@babel/preset-flow': 7.24.1(@babel/core@7.11.6)
       '@babel/preset-react': 7.10.4(@babel/core@7.11.6)
       '@storybook/addons': 6.0.28(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      '@storybook/core': 6.0.28(@babel/core@7.11.6)(@types/react@16.8.7)(encoding@0.1.13)(eslint@9.1.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@4.0.5)
+      '@storybook/core': 6.0.28(@babel/core@7.11.6)(@types/react@16.8.7)(encoding@0.1.13)(eslint@9.1.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@4.9.5)
       '@storybook/node-logger': 6.0.28
       '@storybook/semver': 7.3.2
       '@svgr/webpack': 5.5.0
@@ -8801,8 +8815,8 @@ snapshots:
       lodash: 4.17.21
       prop-types: 15.8.1
       react: 19.0.0
-      react-dev-utils: 10.2.1(eslint@9.1.1)(typescript@4.0.5)(webpack@4.47.0)
-      react-docgen-typescript-plugin: 0.5.2(typescript@4.0.5)(webpack@4.47.0)
+      react-dev-utils: 10.2.1(eslint@9.1.1)(typescript@4.9.5)(webpack@4.47.0)
+      react-docgen-typescript-plugin: 0.5.2(typescript@4.9.5)(webpack@4.47.0)
       react-dom: 19.0.0(react@19.0.0)
       regenerator-runtime: 0.13.11
       ts-dedent: 1.2.0
@@ -8873,11 +8887,11 @@ snapshots:
   '@storybook/theming@5.3.21(react-dom@19.0.0(react@19.0.0))(react@16.14.0)':
     dependencies:
       '@emotion/core': 10.0.35(react@16.14.0)
-      '@emotion/styled': 10.3.0(@emotion/core@10.0.35(react@16.14.0))(react@16.14.0)
+      '@emotion/styled': 10.3.0(@emotion/core@10.0.35(react@19.0.0))(react@16.14.0)
       '@storybook/client-logger': 5.3.21
       core-js: 3.37.0
       deep-object-diff: 1.1.9
-      emotion-theming: 10.3.0(@emotion/core@10.0.35(react@16.14.0))(react@16.14.0)
+      emotion-theming: 10.3.0(@emotion/core@10.0.35(react@19.0.0))(react@16.14.0)
       global: 4.4.0
       memoizerific: 1.11.3
       polished: 3.7.2
@@ -8908,11 +8922,11 @@ snapshots:
     dependencies:
       '@emotion/core': 10.0.35(react@16.14.0)
       '@emotion/is-prop-valid': 0.8.8
-      '@emotion/styled': 10.3.0(@emotion/core@10.0.35(react@16.14.0))(react@16.14.0)
+      '@emotion/styled': 10.3.0(@emotion/core@10.0.35(react@19.0.0))(react@16.14.0)
       '@storybook/client-logger': 6.0.28
       core-js: 3.37.0
       deep-object-diff: 1.1.9
-      emotion-theming: 10.3.0(@emotion/core@10.0.35(react@16.14.0))(react@16.14.0)
+      emotion-theming: 10.3.0(@emotion/core@10.0.35(react@19.0.0))(react@16.14.0)
       global: 4.4.0
       memoizerific: 1.11.3
       polished: 3.7.2
@@ -8925,11 +8939,11 @@ snapshots:
     dependencies:
       '@emotion/core': 10.0.35(react@16.14.0)
       '@emotion/is-prop-valid': 0.8.8
-      '@emotion/styled': 10.3.0(@emotion/core@10.0.35(react@16.14.0))(react@16.14.0)
+      '@emotion/styled': 10.3.0(@emotion/core@10.0.35(react@19.0.0))(react@16.14.0)
       '@storybook/client-logger': 6.0.28
       core-js: 3.37.0
       deep-object-diff: 1.1.9
-      emotion-theming: 10.3.0(@emotion/core@10.0.35(react@16.14.0))(react@16.14.0)
+      emotion-theming: 10.3.0(@emotion/core@10.0.35(react@19.0.0))(react@16.14.0)
       global: 4.4.0
       memoizerific: 1.11.3
       polished: 3.7.2
@@ -8971,7 +8985,7 @@ snapshots:
       copy-to-clipboard: 3.3.3
       core-js: 3.37.0
       core-js-pure: 3.37.0
-      emotion-theming: 10.3.0(@emotion/core@10.0.35(react@16.14.0))(react@16.14.0)
+      emotion-theming: 10.3.0(@emotion/core@10.0.35(react@19.0.0))(react@16.14.0)
       fuse.js: 3.6.1
       global: 4.4.0
       lodash: 4.17.21
@@ -11195,10 +11209,10 @@ snapshots:
 
   emojis-list@3.0.0: {}
 
-  emotion-theming@10.3.0(@emotion/core@10.0.35(react@16.14.0))(react@16.14.0):
+  emotion-theming@10.3.0(@emotion/core@10.0.35(react@19.0.0))(react@16.14.0):
     dependencies:
       '@babel/runtime': 7.24.4
-      '@emotion/core': 10.0.35(react@16.14.0)
+      '@emotion/core': 10.0.35(react@19.0.0)
       '@emotion/weak-memoize': 0.2.5
       hoist-non-react-statics: 3.3.2
       react: 16.14.0
@@ -11776,7 +11790,7 @@ snapshots:
       cross-spawn: 7.0.3
       signal-exit: 3.0.7
 
-  fork-ts-checker-webpack-plugin@3.1.1(eslint@9.1.1)(typescript@4.0.5)(webpack@4.47.0):
+  fork-ts-checker-webpack-plugin@3.1.1(eslint@9.1.1)(typescript@4.9.5)(webpack@4.47.0):
     dependencies:
       babel-code-frame: 6.26.0
       chalk: 2.4.2
@@ -11785,7 +11799,7 @@ snapshots:
       minimatch: 3.1.2
       semver: 5.7.2
       tapable: 1.1.3
-      typescript: 4.0.5
+      typescript: 4.9.5
       webpack: 4.47.0
       worker-rpc: 0.1.1
     optionalDependencies:
@@ -11793,7 +11807,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  fork-ts-checker-webpack-plugin@4.1.6(eslint@9.1.1)(typescript@4.0.5)(webpack@4.47.0):
+  fork-ts-checker-webpack-plugin@4.1.6(eslint@9.1.1)(typescript@4.9.5)(webpack@4.47.0):
     dependencies:
       '@babel/code-frame': 7.24.2
       chalk: 2.4.2
@@ -11801,7 +11815,7 @@ snapshots:
       minimatch: 3.1.2
       semver: 5.7.2
       tapable: 1.1.3
-      typescript: 4.0.5
+      typescript: 4.9.5
       webpack: 4.47.0
       worker-rpc: 0.1.1
     optionalDependencies:
@@ -13325,9 +13339,9 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.2
 
-  pnp-webpack-plugin@1.6.4(typescript@4.0.5):
+  pnp-webpack-plugin@1.6.4(typescript@4.9.5):
     dependencies:
-      ts-pnp: 1.2.0(typescript@4.0.5)
+      ts-pnp: 1.2.0(typescript@4.9.5)
     transitivePeerDependencies:
       - typescript
 
@@ -13573,7 +13587,7 @@ snapshots:
       reactcss: 1.2.3(react@19.0.0)
       tinycolor2: 1.6.0
 
-  react-dev-utils@10.2.1(eslint@9.1.1)(typescript@4.0.5)(webpack@4.47.0):
+  react-dev-utils@10.2.1(eslint@9.1.1)(typescript@4.9.5)(webpack@4.47.0):
     dependencies:
       '@babel/code-frame': 7.8.3
       address: 1.1.2
@@ -13584,7 +13598,7 @@ snapshots:
       escape-string-regexp: 2.0.0
       filesize: 6.0.1
       find-up: 4.1.0
-      fork-ts-checker-webpack-plugin: 3.1.1(eslint@9.1.1)(typescript@4.0.5)(webpack@4.47.0)
+      fork-ts-checker-webpack-plugin: 3.1.1(eslint@9.1.1)(typescript@4.9.5)(webpack@4.47.0)
       global-modules: 2.0.0
       globby: 8.0.2
       gzip-size: 5.1.1
@@ -13601,37 +13615,37 @@ snapshots:
       text-table: 0.2.0
       webpack: 4.47.0
     optionalDependencies:
-      typescript: 4.0.5
+      typescript: 4.9.5
     transitivePeerDependencies:
       - eslint
       - supports-color
       - vue-template-compiler
 
-  react-docgen-typescript-loader@3.7.2(typescript@4.0.5)(webpack@4.47.0):
+  react-docgen-typescript-loader@3.7.2(typescript@4.9.5)(webpack@4.47.0):
     dependencies:
       '@webpack-contrib/schema-utils': 1.0.0-beta.0(webpack@4.47.0)
       loader-utils: 1.4.2
-      react-docgen-typescript: 1.22.0(typescript@4.0.5)
-      typescript: 4.0.5
+      react-docgen-typescript: 1.22.0(typescript@4.9.5)
+      typescript: 4.9.5
     transitivePeerDependencies:
       - webpack
 
-  react-docgen-typescript-plugin@0.5.2(typescript@4.0.5)(webpack@4.47.0):
+  react-docgen-typescript-plugin@0.5.2(typescript@4.9.5)(webpack@4.47.0):
     dependencies:
       debug: 4.3.4
       endent: 2.1.0
       micromatch: 4.0.5
-      react-docgen-typescript: 1.22.0(typescript@4.0.5)
-      react-docgen-typescript-loader: 3.7.2(typescript@4.0.5)(webpack@4.47.0)
+      react-docgen-typescript: 1.22.0(typescript@4.9.5)
+      react-docgen-typescript-loader: 3.7.2(typescript@4.9.5)(webpack@4.47.0)
       tslib: 2.6.2
-      typescript: 4.0.5
+      typescript: 4.9.5
     transitivePeerDependencies:
       - supports-color
       - webpack
 
-  react-docgen-typescript@1.22.0(typescript@4.0.5):
+  react-docgen-typescript@1.22.0(typescript@4.9.5):
     dependencies:
-      typescript: 4.0.5
+      typescript: 4.9.5
 
   react-docgen@5.4.3:
     dependencies:
@@ -14058,7 +14072,7 @@ snapshots:
       magic-string: 0.25.9
       rollup-pluginutils: 2.8.2
 
-  rollup-plugin-typescript2@0.27.3(rollup@1.32.1)(typescript@4.0.5):
+  rollup-plugin-typescript2@0.27.3(rollup@1.32.1)(typescript@4.9.5):
     dependencies:
       '@rollup/pluginutils': 3.1.0(rollup@1.32.1)
       find-cache-dir: 3.3.2
@@ -14066,7 +14080,7 @@ snapshots:
       resolve: 1.17.0
       rollup: 1.32.1
       tslib: 2.0.1
-      typescript: 4.0.5
+      typescript: 4.9.5
 
   rollup-pluginutils@2.8.2:
     dependencies:
@@ -14730,9 +14744,9 @@ snapshots:
 
   ts-dedent@1.2.0: {}
 
-  ts-pnp@1.2.0(typescript@4.0.5):
+  ts-pnp@1.2.0(typescript@4.9.5):
     optionalDependencies:
-      typescript: 4.0.5
+      typescript: 4.9.5
 
   tslib@1.14.1: {}
 
@@ -14744,15 +14758,15 @@ snapshots:
 
   tslint-config-prettier@1.18.0: {}
 
-  tslint-plugin-prettier@2.3.0(prettier@1.19.1)(tslint@6.1.3(typescript@4.0.5)):
+  tslint-plugin-prettier@2.3.0(prettier@1.19.1)(tslint@6.1.3(typescript@4.9.5)):
     dependencies:
       eslint-plugin-prettier: 2.7.0(prettier@1.19.1)
       lines-and-columns: 1.2.4
       prettier: 1.19.1
       tslib: 1.14.1
-      tslint: 6.1.3(typescript@4.0.5)
+      tslint: 6.1.3(typescript@4.9.5)
 
-  tslint@6.1.3(typescript@4.0.5):
+  tslint@6.1.3(typescript@4.9.5):
     dependencies:
       '@babel/code-frame': 7.24.2
       builtin-modules: 1.1.1
@@ -14766,13 +14780,13 @@ snapshots:
       resolve: 1.22.8
       semver: 5.7.2
       tslib: 1.14.1
-      tsutils: 2.29.0(typescript@4.0.5)
-      typescript: 4.0.5
+      tsutils: 2.29.0(typescript@4.9.5)
+      typescript: 4.9.5
 
-  tsutils@2.29.0(typescript@4.0.5):
+  tsutils@2.29.0(typescript@4.9.5):
     dependencies:
       tslib: 1.14.1
-      typescript: 4.0.5
+      typescript: 4.9.5
 
   tty-browserify@0.0.0: {}
 
@@ -14831,7 +14845,7 @@ snapshots:
 
   typedarray@0.0.6: {}
 
-  typescript@4.0.5: {}
+  typescript@4.9.5: {}
 
   ua-parser-js@0.7.37: {}
 
