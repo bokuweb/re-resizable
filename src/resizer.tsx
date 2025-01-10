@@ -95,7 +95,7 @@ export class Resizer extends React.PureComponent<Props> {
   render() {
     return (
       <div
-        className={this.props.className || ''}
+        className={this.props.className || undefined}
         style={{
           position: 'absolute',
           userSelect: 'none',
