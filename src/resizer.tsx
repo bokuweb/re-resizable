@@ -20,6 +20,7 @@ const edgeBase = {
   width: '20px',
   height: '20px',
   position: 'absolute',
+  zIndex: 1,
 } as const;
 
 const styles: { [key: string]: React.CSSProperties } = {
