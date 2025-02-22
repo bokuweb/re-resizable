@@ -21,6 +21,12 @@
 ### :house: Internal
 -->
 
+## [6.10.4 (2025-02-23)](https://github.com/bokuweb/re-resizable/compare/6.10.4...6.10.3)
+
+### :nail_care: Enhancement
+
+- fix: generated JSX namespace not working with React 19 
+
 ## [6.10.1 (2024-11-06)](https://github.com/bokuweb/re-resizable/compare/6.10.0...6.10.1)
 
 ### :bug: Bug Fix
