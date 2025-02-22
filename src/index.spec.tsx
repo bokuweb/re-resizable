@@ -383,6 +383,76 @@ test('should call onResizeStop when resize stop direction right', async ({ mount
   expect(onResizeStop.getCall(0).args[3]).toEqual({ width: 200, height: 0 });
 });
 
+test('should call onResizeStop when resize stop direction bottom', async ({ mount, page }) => {
+  const onResize = spy();
+  const onResizeStart = spy();
+  const onResizeStop = spy();
+  const resizable = await mount(
+    <Resizable
+      defaultSize={{ width: 100, height: 100 }}
+      onResize={onResize}
+      onResizeStart={onResizeStart}
+      onResizeStop={onResizeStop}
+      style={{ padding: '40px' }}
+    />,
+  );
+  const divs = resizable.locator('div');
+  const handles = await divs.all();
+  const handle = handles[3];
+  if (!handle) throw new Error('Handle not found');
+  await handle.dispatchEvent('mousedown', { button: 0, clientX: 0, clientY: 0 });
+  await page.mouse.move(200, 220);
+  await page.mouse.up();
+  expect(onResizeStop.callCount).toBe(1);
+  expect(onResize.getCall(0).args[0].isTrusted).toBeTruthy();
+  expect(onResizeStop.getCall(0).args[1]).toBe('bottom');
+  const clientWidth = await resizable.evaluate(el => el.clientWidth);
+  expect(clientWidth).toBe(100);
+  const clientHeight = await resizable.evaluate(el => el.clientHeight);
+  expect(clientHeight).toBe(320);
+  expect(onResizeStop.getCall(0).args[3]).toEqual({ width: 0, height: 220 });
+});
+
+test('should call onResizeStop when resize stop direction bottomRight', async ({ mount, page }) => {
+  const onResize = spy();
+  const onResizeStart = spy();
+  const onResizeStop = spy();
+  const resizable = await mount(
+    <Resizable
+      defaultSize={{ width: 100, height: 100 }}
+      onResize={onResize}
+      onResizeStart={onResizeStart}
+      onResizeStop={onResizeStop}
+      style={{ padding: '40px' }}
+    />,
+  );
+  const divs = resizable.locator('div');
+  const handles = await divs.all();
+  const handle = handles[6];
+  if (!handle) throw new Error('Handle not found');
+  await handle.dispatchEvent('mousedown', { button: 0, clientX: 0, clientY: 0 });
+  await page.mouse.move(200, 220);
+  await page.mouse.up();
+  expect(onResizeStop.callCount).toBe(1);
+  expect(onResize.getCall(0).args[0].isTrusted).toBeTruthy();
+  expect(onResizeStop.getCall(0).args[1]).toBe('bottomRight');
+  const clientHeight = await resizable.evaluate(el => el.clientHeight);
+  expect(clientHeight).toBe(320);
+  expect(onResizeStop.getCall(0).args[3]).toEqual({ width: 200, height: 220 });
+});
+
+// test('should component size updated when updateSize method called', async ({ mount }) => {
+//   const ref = React.createRef<any>();
+//   await mount(<Resizable ref={ref} defaultSize={{ width: 100, height: 100 }} />);
+//   // Call updateSize on the component instance obtained via ref
+//   // @ts-ignore
+//   ref.current.updateSize({ width: 200, height: 300 });
+//   // @ts-ignore
+//   expect(ref.current.state.width).toBe(200);
+//   // @ts-ignore
+//   expect(ref.current.state.height).toBe(300);
+// });
+
 /*
 test('should call onResizeStop when resize stop direction bottom', async ({ mount })=> {
   const onResize = spy();
