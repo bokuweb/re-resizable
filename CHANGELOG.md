@@ -21,6 +21,12 @@
 ### :house: Internal
 -->
 
+## [6.11.0 (2025-02-23)](https://github.com/bokuweb/re-resizable/compare/6.11.0...6.10.4)
+
+### :nail_care: Enhancement
+
+- fix: Add z-index: 1 for edge resizer
+ 
 ## [6.10.4 (2025-02-23)](https://github.com/bokuweb/re-resizable/compare/6.10.4...6.10.3)
 
 ### :nail_care: Enhancement
