@@ -20,6 +20,7 @@ const edgeBase = {
   width: '20px',
   height: '20px',
   position: 'absolute',
+  zIndex: 1,
 } as const;
 
 const styles: { [key: string]: React.CSSProperties } = {
@@ -94,7 +95,7 @@ export class Resizer extends React.PureComponent<Props> {
   render() {
     return (
       <div
-        className={this.props.className || ''}
+        className={this.props.className || undefined}
         style={{
           position: 'absolute',
           userSelect: 'none',
