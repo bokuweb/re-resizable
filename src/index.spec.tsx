@@ -303,64 +303,63 @@ test('Should only bottomRight is resizable and call onResizeStart when mousedown
 //   // t.deepEqual(onResize.getCall(0).args[3], { width: 200, height: 0 });
 // });
 
-/*
-test('should call onResize with expected args when resize direction bottom', async ({ mount })=> {
+test('should call onResize with expected args when resize direction bottom', async ({ mount, page }) => {
   const onResize = spy();
   const onResizeStart = spy();
-  const resizable = ReactDOM.render<ResizableProps, Resizable>(
+  const resizable = await mount(
     <Resizable
       defaultSize={{ width: 100, height: 100 }}
       onResize={onResize}
       onResizeStart={onResizeStart}
       style={{ padding: '40px' }}
     />,
-    document.getElementById('content'),
   );
   const divs = resizable.locator('div');
-  const node = ReactDOM.findDOMNode(divs[4]);
-  if (!node || !(node instanceof HTMLDivElement)) return fail();
-  TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
-  mouseMove(200, 220);
-  TestUtils.Simulate.mouseUp(node);
-  t.is(onResize.callCount, 1);
-  t.true(onResize.getCall(0).args[0] instanceof MouseEvent);
-  t.is(onResize.getCall(0).args[1], 'bottom');
-  t.deepEqual(onResize.getCall(0).args[2].clientWidth, 100);
-  t.deepEqual(onResize.getCall(0).args[2].clientHeight, 320);
-  t.deepEqual(onResize.getCall(0).args[3], { width: 0, height: 220 });
+  const bottomHandle = (await divs.all())[3];
+  await bottomHandle.dispatchEvent('mousedown', { button: 0, clientX: 0, clientY: 0 });
+  await page.mouse.move(200, 220);
+  await page.mouse.up();
+  expect(onResize.callCount).toBe(1);
+  expect(onResize.getCall(0).args[0].isTrusted).toBe(true);
+  expect(onResize.getCall(0).args[1]).toBe('bottom');
+  const clientWidth = await resizable.evaluate(el => el.clientWidth);
+  expect(clientWidth).toBe(100);
+  const clientHeight = await resizable.evaluate(el => el.clientHeight);
+  expect(clientHeight).toBe(320);
+  expect(onResize.getCall(0).args[3]).toEqual({ width: 0, height: 220 });
 });
 
-test('should call onResize with expected args when resize direction bottomRight', async ({ mount })=> {
+test('should call onResize with expected args when resize direction bottomRight', async ({ mount, page }) => {
   const onResize = spy();
   const onResizeStart = spy();
-  const resizable = ReactDOM.render<ResizableProps, Resizable>(
+  const resizable = await mount(
     <Resizable
       defaultSize={{ width: 100, height: 100 }}
       onResize={onResize}
       onResizeStart={onResizeStart}
       style={{ padding: '40px' }}
     />,
-    document.getElementById('content'),
   );
   const divs = resizable.locator('div');
-  const node = ReactDOM.findDOMNode(divs[7]);
-  if (!node || !(node instanceof HTMLDivElement)) return fail();
-  TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
-  mouseMove(200, 220);
-  TestUtils.Simulate.mouseUp(node);
-  t.is(onResize.callCount, 1);
-  t.true(onResize.getCall(0).args[0] instanceof MouseEvent);
-  t.is(onResize.getCall(0).args[1], 'bottomRight');
-  t.deepEqual(onResize.getCall(0).args[2].clientWidth, 300);
-  t.deepEqual(onResize.getCall(0).args[2].clientHeight, 320);
-  t.deepEqual(onResize.getCall(0).args[3], { width: 200, height: 220 });
+  const bottomRightHandle = (await divs.all())[6];
+  await bottomRightHandle.dispatchEvent('mousedown', { button: 0, clientX: 0, clientY: 0 });
+  await page.mouse.move(200, 220);
+  await page.mouse.up();
+  expect(onResize.callCount).toBe(1);
+  expect(onResize.getCall(0).args[0].isTrusted).toBeTruthy();
+  expect(onResize.getCall(0).args[1]).toBe('bottomRight');
+  const clientWidth = await resizable.evaluate(el => el.clientWidth);
+  expect(clientWidth).toBe(300);
+  const clientHeight = await resizable.evaluate(el => el.clientHeight);
+  expect(clientHeight).toBe(320);
+  expect(onResize.getCall(0).args[3]).toEqual({ width: 200, height: 220 });
 });
 
-test('should call onResizeStop when resize stop direction right', async ({ mount })=> {
+test('should call onResizeStop when resize stop direction right', async ({ mount, page }) => {
   const onResize = spy();
   const onResizeStart = spy();
   const onResizeStop = spy();
-  const resizable = ReactDOM.render<ResizableProps, Resizable>(
+  const resizable = await mount(
     <Resizable
       defaultSize={{ width: 100, height: 100 }}
       onResize={onResize}
@@ -368,22 +367,23 @@ test('should call onResizeStop when resize stop direction right', async ({ mount
       onResizeStop={onResizeStop}
       style={{ padding: '40px' }}
     />,
-    document.getElementById('content'),
   );
   const divs = resizable.locator('div');
-  const node = ReactDOM.findDOMNode(divs[3]);
-  if (!node || !(node instanceof HTMLDivElement)) return fail();
-  TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
-  mouseMove(200, 220);
-  mouseUp(200, 220);
-  t.is(onResizeStop.callCount, 1);
-  t.true(onResize.getCall(0).args[0] instanceof MouseEvent);
-  t.deepEqual(onResizeStop.getCall(0).args[1], 'right');
-  t.deepEqual(onResizeStop.getCall(0).args[2].clientWidth, 300);
-  t.deepEqual(onResizeStop.getCall(0).args[2].clientHeight, 100);
-  t.deepEqual(onResizeStop.getCall(0).args[3], { width: 200, height: 0 });
+  const rightHandle = (await divs.all())[2];
+  await rightHandle.dispatchEvent('mousedown', { button: 0, clientX: 0, clientY: 0 });
+  await page.mouse.move(200, 220);
+  await page.mouse.up();
+  expect(onResizeStop.callCount).toBe(1);
+  expect(onResize.getCall(0).args[0].isTrusted).toBeTruthy();
+  expect(onResizeStop.getCall(0).args[1]).toBe('right');
+  const clientWidth = await resizable.evaluate(el => el.clientWidth);
+  expect(clientWidth).toBe(300);
+  const clientHeight = await resizable.evaluate(el => el.clientHeight);
+  expect(clientHeight).toBe(100);
+  expect(onResizeStop.getCall(0).args[3]).toEqual({ width: 200, height: 0 });
 });
 
+/*
 test('should call onResizeStop when resize stop direction bottom', async ({ mount })=> {
   const onResize = spy();
   const onResizeStart = spy();
