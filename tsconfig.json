@@ -3,7 +3,7 @@
     "target": "ES5",
     "module": "es2015",
     "lib": ["es5", "es2015", "dom"],
-    "jsx": "react",
+    "jsx": "react-jsx",
     "declaration": true,
     "outDir": "./lib",
     "strict": true,

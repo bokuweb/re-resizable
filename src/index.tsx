@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { PureComponent } from 'react';
 import { flushSync } from 'react-dom';
 
 import { Resizer, Direction } from './resizer';
@@ -289,7 +289,7 @@ interface NewSize {
   newHeight: number | string;
   newWidth: number | string;
 }
-export class Resizable extends React.PureComponent<ResizableProps, State> {
+export class Resizable extends PureComponent<ResizableProps, State> {
   flexDir?: 'row' | 'column';
 
   get parentNode(): HTMLElement | null {

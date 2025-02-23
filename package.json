@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "lint": "tslint -c tslint.json src/index.tsx",
-    "tsc": "tsc -p tsconfig.json",
+    "tsc": "tsc -p tsconfig.json --skipLibCheck",
     "build:prod:main": "rollup -c scripts/prod.js",
     "build:prod:es5": "rollup -c scripts/prod.es5.js",
     "build": "npm-run-all --serial build:prod:* && tsc",
