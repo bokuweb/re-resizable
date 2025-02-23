@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { memo, useCallback, useMemo } from 'react';
 
 const rowSizeBase = {
   width: '100%',
@@ -83,30 +83,34 @@ export interface Props {
   children: React.ReactNode;
 }
 
-export class Resizer extends React.PureComponent<Props> {
-  onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    this.props.onResizeStart(e, this.props.direction);
-  };
+export const Resizer = memo((props: Props) => {
+  const { onResizeStart, direction, children, replaceStyles, className } = props;
+  const onMouseDown = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      onResizeStart(e, direction);
+    },
+    [onResizeStart, direction],
+  );
 
-  onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
-    this.props.onResizeStart(e, this.props.direction);
-  };
+  const onTouchStart = useCallback(
+    (e: React.TouchEvent<HTMLDivElement>) => {
+      onResizeStart(e, direction);
+    },
+    [onResizeStart, direction],
+  );
 
-  render() {
-    return (
-      <div
-        className={this.props.className || undefined}
-        style={{
-          position: 'absolute',
-          userSelect: 'none',
-          ...styles[this.props.direction],
-          ...(this.props.replaceStyles || {}),
-        }}
-        onMouseDown={this.onMouseDown}
-        onTouchStart={this.onTouchStart}
-      >
-        {this.props.children}
-      </div>
-    );
-  }
-}
+  const style: React.CSSProperties = useMemo(() => {
+    return {
+      position: 'absolute',
+      userSelect: 'none',
+      ...styles[direction],
+      ...(replaceStyles ?? {}),
+    };
+  }, [replaceStyles, direction]);
+
+  return (
+    <div className={className || undefined} style={style} onMouseDown={onMouseDown} onTouchStart={onTouchStart}>
+      {children}
+    </div>
+  );
+});
