@@ -60,8 +60,8 @@ importers:
         specifier: 19.0.4
         version: 19.0.4(@types/react@19.0.10)
       '@types/sinon':
-        specifier: 9.0.10
-        version: 9.0.10
+        specifier: 17.0.4
+        version: 17.0.4
       babel-core:
         specifier: 7.0.0-bridge.0
         version: 7.0.0-bridge.0(@babel/core@7.11.6)
@@ -1020,8 +1020,8 @@ packages:
   '@types/resolve@0.0.8':
     resolution: {integrity: sha512-auApPaJf3NPfe18hSoJkp8EbZzer2ISk7o8mCC3M9he/a04+gbMF97NkpD2S8riMGvm4BMRI59/SZQSaLTKpsQ==}
 
-  '@types/sinon@9.0.10':
-    resolution: {integrity: sha512-/faDC0erR06wMdybwI/uR8wEKV/E83T0k4sepIpB7gXuy2gzx2xiOjmztq6a2Y6rIGJ04D+6UU0VBmWy+4HEMA==}
+  '@types/sinon@17.0.4':
+    resolution: {integrity: sha512-RHnIrhfPO3+tJT0s7cFaXGZvsL4bbR3/k7z3P312qMS4JaS2Tk+KiwiLx1S0rQ56ERj00u1/BtdyVd0FY+Pdew==}
 
   '@types/sinonjs__fake-timers@8.1.5':
     resolution: {integrity: sha512-mQkU2jY8jJEF7YHjHvsQO8+3ughTL1mcnn96igfhONmR+fUPSKIkefQYpSe8bsly2Ep7oQbn/6VG5/9/0qcArQ==}
@@ -1929,10 +1929,6 @@ packages:
 
   es-errors@1.3.0:
     resolution: {integrity: sha512-Zf5H2Kxt2xjTvbJvP2ZWLEICxA6j+hAmMzIlypy4xcBg1vKVnx89Wy0GbS+kf5cwCVFFzdCFh2XSCFNULS6csw==}
-    engines: {node: '>= 0.4'}
-
-  es-object-atoms@1.0.0:
-    resolution: {integrity: sha512-MZ4iQ6JwHOBQjahnjwaC1ZtIBH+2ohjamzAO3oaHcXYup7qxjF2fixyH+Q71voWHeOkI2q/TnJao/KfXYIZWbw==}
     engines: {node: '>= 0.4'}
 
   es-object-atoms@1.1.1:
@@ -5172,7 +5168,7 @@ snapshots:
     dependencies:
       '@types/node': 20.17.19
 
-  '@types/sinon@9.0.10':
+  '@types/sinon@17.0.4':
     dependencies:
       '@types/sinonjs__fake-timers': 8.1.5
 
@@ -6540,10 +6536,6 @@ snapshots:
 
   es-errors@1.3.0: {}
 
-  es-object-atoms@1.0.0:
-    dependencies:
-      es-errors: 1.3.0
-
   es-object-atoms@1.1.1:
     dependencies:
       es-errors: 1.3.0
@@ -6925,7 +6917,7 @@ snapshots:
   get-proto@1.0.1:
     dependencies:
       dunder-proto: 1.0.1
-      es-object-atoms: 1.0.0
+      es-object-atoms: 1.1.1
 
   get-value@2.0.6: {}
 
@@ -8897,7 +8889,7 @@ snapshots:
       available-typed-arrays: 1.0.7
       call-bind: 1.0.7
       for-each: 0.3.3
-      gopd: 1.0.1
+      gopd: 1.2.0
       has-tostringtag: 1.0.2
 
   which@2.0.2:
