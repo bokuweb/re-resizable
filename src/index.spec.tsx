@@ -980,10 +980,8 @@ test('should clamped by parent height', async ({ mount, page }) => {
   expect(clientHeight).toBe(200);
   expect(onResize.getCall(0).args[3]).toEqual({ width: 0, height: 100 });
 });
-/*
 
-
-test('should defaultSize ignored when size set', async ({ mount })=> {
+test('should defaultSize ignored when size set', async ({ mount }) => {
   const resizable = await mount(
     <Resizable defaultSize={{ width: 100, height: 100 }} size={{ width: 200, height: 300 }} />,
   );
@@ -994,34 +992,43 @@ test('should defaultSize ignored when size set', async ({ mount })=> {
   expect(await resizable.evaluate(node => node.style.position)).toBe('relative');
 });
 
-test('should render a handleComponent for right', async ({ mount })=> {
+test('should render a handleComponent for right', async ({ mount }) => {
   const CustomComponent = <div className={'customHandle-right'} />;
   const resizable = await mount(<Resizable handleComponent={{ right: CustomComponent }} />);
   const divs = resizable.locator('div');
-  const node = ReactDOM.findDOMNode(divs[3]);
-  if (!node || !(node instanceof HTMLDivElement)) return fail();
-  const handleNode = node.children[0];
-  t.is(node.childElementCount, 1);
-  t.is(handleNode.getAttribute('class'), 'customHandle-right');
+  const handles = await divs.all();
+  const rightHandle = handles[2];
+
+  expect(await rightHandle.evaluate(node => node.children.length)).toBe(1);
+  expect(await rightHandle.locator('.customHandle-right').count()).toBe(1);
 });
 
-test('should adjust resizing for specified scale', async ({ mount })=> {
+test('should adjust resizing for specified scale', async ({ mount, page }) => {
   const onResize = spy();
-  const resizable = ReactDOM.render<ResizableProps, Resizable>(
-    <Resizable defaultSize={{ width: 100, height: 100 }} onResize={onResize} style={{ padding: '40px' }} scale={0.5} />,
-    document.getElementById('content'),
+  const onResizeStart = spy();
+  const onResizeStop = spy();
+  const resizable = await mount(
+    <Resizable
+      defaultSize={{ width: 100, height: 100 }}
+      onResize={onResize}
+      onResizeStart={onResizeStart}
+      onResizeStop={onResizeStop}
+      scale={0.5}
+      style={{ padding: '40px' }}
+    />,
   );
   const divs = resizable.locator('div');
-  const node = ReactDOM.findDOMNode(divs[7]);
-  if (!node || !(node instanceof HTMLDivElement)) return fail();
-  TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
-  mouseMove(200, 220);
-  TestUtils.Simulate.mouseUp(node);
-  t.is(onResize.callCount, 1);
-  t.true(onResize.getCall(0).args[0] instanceof MouseEvent);
-  t.is(onResize.getCall(0).args[1], 'bottomRight');
-  t.deepEqual(onResize.getCall(0).args[2].clientWidth, 500);
-  t.deepEqual(onResize.getCall(0).args[2].clientHeight, 540);
-  t.deepEqual(onResize.getCall(0).args[3], { width: 400, height: 440 });
+  const handle = (await divs.all())[6];
+  if (!handle) throw new Error('Handle not found');
+  await handle.dispatchEvent('mousedown', { button: 0, clientX: 0, clientY: 0 });
+  await page.mouse.move(200, 220);
+  await page.mouse.up();
+  expect(onResize.callCount).toBe(1);
+  expect(onResize.getCall(0).args[0].isTrusted).toBeTruthy();
+  expect(onResize.getCall(0).args[1]).toBe('bottomRight');
+  const clientWidth = await resizable.evaluate(el => el.clientWidth);
+  const clientHeight = await resizable.evaluate(el => el.clientHeight);
+  expect(clientWidth).toBe(500);
+  expect(clientHeight).toBe(540);
+  expect(onResize.getCall(0).args[3]).toEqual({ width: 400, height: 440 });
 });
-*/
