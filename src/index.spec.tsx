@@ -597,12 +597,11 @@ test('should clamped by min width', async ({ mount, page }) => {
   expect(onResize.getCall(0).args[3]).toEqual({ width: -50, height: 0 });
 });
 
-/*
-test('should allow 0 as minWidth', async ({ mount })=> {
+test('should allow 0 as minWidth', async ({ mount, page }) => {
   const onResize = spy();
   const onResizeStart = spy();
   const onResizeStop = spy();
-  const resizable = ReactDOM.render<ResizableProps, Resizable>(
+  const resizable = await mount(
     <Resizable
       defaultSize={{ width: 100, height: 100 }}
       minWidth={0}
@@ -610,18 +609,20 @@ test('should allow 0 as minWidth', async ({ mount })=> {
       onResizeStart={onResizeStart}
       onResizeStop={onResizeStop}
     />,
-    document.getElementById('content'),
   );
   const divs = resizable.locator('div');
-  const node = ReactDOM.findDOMNode(divs[7]);
-  if (!node || !(node instanceof HTMLDivElement)) return fail();
-  TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
-  mouseMove(-100, 0);
-  t.true(onResize.getCall(0).args[0] instanceof MouseEvent);
-  t.deepEqual(onResize.getCall(0).args[2].clientWidth, 0);
-  t.deepEqual(onResize.getCall(0).args[3], { width: -100, height: 0 });
+  const handle = (await divs.all())[5];
+  if (!handle) throw new Error('Handle not found');
+  await handle.dispatchEvent('mousedown', { button: 0, clientX: 0, clientY: 0 });
+  await page.mouse.down();
+  await page.mouse.move(-100, 0);
+  await page.mouse.up();
+  const clientWidth = await resizable.evaluate(el => el.clientWidth);
+  expect(clientWidth).toBe(0);
+  expect(onResize.firstCall.args[3]).toEqual({ width: -100, height: 0 });
 });
 
+/*
 test('should clamped by max height', async ({ mount })=> {
   const onResize = spy();
   const onResizeStart = spy();
