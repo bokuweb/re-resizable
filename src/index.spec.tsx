@@ -272,18 +272,18 @@ test('Should only bottomRight is resizable and call onResizeStart when mousedown
   expect(onResizeStart.getCall(0).args[1]).toBe('bottomRight');
 });
 
-// TODO: This test is so flaky.
-// test('Should not begin resize when onResizeStart returns false', async ({ mount, page }) => {
-//   const onResizeStart = () => {
-//     return false;
-//   };
-//   const onResize = spy();
-//   const resizable = await mount(<Resizable onResizeStart={onResizeStart} onResize={onResize} />);
-//   const divs = resizable.locator('div');
-//   await (await divs.all())[1].dispatchEvent('mousedown');
-//   await page.mouse.move(100, 200);
-//   expect(onResize.callCount).toBe(0);
-// });
+test('Should not begin resize when onResizeStart returns false', async ({ mount, page }) => {
+  const onResizeStart = () => {
+    return false;
+  };
+  const onResize = spy();
+  const resizable = await mount(<Resizable onResizeStart={onResizeStart} onResize={onResize} />);
+  const divs = resizable.locator('div');
+  await (await divs.all())[1].dispatchEvent('mousedown');
+  await page.mouse.move(100, 200);
+  await page.mouse.up();
+  expect(onResize.callCount).toBe(0);
+});
 
 // test('should call onResize with expected args when resize direction right', async ({ mount, page }) => {
 //   const onResize = spy();
