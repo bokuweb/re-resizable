@@ -735,12 +735,12 @@ test('should aspect ratio locked with 1:1 ratio when resize to right', async ({ 
   expect(onResize.getCall(0).args[3]).toEqual({ width: 200, height: 200 });
 });
 
-/*
-test('should aspect ratio locked with 2:1 ratio when resize to right', async ({ mount })=> {
+test('should aspect ratio locked with 2:1 ratio when resize to right', async ({ mount, page }) => {
   const onResize = spy();
   const onResizeStart = spy();
   const onResizeStop = spy();
-  const resizable = ReactDOM.render<ResizableProps, Resizable>(
+
+  const resizable = await mount(
     <Resizable
       defaultSize={{ width: 200, height: 100 }}
       onResize={onResize}
@@ -748,26 +748,34 @@ test('should aspect ratio locked with 2:1 ratio when resize to right', async ({ 
       onResizeStop={onResizeStop}
       lockAspectRatio={2 / 1}
     />,
-    document.getElementById('content'),
   );
+
   const divs = resizable.locator('div');
-  const node = ReactDOM.findDOMNode(divs[3]);
-  if (!node || !(node instanceof HTMLDivElement)) return fail();
-  TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
-  mouseMove(200, 0);
-  mouseUp(200, 0);
-  t.is(onResizeStop.callCount, 1);
-  t.true(onResize.getCall(0).args[0] instanceof MouseEvent);
-  t.deepEqual(onResize.getCall(0).args[2].clientWidth, 400);
-  t.deepEqual(onResize.getCall(0).args[2].clientHeight, 200);
-  t.deepEqual(onResize.getCall(0).args[3], { width: 200, height: 100 });
+  const rightHandle = (await divs.all())[2];
+  await rightHandle.dispatchEvent('mousedown', { button: 0, clientX: 0, clientY: 0 });
+  await page.mouse.down();
+  await page.mouse.move(200, 0);
+  await page.mouse.up();
+
+  expect(onResizeStop.callCount).toBe(1);
+  expect(onResize.getCall(0).args[0].isTrusted).toBeTruthy();
+
+  const clientWidth = await resizable.evaluate(el => el.clientWidth);
+  const clientHeight = await resizable.evaluate(el => el.clientHeight);
+  expect(clientWidth).toBe(400);
+  expect(clientHeight).toBe(200);
+
+  expect(onResize.getCall(0).args[3]).toEqual({ width: 200, height: 100 });
 });
 
-test('should aspect ratio locked with 2:1 ratio with extra width/height when resize to right', async ({ mount })=> {
+test('should aspect ratio locked with 2:1 ratio with extra width/height when resize to right', async ({
+  mount,
+  page,
+}) => {
   const onResize = spy();
   const onResizeStart = spy();
   const onResizeStop = spy();
-  const resizable = ReactDOM.render<ResizableProps, Resizable>(
+  const resizable = await mount(
     <Resizable
       defaultSize={{ width: 250, height: 150 }}
       onResize={onResize}
@@ -777,21 +785,23 @@ test('should aspect ratio locked with 2:1 ratio with extra width/height when res
       lockAspectRatioExtraHeight={50}
       lockAspectRatioExtraWidth={50}
     />,
-    document.getElementById('content'),
   );
   const divs = resizable.locator('div');
-  const node = ReactDOM.findDOMNode(divs[3]);
-  if (!node || !(node instanceof HTMLDivElement)) return fail();
-  TestUtils.Simulate.mouseDown(node, { clientX: 0, clientY: 0 });
-  mouseMove(200, 0);
-  mouseUp(200, 0);
-  t.is(onResizeStop.callCount, 1);
-  t.true(onResize.getCall(0).args[0] instanceof MouseEvent);
-  t.deepEqual(onResize.getCall(0).args[2].clientWidth, 450);
-  t.deepEqual(onResize.getCall(0).args[2].clientHeight, 250);
-  t.deepEqual(onResize.getCall(0).args[3], { width: 200, height: 100 });
+  const rightHandle = (await divs.all())[2];
+  await rightHandle.dispatchEvent('mousedown', { button: 0, clientX: 0, clientY: 0 });
+  await page.mouse.down();
+  await page.mouse.move(200, 0);
+  await page.mouse.up();
+  expect(onResizeStop.callCount).toBe(1);
+  expect(onResize.getCall(0).args[0].isTrusted).toBeTruthy();
+  const clientWidth = await resizable.evaluate(el => el.clientWidth);
+  const clientHeight = await resizable.evaluate(el => el.clientHeight);
+  expect(clientWidth).toBe(450);
+  expect(clientHeight).toBe(250);
+  expect(onResize.getCall(0).args[3]).toEqual({ width: 200, height: 100 });
 });
 
+/*
 test('should aspect ratio locked when resize to bottom', async ({ mount })=> {
   const onResize = spy();
   const onResizeStart = spy();
