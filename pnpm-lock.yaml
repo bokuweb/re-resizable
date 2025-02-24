@@ -40,7 +40,7 @@ importers:
         version: 10.0.35(react@19.0.0)
       '@playwright/experimental-ct-react':
         specifier: ^1.43.1
-        version: 1.50.1(@types/node@22.13.5)(terser@5.30.4)(vite@5.4.14(@types/node@22.13.5)(terser@5.30.4))
+        version: 1.50.1(@types/node@20.17.19)(terser@5.30.4)(vite@5.4.14(@types/node@20.17.19)(terser@5.30.4))
       '@storybook/addon-info':
         specifier: 5.3.21
         version: 5.3.21(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(regenerator-runtime@0.14.1)
@@ -51,8 +51,8 @@ importers:
         specifier: 8.5.8
         version: 8.5.8(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(storybook@8.5.8(prettier@1.19.1))(typescript@5.7.3)
       '@types/node':
-        specifier: 22.13.5
-        version: 22.13.5
+        specifier: 20.17.19
+        version: 20.17.19
       '@types/react':
         specifier: 19.0.10
         version: 19.0.10
@@ -991,8 +991,8 @@ packages:
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
 
-  '@types/node@22.13.5':
-    resolution: {integrity: sha512-+lTU0PxZXn0Dr1NBtC7Y8cR21AJr87dLLU953CWA6pMxxv/UDc7jYAY90upcrie1nRcD6XNG5HOYEDtgW5TxAg==}
+  '@types/node@20.17.19':
+    resolution: {integrity: sha512-LEwC7o1ifqg/6r2gn9Dns0f1rhK+fPFDoMiceTJ6kWmVk6bgXBI/9IOWfVan4WiAavK9pIVWdX0/e3J+eEUh5A==}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -3963,8 +3963,8 @@ packages:
   ua-parser-js@0.7.37:
     resolution: {integrity: sha512-xV8kqRKM+jhMvcHWUKthV9fNebIzrNy//2O9ZwWcfiBFR5f25XVZPLlEajk/sf3Ra15V92isyQqnIEXRDaZWEA==}
 
-  undici-types@6.20.0:
-    resolution: {integrity: sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg==}
+  undici-types@6.19.8:
+    resolution: {integrity: sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==}
 
   union-value@1.0.1:
     resolution: {integrity: sha512-tJfXmxMeWYnczCVs7XAEvIV7ieppALdyepWMkHkwciRpZraG/xwT+s2JN8+pr1+8jCRf80FFzvr+MpQeeoF4Xg==}
@@ -4818,11 +4818,11 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.19.0
 
-  '@playwright/experimental-ct-core@1.50.1(@types/node@22.13.5)(terser@5.30.4)':
+  '@playwright/experimental-ct-core@1.50.1(@types/node@20.17.19)(terser@5.30.4)':
     dependencies:
       playwright: 1.50.1
       playwright-core: 1.50.1
-      vite: 5.4.14(@types/node@22.13.5)(terser@5.30.4)
+      vite: 5.4.14(@types/node@20.17.19)(terser@5.30.4)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -4833,10 +4833,10 @@ snapshots:
       - sugarss
       - terser
 
-  '@playwright/experimental-ct-react@1.50.1(@types/node@22.13.5)(terser@5.30.4)(vite@5.4.14(@types/node@22.13.5)(terser@5.30.4))':
+  '@playwright/experimental-ct-react@1.50.1(@types/node@20.17.19)(terser@5.30.4)(vite@5.4.14(@types/node@20.17.19)(terser@5.30.4))':
     dependencies:
-      '@playwright/experimental-ct-core': 1.50.1(@types/node@22.13.5)(terser@5.30.4)
-      '@vitejs/plugin-react': 4.3.4(vite@5.4.14(@types/node@22.13.5)(terser@5.30.4))
+      '@playwright/experimental-ct-core': 1.50.1(@types/node@20.17.19)(terser@5.30.4)
+      '@vitejs/plugin-react': 4.3.4(vite@5.4.14(@types/node@20.17.19)(terser@5.30.4))
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -5197,9 +5197,9 @@ snapshots:
 
   '@types/json-schema@7.0.15': {}
 
-  '@types/node@22.13.5':
+  '@types/node@20.17.19':
     dependencies:
-      undici-types: 6.20.0
+      undici-types: 6.19.8
 
   '@types/normalize-package-data@2.4.4': {}
 
@@ -5227,7 +5227,7 @@ snapshots:
 
   '@types/resolve@0.0.8':
     dependencies:
-      '@types/node': 22.13.5
+      '@types/node': 20.17.19
 
   '@types/sinon@17.0.4':
     dependencies:
@@ -5235,14 +5235,14 @@ snapshots:
 
   '@types/sinonjs__fake-timers@8.1.5': {}
 
-  '@vitejs/plugin-react@4.3.4(vite@5.4.14(@types/node@22.13.5)(terser@5.30.4))':
+  '@vitejs/plugin-react@4.3.4(vite@5.4.14(@types/node@20.17.19)(terser@5.30.4))':
     dependencies:
       '@babel/core': 7.26.9
       '@babel/plugin-transform-react-jsx-self': 7.25.9(@babel/core@7.26.9)
       '@babel/plugin-transform-react-jsx-source': 7.25.9(@babel/core@7.26.9)
       '@types/babel__core': 7.20.5
       react-refresh: 0.14.2
-      vite: 5.4.14(@types/node@22.13.5)(terser@5.30.4)
+      vite: 5.4.14(@types/node@20.17.19)(terser@5.30.4)
     transitivePeerDependencies:
       - supports-color
 
@@ -8379,7 +8379,7 @@ snapshots:
   rollup@1.32.1:
     dependencies:
       '@types/estree': 1.0.5
-      '@types/node': 22.13.5
+      '@types/node': 20.17.19
       acorn: 7.4.1
 
   rollup@4.34.8:
@@ -8839,7 +8839,7 @@ snapshots:
 
   ua-parser-js@0.7.37: {}
 
-  undici-types@6.20.0: {}
+  undici-types@6.19.8: {}
 
   union-value@1.0.1:
     dependencies:
@@ -8925,13 +8925,13 @@ snapshots:
       spdx-correct: 3.2.0
       spdx-expression-parse: 3.0.1
 
-  vite@5.4.14(@types/node@22.13.5)(terser@5.30.4):
+  vite@5.4.14(@types/node@20.17.19)(terser@5.30.4):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.5.3
       rollup: 4.34.8
     optionalDependencies:
-      '@types/node': 22.13.5
+      '@types/node': 20.17.19
       fsevents: 2.3.3
       terser: 5.30.4
 
