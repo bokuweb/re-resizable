@@ -5,6 +5,7 @@
     "lib": ["es5", "es2015", "dom"],
     "jsx": "react-jsx",
     "declaration": true,
+    "skipLibCheck": true,
     "outDir": "./lib",
     "strict": true,
     "moduleResolution": "node",               /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
