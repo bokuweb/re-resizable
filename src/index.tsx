@@ -400,6 +400,10 @@ export class Resizable extends PureComponent<ResizableProps, State> {
   // For target boundary
   targetLeft = 0;
   targetTop = 0;
+  delta = {
+    width: 0,
+    height: 0,
+  };
 
   constructor(props: ResizableProps) {
     super(props);
@@ -823,6 +827,7 @@ export class Resizable extends PureComponent<ResizableProps, State> {
       width: newWidth - original.width,
       height: newHeight - original.height,
     };
+    this.delta = delta;
 
     if (width && typeof width === 'string') {
       if (width.endsWith('%')) {
@@ -885,12 +890,8 @@ export class Resizable extends PureComponent<ResizableProps, State> {
     if (!isResizing || !this.resizable) {
       return;
     }
-    const delta = {
-      width: this.size.width - original.width,
-      height: this.size.height - original.height,
-    };
     if (this.props.onResizeStop) {
-      this.props.onResizeStop(event, direction, this.resizable, delta);
+      this.props.onResizeStop(event, direction, this.resizable, this.delta);
     }
     if (this.props.size) {
       this.setState({ width: this.props.size.width ?? 'auto', height: this.props.size.height ?? 'auto' });

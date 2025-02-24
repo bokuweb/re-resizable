@@ -1032,3 +1032,30 @@ test('should adjust resizing for specified scale', async ({ mount, page }) => {
   expect(clientHeight).toBe(540);
   expect(onResize.getCall(0).args[3]).toEqual({ width: 400, height: 440 });
 });
+
+test('should call onResizeStop with expected delta when resize stop direction right', async ({ mount, page }) => {
+  const onResize = spy();
+  const onResizeStart = spy();
+  const onResizeStop = spy();
+  const resizable = await mount(
+    <Resizable
+      defaultSize={{ width: 100, height: 50 }}
+      onResize={onResize}
+      lockAspectRatio
+      onResizeStart={onResizeStart}
+      onResizeStop={onResizeStop}
+    />,
+  );
+  const divs = resizable.locator('div');
+  const rightHandle = (await divs.all())[2];
+  await rightHandle.dispatchEvent('mousedown', { button: 0, clientX: 0, clientY: 0 });
+  await page.mouse.move(200, 220);
+  await page.mouse.up();
+  expect(onResizeStop.callCount).toBe(1);
+  expect(onResizeStop.getCall(0).args[1]).toBe('right');
+  const clientWidth = await resizable.evaluate(el => el.clientWidth);
+  expect(clientWidth).toBe(300);
+  const clientHeight = await resizable.evaluate(el => el.clientHeight);
+  expect(clientHeight).toBe(150);
+  expect(onResizeStop.getCall(0).args[3]).toEqual({ width: 200, height: 100 });
+});
