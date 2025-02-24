@@ -41,6 +41,9 @@ importers:
       '@playwright/experimental-ct-react':
         specifier: ^1.43.1
         version: 1.50.1(@types/node@22.13.5)(terser@5.30.4)(vite@5.4.14(@types/node@22.13.5)(terser@5.30.4))
+      '@rollup/plugin-node-resolve':
+        specifier: 6.0.0
+        version: 6.0.0(rollup@1.32.1)
       '@storybook/addon-info':
         specifier: 5.3.21
         version: 5.3.21(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(regenerator-runtime@0.14.1)
@@ -131,9 +134,6 @@ importers:
       rollup-plugin-node-globals:
         specifier: 1.4.0
         version: 1.4.0
-      rollup-plugin-node-resolve:
-        specifier: 5.2.0
-        version: 5.2.0(rollup@1.32.1)
       rollup-plugin-replace:
         specifier: 2.2.0
         version: 2.2.0
@@ -743,6 +743,12 @@ packages:
     peerDependencies:
       react: 15.x || 16.x || 16.4.0-alpha.0911da3
       react-dom: 15.x || 16.x || 16.4.0-alpha.0911da3
+
+  '@rollup/plugin-node-resolve@6.0.0':
+    resolution: {integrity: sha512-GqWz1CfXOsqpeVMcoM315+O7zMxpRsmhWyhJoxLFHVSp9S64/u02i7len/FnbTNbmgYs+sZyilasijH8UiuboQ==}
+    engines: {node: '>= 8.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0
 
   '@rollup/pluginutils@3.1.0':
     resolution: {integrity: sha512-GksZ6pr6TpIjHm8h9lSQ8pi8BE9VeubNT0OMJ3B5uZJ8pz73NPiqOtCog/x2/QzM1ENChPKxMDhiQuRHsqc+lg==}
@@ -3534,12 +3540,6 @@ packages:
   rollup-plugin-node-globals@1.4.0:
     resolution: {integrity: sha512-xRkB+W/m1KLIzPUmG0ofvR+CPNcvuCuNdjVBVS7ALKSxr3EDhnzNceGkGi1m8MToSli13AzKFYH4ie9w3I5L3g==}
 
-  rollup-plugin-node-resolve@5.2.0:
-    resolution: {integrity: sha512-jUlyaDXts7TW2CqQ4GaO5VJ4PwwaV8VUGA7+km3n6k6xtOEacf61u0VXwN80phY/evMcaS+9eIeJ9MOyDxt5Zw==}
-    deprecated: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-node-resolve.
-    peerDependencies:
-      rollup: '>=1.11.0'
-
   rollup-plugin-replace@2.2.0:
     resolution: {integrity: sha512-/5bxtUPkDHyBJAKketb4NfaeZjL5yLZdeUihSfbF2PQMz+rSTEb8ARKoOl3UBT4m7/X+QOXJo3sLTcq+yMMYTA==}
     deprecated: This module has moved and is now available at @rollup/plugin-replace. Please update your dependencies. This version is no longer maintained.
@@ -4857,6 +4857,15 @@ snapshots:
       react: 16.14.0
       react-dom: 19.0.0(react@19.0.0)
       react-lifecycles-compat: 3.0.4
+
+  '@rollup/plugin-node-resolve@6.0.0(rollup@1.32.1)':
+    dependencies:
+      '@rollup/pluginutils': 3.1.0(rollup@1.32.1)
+      '@types/resolve': 0.0.8
+      builtin-modules: 3.3.0
+      is-module: 1.0.0
+      resolve: 1.22.8
+      rollup: 1.32.1
 
   '@rollup/pluginutils@3.1.0(rollup@1.32.1)':
     dependencies:
@@ -8338,15 +8347,6 @@ snapshots:
       estree-walker: 0.5.2
       magic-string: 0.22.5
       process-es6: 0.11.6
-      rollup-pluginutils: 2.8.2
-
-  rollup-plugin-node-resolve@5.2.0(rollup@1.32.1):
-    dependencies:
-      '@types/resolve': 0.0.8
-      builtin-modules: 3.3.0
-      is-module: 1.0.0
-      resolve: 1.22.8
-      rollup: 1.32.1
       rollup-pluginutils: 2.8.2
 
   rollup-plugin-replace@2.2.0:
