@@ -71,7 +71,7 @@
     "babel-preset-react": "6.24.1",
     "babel-register": "6.26.0",
     "cross-env": "7.0.3",
-    "gh-pages": "5.0.0",
+    "gh-pages": "6.3.0",
     "npm-run-all2": "5.0.2",
     "playwright-core": "^1.43.1",
     "prettier": "1.19.1",
