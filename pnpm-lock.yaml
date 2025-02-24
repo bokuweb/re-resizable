@@ -41,6 +41,9 @@ importers:
       '@playwright/experimental-ct-react':
         specifier: ^1.43.1
         version: 1.50.1(@types/node@22.13.5)(terser@5.30.4)(vite@5.4.14(@types/node@22.13.5)(terser@5.30.4))
+      '@rollup/plugin-babel':
+        specifier: 5.0.0
+        version: 5.0.0(@babel/core@7.11.6)(rollup@1.32.1)
       '@storybook/addon-info':
         specifier: 5.3.21
         version: 5.3.21(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(regenerator-runtime@0.14.1)
@@ -122,9 +125,6 @@ importers:
       rollup:
         specifier: 1.32.1
         version: 1.32.1
-      rollup-plugin-babel:
-        specifier: 4.4.0
-        version: 4.4.0(@babel/core@7.11.6)(rollup@1.32.1)
       rollup-plugin-commonjs:
         specifier: 10.1.0
         version: 10.1.0(rollup@1.32.1)
@@ -743,6 +743,13 @@ packages:
     peerDependencies:
       react: 15.x || 16.x || 16.4.0-alpha.0911da3
       react-dom: 15.x || 16.x || 16.4.0-alpha.0911da3
+
+  '@rollup/plugin-babel@5.0.0':
+    resolution: {integrity: sha512-YpVnwdUeVj/fDFN75Y3CAzJTMYNcqbH05SJs551wqj+BSwLT9pS3dqJrVDPYl3eH4OrI8ueiEseX5VgUn+0HLA==}
+    engines: {node: '>= 10.0.0'}
+    peerDependencies:
+      '@babel/core': ^7.0.0
+      rollup: ^1.20.0||^2.0.0
 
   '@rollup/pluginutils@3.1.0':
     resolution: {integrity: sha512-GksZ6pr6TpIjHm8h9lSQ8pi8BE9VeubNT0OMJ3B5uZJ8pz73NPiqOtCog/x2/QzM1ENChPKxMDhiQuRHsqc+lg==}
@@ -3518,13 +3525,6 @@ packages:
   ripemd160@2.0.2:
     resolution: {integrity: sha512-ii4iagi25WusVoiC4B4lq7pbXfAp3D9v5CwfkY33vffw2+pkDjY1D8GaN7spsxvCSx8dkPqOZCEZyfxcmJG2IA==}
 
-  rollup-plugin-babel@4.4.0:
-    resolution: {integrity: sha512-Lek/TYp1+7g7I+uMfJnnSJ7YWoD58ajo6Oarhlex7lvUce+RCKRuGRSgztDO3/MF/PuGKmUL5iTHKf208UNszw==}
-    deprecated: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-babel.
-    peerDependencies:
-      '@babel/core': 7 || ^7.0.0-rc.2
-      rollup: '>=0.60.0 <3'
-
   rollup-plugin-commonjs@10.1.0:
     resolution: {integrity: sha512-jlXbjZSQg8EIeAAvepNwhJj++qJWNJw1Cl0YnOqKtP5Djx+fFGkp3WRh+W0ASCaFG5w1jhmzDxgu3SJuVxPF4Q==}
     deprecated: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-commonjs.
@@ -4587,6 +4587,8 @@ snapshots:
       '@emotion/sheet': 0.9.4
       '@emotion/utils': 0.11.3
       react: 16.14.0
+    transitivePeerDependencies:
+      - supports-color
 
   '@emotion/core@10.0.35(react@19.0.0)':
     dependencies:
@@ -4597,12 +4599,16 @@ snapshots:
       '@emotion/sheet': 0.9.4
       '@emotion/utils': 0.11.3
       react: 19.0.0
+    transitivePeerDependencies:
+      - supports-color
 
   '@emotion/css@10.0.27':
     dependencies:
       '@emotion/serialize': 0.11.16
       '@emotion/utils': 0.11.3
       babel-plugin-emotion: 10.2.2
+    transitivePeerDependencies:
+      - supports-color
 
   '@emotion/hash@0.8.0': {}
 
@@ -4646,6 +4652,8 @@ snapshots:
       '@emotion/styled-base': 10.3.0(@emotion/core@10.0.35(react@19.0.0))(react@16.14.0)
       babel-plugin-emotion: 10.2.2
       react: 16.14.0
+    transitivePeerDependencies:
+      - supports-color
 
   '@emotion/styled@10.3.0(@emotion/core@10.0.35(react@19.0.0))(react@19.0.0)':
     dependencies:
@@ -4653,6 +4661,8 @@ snapshots:
       '@emotion/styled-base': 10.3.0(@emotion/core@10.0.35(react@19.0.0))(react@19.0.0)
       babel-plugin-emotion: 10.2.2
       react: 19.0.0
+    transitivePeerDependencies:
+      - supports-color
 
   '@emotion/stylis@0.8.5': {}
 
@@ -4858,6 +4868,15 @@ snapshots:
       react-dom: 19.0.0(react@19.0.0)
       react-lifecycles-compat: 3.0.4
 
+  '@rollup/plugin-babel@5.0.0(@babel/core@7.11.6)(rollup@1.32.1)':
+    dependencies:
+      '@babel/core': 7.11.6
+      '@babel/helper-module-imports': 7.25.9
+      '@rollup/pluginutils': 3.1.0(rollup@1.32.1)
+      rollup: 1.32.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@rollup/pluginutils@3.1.0(rollup@1.32.1)':
     dependencies:
       '@types/estree': 0.0.39
@@ -4964,6 +4983,7 @@ snapshots:
       - '@types/react'
       - react-dom
       - regenerator-runtime
+      - supports-color
 
   '@storybook/addon-options@5.3.21(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(regenerator-runtime@0.14.1)':
     dependencies:
@@ -4974,6 +4994,7 @@ snapshots:
     transitivePeerDependencies:
       - react-dom
       - regenerator-runtime
+      - supports-color
 
   '@storybook/addons@5.3.21(react-dom@19.0.0(react@19.0.0))(regenerator-runtime@0.14.1)':
     dependencies:
@@ -4987,6 +5008,7 @@ snapshots:
     transitivePeerDependencies:
       - react-dom
       - regenerator-runtime
+      - supports-color
 
   '@storybook/api@5.3.21(react-dom@19.0.0(react@19.0.0))(regenerator-runtime@0.14.1)':
     dependencies:
@@ -5013,6 +5035,7 @@ snapshots:
       util-deprecate: 1.0.2
     transitivePeerDependencies:
       - react-dom
+      - supports-color
 
   '@storybook/channels@5.3.21':
     dependencies:
@@ -5047,6 +5070,7 @@ snapshots:
       ts-dedent: 1.2.0
     transitivePeerDependencies:
       - '@types/react'
+      - supports-color
 
   '@storybook/components@8.5.8(storybook@8.5.8(prettier@1.19.1))':
     dependencies:
@@ -5144,6 +5168,8 @@ snapshots:
       react-dom: 19.0.0(react@19.0.0)
       resolve-from: 5.0.0
       ts-dedent: 1.2.0
+    transitivePeerDependencies:
+      - supports-color
 
   '@storybook/theming@5.3.21(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
@@ -5161,6 +5187,8 @@ snapshots:
       react-dom: 19.0.0(react@19.0.0)
       resolve-from: 5.0.0
       ts-dedent: 1.2.0
+    transitivePeerDependencies:
+      - supports-color
 
   '@storybook/theming@8.5.8(storybook@8.5.8(prettier@1.19.1))':
     dependencies:
@@ -5176,12 +5204,12 @@ snapshots:
 
   '@types/babel__generator@7.6.8':
     dependencies:
-      '@babel/types': 7.26.9
+      '@babel/types': 7.11.5
 
   '@types/babel__template@7.4.4':
     dependencies:
       '@babel/parser': 7.26.9
-      '@babel/types': 7.26.9
+      '@babel/types': 7.11.5
 
   '@types/babel__traverse@7.20.6':
     dependencies:
@@ -5641,7 +5669,7 @@ snapshots:
 
   babel-plugin-emotion@10.2.2:
     dependencies:
-      '@babel/helper-module-imports': 7.24.3
+      '@babel/helper-module-imports': 7.25.9
       '@emotion/hash': 0.8.0
       '@emotion/memoize': 0.7.4
       '@emotion/serialize': 0.11.16
@@ -5651,6 +5679,8 @@ snapshots:
       escape-string-regexp: 1.0.5
       find-root: 1.1.0
       source-map: 0.5.7
+    transitivePeerDependencies:
+      - supports-color
 
   babel-plugin-external-helpers@6.22.0:
     dependencies:
@@ -8314,13 +8344,6 @@ snapshots:
     dependencies:
       hash-base: 3.1.0
       inherits: 2.0.4
-
-  rollup-plugin-babel@4.4.0(@babel/core@7.11.6)(rollup@1.32.1):
-    dependencies:
-      '@babel/core': 7.11.6
-      '@babel/helper-module-imports': 7.24.3
-      rollup: 1.32.1
-      rollup-pluginutils: 2.8.2
 
   rollup-plugin-commonjs@10.1.0(rollup@1.32.1):
     dependencies:
