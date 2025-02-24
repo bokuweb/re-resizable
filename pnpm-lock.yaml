@@ -36,8 +36,8 @@ importers:
         specifier: 7.11.5
         version: 7.11.5
       '@emotion/core':
-        specifier: 10.0.35
-        version: 10.0.35(react@19.0.0)
+        specifier: 11.0.0
+        version: 11.0.0
       '@playwright/experimental-ct-react':
         specifier: ^1.43.1
         version: 1.50.1(@types/node@22.13.5)(terser@5.30.4)(vite@5.4.14(@types/node@22.13.5)(terser@5.30.4))
@@ -467,6 +467,9 @@ packages:
     resolution: {integrity: sha512-sH++vJCdk025fBlRZSAhkRlSUoqSqgCzYf5fMOmqqi3bM6how+sQpg3hkgJonj8GxXM4WbD7dRO+4tegDB9fUw==}
     peerDependencies:
       react: '>=16.3.0'
+
+  '@emotion/core@11.0.0':
+    resolution: {integrity: sha512-w4sE3AmHmyG6RDKf6mIbtHpgJUSJ2uGvPQb8VXFL7hFjMPibE8IiehG8cMX3Ztm4svfCQV6KqusQbeIOkurBcA==}
 
   '@emotion/css@10.0.27':
     resolution: {integrity: sha512-6wZjsvYeBhyZQYNrGoR5yPMYbMBNEnanDrqmsqS1mzDm1cOTu12shvl2j4QHNS36UaTE0USIJawCH9C8oW34Zw==}
@@ -4598,6 +4601,8 @@ snapshots:
       '@emotion/utils': 0.11.3
       react: 19.0.0
 
+  '@emotion/core@11.0.0': {}
+
   '@emotion/css@10.0.27':
     dependencies:
       '@emotion/serialize': 0.11.16
@@ -4622,10 +4627,10 @@ snapshots:
 
   '@emotion/sheet@0.9.4': {}
 
-  '@emotion/styled-base@10.3.0(@emotion/core@10.0.35(react@19.0.0))(react@16.14.0)':
+  '@emotion/styled-base@10.3.0(@emotion/core@10.0.35(react@16.14.0))(react@16.14.0)':
     dependencies:
       '@babel/runtime': 7.24.4
-      '@emotion/core': 10.0.35(react@19.0.0)
+      '@emotion/core': 10.0.35(react@16.14.0)
       '@emotion/is-prop-valid': 0.8.8
       '@emotion/serialize': 0.11.16
       '@emotion/utils': 0.11.3
@@ -4640,10 +4645,10 @@ snapshots:
       '@emotion/utils': 0.11.3
       react: 19.0.0
 
-  '@emotion/styled@10.3.0(@emotion/core@10.0.35(react@19.0.0))(react@16.14.0)':
+  '@emotion/styled@10.3.0(@emotion/core@10.0.35(react@16.14.0))(react@16.14.0)':
     dependencies:
-      '@emotion/core': 10.0.35(react@19.0.0)
-      '@emotion/styled-base': 10.3.0(@emotion/core@10.0.35(react@19.0.0))(react@16.14.0)
+      '@emotion/core': 10.0.35(react@16.14.0)
+      '@emotion/styled-base': 10.3.0(@emotion/core@10.0.35(react@16.14.0))(react@16.14.0)
       babel-plugin-emotion: 10.2.2
       react: 16.14.0
 
@@ -5131,11 +5136,11 @@ snapshots:
   '@storybook/theming@5.3.21(react-dom@19.0.0(react@19.0.0))(react@16.14.0)':
     dependencies:
       '@emotion/core': 10.0.35(react@16.14.0)
-      '@emotion/styled': 10.3.0(@emotion/core@10.0.35(react@19.0.0))(react@16.14.0)
+      '@emotion/styled': 10.3.0(@emotion/core@10.0.35(react@16.14.0))(react@16.14.0)
       '@storybook/client-logger': 5.3.21
       core-js: 3.37.0
       deep-object-diff: 1.1.9
-      emotion-theming: 10.3.0(@emotion/core@10.0.35(react@19.0.0))(react@16.14.0)
+      emotion-theming: 10.3.0(@emotion/core@10.0.35(react@16.14.0))(react@16.14.0)
       global: 4.4.0
       memoizerific: 1.11.3
       polished: 3.7.2
@@ -6566,10 +6571,10 @@ snapshots:
 
   emojis-list@3.0.0: {}
 
-  emotion-theming@10.3.0(@emotion/core@10.0.35(react@19.0.0))(react@16.14.0):
+  emotion-theming@10.3.0(@emotion/core@10.0.35(react@16.14.0))(react@16.14.0):
     dependencies:
       '@babel/runtime': 7.24.4
-      '@emotion/core': 10.0.35(react@19.0.0)
+      '@emotion/core': 10.0.35(react@16.14.0)
       '@emotion/weak-memoize': 0.2.5
       hoist-non-react-statics: 3.3.2
       react: 16.14.0
