@@ -131,7 +131,7 @@ interface State {
 
 const clamp = (n: number, min: number, max: number): number => Math.max(Math.min(n, max), min);
 const snap = (n: number, size: number, gridGap: number): number => {
-  const v = Math.round(n / size);
+  const v = Math.round(n / (size + gridGap));
 
   return v * size + gridGap * (v - 1);
 };
